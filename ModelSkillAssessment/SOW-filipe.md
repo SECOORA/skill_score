@@ -2,7 +2,7 @@
 title: STATEMENT OF SERVICES REQUIRED
 author:
     - Filipe Pires Alvarenga Fernandes, MSc
-    - Adjunct Prof. at Centro Universitário Monte Serrat
+    - Prof. at Centro Universitário Monte Serrat
 header-includes:
     - \usepackage{fancyhdr}
     - \pagestyle{fancy}
@@ -32,8 +32,7 @@ numerical model skill.
    reproducible results.
 5. All deliverables will be in the format of version controlled code hosted at:
    https://github.com/ocefpaf/secoora.git. All code will be properly documented
-   and accompanied by examples
-<!-- Can we also add that we will make a SECOORA web presence??  -->
+   and accompanied by examples in a SECOORA website.
 6. Occasional agreed upon participation in SECOORA monthly RCOOS PIs (Once a
    Quarter) calls and a monthly call with SECOORA RCOOS Manager to demonstrate
    the progress on the work.
