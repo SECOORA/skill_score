@@ -16,6 +16,6 @@ conda install -c rsignell iris=1.6.2_RPS
 # Install some dependencies not in the bundle.
 conda install ipython pyzmq jinja2 tornado pandas pip
 
-# These last two are not available in conda.
-pip install pyoos
-pip install OWSLib
+# These last two are not available in conda (PyPI or binstar).
+conda install -c https://conda.binstar.org/rsignell pyoos
+conda install -c https://conda.binstar.org/rsignell owslib
