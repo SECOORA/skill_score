@@ -184,3 +184,11 @@ def get_coordinates(bounding_box, bounding_box_type):
         coordinates.append([bounding_box[1][1], bounding_box[0][0]])
         coordinates.append([bounding_box[0][1], bounding_box[0][0]])
         return coordinates
+
+
+def inline_map(m):
+    """From http://nbviewer.ipython.org/gist/rsignell-usgs/bea6c0fe00a7d6e3249c."""
+    m._build_map()
+    html = srcdoc = m.HTML.replace('"', '&quot;'))
+    embed = HTML('<iframe srcdoc="{srcdoc}" style="width: 100%; height: 500px; border: none"></iframe>'.format(html)
+    return embed
