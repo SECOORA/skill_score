@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
 
+# <markdowncell>
+
+# https://github.com/ocefpaf/secoora/issues/2
+
 # <codecell>
 
 import iris
@@ -30,7 +34,7 @@ print(iris.__version__)
 # <codecell>
 
 # url = "http://geoport.whoi.edu/thredds/dodsC/usgs/data2/rsignell/models/ncom/ncom_sigma_over_z.nc"
-cube = iris.load_cube('ncom_sigma_over_z.nc', 'sea_water_potential_temperature')
+cube = iris.load_cube('./data/ncom_sigma_over_z.nc', 'sea_water_potential_temperature')
 z = cube.coords(axis='Z')
 
 print(cube)
@@ -39,7 +43,7 @@ print(z)
 # <codecell>
 
 # url = "http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NYOFS/fmrc/Aggregated_7_day_NYOFS_Fields_Forecast_best.ncd"
-cube = iris.load_cube('ocean_sigma.nc', 'upward_sea_water_velocity')
+cube = iris.load_cube('./data/ocean_sigma.nc', 'upward_sea_water_velocity')
 z = cube.coords(axis='Z')
 
 print(cube)
@@ -48,7 +52,7 @@ print(z)
 # <codecell>
 
 #url = "http://geoport.whoi.edu/thredds/dodsC/examples/bora_feb.nc"
-cube = iris.load('ocean_s_coordinate.nc')[22]
+cube = iris.load('./data/ocean_s_coordinate.nc')[22]
 z = cube.coords(axis='Z')
 
 print(cube)
@@ -57,7 +61,7 @@ print(z)
 # <codecell>
 
 #url = "http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd"
-cube = iris.load_cube('ocean_s_coordinate_g1.nc', 'sea_water_salinity')
+cube = iris.load_cube('./data/ocean_s_coordinate_g1.nc', 'sea_water_salinity')
 z = cube.coords(axis='Z')
 
 print(cube)
@@ -66,7 +70,7 @@ print(z)
 # <codecell>
 
 #url = "http://oos.soest.hawaii.edu/thredds/dodsC/hioos/roms_assim/hiig/ROMS_Hawaii_Regional_Ocean_Model_Assimilation_best.ncd"
-cube = iris.load_cube('ocean_s_coordinate_g2.nc', 'salinity')
+cube = iris.load_cube('./data/ocean_s_coordinate_g2.nc', 'salinity')
 z = cube.coords(axis='Z')
 
 print(cube)
