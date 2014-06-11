@@ -3,7 +3,7 @@
 
 # <markdowncell>
 
-# https://github.com/ocefpaf/secoora/issues/2
+# https://github.com/ioos/secoora/issues/2
 
 # <codecell>
 
