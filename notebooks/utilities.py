@@ -18,7 +18,8 @@ except ImportError:
 # Scientific stack.
 import numpy as np
 from IPython.display import HTML
-from pandas import DataFrame, concat, read_csv
+from scipy.spatial import KDTree
+from pandas import DataFrame, read_csv, date_range
 
 # Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
@@ -56,7 +57,7 @@ def dateRange(start_date='1900-01-01', stop_date='2100-01-01',
     return start, stop
 
 
-def get_Coops_longName(station):
+def get_coops_longname(station):
     """Get longName for specific station from COOPS SOS using DescribeSensor
     request."""
     url = ('http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?service=SOS&'
@@ -77,7 +78,7 @@ def coops2df(collector, coops_id, sos_name):
     """Request CSV response from SOS and convert to Pandas DataFrames."""
     collector.features = [coops_id]
     collector.variables = [sos_name]
-    long_name = get_Coops_longName(coops_id)
+    long_name = get_coops_longname(coops_id)
 
     try:
         response = collector.raw(responseFormat="text/csv")
@@ -91,13 +92,14 @@ def coops2df(collector, coops_id, sos_name):
         data_df['Observed Data'] = data_df[col]
     except ExceptionReport as e:
         warn("Station %s is not NAVD datum. %s" % (long_name, e))
-        data_df = DataFrame()  # Assing an empty DataFrame for now.
+        data_df = DataFrame()  # Assign an empty DataFrame for now.
 
     data_df.name = long_name
     return data_df
 
 
-def mod_df(arr, timevar, istart, istop, mod_name, ts):
+def mod_df(arr, timevar, istart, istop,
+           jd_start, jd_stop, mod_name):
     """Return time series (DataFrame) from model interpolated onto uniform time
     base."""
     t = timevar.points[istart:istop]
@@ -107,20 +109,21 @@ def mod_df(arr, timevar, istart, istop, mod_name, ts):
     # required to handle issues with CO-OPS aggregations, I think because they
     # use floating point time in hours, which is not very accurate, so the
     # FMRC aggregation is aggregating points that actually occur at the same
-    # time.
+    # time.  # FIXME: Can the interpolation take care of that?
     dt = np.diff(jd)
     s = np.array([ele.seconds for ele in dt])
-    ind = np.where(s > 10)[0]
-    arr = arr[ind+1]
-    jd = jd[ind+1]
+    ind = np.where(s > 10)[0]  # FIXME: Use boolean.
+    arr = arr[ind+1]  # FIXME: Why the +1?
+    jd = jd[ind+1]  # FIXME: Why the +1?
 
     b = DataFrame(arr, index=jd, columns=[mod_name])
-    # Eliminate any data with NaN.
-    b = b[np.isfinite(b[mod_name])]
+    b.dropna(inplace=True)  # Faster and more verbose than:
+    # b = b[np.isfinite(b[mod_name])]
     # Interpolate onto uniform time base, fill gaps up to:
     # (10 values @ 6 min = 1 hour).
-    c = concat([b, ts], axis=1).interpolate(limit=10)
-    return c
+    # FIXME: Improve this part to not depend on globals jd_start, jd_stop.
+    new_index = date_range(start=jd_start, end=jd_stop, freq='6Min')
+    return b.reindex(new_index).interpolate(limit=10)
 
 
 def service_urls(records, service='odp:url'):
@@ -146,6 +149,19 @@ def nearxy(x, y, xi, yi):
         ind[i] = dist.argmin()
         dd[i] = dist[ind[i]]
     return ind, dd
+
+
+def get_nearest(cube, xi, yi, max_dist=0.04):
+    """Find model data near station data xi, yi."""
+    x = cube.coord(axis='X').points
+    y = cube.coord(axis='Y').points
+    if (x.ndim == 1) and (y.ndim == 1):
+        x, i = np.meshgrid(x, y)
+    tree = KDTree(zip(x.ravel(), y.ravel()))
+    dist, indices = tree.query(np.array([xi, yi]).T)
+    i, j = np.unravel_index(indices, x.shape)
+    mask = dist <= max_dist
+    return dist[mask], i[mask], j[mask]
 
 
 def find_ij(x, y, d, xi, yi):

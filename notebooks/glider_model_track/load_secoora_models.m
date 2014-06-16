@@ -1,3 +1,4 @@
+addpath(genpath('../../../nctoolbox'))
 
 %variable = 'salt';
 variable = 'temp';
@@ -132,40 +133,40 @@ model_list = {'USEAST','SABGOM','HYCOM'};     %SECOORA
 ncks = 0;
 
 for m = 1:length(model_list)
-    
+
     tic
-    
+
     mname = char(model_list{m});
-    
+
     % work with a temporary structure named 'model'
-    
+
     eval(['model = ' lower(mname)])
-    
+
     if ncks
         str = nc_genslice(model.url,model.(variable).name,...,
             obs.lon,obs.lat,obs.time,'ncks');
         disp([str ' ' model.name '.nc'])
         return
     end
-    
+
     [Tvar,Tdis,Tzed] = nc_genslice(model.url,model.(variable).name,...
         obs.lon,obs.lat,obs.time,'verbose');
-    
+
     if ~isempty(findstr(model.url,'myocean')) && strcmp(variable,'temp')
         Tvar = Tvar - 272.15;
     end
     model.(variable).data = Tvar;
     model.(variable).dist = Tdis;
     model.(variable).z = Tzed;
-    
-    % copy 'model' back to the oroginal named strucutre for this model
+
+    % copy 'model' back to the original named structure for this model
     eval([model.name ' = model;'])
     tocs(m)=toc;
     disp('----------------------------------------------------------------')
     disp(['  Elapsed time processing ' mname])
     disp(['  was ' num2str(toc,3) ' seconds'])
     disp('----------------------------------------------------------------')
-    
+
 end
 disp('----------------------------------------------------------------')
 disp(['  Total Elapsed Time' ])
