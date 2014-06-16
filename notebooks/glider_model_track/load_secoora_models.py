@@ -52,125 +52,125 @@ for cube in nc:
     if cube.name().lower() == obs[variable]['name']:
         obs['data'] = cube.data
         obs['z'] = cube.coord(obs['zname']).points
+        obs['time'] = time_coord.units.num2date(time_coord.points)
+        time_coord = cube.coord(axis='T')
     elif cube.name().lower() == obs['lonname']:
         obs['lon']  = cube.data
     elif cube.name().lower() == obs['latname']:
         obs['lat']  = cube.data
 
 obs['dist'] = np.cumsum(np.r_[0, sw.dist(obs['lat'], obs['lon'], units='km')[0]])
-
 obs[variable]['data'] = obs['data']
 obs[variable]['dist'] = obs['dist']
 obs[variable]['z'] = obs['z']
 
-obs.time = nj_time(nc,'temperature')
-tstart = min(obs.time)
-tend = max(obs.time)
-disp('  Time interval of obs:')
-disp(['    ' datestr(tstart) ' to ' datestr(tend)])
-
-# Model: Global NCOM CF-compliant aggregation
-ncom.name = 'global_ncom'
-ncom.url = ['http://ecowatch.ncddc.noaa.gov/thredds/dodsC/' ...
-    'ncom/ncom_reg1_agg/NCOM_Region_1_Aggregation_best.ncd']
-ncom.file = 'ncom.nc'
-ncom.temp.name = 'water_temp'
-ncom.salt.name = 'salinity'
-
-% -----------------------------------------------------------------------
-% Model: US-EAST (NCOM) CF-compliant aggregation
-useast.name = 'useast'
-useast.url = ['http://ecowatch.ncddc.noaa.gov/thredds/dodsC/' ...
-    'ncom_us_east_agg/US_East_Apr_05_2013_to_Current_best.ncd']
-useast.file = 'useast.nc'
-useast.temp.name = 'water_temp'
-useast.salt.name = 'salinity'
-% -----------------------------------------------------------------------
-% Model: MERCATOR CF-compliant nc file extracted at myocean.eu
-% Registration and user/password authentication required
-mercator.name = 'mercator'
-mercator.url = ['./dataset-psy2v4-pgs-nat-myocean-bestestimate_' ...
-    '1295878772263.nc']
-mercator.file = mercator.url
-mercator.temp.name = 'temperature' % <<< in KELVIN !!!!!!!!!!!!!!!!!!!!!
-mercator.salt.name = 'salinity'
-
-% -----------------------------------------------------------------------
-% Model: COAWST CF-compliant ROMS aggregation
-coawst.name = 'coawst'
-% before june 25, 2012
-if tend <= datenum(2012,6,25),
-    coawst.url = ['http://geoport.whoi.edu/thredds/dodsC/' ...
-    'coawst_2_2/fmrc/coawst_2_2_best.ncd']
-else% after june 25, 2012
-    coawst.url = ['http://geoport.whoi.edu/thredds/dodsC/' ...
-     'coawst_4/use/fmrc/coawst_4_use_best.ncd']
-end
-coawst.file = 'coawst.nc'
-coawst.temp.name = 'temp'
-coawst.salt.name = 'salt'
-
-% -----------------------------------------------------------------------
-% Model: ESPreSSO CF-compliant ROMS aggregation
-espresso.name = 'espresso'
-espresso.url = ['http://tds.marine.rutgers.edu:8080/thredds/' ...
-    'dodsC/roms/espresso/2009_da/his']
-espresso.file = 'espresso.nc'
-espresso.temp.name = 'temp'
-espresso.salt.name = 'salt'
-
-% -----------------------------------------------------------------------
-% -----------------------------------------------------------------------
-% Model: SABGOM CF-compliant ROMS aggregation
-sabgom.name = 'sabgom'
-sabgom.url = ['http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/' ...
-    'fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd']
-sabgom.file = 'sabgom.nc'
-sabgom.temp.name = 'temp'
-sabgom.salt.name = 'salt'
-% -----------------------------------------------------------------------
-% -----------------------------------------------------------------------
-% Model: AMSEAS CF-compliant NCOM aggregation
-amseas.name = 'amseas'
-amseas.url = ['http://edac-dap3.northerngulfinstitute.org/thredds/dodsC/' ...
-    'ncom_amseas_agg/AmSeas_Aggregation_best.ncd']
-amseas.file = 'amseas.nc'
-amseas.temp.name = 'water_temp'
-amseas.salt.name = 'salinity'
-% -----------------------------------------------------------------------
-% Model: Global HYCOM RTOFS (HYCOM) Region 1
-hycom.name = 'hycom'
-hycom.url = ['http://ecowatch.ncddc.noaa.gov/thredds/dodsC/' ...
-    'hycom/hycom_reg1_agg/HYCOM_Region_1_Aggregation_best.ncd']
-hycom.file = 'hycom.nc'
-hycom.temp.name = 'water_temp'
-hycom.salt.name = 'salinity'
-
-%% models to compare with data
-%model_list = {'USEAST','ESPreSSO','HYCOM'}  %MARACOOS
-model_list = {'USEAST','SABGOM','HYCOM'}     %SECOORA
+tstart = min(obs['time'])
+tend = max(obs['time'])
+print('  Time interval of obs:')
+print('    %s to %s' % (tstart, tend))
 
 
-ncks = 0
+# Model: Global NCOM CF-compliant aggregation.
+ncom = dict()
+ncom['name'] = 'global_ncom'
+uri = 'http://ecowatch.ncddc.noaa.gov/thredds/dodsC/ncom/ncom_reg1_agg'
+ncom['url'] = '%s/NCOM_Region_1_Aggregation_best.ncd' % uri
+ncom['file'] = 'ncom.nc'
+ncom['temp'] = dict(name='water_temp')
+ncom['salt'] = dict(name='salinity')
 
+
+# Model: US-EAST (NCOM) CF-compliant aggregation.
+useast = dict()
+useast['name'] = 'useast'
+uri = 'http://ecowatch.ncddc.noaa.gov/thredds/dodsC/ncom_us_east_agg'
+useast['url'] = '%s/US_East_Apr_05_2013_to_Current_best.ncd' % uri
+useast['file'] = 'useast.nc'
+useast['temp'] = dict(name='water_temp')
+useast['salt'] = dict(name='salinity')
+
+
+# Model: MERCATOR CF-compliant nc file extracted at myocean.eu.
+# Registration and user/password authentication required.
+mercator = dict()
+mercator['name'] = 'mercator'
+mercator['url'] = 'dataset-psy2v4-pgs-nat-myocean-bestestimate_1295878772263.nc'
+mercator['file'] = mercator['url']
+mercator['temp'] = dict(name='temperature')  # <<< in KELVIN !!!!!!!!!!!!!!!!!!!!!
+mercator['salt'] = dict(name='salinity')
+
+
+# Model: COAWST CF-compliant ROMS aggregation.
+coawst = dict()
+coawst['name'] = 'coawst'
+uri = 'http://geoport.whoi.edu/thredds/dodsC'
+if tend <= datetime(2012, 6, 25):
+    coawst['url'] = '%s/coawst_2_2/fmrc/coawst_2_2_best.ncd' % uri
+else:
+    coawst['url'] = '%s/coawst_4/use/fmrc/coawst_4_use_best.ncd' % uri
+
+coawst['file'] = 'coawst.nc'
+coawst['temp'] = dict(name='temp')
+coawst['salt'] = dict(name='salt')
+
+
+# Model: ESPreSSO CF-compliant ROMS aggregation.
+espresso = dict()
+espresso['name'] = 'espresso'
+uri = 'http://tds.marine.rutgers.edu:8080/thredds/dodsC'
+espresso['url'] = '%s/roms/espresso/2009_da/his' % uri
+espresso['file'] = 'espresso.nc'
+espresso['temp'] = dict(name='temp')
+espresso['salt'] = dict(name='salt')
+
+
+# Model: SABGOM CF-compliant ROMS aggregation.
+sabgom = dict()
+sabgom['name'] = 'sabgom'
+uri = 'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom'
+sabgom['url'] = '%s/SABGOM_Forecast_Model_Run_Collection_best.ncd' % uri
+sabgom['file'] = 'sabgom.nc'
+sabgom['temp'] = dict(name='temp')
+sabgom['salt'] = dict(name='salt')
+
+
+# Model: AMSEAS CF-compliant NCOM aggregation
+amseas = dict()
+amseas['name'] = 'amseas'
+uri = 'http://edac-dap3.northerngulfinstitute.org/thredds/dodsC'
+amseas['url'] = '%s/ncom_amseas_agg/AmSeas_Aggregation_best.ncd' % uri
+amseas['file'] = 'amseas.nc'
+amseas['temp'] = dict(name='water_temp')
+amseas['salt'] = dict(name='salinity')
+
+
+# Model: Global HYCOM RTOFS (HYCOM) Region 1.
+hycom = dict()
+hycom['name'] = 'hycom'
+uri = 'http://ecowatch.ncddc.noaa.gov/thredds/dodsC/hycom/hycom_reg1_agg'
+hycom['url'] = '%s/HYCOM_Region_1_Aggregation_best.ncd' % uri
+hycom['file'] = 'hycom.nc'
+hycom['temp'] = dict(name='water_temp')
+hycom['salt'] = dict(name='salinity')
+
+# Models to compare with data.
+# model_list = {'USEAST', 'ESPreSSO', 'HYCOM'}  # MARACOOS.
+model_list = ['USEAST', 'SABGOM', 'HYCOM']  # SECOORA.
+
+
+ncks = False
 for m = 1:length(model_list)
-
-    tic
-
     mname = char(model_list{m})
 
-    % work with a temporary structure named 'model'
-
+    # Work with a temporary structure named 'model'.
     eval(['model = ' lower(mname)])
 
-    if ncks
-        str = nc_genslice(model.url,model.(variable).name,...,
-            obs.lon,obs.lat,obs.time,'ncks')
-        disp([str ' ' model.name '.nc'])
-        return
-    end
+    if ncks:
+        string = nc_genslice(model['url'], model[variable]['name'],
+                             obs['lon'], obs['lat'], obs['time'], 'ncks')
+        print(['%s  %s.nc' % (string, model['name']))
 
-    [Tvar,Tdis,Tzed] = nc_genslice(model.url,model.(variable).name,...
+    Tvar, Tdis, Tzed = nc_genslice(model.url,model.(variable).name,...
         obs.lon,obs.lat,obs.time,'verbose')
 
     if ~isempty(findstr(model.url,'myocean')) && strcmp(variable,'temp')
@@ -180,19 +180,14 @@ for m = 1:length(model_list)
     model.(variable).dist = Tdis
     model.(variable).z = Tzed
 
-    % copy 'model' back to the oroginal named strucutre for this model
+    # Copy 'model' back to the original named strucutre for this model.
     eval([model.name ' = model'])
     tocs(m)=toc
-    disp('----------------------------------------------------------------')
     disp(['  Elapsed time processing ' mname])
     disp(['  was ' num2str(toc,3) ' seconds'])
-    disp('----------------------------------------------------------------')
 
 end
-disp('----------------------------------------------------------------')
 disp(['  Total Elapsed Time' ])
 disp(['  was ' num2str(sum(tocs),3) ' seconds'])
-disp('----------------------------------------------------------------')
 
-clear nc
 save secoora_models.mat
