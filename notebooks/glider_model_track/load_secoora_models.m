@@ -159,7 +159,7 @@ for m = 1:length(model_list)
     model.(variable).dist = Tdis;
     model.(variable).z = Tzed;
 
-    % copy 'model' back to the oroginal named strucutre for this model
+    % copy 'model' back to the original named structure for this model
     eval([model.name ' = model;'])
     tocs(m)=toc;
     disp('----------------------------------------------------------------')

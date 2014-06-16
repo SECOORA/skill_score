@@ -184,7 +184,7 @@ for m = 1:length(model_list)
     model[variable]['dist'] = Tdis
     model[variable]['z'] = Tzed
 
-    # Copy 'model' back to the original named strucutre for this model.
+    # Copy 'model' back to the original named structure for this model.
     # FIXME:
     eval([model.name ' = model'])
 
