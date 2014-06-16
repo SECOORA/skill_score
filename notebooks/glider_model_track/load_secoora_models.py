@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
-#
-# load_secoora_models.py
-#
-# purpose:  Compare with "load_secoora_models.m"
-# author:   Filipe P. A. Fernandes
-# e-mail:   ocefpaf@gmail
-# web:      http://ocefpaf.github.io/
-# created:  14-May-2014
-# modified: Wed 14 May 2014 10:32:04 AM BRT
-#
-# obs: https://github.com/nctoolbox/nctoolbox/blob/master/demos/contrib
-#
+# <nbformat>3.0</nbformat>
 
+# <markdowncell>
+
+# Compare with: https://github.com/nctoolbox/nctoolbox/blob/master/demos/contrib
+
+# <codecell>
+
+from datetime import datetime
 
 import iris
 import numpy as np
@@ -19,13 +15,11 @@ import numpy.ma as ma
 import seawater as sw
 import matplotlib.pyplot as plt
 
+# <codecell>
+
 variable = 'temp'  # 'salt'.
-obs = dict()
 
-
-# Will use dynamic field names with structures to process variable named above.
-
-# Obs: Single glider transect.
+obs = dict()  # Single glider transect.
 if False:
     uri = 'http://tds.marine.rutgers.edu/thredds/dodsC/cool/glider/mab/Gridded'
     obs['url'] = '%s/20101025T000000_20101117T000000_marcoos_ru22.nc' % uri
@@ -44,16 +38,16 @@ obs['zname']  = 'depth'
 cubes = iris.load(obs['url'])
 
 # Load the observations.
-print(nc)
+print(cubes)
 print('Loading obs from "%s"' % obs['url'])
 print('  Variable is %s' % obs[variable]['name'])
 
-for cube in nc:
+for cube in cubes:
     if cube.name().lower() == obs[variable]['name']:
         obs['data'] = cube.data
         obs['z'] = cube.coord(obs['zname']).points
-        obs['time'] = time_coord.units.num2date(time_coord.points)
         time_coord = cube.coord(axis='T')
+        obs['time'] = time_coord.units.num2date(time_coord.points)
     elif cube.name().lower() == obs['lonname']:
         obs['lon']  = cube.data
     elif cube.name().lower() == obs['latname']:
@@ -69,8 +63,16 @@ tend = max(obs['time'])
 print('  Time interval of obs:')
 print('    %s to %s' % (tstart, tend))
 
+# <markdowncell>
+
+# # Probably iris will change all this part.  No need to define all those parameters.
+
+# <markdowncell>
 
 # Model: Global NCOM CF-compliant aggregation.
+
+# <codecell>
+
 ncom = dict()
 ncom['name'] = 'global_ncom'
 uri = 'http://ecowatch.ncddc.noaa.gov/thredds/dodsC/ncom/ncom_reg1_agg'
@@ -79,8 +81,12 @@ ncom['file'] = 'ncom.nc'
 ncom['temp'] = dict(name='water_temp')
 ncom['salt'] = dict(name='salinity')
 
+# <markdowncell>
 
 # Model: US-EAST (NCOM) CF-compliant aggregation.
+
+# <codecell>
+
 useast = dict()
 useast['name'] = 'useast'
 uri = 'http://ecowatch.ncddc.noaa.gov/thredds/dodsC/ncom_us_east_agg'
@@ -89,9 +95,13 @@ useast['file'] = 'useast.nc'
 useast['temp'] = dict(name='water_temp')
 useast['salt'] = dict(name='salinity')
 
+# <markdowncell>
 
 # Model: MERCATOR CF-compliant nc file extracted at myocean.eu.
 # Registration and user/password authentication required.
+
+# <codecell>
+
 mercator = dict()
 mercator['name'] = 'mercator'
 mercator['url'] = 'dataset-psy2v4-pgs-nat-myocean-bestestimate_1295878772263.nc'
@@ -99,8 +109,12 @@ mercator['file'] = mercator['url']
 mercator['temp'] = dict(name='temperature')
 mercator['salt'] = dict(name='salinity')
 
+# <markdowncell>
 
 # Model: COAWST CF-compliant ROMS aggregation.
+
+# <codecell>
+
 coawst = dict()
 coawst['name'] = 'coawst'
 uri = 'http://geoport.whoi.edu/thredds/dodsC'
@@ -113,8 +127,12 @@ coawst['file'] = 'coawst.nc'
 coawst['temp'] = dict(name='temp')
 coawst['salt'] = dict(name='salt')
 
+# <markdowncell>
 
 # Model: ESPreSSO CF-compliant ROMS aggregation.
+
+# <codecell>
+
 espresso = dict()
 espresso['name'] = 'espresso'
 uri = 'http://tds.marine.rutgers.edu:8080/thredds/dodsC'
@@ -123,8 +141,12 @@ espresso['file'] = 'espresso.nc'
 espresso['temp'] = dict(name='temp')
 espresso['salt'] = dict(name='salt')
 
+# <markdowncell>
 
 # Model: SABGOM CF-compliant ROMS aggregation.
+
+# <codecell>
+
 sabgom = dict()
 sabgom['name'] = 'sabgom'
 uri = 'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom'
@@ -133,8 +155,12 @@ sabgom['file'] = 'sabgom.nc'
 sabgom['temp'] = dict(name='temp')
 sabgom['salt'] = dict(name='salt')
 
+# <markdowncell>
 
 # Model: AMSEAS CF-compliant NCOM aggregation
+
+# <codecell>
+
 amseas = dict()
 amseas['name'] = 'amseas'
 uri = 'http://edac-dap3.northerngulfinstitute.org/thredds/dodsC'
@@ -143,8 +169,12 @@ amseas['file'] = 'amseas.nc'
 amseas['temp'] = dict(name='water_temp')
 amseas['salt'] = dict(name='salinity')
 
+# <markdowncell>
 
 # Model: Global HYCOM RTOFS (HYCOM) Region 1.
+
+# <codecell>
+
 hycom = dict()
 hycom['name'] = 'hycom'
 uri = 'http://ecowatch.ncddc.noaa.gov/thredds/dodsC/hycom/hycom_reg1_agg'
@@ -153,10 +183,13 @@ hycom['file'] = 'hycom.nc'
 hycom['temp'] = dict(name='water_temp')
 hycom['salt'] = dict(name='salinity')
 
+# <codecell>
+
 # Models to compare with data.
-# model_list = {'USEAST', 'ESPreSSO', 'HYCOM'}  # MARACOOS.
+model_list = {'USEAST', 'ESPreSSO', 'HYCOM'}  # MARACOOS.
 model_list = ['USEAST', 'SABGOM', 'HYCOM']  # SECOORA.
 
+# <codecell>
 
 ncks = False
 for m = 1:length(model_list)
@@ -190,3 +223,4 @@ for m = 1:length(model_list)
 
 
 #save secoora_models.mat
+
