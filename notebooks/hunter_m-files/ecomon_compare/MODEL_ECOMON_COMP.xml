@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+   <starttime>2010/1/1 00:00:00</starttime>
+   <endtime>2011/8/1 00:00:00</endtime>
+   <dt>1</dt>
+   <latbounds>[31 47]</latbounds>
+   <lonbounds>[-82 -60]</lonbounds>
+   
+   
+   <directory>/home/hunter/roms/ecomon_compare/data/</directory>
+
+
+<deploy>ECOMON_DATA_2010_2012.mat</deploy>
+   
+      
+   <MOCHA>
+   <tag>MOCHA</tag>
+   <nc>MOCHA.nc</nc>
+   <grid>MOCHA</grid>
+   
+   <dt>800</dt>
+       <url>/home/hunter/roms/clim_compare/MAB_CLIMATOLOGY_SALT_TEMP_2010_2011.nc</url>
+       <salt>salinity</salt>
+       <temp>temperature</temp>
+       <time>time</time>
+   </MOCHA>	
+
+  
+   <NCOM_R1>
+   <tag>NCOM_R1</tag>
+   <nc>ncom.nc</nc>
+   <grid>A</grid>
+   
+   <dt>3</dt>
+       <url>http://ecowatch.ncddc.noaa.gov/thredds/dodsC/ncom/ncom_reg1_agg/NCOM_Region_1_Aggregation_best.ncd</url>
+       <salt>salinity</salt>
+       <temp>water_temp</temp>
+       <time>time</time>
+   </NCOM_R1>	
+
+   <ESPRESSO>
+   <grid>C</grid>
+       <tag>ESPRESSO</tag>
+   <nc>espresso.nc</nc>
+   <dt>2</dt>
+       <url>http://tashtego.marine.rutgers.edu:8080/thredds/dodsC/roms/espresso/2009_da/his</url>
+       <salt>salt</salt>
+       <temp>temp</temp>
+       <time>ocean_time</time>
+       <angle>angle</angle>
+   </ESPRESSO>	
+   
+   
+   <COAWST>
+   <tag>COAWST</tag>
+   <grid>C</grid>
+   <nc>coawst.nc</nc>
+   <dt>1</dt>
+   <url>http://geoport.whoi.edu/thredds/dodsC/coawst_2_2/fmrc/coawst_2_2_best.ncd</url>
+       <salt>salt</salt>
+       <temp>temp</temp>
+       <time>ocean_time</time>
+       <angle>angle</angle>
+   </COAWST>	
+
+   <NYHOPS>
+   <tag>NYHOPS</tag>
+   <grid>NYHOPS</grid>
+   <nc>nyhops.nc</nc>
+   <dt>.1666666667</dt>
+       <url>http://colossus.dl.stevens-tech.edu:8080/thredds/dodsC/fmrc/NYBight/NYHOPS_Forecast_Collection_for_the_New_York_Bight_best.ncd</url>
+       <salt>salt</salt>
+       <temp>temp</temp>
+       <time>time</time>
+       <angle>ang</angle>
+
+   </NYHOPS>	
+
+   <MERCATOR>
+   <tag>MERCATOR</tag>
+   <grid>A</grid>
+   <dt>24</dt>
+   <nc>mercator.nc</nc>
+   <url>/home/hunter/roms/ecomon_compare/data/mercator_salt_temp_2011.nc</url>     
+       <salt>salinity</salt>
+       <temp>temperature</temp>
+       <time> time</time>
+   </MERCATOR>	
+
+   <HYCOM>
+   <tag>HYCOM</tag>
+   <grid>HYCOM</grid>
+   <nc>hycom.nc</nc>
+   <url>/home/hunter/roms/ecomon_compare/data/hycom_sal_temp_2011.nc</url>
+       <salt>layer_salinity</salt>
+       <temp>layer_temperature</temp>
+       <depth>interface_depth</depth>
+       <time>MT</time>
+</HYCOM>	
+   
+   <UMASSHOPS>
+   <tag>UMASSHOPS</tag>
+   <grid>UMASSHOPS</grid>
+   <dt>3</dt>
+   <nc>umasshops.nc</nc>
+       <url>http://aqua.smast.umassd.edu:8080/thredds/dodsC/pe_shelf_ass/fmrc/HOPS_PE_SHELF_ASS_Forecast_Model_Run_Collection_best.ncd</url>
+       <salt>salinity</salt>
+       <temp>temperature</temp>
+       <depth>z_t</depth>
+       <time>time</time>
+   </UMASSHOPS>	
+</config>

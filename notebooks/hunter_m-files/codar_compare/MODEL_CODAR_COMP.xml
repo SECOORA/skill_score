@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+   <starttime>2010/1/1 00:00:00</starttime>
+   <endtime>2011/8/1 00:00:00</endtime>
+   <dt>3</dt>
+   <latbounds>[31 47]</latbounds>
+   <lonbounds>[-82 -60]</lonbounds>
+   <directory>/home/hunter/roms/codar_comp/data/</directory>
+   <codar_obs>/home/julia/ROMS/espresso/RealTime/CODAR/codar_marcoos09_binned0.28.mat</codar_obs>
+   <NCOM_US_E>
+   <tag>NCOM_US_E</tag>
+   <grid>A</grid>
+       <url>http://edac-dap3.northerngulfinstitute.org/thredds/dodsC/ncom_useast_agg/US_East_Aggregation_best.ncd</url>
+       <u>water_u</u>
+       <v>water_v</v>
+       <time>time</time>
+   </NCOM_US_E>	
+   
+   
+   <NCOM_R1>
+   <tag>NCOM_R1</tag>
+   <grid>A</grid>
+       <url>http://ecowatch.ncddc.noaa.gov/thredds/dodsC/ncom/ncom_reg1_agg/NCOM_Region_1_Aggregation_best.ncd</url>
+       <u>water_u</u>
+       <v>water_v</v>
+       <time>time</time>
+       
+       <z>2</z>
+   </NCOM_R1>	
+
+   <ESPRESSO>
+   <grid>C</grid>
+       <tag>ESPRESSO</tag>
+       <url>http://tds.marine.rutgers.edu:8080/thredds/dodsC/roms/espresso/2009_da/his</url>
+        <u>u</u>
+       <v>v</v>
+              <z>-2</z>
+       <time>ocean_time</time>
+       <angle>angle</angle>
+   </ESPRESSO>	
+   
+   
+   <COAWST>
+   <tag>COAWST</tag>
+   <grid>C</grid>
+   <url>http://geoport.whoi.edu/thredds/dodsC/coawst_2_2/fmrc/coawst_2_2_best.ncd</url>
+<u>u</u>
+       <v>v</v>
+       <z>-2</z>
+       <time>ocean_time</time>
+       <angle>angle</angle>
+   </COAWST>	
+
+   <NYHOPS>
+   <tag>NYHOPS</tag>
+   <grid>NYHOPS</grid>
+       <url>http://colossus.dl.stevens-tech.edu:8080/thredds/dodsC/fmrc/NYBight/NYHOPS_Forecast_Collection_for_the_New_York_Bight_best.ncd</url>
+       <u>u</u>
+       <v>v</v>
+       <z>-2</z>
+       <time>time</time>
+       <angle>ang</angle>
+	<depth>depth</depth>
+   </NYHOPS>	
+
+   <MERCATOR>
+   <tag>MERCATOR</tag>
+   <grid>A</grid>
+   <url>./data/mercator_uv_data.nc</url>     
+   <u>u</u>
+       <v>v</v>
+       
+       <z>1</z>
+       <time> time</time>
+   </MERCATOR>	
+
+   <HYCOM>
+   <tag>HYCOM</tag>
+   <grid>A</grid>
+   <url>/home/hunter/roms/codar_comp/data/hycom_uv.nc</url>
+     <u>u_velocity</u>
+       <v>v_velocity</v>
+       
+       <z>2</z>
+       <time>MT</time>
+</HYCOM>	
+   
+   <UMASSHOPS>
+   <tag>UMASSHOPS</tag>
+   <grid>UMASSHOPS</grid>
+       <url>http://aqua.smast.umassd.edu:8080/thredds/dodsC/pe_shelf_ass/fmrc/HOPS_PE_SHELF_ASS_Forecast_Model_Run_Collection_best.ncd</url>
+        <u>u</u>
+       <v>v</v>
+       <z>-2</z>
+       
+       <time>time</time>
+   </UMASSHOPS>	
+</config>
