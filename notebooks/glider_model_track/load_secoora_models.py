@@ -96,7 +96,7 @@ mercator = dict()
 mercator['name'] = 'mercator'
 mercator['url'] = 'dataset-psy2v4-pgs-nat-myocean-bestestimate_1295878772263.nc'
 mercator['file'] = mercator['url']
-mercator['temp'] = dict(name='temperature')  # <<< in KELVIN !!!!!!!!!!!!!!!!!!!!!
+mercator['temp'] = dict(name='temperature')
 mercator['salt'] = dict(name='salinity')
 
 
@@ -105,7 +105,7 @@ coawst = dict()
 coawst['name'] = 'coawst'
 uri = 'http://geoport.whoi.edu/thredds/dodsC'
 if tend <= datetime(2012, 6, 25):
-    coawst['url'] = '%s/coawst_2_2/fmrc/coawst_2_2_best.ncd' % uri
+    coawst['u# FIXME:rl'] = '%s/coawst_2_2/fmrc/coawst_2_2_best.ncd' % uri
 else:
     coawst['url'] = '%s/coawst_4/use/fmrc/coawst_4_use_best.ncd' % uri
 
@@ -163,6 +163,7 @@ for m = 1:length(model_list)
     mname = char(model_list{m})
 
     # Work with a temporary structure named 'model'.
+    # FIXME:
     eval(['model = ' lower(mname)])
 
     if ncks:
@@ -170,24 +171,22 @@ for m = 1:length(model_list)
                              obs['lon'], obs['lat'], obs['time'], 'ncks')
         print(['%s  %s.nc' % (string, model['name']))
 
-    Tvar, Tdis, Tzed = nc_genslice(model.url,model.(variable).name,...
-        obs.lon,obs.lat,obs.time,'verbose')
+    # TODO: Develop `nc_genslice` using iris!
+    Tvar, Tdis, Tzed = nc_genslice(model['url'], model[variable]['name'],
+                                   obs['lon'], obs['lat'], obs['time'],
+                                   'verbose')
 
-    if ~isempty(findstr(model.url,'myocean')) && strcmp(variable,'temp')
+    if ~isempty(findstr(model['url'], 'myocean')) && strcmp(variable, 'temp')
+        # FIXME: cube.convert_units('celsius')
         Tvar = Tvar - 272.15
-    end
-    model.(variable).data = Tvar
-    model.(variable).dist = Tdis
-    model.(variable).z = Tzed
+
+    model[variable]['data'] = Tvar
+    model[variable]['dist'] = Tdis
+    model[variable]['z'] = Tzed
 
     # Copy 'model' back to the original named strucutre for this model.
+    # FIXME:
     eval([model.name ' = model'])
-    tocs(m)=toc
-    disp(['  Elapsed time processing ' mname])
-    disp(['  was ' num2str(toc,3) ' seconds'])
 
-end
-disp(['  Total Elapsed Time' ])
-disp(['  was ' num2str(sum(tocs),3) ' seconds'])
 
-save secoora_models.mat
+#save secoora_models.mat
