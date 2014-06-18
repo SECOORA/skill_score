@@ -37,6 +37,31 @@ name_list = ['water level',
 sos_name = 'water_surface_height_above_reference_datum'
 
 
+CSW = {'NGDC Geoportal':
+       'http://www.ngdc.noaa.gov/geoportal/csw',
+       'USGS WHSC Geoportal':
+       'http://geoport.whoi.edu/geoportal/csw',
+       'NODC Geoportal: granule level':
+       'http://www.nodc.noaa.gov/geoportal/csw',
+       'NODC Geoportal: collection level':
+       'http://data.nodc.noaa.gov/geoportal/csw',
+       'NRCAN CUSTOM':
+       'http://geodiscover.cgdi.ca/wes/serviceManagerCSW/csw',
+       'USGS Woods Hole GI_CAT':
+       'http://geoport.whoi.edu/gi-cat/services/cswiso',
+       'USGS CIDA Geonetwork':
+       'http://cida.usgs.gov/gdp/geonetwork/srv/en/csw',
+       'USGS Coastal and Marine Program':
+       'http://cmgds.marine.usgs.gov/geonetwork/srv/en/csw',
+       'USGS Woods Hole Geoportal':
+       'http://geoport.whoi.edu/geoportal/csw',
+       'CKAN testing site for new Data.gov':
+       'http://geo.gov.ckan.org/csw',
+       'EPA':
+       'https://edg.epa.gov/metadata/csw',
+       'CWIC':
+       'http://cwic.csiss.gmu.edu/cwicv1/discovery'}
+
 def dateRange(start_date='1900-01-01', stop_date='2100-01-01',
               constraint='overlaps'):
     """Hopefully something like this will be implemented in fes soon."""
