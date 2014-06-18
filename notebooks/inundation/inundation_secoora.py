@@ -3,9 +3,6 @@
 
 # <codecell>
 
-import sys
-sys.path.append("..")
-
 # Standard Library.
 from warnings import warn
 from datetime import datetime, timedelta
@@ -34,14 +31,21 @@ from utilities import (find_timevar, find_ij, nearxy,
 
 # <codecell>
 
+name_list
+
+# <codecell>
+
 now = datetime.utcnow()
 
-start = now - timedelta(days=3)
-stop = now + timedelta(days=3)
+if False:
+    start = now - timedelta(days=3)
+    stop = now + timedelta(days=3)
+else:
+    start = datetime(2014, 5, 30)
+    stop = datetime(2014, 6, 3)
 
 start_date = start.strftime('%Y-%m-%d %H:00')
 stop_date = stop.strftime('%Y-%m-%d %H:00')
-time_date_range = [start_date, stop_date]
 
 jd_start = datetime.strptime(start_date, '%Y-%m-%d %H:%M')
 jd_stop = datetime.strptime(stop_date, '%Y-%m-%d %H:%M')
@@ -80,32 +84,7 @@ filter_list = [fes.And([bbox, start, stop, or_filt, not_filt])]
 
 # <codecell>
 
-CSW = {'NGDC Geoportal':
-       'http://www.ngdc.noaa.gov/geoportal/csw',
-       'USGS WHSC Geoportal':
-       'http://geoport.whoi.edu/geoportal/csw',
-       'NODC Geoportal: granule level':
-       'http://www.nodc.noaa.gov/geoportal/csw',
-       'NODC Geoportal: collection level':
-       'http://data.nodc.noaa.gov/geoportal/csw',
-       'NRCAN CUSTOM':
-       'http://geodiscover.cgdi.ca/wes/serviceManagerCSW/csw',
-       'USGS Woods Hole GI_CAT':
-       'http://geoport.whoi.edu/gi-cat/services/cswiso',
-       'USGS CIDA Geonetwork':
-       'http://cida.usgs.gov/gdp/geonetwork/srv/en/csw',
-       'USGS Coastal and Marine Program':
-       'http://cmgds.marine.usgs.gov/geonetwork/srv/en/csw',
-       'USGS Woods Hole Geoportal':
-       'http://geoport.whoi.edu/geoportal/csw',
-       'CKAN testing site for new Data.gov':
-       'http://geo.gov.ckan.org/csw',
-       'EPA':
-       'https://edg.epa.gov/metadata/csw',
-       'CWIC':
-       'http://cwic.csiss.gmu.edu/cwicv1/discovery'}
-
-endpoint = CSW['NGDC Geoportal']
+endpoint = 'http://www.ngdc.noaa.gov/geoportal/csw'
 csw = CatalogueServiceWeb(endpoint, timeout=60)
 csw.getrecords2(constraints=filter_list, maxrecords=1000, esn='full')
 
@@ -118,6 +97,7 @@ if True:
 dap_urls = service_urls(csw.records, service='odp:url')
 sos_urls = service_urls(csw.records, service='sos:url')
 
+# Is SABGOM there?
 if True:
     print("CSW:")
     for rec, item in csw.records.items():
@@ -126,6 +106,15 @@ if True:
     print("\n".join(dap_urls))
     print("\nSOS:")
     print("\n".join(sos_urls))
+
+# <codecell>
+
+found = None
+for url in dap_urls:
+    if 'sabgom' in url.lower():
+        found = url
+if not found:
+    print('SABGOM not found!')
 
 # <markdowncell>
 
