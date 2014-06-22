@@ -24,17 +24,7 @@ from pandas import DataFrame, read_csv, date_range
 # Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
 from owslib.ows import ExceptionReport
-
-
-name_list = ['water level',
-             'sea_surface_height',
-             'sea_surface_elevation',
-             'sea_surface_height_above_geoid',
-             'sea_surface_height_above_sea_level',
-             'water_surface_height_above_reference_datum',
-             'sea_surface_height_above_reference_ellipsoid']
-
-sos_name = 'water_surface_height_above_reference_datum'
+from iris.exceptions import CoordinateNotFoundError
 
 
 CSW = {'NGDC Geoportal':
@@ -61,6 +51,7 @@ CSW = {'NGDC Geoportal':
        'https://edg.epa.gov/metadata/csw',
        'CWIC':
        'http://cwic.csiss.gmu.edu/cwicv1/discovery'}
+
 
 def dateRange(start_date='1900-01-01', stop_date='2100-01-01',
               constraint='overlaps'):
@@ -165,36 +156,21 @@ def service_urls(records, service='odp:url'):
     return urls
 
 
-def nearxy(x, y, xi, yi):
-    """Find the indices x[i] of arrays (x,y) closest to the points (xi, yi)."""
-    ind = np.ones(len(xi), dtype=int)
-    dd = np.ones(len(xi), dtype='float')
-    for i in np.arange(len(xi)):
-        dist = np.sqrt((x-xi[i])**2 + (y-yi[i])**2)
-        ind[i] = dist.argmin()
-        dd[i] = dist[ind[i]]
-    return ind, dd
-
-
 def get_nearest(cube, xi, yi, max_dist=0.04):
     """Find model data near station data xi, yi."""
     x = cube.coord(axis='X').points
     y = cube.coord(axis='Y').points
-    if (x.ndim == 1) and (y.ndim == 1):
-        x, i = np.meshgrid(x, y)
+    if cube.ndim == 3:  # Structured model
+        if (x.ndim == 1) and (y.ndim == 1):
+            x, y = np.meshgrid(x, y)
     tree = KDTree(zip(x.ravel(), y.ravel()))
     dist, indices = tree.query(np.array([xi, yi]).T)
-    i, j = np.unravel_index(indices, x.shape)
+    if cube.ndim == 3:  # Structured model
+        i, j = np.unravel_index(indices, x.shape)
+    else:
+        i = j = indices
     mask = dist <= max_dist
     return dist[mask], i[mask], j[mask]
-
-
-def find_ij(x, y, d, xi, yi):
-    """Find non-NaN cell d[j,i] that are closest to points (xi, yi)."""
-    index = np.where(~np.isnan(d.flatten()))[0]
-    ind, dd = nearxy(x.flatten()[index], y.flatten()[index], xi, yi)
-    j, i = ind2ij(x, index[ind])
-    return i, j, dd
 
 
 def find_timevar(cube):
@@ -202,18 +178,10 @@ def find_timevar(cube):
     problems with FMRC aggregations, which produce two time coordinates."""
     try:
         cube.coord(axis='T').rename('time')
-    except:  # Be more specific.
+    except CoordinateNotFoundError:
         pass
     timevar = cube.coord('time')
     return timevar
-
-
-def ind2ij(a, index):
-    """Returns a[j, i] for a.ravel()[index]."""
-    n, m = a.shape
-    j = np.int_(np.ceil(index//m))
-    i = np.remainder(index, m)
-    return i, j
 
 
 def get_coordinates(bounding_box, bounding_box_type):

@@ -14,8 +14,11 @@ import folium
 import numpy as np
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+
 from shapely.geometry import Polygon, Point, LineString
 from pandas import DataFrame, date_range, read_csv, concat
+
+from iris.unit import Unit
 from iris.exceptions import CoordinateNotFoundError, ConstraintMismatchError
 
 # Custom IOOS/ASA modules (available at PyPI).
@@ -24,25 +27,15 @@ from owslib.csw import CatalogueServiceWeb
 from pyoos.collectors.coops.coops_sos import CoopsSos
 
 # Local imports
-from utilities import name_list, sos_name
-from utilities import (find_timevar, find_ij, nearxy,
-                       dateRange, get_coops_longname, coops2df, 
+from utilities import (find_timevar, dateRange, get_coops_longname, coops2df, 
                        mod_df, service_urls, inline_map, get_coordinates, get_nearest)
-
-# <codecell>
-
-name_list
 
 # <codecell>
 
 now = datetime.utcnow()
 
-if False:
-    start = now - timedelta(days=3)
-    stop = now + timedelta(days=3)
-else:
-    start = datetime(2014, 5, 30)
-    stop = datetime(2014, 6, 3)
+start = now - timedelta(days=3)
+stop = now + timedelta(days=3)
 
 start_date = start.strftime('%Y-%m-%d %H:00')
 stop_date = stop.strftime('%Y-%m-%d %H:00')
@@ -53,6 +46,14 @@ jd_stop = datetime.strptime(stop_date, '%Y-%m-%d %H:%M')
 print('%s to %s' % (start_date, stop_date))
 
 # <codecell>
+
+name_list = ['water level',
+             'sea_surface_height',
+             'sea_surface_elevation',
+             'sea_surface_height_above_geoid',
+             'sea_surface_height_above_sea_level',
+             'water_surface_height_above_reference_datum',
+             'sea_surface_height_above_reference_ellipsoid']
 
 bounding_box_type = "box"
 bounding_box = [[-87.4, 24.25],
@@ -97,7 +98,6 @@ if True:
 dap_urls = service_urls(csw.records, service='odp:url')
 sos_urls = service_urls(csw.records, service='sos:url')
 
-# Is SABGOM there?
 if True:
     print("CSW:")
     for rec, item in csw.records.items():
@@ -107,20 +107,13 @@ if True:
     print("\nSOS:")
     print("\n".join(sos_urls))
 
-# <codecell>
-
-found = None
-for url in dap_urls:
-    if 'sabgom' in url.lower():
-        found = url
-if not found:
-    print('SABGOM not found!')
-
 # <markdowncell>
 
 # # The datum should be NAVD! But all the data found find are MLLW.
 
 # <codecell>
+
+sos_name = 'water_surface_height_above_reference_datum'
 
 collector = CoopsSos()
 
@@ -228,8 +221,6 @@ inline_map(m)
 
 # <codecell>
 
-print('\n'.join(name_list))
-
 name_in_list = lambda cube: cube.standard_name in name_list
 constraint = iris.Constraint(cube_func=name_in_list)
 
@@ -247,8 +238,9 @@ max_dist = 0.04
 
 def get_cube(url, constraint):
     cube = iris.load_cube(url, constraint)
-    # Convert to units of meters:
-    # cube.convert_units('m')  # TODO: Isn't working for unstructured data.
+    if not cube.units == Unit('meters'):
+        # TODO: Isn't working for unstructured data.
+        cube.convert_units('m')
     mod_name = cube.attributes['title']
     timevar = find_timevar(cube)
     lat = cube.coord(axis='Y').points
@@ -261,34 +253,43 @@ def get_cube(url, constraint):
 
 # <codecell>
 
-url = dap_urls[0]
-packed = get_cube(url, constraint)
-cube, timevar, lon, lat, istart, istop, mod_name = packed
-print(mod_name, url)
+import cartopy.crs as ccrs
+import iris.quickplot as qplt
 
-dist, i, j = get_nearest(cube, observations.lon, observations.lat)
-for x in zip(cube.coord(axis='X').points[i, j], cube.coord(axis='Y').points[i, j], observations.lon, observations.lat):
-    print(x)
+from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
+
+def plt_grid(lon, lat):
+    fig, ax = plt.subplots(figsize=(6, 6),
+                           subplot_kw=dict(projection=ccrs.PlateCarree()))
+    ax.coastlines('10m', color='k', zorder=3)
+    gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
+                      linewidth=1.5, color='gray', alpha=0.5, linestyle='--')
+    gl.xlabels_top = gl.ylabels_right = False
+    gl.xformatter = LONGITUDE_FORMATTER
+    gl.yformatter = LATITUDE_FORMATTER
+    if (lon.ndim == 1) and (lon.size != lat.size):
+        lon, lat = np.meshgrid(lon, lat)
+    ax.plot(lon, lat, '.', color='gray', alpha=0.25, zorder=0, label='Model')
+    ax.plot(observations.lon, observations.lat, 'ro', zorder=1, label='Observation')
+    if cube.ndim == 3:
+        ax.plot(lon[i, j], lat[i, j], 'g.', zorder=2, label='Model@Obs')
+    else:
+        ax.plot(lon[i], lat[i], 'g.', label='Model@Obs')
+    ax.set_title(mod_name)
+    return fig, ax
 
 # <codecell>
 
-if istart != istop:  # Only proceed if we have data in the range requested.
-    nsta = len(observations.lon)
-    if len(cube.shape) == 3:
-        print('[Structured grid model]: %s' % url)
-        data = cube[0, ...].data
-        # Find the closest non-land point from a structured grid model.
-        if len(lon.shape) == 1:
-            lon, lat = np.meshgrid(lon, lat)
-        j, i, d = find_ij(lon, lat, data, observations.lon,
-                          observations.lat)
-        for n in range(nsta):
-            # Only use if model cell is within 0.1 degree of requested
-            # location.
-            if d[n] <= max_dist:
-                arr = cube[istart:istop, j[n], i[n]].data
-                if arr.std() >= min_var:
-                    print(observations.ix[n])
-    elif len(cube.shape) == 1:
-        print('[Data]:', url)
+import warnings
+warnings.filterwarnings("ignore")
+
+for url in dap_urls:
+    try:
+        packed = get_cube(url, constraint)
+        cube, timevar, lon, lat, istart, istop, mod_name = packed
+        print('%s:\n%s\n' % (mod_name, url))
+        dist, i, j = get_nearest(cube, observations.lon, observations.lat)
+        fig, ax = plt_grid(lon, lat)
+    except CoordinateNotFoundError as e:
+        print(e)
 
