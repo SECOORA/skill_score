@@ -4,7 +4,8 @@
 # <codecell>
 
 # Standard Library.
-from warnings import warn
+import warnings
+warnings.filterwarnings("ignore")
 from datetime import datetime, timedelta
 
 # Scientific stack.
@@ -12,14 +13,9 @@ import iris
 iris.FUTURE.netcdf_promote = True
 import folium
 import numpy as np
-import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 
-from shapely.geometry import Polygon, Point, LineString
-from pandas import DataFrame, date_range, read_csv, concat
-
-from iris.unit import Unit
-from iris.exceptions import CoordinateNotFoundError, ConstraintMismatchError
+from pandas import DataFrame, read_csv, concat
 
 # Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
@@ -27,8 +23,9 @@ from owslib.csw import CatalogueServiceWeb
 from pyoos.collectors.coops.coops_sos import CoopsSos
 
 # Local imports
-from utilities import (find_timevar, dateRange, get_coops_longname, coops2df, 
-                       mod_df, service_urls, inline_map, get_coordinates, get_nearest)
+from utilities import (dateRange, get_coops_longname, coops2df,
+                       service_urls, inline_map, get_coordinates,
+                       get_cube, make_tree, get_nearest_water)
 
 # <codecell>
 
@@ -161,10 +158,10 @@ columns = {'station_id': 'station',
 
 observations.rename(columns=columns, inplace=True)
 
-observations['station'] = [sta.split(':')[-1] for sta in observations['station']]
-observations['sensor'] = [sta.split(':')[-1] for sta in observations['sensor']]
-observations['datum'] = [sta.split(':')[-1] for sta in observations['datum']]
-observations['name'] = [get_coops_longname(sta) for sta in observations['station']]
+observations['station'] = [s.split(':')[-1] for s in observations['station']]
+observations['sensor'] = [s.split(':')[-1] for s in observations['sensor']]
+observations['datum'] = [s.split(':')[-1] for s in observations['datum']]
+observations['name'] = [get_coops_longname(s) for s in observations['station']]
 
 observations.set_index('name', inplace=True)
 
@@ -180,9 +177,10 @@ observations.head()
 
 data = dict()
 
-for sta in observations.station:
-    b = coops2df(collector, sta, sos_name)['water_surface_height_above_reference_datum (m)']
-    data.update({sta: b})
+for s in observations.station:
+    b = coops2df(collector, s, sos_name)
+    b = b['water_surface_height_above_reference_datum (m)']
+    data.update({s: b})
 
 obs_data = DataFrame.from_dict(data)
 
@@ -201,17 +199,15 @@ m.line(get_coordinates(bounding_box, bounding_box_type),
        line_color='#FF0000', line_weight=2)
 
 for station, row in observations.iterrows():
-    if row['datum'] == 'NADV':
-        popup_string = '<b>Station:</b><br>%s<br><b>Long Name:</b><br>%s' % (station, row['name'])
+    if row['datum'] == 'NAVD':
+        html = '<b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
+        popup_string = html % (station, row['name'])
         m.simple_marker(location=[row['lat'], row['lon']], popup=popup_string)
     else:
-        popup_string = '<b>Not NAVD</b><br><b>Station:</b><br>%s<br><b>Long Name:</b><br>%s' % (station, row.name)
+        html = '<b>%s</b><br><b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
+        popup_string = html % (row['datum'], station, row.name)
         m.circle_marker(location=[row['lat'], row['lon']], popup=popup_string,
-                        fill_color='#ff0000', radius=10000, line_color='#ff0000')
-if False:
-    for model, row in models.iterrows():
-        popup_string = '<b>Station:</b><br>%s<br><b>Long Name:</b><br>%s' % (station, row['name'])
-        m.simple_marker(location=[row['lat'], row['lon']], popup=popup_string)
+                        fill_color='#ff0000', radius=1e4, line_color='#ff0000')
 
 inline_map(m)
 
@@ -236,29 +232,11 @@ max_dist = 0.04
 
 # <codecell>
 
-def get_cube(url, constraint):
-    cube = iris.load_cube(url, constraint)
-    if not cube.units == Unit('meters'):
-        # TODO: Isn't working for unstructured data.
-        cube.convert_units('m')
-    mod_name = cube.attributes['title']
-    timevar = find_timevar(cube)
-    lat = cube.coord(axis='Y').points
-    lon = cube.coord(axis='X').points
-    start = timevar.units.date2num(jd_start)
-    istart = timevar.nearest_neighbour_index(start)
-    stop = timevar.units.date2num(jd_stop)
-    istop = timevar.nearest_neighbour_index(stop)
-    return cube, timevar, lon, lat, istart, istop, mod_name
-
-# <codecell>
-
 import cartopy.crs as ccrs
-import iris.quickplot as qplt
-
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 
-def plt_grid(lon, lat):
+
+def plt_grid(lon, lat, i, j):
     fig, ax = plt.subplots(figsize=(6, 6),
                            subplot_kw=dict(projection=ccrs.PlateCarree()))
     ax.coastlines('10m', color='k', zorder=3)
@@ -269,8 +247,10 @@ def plt_grid(lon, lat):
     gl.yformatter = LATITUDE_FORMATTER
     if (lon.ndim == 1) and (lon.size != lat.size):
         lon, lat = np.meshgrid(lon, lat)
-    ax.plot(lon, lat, '.', color='gray', alpha=0.25, zorder=0, label='Model')
-    ax.plot(observations.lon, observations.lat, 'ro', zorder=1, label='Observation')
+    ax.plot(lon, lat, '.', color='gray', alpha=0.25, zorder=0,
+            label='Model')
+    ax.plot(observations.lon, observations.lat, 'ro', zorder=1,
+            label='Observation')
     if cube.ndim == 3:
         ax.plot(lon[i, j], lat[i, j], 'g.', zorder=2, label='Model@Obs')
     else:
@@ -280,16 +260,28 @@ def plt_grid(lon, lat):
 
 # <codecell>
 
-import warnings
-warnings.filterwarnings("ignore")
+url = dap_urls[0]  # Plotting SABGOM only for now to avoid a big output.
 
-for url in dap_urls:
+cube = get_cube(url, constraint, jd_start, jd_stop)
+# Cube metadata.
+mod_name = cube.attributes['title']
+lat = cube.coord(axis='Y').points
+lon = cube.coord(axis='X').points
+print('%s:\n%s\n' % (mod_name, url))
+# Find the closest non-land point from a structured grid model.
+tree, lon, lat = make_tree(cube)
+
+for station, obs in observations.iterrows():
     try:
-        packed = get_cube(url, constraint)
-        cube, timevar, lon, lat, istart, istop, mod_name = packed
-        print('%s:\n%s\n' % (mod_name, url))
-        dist, i, j = get_nearest(cube, observations.lon, observations.lat)
-        fig, ax = plt_grid(lon, lat)
-    except CoordinateNotFoundError as e:
-        print(e)
+        data = get_nearest_water(cube, tree, obs.lon, obs.lat,
+                                 shape=lon.shape, k=100)
+        a = obs_data[obs.station]
+        data.name = mod_name
+        df = concat([a, data], axis=1).sort_index().interpolate().ix[a.index]
+        ax = df.plot(legend=False)
+        patches, labels = ax.get_legend_handles_labels()
+        ax.legend(patches, labels, bbox_to_anchor=(1.5, 1.15),
+                  ncol=3, fancybox=True, shadow=True)
+    except ValueError as e:
+        print(e)  # TODO: Output station object with name instead of position.
 
