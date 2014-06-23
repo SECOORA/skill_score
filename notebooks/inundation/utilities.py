@@ -16,15 +16,17 @@ except ImportError:
     from urllib import urlopen
 
 # Scientific stack.
+import iris
+from iris.unit import Unit
 import numpy as np
-from IPython.display import HTML
 from scipy.spatial import KDTree
-from pandas import DataFrame, read_csv, date_range
+from IPython.display import HTML
+from iris.exceptions import CoordinateNotFoundError
+from pandas import DataFrame, Series, read_csv, date_range
 
 # Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
 from owslib.ows import ExceptionReport
-from iris.exceptions import CoordinateNotFoundError
 
 
 CSW = {'NGDC Geoportal':
@@ -51,6 +53,66 @@ CSW = {'NGDC Geoportal':
        'https://edg.epa.gov/metadata/csw',
        'CWIC':
        'http://cwic.csiss.gmu.edu/cwicv1/discovery'}
+
+
+def get_cube(url, constraint, jd_start, jd_stop):
+    """Load cube, check units and return a
+    time-sliced cube to reduce download."""
+    cube = iris.load_cube(url, constraint)
+    if not cube.units == Unit('meters'):
+        # TODO: Isn't working for unstructured data.
+        cube.convert_units('m')
+    timevar = find_timevar(cube)
+    start = timevar.units.date2num(jd_start)
+    istart = timevar.nearest_neighbour_index(start)
+    stop = timevar.units.date2num(jd_stop)
+    istop = timevar.nearest_neighbour_index(stop)
+    if istart == istop:
+        raise(ValueError)
+    return cube[istart:istop]
+
+
+def make_tree(cube):
+    """Create KDTree."""
+    lon = cube.coord(axis='X').points
+    lat = cube.coord(axis='Y').points
+    if cube.ndim == 3:  # Structured model
+        if (lon.ndim == 1) and (lat.ndim == 1):
+            lon, lat = np.meshgrid(lon, lat)
+    tree = KDTree(zip(lon.ravel(), lat.ravel()))
+    return tree, lon, lat
+
+
+def get_nearest_water(cube, tree, xi, yi, k=10, shape=None,
+                      max_dist=0.04, min_var=0.01):
+    """Find `k` nearest model data from `cube` at station
+    `xi`, `yi` up to `max_dist`.  Must provide Scipy's KDTree
+    `tree` and a `shape`."""
+    dist, indices = tree.query(np.array([xi, yi]).T, k=k)
+    if indices.size == 0:
+        raise ValueError("No data found.")
+    # Structure vs Unstructred models.
+    if not shape:
+        i = j = indices
+    else:
+        i, j = np.unravel_index(indices, shape)
+    # Get data up to specified distance.
+    mask = dist <= max_dist
+    if mask is None:
+        raise ValueError("No data found at %s,%s using max_dist=%s." %
+                         (xi, yi, max_dist))
+        dist, i, j = dist[mask], i[mask], j[mask]
+    # is_water using Signell's var criteria (READ: `min_var` comment!)
+    for x, y in zip(i, j):
+        data = cube[..., x, y].data
+        if data.std() >= min_var:
+            break
+        else:  # TODO: Output station object with name instead of position.
+            raise ValueError("No data found at %s,%s using min_var=%s." %
+                             (xi, yi, min_var))
+    t = find_timevar(cube)
+    index = t.units.num2date(t.points)
+    return Series(data=data, index=index)
 
 
 def dateRange(start_date='1900-01-01', stop_date='2100-01-01',
