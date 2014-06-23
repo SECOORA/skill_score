@@ -202,12 +202,12 @@ for station, row in observations.iterrows():
     if row['datum'] == 'NAVD':
         html = '<b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
         popup_string = html % (station, row['name'])
-        m.simple_marker(location=[row['lat'], row['lon']], popup=popup_string)
+        m.circle_marker(location=[row['lat'], row['lon']], popup=popup_string,
+                        fill_color='#ff0000', radius=1e4, line_color='#ff0000')
     else:
         html = '<b>%s</b><br><b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
         popup_string = html % (row['datum'], station, row.name)
-        m.circle_marker(location=[row['lat'], row['lon']], popup=popup_string,
-                        fill_color='#ff0000', radius=1e4, line_color='#ff0000')
+        m.simple_marker(location=[row['lat'], row['lon']], popup=popup_string)
 
 inline_map(m)
 
