@@ -104,24 +104,20 @@ if True:
     print("\nSOS:")
     print("\n".join(sos_urls))
 
-# <markdowncell>
-
-# # The datum should be NAVD! But all the data found find are MLLW.
-
 # <codecell>
 
 sos_name = 'water_surface_height_above_reference_datum'
 
 collector = CoopsSos()
 
-collector.set_datum('MLLW')
+collector.set_datum('NAVD')
 collector.server.identification.title
 collector.start_time = jd_start
 collector.end_time = jd_stop
 collector.variables = [sos_name]
 
 ofrs = collector.server.offerings
-if False:
+if True:
     print(len(ofrs))
 
 # <codecell>
@@ -142,8 +138,8 @@ url = ('http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?'
        'text/csv&eventTime=%s' % (sos_name, box_str, iso_start))
 
 observations = read_csv(url)
-if True:
-    print(url)
+
+print(url)
 
 # <codecell>
 
@@ -175,16 +171,19 @@ observations.head()
 
 # <codecell>
 
+from owslib.ows import ExceptionReport
+
 data = dict()
 
 for s in observations.station:
-    b = coops2df(collector, s, sos_name)
-    b = b['water_surface_height_above_reference_datum (m)']
-    data.update({s: b})
+    try:
+        b = coops2df(collector, s, sos_name)
+        b = b['water_surface_height_above_reference_datum (m)']
+        data.update({s: b})
+    except ExceptionReport as e:
+        print("Station %s is not NAVD datum. %s" % (s, e))
 
 obs_data = DataFrame.from_dict(data)
-
-# <codecell>
 
 obs_data.head()
 
@@ -282,6 +281,6 @@ for station, obs in observations.iterrows():
         patches, labels = ax.get_legend_handles_labels()
         ax.legend(patches, labels, bbox_to_anchor=(1.5, 1.15),
                   ncol=3, fancybox=True, shadow=True)
-    except ValueError as e:
+    except (ValueError, KeyError) as e:
         print(e)  # TODO: Output station object with name instead of position.
 
