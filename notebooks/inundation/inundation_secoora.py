@@ -110,7 +110,7 @@ sos_name = 'water_surface_height_above_reference_datum'
 
 collector = CoopsSos()
 
-collector.set_datum('NAVD')  # FIXME: NAVD
+collector.set_datum('NAVD')
 collector.server.identification.title
 collector.start_time = jd_start
 collector.end_time = jd_stop
