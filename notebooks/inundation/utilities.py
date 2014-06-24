@@ -9,7 +9,6 @@ Standard Library.
 
 from lxml import etree
 from io import BytesIO
-from warnings import warn
 try:
     from urllib.request import urlopen
 except ImportError:
@@ -26,7 +25,6 @@ from pandas import DataFrame, Series, read_csv, date_range
 
 # Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
-from owslib.ows import ExceptionReport
 
 
 CSW = {'NGDC Geoportal':
@@ -158,19 +156,15 @@ def coops2df(collector, coops_id, sos_name):
     collector.variables = [sos_name]
     long_name = get_coops_longname(coops_id)
 
-    try:
-        response = collector.raw(responseFormat="text/csv")
-        data_df = read_csv(BytesIO(response.encode('utf-8')),
-                           parse_dates=True,
-                           index_col='date_time')
-        col = 'water_surface_height_above_reference_datum (m)'
-        if False:
-            data_df['Observed Data'] = (data_df[col] -
-                                        data_df['vertical_position (m)'])
-        data_df['Observed Data'] = data_df[col]
-    except ExceptionReport as e:
-        warn("Station %s is not NAVD datum. %s" % (long_name, e))
-        data_df = DataFrame()  # Assign an empty DataFrame for now.
+    response = collector.raw(responseFormat="text/csv")
+    data_df = read_csv(BytesIO(response.encode('utf-8')),
+                       parse_dates=True,
+                       index_col='date_time')
+    col = 'water_surface_height_above_reference_datum (m)'
+    if False:
+        data_df['Observed Data'] = (data_df[col] -
+                                    data_df['vertical_position (m)'])
+    data_df['Observed Data'] = data_df[col]
 
     data_df.name = long_name
     return data_df
