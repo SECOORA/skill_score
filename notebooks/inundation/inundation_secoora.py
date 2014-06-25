@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 import iris
 iris.FUTURE.netcdf_promote = True
 import folium
+import vincent
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -187,29 +188,6 @@ obs_data = DataFrame.from_dict(data)
 
 obs_data.head()
 
-# <codecell>
-
-m = folium.Map(location=[np.mean(bounding_box, axis=0)[1],
-                         np.mean(bounding_box, axis=0)[0]],
-               zoom_start=5)
-
-# Create the map and add the bounding box line.
-m.line(get_coordinates(bounding_box, bounding_box_type),
-       line_color='#FF0000', line_weight=2)
-
-for station, row in observations.iterrows():
-    if row['datum'] == 'NAVD':
-        html = '<b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
-        popup_string = html % (station, row['name'])
-        m.circle_marker(location=[row['lat'], row['lon']], popup=popup_string,
-                        fill_color='#ff0000', radius=1e4, line_color='#ff0000')
-    else:
-        html = '<b>%s</b><br><b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
-        popup_string = html % (row['datum'], station, row.name)
-        m.simple_marker(location=[row['lat'], row['lon']], popup=popup_string)
-
-inline_map(m)
-
 # <markdowncell>
 
 # ### Get model output from OPeNDAP URLS
@@ -257,6 +235,35 @@ def plt_grid(lon, lat, i, j):
     ax.set_title(mod_name)
     return fig, ax
 
+# <markdowncell>
+
+# ```python
+# url = dap_urls[0]  # Plotting SABGOM only for now to avoid a big output.
+# 
+# cube = get_cube(url, constraint, jd_start, jd_stop)
+# # Cube metadata.
+# mod_name = cube.attributes['title']
+# lat = cube.coord(axis='Y').points
+# lon = cube.coord(axis='X').points
+# print('%s:\n%s\n' % (mod_name, url))
+# # Find the closest non-land point from a structured grid model.
+# tree, lon, lat = make_tree(cube)
+# 
+# for station, obs in observations.iterrows():
+#     try:
+#         data = get_nearest_water(cube, tree, obs.lon, obs.lat,
+#                                  shape=lon.shape, k=100)
+#         a = obs_data[obs.station]
+#         data.name = mod_name
+#         df = concat([a, data], axis=1).sort_index().interpolate().ix[a.index]
+#         ax = df.plot(legend=False)
+#         patches, labels = ax.get_legend_handles_labels()
+#         ax.legend(patches, labels, bbox_to_anchor=(1.5, 1.15),
+#                   ncol=3, fancybox=True, shadow=True)
+#     except (ValueError, KeyError) as e:
+#         print(e)  # TODO: Output station object with name instead of position.
+# ```
+
 # <codecell>
 
 url = dap_urls[0]  # Plotting SABGOM only for now to avoid a big output.
@@ -270,17 +277,42 @@ print('%s:\n%s\n' % (mod_name, url))
 # Find the closest non-land point from a structured grid model.
 tree, lon, lat = make_tree(cube)
 
+# <codecell>
+
+m = folium.Map(location=[np.mean(bounding_box, axis=0)[1],
+                         np.mean(bounding_box, axis=0)[0]],
+               zoom_start=5)
+
+# Create the map and add the bounding box line.
+m.line(get_coordinates(bounding_box, bounding_box_type),
+       line_color='#FF0000', line_weight=2)
+
+html = '<b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
 for station, obs in observations.iterrows():
+    df = None
     try:
         data = get_nearest_water(cube, tree, obs.lon, obs.lat,
                                  shape=lon.shape, k=100)
-        a = obs_data[obs.station]
         data.name = mod_name
+        a = obs_data[obs['station']]
         df = concat([a, data], axis=1).sort_index().interpolate().ix[a.index]
-        ax = df.plot(legend=False)
-        patches, labels = ax.get_legend_handles_labels()
-        ax.legend(patches, labels, bbox_to_anchor=(1.5, 1.15),
-                  ncol=3, fancybox=True, shadow=True)
     except (ValueError, KeyError) as e:
         print(e)  # TODO: Output station object with name instead of position.
+
+    if df is not None:
+        vis = vincent.Line(df,
+                           width=400, height=200)
+        vis.axis_titles(x='Time', y='Sea surface height (m)')
+        vis.legend(title=obs.name)
+        json = 'station_%s.json' % obs['station']
+        vis.to_json(json)
+        m.simple_marker(location=[obs['lat'], obs['lon']],
+                        popup=(vis, json))
+    else:
+        popup_string = html % (obs['station'], obs.name)
+        m.circle_marker(location=[obs['lat'], obs['lon']],
+                         fill_color='#FF0000', popup=popup_string)
+        
+m.create_map(path='inundation.html')
+inline_map(m)
 
