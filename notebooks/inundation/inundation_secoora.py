@@ -287,5 +287,6 @@ dfs = dfs.swapaxes(0, 2)
 # <codecell>
 
 for station in dfs:
-    dfs[station].dropna(axis=1, how='all').plot()
+    ax = dfs[station].dropna(axis=1, how='all').plot()
+    ax.set_title(get_coops_longname(station))
 
