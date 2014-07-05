@@ -52,6 +52,30 @@ CSW = {'NGDC Geoportal':
        'CWIC':
        'http://cwic.csiss.gmu.edu/cwicv1/discovery'}
 
+titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd': 'SABGOM',
+               'http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd': 'COAWST_4',
+               'http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd': 'ESPRESSO',
+               'http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac': 'BTMPB',
+               'http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd': 'TBOFS',
+               'http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global': 'HYCOM',
+               'http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd': 'CBOFS',
+               'http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic': 'ESTOFS',
+               'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc': 'NECOFS_GOM3_FVCOM',
+               'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE'})
+
+
+def get_model_name(cube, url):
+    try:
+        model_full_name = cube.attributes['title']
+    except AttributeError:
+        model_full_name = url
+    try:
+        mod_name = titles[url]
+    except KeyError:
+        print('Model %s not in the list' % url)
+        mod_name = model_full_name
+    return mod_name, model_full_name
+
 
 def get_cube(url, constraint, jd_start, jd_stop):
     """Load cube, check units and return a
