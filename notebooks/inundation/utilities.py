@@ -52,16 +52,28 @@ CSW = {'NGDC Geoportal':
        'CWIC':
        'http://cwic.csiss.gmu.edu/cwicv1/discovery'}
 
-titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd': 'SABGOM',
-               'http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd': 'COAWST_4',
-               'http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd': 'ESPRESSO',
-               'http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac': 'BTMPB',
-               'http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd': 'TBOFS',
-               'http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global': 'HYCOM',
-               'http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd': 'CBOFS',
-               'http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic': 'ESTOFS',
-               'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc': 'NECOFS_GOM3_FVCOM',
-               'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE'})
+titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
+               'SABGOM_Forecast_Model_Run_Collection_best.ncd': 'SABGOM',
+               'http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/'
+               'coawst_4_use_best.ncd': 'COAWST_4',
+               'http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/'
+               '2013_da/his_Best/'
+               'ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd':
+               'ESPRESSO',
+               'http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac':
+               'BTMPB',
+               'http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/'
+               'Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd': 'TBOFS',
+               'http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/'
+               'global': 'HYCOM',
+               'http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/'
+               'Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd': 'CBOFS',
+               'http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic':
+               'ESTOFS',
+               'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/'
+               'Forecasts/NECOFS_GOM3_FORECAST.nc': 'NECOFS_GOM3_FVCOM',
+               'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/'
+               'Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE'})
 
 
 def get_model_name(cube, url):
@@ -113,28 +125,25 @@ def get_nearest_water(cube, tree, xi, yi, k=10, shape=None,
     dist, indices = tree.query(np.array([xi, yi]).T, k=k)
     if indices.size == 0:
         raise ValueError("No data found.")
-    # Structure vs Unstructred models.
-    if not shape:
-        i = j = indices
-    else:
-        i, j = np.unravel_index(indices, shape)
     # Get data up to specified distance.
     mask = dist <= max_dist
     if mask is None:
         raise ValueError("No data found at %s,%s using max_dist=%s." %
                          (xi, yi, max_dist))
-        dist, i, j = dist[mask], i[mask], j[mask]
+    dist, indices = dist[mask], indices[mask]
+    # Structure vs Unstructred models.
+    if not shape:
+        i = j = indices
+    else:
+        i, j = np.unravel_index(indices, shape)
     # is_water using Signell's var criteria (READ: `min_var` comment!)
     for x, y in zip(i, j):
-        data = cube[..., x, y].data
-        if data.std() >= min_var:
-            break
-        else:  # TODO: Output station object with name instead of position.
+        series = cube[..., x, y]
+        if series.data.std() >= min_var:
+            return series
+        else:
             raise ValueError("No data found at %s,%s using min_var=%s." %
                              (xi, yi, min_var))
-    t = find_timevar(cube)
-    index = t.units.num2date(t.points)
-    return Series(data=data, index=index)
 
 
 def dateRange(start_date='1900-01-01', stop_date='2100-01-01',

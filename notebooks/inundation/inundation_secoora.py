@@ -11,7 +11,9 @@ from datetime import datetime, timedelta
 
 # Scientific stack.
 import iris
+from iris.pandas import as_series
 from iris.exceptions import CoordinateNotFoundError
+
 iris.FUTURE.netcdf_promote = True
 
 import folium
@@ -27,14 +29,13 @@ from owslib.csw import CatalogueServiceWeb
 from pyoos.collectors.coops.coops_sos import CoopsSos
 
 # Local imports
-# Local imports
 from utilities import (dateRange, get_coops_longname, coops2df,
                        service_urls, inline_map, get_coordinates,
                        get_cube, make_tree, get_nearest_water, get_model_name)
 
 # <codecell>
 
-now = datetime.utcnow()
+now = datetime(2014, 7, 3, 12, 0, 0, 0)
 
 start = now - timedelta(days=3)
 stop = now + timedelta(days=3)
@@ -172,13 +173,13 @@ observations.head()
 
 # <markdowncell>
 
-# Generate a uniform 6-min time base for model/data comparison:
+# ### Generate a uniform 6-min time base for model/data comparison:
 
 # <codecell>
 
 from owslib.ows import ExceptionReport
 
-fname = 'obs_data.csv'
+fname = 'OBS_DATA.csv'
 if not os.path.isfile(fname):
     data = dict()
     for s in observations.station:
@@ -221,18 +222,17 @@ min_var = 0.01
 # Use only data within 0.04 degrees (about 4 km).
 max_dist = 0.04
 
-# <codecell>
+# <markdowncell>
 
-### Loop the models and save a csv series at each station.
+# ### Loop the models and save a csv series at each station.
 
 # <codecell>
 
 for url in dap_urls:
-    # Download cube
-    try:
+    try:  # Download cube.
         cube = get_cube(url, constraint, jd_start, jd_stop)
         print(cube.attributes['title'])
-    except RuntimeError as e:
+    except (RuntimeError, ValueError) as e:
         print('Cannot get cube for: %s' % url)
         print(e)
         continue
@@ -242,23 +242,22 @@ for url in dap_urls:
     fname = '%s.csv' % mod_name
 
     if not os.path.isfile(fname):
-        # Make tree.
-        try:
+        try:  # Make tree.
             tree, lon, lat = make_tree(cube)
         except CoordinateNotFoundError as e:
             # FIXME: NECOFS_GOM3_WAVE use in meters instead of lon, lat.
             print('Cannot make KDTree for: %s' % mod_name)
             print(e)
             continue
-
         # Get model series at observed locations.
         model = dict()
-        for station, obs in list(observations.iterrows()):
+        for station, obs in observations.iterrows():
             kw = dict(shape=lon.shape, k=100)
             a = obs_data[obs['station']]
             try:
                 model_data = get_nearest_water(cube, tree, obs.lon, obs.lat, **kw)
-            except ValueError as e:
+                model_data = as_series(model_data)
+            except (ValueError, AttributeError) as e:
                 print('No data found for *%s*' % obs.name)
                 model_data = Series(np.empty_like(a) * np.NaN, index=a.index)
             model_data.name = mod_name
@@ -286,7 +285,37 @@ dfs = dfs.swapaxes(0, 2)
 
 # <codecell>
 
+m = folium.Map(location=[np.mean(bounding_box, axis=0)[1],
+                         np.mean(bounding_box, axis=0)[0]],
+               zoom_start=5)
+
+# Create the map and add the bounding box line.
+m.line(get_coordinates(bounding_box, bounding_box_type),
+       line_color='#FF0000', line_weight=2)
+
+html = '<b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
+
 for station in dfs:
-    ax = dfs[station].dropna(axis=1, how='all').plot()
-    ax.set_title(get_coops_longname(station))
+    sta_name = get_coops_longname(station)
+    df = dfs[station].dropna(axis=1, how='all')
+    df.fillna(value=0, inplace=True)  # FIXME: This is bad!  But I cannot represent NaN with Vega!
+    vis = vincent.Line(df, width=400, height=200)
+    vis.axis_titles(x='Time', y='Sea surface height (m)')
+    vis.legend(title=sta_name)
+    json = 'station_%s.json' % station
+    vis.to_json(json)
+    obs = observations[observations['station'] == station]
+    m.simple_marker(location=[obs['lat'].values[0], obs['lon'].values[0]], popup=(vis, json))
+    m.create_map(path='inundation.html')
+
+inline_map(m)
+
+# <markdowncell>
+
+# ```python
+# for station in dfs:
+#     ax = dfs[station].dropna(axis=1, how='all').plot()
+#     ax.set_title(get_coops_longname(station))
+#     ax.set_ylim(-1, 1)
+# ```
 
