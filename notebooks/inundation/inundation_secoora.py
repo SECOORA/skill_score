@@ -29,13 +29,14 @@ from owslib.csw import CatalogueServiceWeb
 from pyoos.collectors.coops.coops_sos import CoopsSos
 
 # Local imports
+# Local imports
 from utilities import (dateRange, get_coops_longname, coops2df,
                        service_urls, inline_map, get_coordinates,
                        get_cube, make_tree, get_nearest_water, get_model_name)
 
 # <codecell>
 
-now = datetime(2014, 7, 3, 12, 0, 0, 0)
+now = datetime(2014, 7, 5, 12, 0, 0, 0)
 
 start = now - timedelta(days=3)
 stop = now + timedelta(days=3)
@@ -232,7 +233,7 @@ for url in dap_urls:
     try:  # Download cube.
         cube = get_cube(url, constraint, jd_start, jd_stop)
         print(cube.attributes['title'])
-    except (RuntimeError, ValueError) as e:
+    except RuntimeError as e:
         print('Cannot get cube for: %s' % url)
         print(e)
         continue
