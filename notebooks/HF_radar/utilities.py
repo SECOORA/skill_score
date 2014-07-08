@@ -52,42 +52,6 @@ CSW = {'NGDC Geoportal':
        'CWIC':
        'http://cwic.csiss.gmu.edu/cwicv1/discovery'}
 
-titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
-               'SABGOM_Forecast_Model_Run_Collection_best.ncd': 'SABGOM',
-               'http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/'
-               'coawst_4_use_best.ncd': 'COAWST_4',
-               'http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/'
-               '2013_da/his_Best/'
-               'ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd':
-               'ESPRESSO',
-               'http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac':
-               'BTMPB',
-               'http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/'
-               'Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd': 'TBOFS',
-               'http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/'
-               'global': 'HYCOM',
-               'http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/'
-               'Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd': 'CBOFS',
-               'http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic':
-               'ESTOFS',
-               'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/'
-               'Forecasts/NECOFS_GOM3_FORECAST.nc': 'NECOFS_GOM3_FVCOM',
-               'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/'
-               'Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE'})
-
-
-def get_model_name(cube, url):
-    try:
-        model_full_name = cube.attributes['title']
-    except AttributeError:
-        model_full_name = url
-    try:
-        mod_name = titles[url]
-    except KeyError:
-        print('Model %s not in the list' % url)
-        mod_name = model_full_name
-    return mod_name, model_full_name
-
 
 def get_cube(url, constraint, jd_start, jd_stop):
     """Load cube, check units and return a
@@ -125,25 +89,28 @@ def get_nearest_water(cube, tree, xi, yi, k=10, shape=None,
     dist, indices = tree.query(np.array([xi, yi]).T, k=k)
     if indices.size == 0:
         raise ValueError("No data found.")
-    # Get data up to specified distance.
-    mask = dist <= max_dist
-    if mask is None:
-        raise ValueError("No data found at %s,%s using max_dist=%s." %
-                         (xi, yi, max_dist))
-    dist, indices = dist[mask], indices[mask]
     # Structure vs Unstructred models.
     if not shape:
         i = j = indices
     else:
         i, j = np.unravel_index(indices, shape)
+    # Get data up to specified distance.
+    mask = dist <= max_dist
+    if mask is None:
+        raise ValueError("No data found at %s,%s using max_dist=%s." %
+                         (xi, yi, max_dist))
+        dist, i, j = dist[mask], i[mask], j[mask]
     # is_water using Signell's var criteria (READ: `min_var` comment!)
     for x, y in zip(i, j):
-        series = cube[..., x, y]
-        if series.data.std() >= min_var:
-            return series
-        else:
+        data = cube[..., x, y].data
+        if data.std() >= min_var:
+            break
+        else:  # TODO: Output station object with name instead of position.
             raise ValueError("No data found at %s,%s using min_var=%s." %
                              (xi, yi, min_var))
+    t = find_timevar(cube)
+    index = t.units.num2date(t.points)
+    return Series(data=data, index=index)
 
 
 def dateRange(start_date='1900-01-01', stop_date='2100-01-01',
@@ -262,9 +229,83 @@ def get_nearest(cube, xi, yi, max_dist=0.04):
     return dist[mask], i[mask], j[mask]
 
 
+def rot2d(x, y, ang):
+    """Rotate vectors by geometric angle."""
+    xr = x * np.cos(ang) - y * np.sin(ang)
+    yr = x * np.sin(ang) + y * np.cos(ang)
+    return xr, yr
+
+
+def shrink(a, b):
+    """Return array shrunk to fit a specified shape by triming or averaging.
+
+    a = shrink(array, shape)
+
+    array is an numpy ndarray, and shape is a tuple (e.g., from
+    array.shape). a is the input array shrunk such that its maximum
+    dimensions are given by shape. If shape has more dimensions than
+    array, the last dimensions of shape are fit.
+
+    as, bs = shrink(a, b)
+
+    If the second argument is also an array, both a and b are shrunk to
+    the dimensions of each other. The input arrays must have the same
+    number of dimensions, and the resulting arrays will have the same
+    shape.
+    Example
+    -------
+
+    >>> shrink(rand(10, 10), (5, 9, 18)).shape
+    (9, 10)
+    >>> map(shape, shrink(rand(10, 10, 10), rand(5, 9, 18)))
+    [(5, 9, 10), (5, 9, 10)]
+
+    """
+
+    if isinstance(b, np.ndarray):
+        if not len(a.shape) == len(b.shape):
+            raise Exception, \
+                  'input arrays must have the same number of dimensions'
+        a = shrink(a, b.shape)
+        b = shrink(b, a.shape)
+        return (a, b)
+
+    if isinstance(b, int):
+        b = (b,)
+
+    if len(a.shape) == 1:                # 1D array is a special case
+        dim = b[-1]
+        while a.shape[0] > dim:          # only shrink a
+            if (dim - a.shape[0]) >= 2:  # trim off edges evenly
+                a = a[1:-1]
+            else:                        # or average adjacent cells
+                a = 0.5*(a[1:] + a[:-1])
+    else:
+        for dim_idx in range(-(len(a.shape)),0):
+            dim = b[dim_idx]
+            a = a.swapaxes(0,dim_idx)        # put working dim first
+            while a.shape[0] > dim:          # only shrink a
+                if (a.shape[0] - dim) >= 2:  # trim off edges evenly
+                    a = a[1:-1,:]
+                if (a.shape[0] - dim) == 1:  # or average adjacent cells
+                    a = 0.5*(a[1:,:] + a[:-1,:])
+            a = a.swapaxes(0,dim_idx)        # swap working dim back
+
+    return a
+
+
+def time_near(cube, start):
+    timevar = find_timevar(cube)
+    try:
+        time = timevar.units.date2num(start)
+        itime = timevar.nearest_neighbour_index(time)
+    except IndexError:
+        itime = -1
+    return timevar.points[itime]
+
+
 def find_timevar(cube):
-    """Return the time variable from Iris. This is a workaround for iris having
-    problems with FMRC aggregations, which produce two time coordinates."""
+    """Return the time variable from Iris."""
     try:
         cube.coord(axis='T').rename('time')
     except CoordinateNotFoundError:

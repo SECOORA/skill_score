@@ -4,19 +4,24 @@
 # <codecell>
 
 # Standard Library.
+import os
 import warnings
 warnings.filterwarnings("ignore")
 from datetime import datetime, timedelta
 
 # Scientific stack.
 import iris
+from iris.pandas import as_series
+from iris.exceptions import CoordinateNotFoundError
+
 iris.FUTURE.netcdf_promote = True
+
 import folium
 import vincent
 import numpy as np
 import matplotlib.pyplot as plt
 
-from pandas import DataFrame, read_csv, concat
+from pandas import Series, DataFrame, read_csv, concat
 
 # Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
@@ -24,13 +29,14 @@ from owslib.csw import CatalogueServiceWeb
 from pyoos.collectors.coops.coops_sos import CoopsSos
 
 # Local imports
+# Local imports
 from utilities import (dateRange, get_coops_longname, coops2df,
                        service_urls, inline_map, get_coordinates,
-                       get_cube, make_tree, get_nearest_water)
+                       get_cube, make_tree, get_nearest_water, get_model_name)
 
 # <codecell>
 
-now = datetime.utcnow()
+now = datetime(2014, 7, 7, 12, 0, 0, 0)
 
 start = now - timedelta(days=3)
 stop = now + timedelta(days=3)
@@ -138,9 +144,9 @@ url = ('http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?'
        'WaterLevelActive&featureOfInterest=BBOX:%s&responseFormat='
        'text/csv&eventTime=%s' % (sos_name, box_str, iso_start))
 
-observations = read_csv(url)
-
 print(url)
+
+observations = read_csv(url)
 
 # <codecell>
 
@@ -168,25 +174,35 @@ observations.head()
 
 # <markdowncell>
 
-# Generate a uniform 6-min time base for model/data comparison:
+# ### Generate a uniform 6-min time base for model/data comparison:
 
 # <codecell>
 
 from owslib.ows import ExceptionReport
 
-data = dict()
-
-for s in observations.station:
-    try:
-        b = coops2df(collector, s, sos_name)
-        b = b['water_surface_height_above_reference_datum (m)']
-        data.update({s: b})
-    except ExceptionReport as e:
-        print("Station %s is not NAVD datum. %s" % (s, e))
-
-obs_data = DataFrame.from_dict(data)
+fname = 'OBS_DATA.csv'
+if not os.path.isfile(fname):
+    data = dict()
+    for s in observations.station:
+        try:
+            b = coops2df(collector, s, sos_name)
+            b = b['water_surface_height_above_reference_datum (m)']
+            data.update({s: b})
+        except ExceptionReport as e:
+            print("Station %s:\n%s" % (s, e))
+            
+    obs_data = DataFrame.from_dict(data)
+    obs_data.to_csv(fname)
+else:
+    obs_data = read_csv(fname, parse_dates=True, index_col=0)
 
 obs_data.head()
+
+# <codecell>
+
+diff = set(observations['station'].values).difference(obs_data.columns)
+non_navd = [c not in diff for c in observations['station']]
+observations = observations[non_navd]
 
 # <markdowncell>
 
@@ -207,75 +223,66 @@ min_var = 0.01
 # Use only data within 0.04 degrees (about 4 km).
 max_dist = 0.04
 
-# <codecell>
-
-import cartopy.crs as ccrs
-from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
-
-
-def plt_grid(lon, lat, i, j):
-    fig, ax = plt.subplots(figsize=(6, 6),
-                           subplot_kw=dict(projection=ccrs.PlateCarree()))
-    ax.coastlines('10m', color='k', zorder=3)
-    gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
-                      linewidth=1.5, color='gray', alpha=0.5, linestyle='--')
-    gl.xlabels_top = gl.ylabels_right = False
-    gl.xformatter = LONGITUDE_FORMATTER
-    gl.yformatter = LATITUDE_FORMATTER
-    if (lon.ndim == 1) and (lon.size != lat.size):
-        lon, lat = np.meshgrid(lon, lat)
-    ax.plot(lon, lat, '.', color='gray', alpha=0.25, zorder=0,
-            label='Model')
-    ax.plot(observations.lon, observations.lat, 'ro', zorder=1,
-            label='Observation')
-    if cube.ndim == 3:
-        ax.plot(lon[i, j], lat[i, j], 'g.', zorder=2, label='Model@Obs')
-    else:
-        ax.plot(lon[i], lat[i], 'g.', label='Model@Obs')
-    ax.set_title(mod_name)
-    return fig, ax
-
 # <markdowncell>
 
-# ```python
-# url = dap_urls[0]  # Plotting SABGOM only for now to avoid a big output.
-# 
-# cube = get_cube(url, constraint, jd_start, jd_stop)
-# # Cube metadata.
-# mod_name = cube.attributes['title']
-# lat = cube.coord(axis='Y').points
-# lon = cube.coord(axis='X').points
-# print('%s:\n%s\n' % (mod_name, url))
-# # Find the closest non-land point from a structured grid model.
-# tree, lon, lat = make_tree(cube)
-# 
-# for station, obs in observations.iterrows():
-#     try:
-#         data = get_nearest_water(cube, tree, obs.lon, obs.lat,
-#                                  shape=lon.shape, k=100)
-#         a = obs_data[obs.station]
-#         data.name = mod_name
-#         df = concat([a, data], axis=1).sort_index().interpolate().ix[a.index]
-#         ax = df.plot(legend=False)
-#         patches, labels = ax.get_legend_handles_labels()
-#         ax.legend(patches, labels, bbox_to_anchor=(1.5, 1.15),
-#                   ncol=3, fancybox=True, shadow=True)
-#     except (ValueError, KeyError) as e:
-#         print(e)  # TODO: Output station object with name instead of position.
-# ```
+# ### Loop the models and save a csv series at each station.
 
 # <codecell>
 
-url = dap_urls[0]  # Plotting SABGOM only for now to avoid a big output.
+for url in dap_urls:
+    try:  # Download cube.
+        cube = get_cube(url, constraint, jd_start, jd_stop)
+        print(cube.attributes['title'])
+    except RuntimeError as e:
+        print('Cannot get cube for: %s' % url)
+        print(e)
+        continue
 
-cube = get_cube(url, constraint, jd_start, jd_stop)
-# Cube metadata.
-mod_name = cube.attributes['title']
-lat = cube.coord(axis='Y').points
-lon = cube.coord(axis='X').points
-print('%s:\n%s\n' % (mod_name, url))
-# Find the closest non-land point from a structured grid model.
-tree, lon, lat = make_tree(cube)
+    mod_name, model_full_name = get_model_name(cube, url)
+    print('\n%s:\n%s\n' % (mod_name, url))
+    fname = '%s.csv' % mod_name
+
+    if not os.path.isfile(fname):
+        try:  # Make tree.
+            tree, lon, lat = make_tree(cube)
+        except CoordinateNotFoundError as e:
+            # FIXME: NECOFS_GOM3_WAVE use in meters instead of lon, lat.
+            print('Cannot make KDTree for: %s' % mod_name)
+            print(e)
+            continue
+        # Get model series at observed locations.
+        model = dict()
+        for station, obs in observations.iterrows():
+            kw = dict(shape=lon.shape, k=100)
+            a = obs_data[obs['station']]
+            try:
+                model_data = get_nearest_water(cube, tree, obs.lon, obs.lat, **kw)
+                model_data = as_series(model_data)
+            except (ValueError, AttributeError) as e:
+                print('No data found for *%s*' % obs.name)
+                model_data = Series(np.empty_like(a) * np.NaN, index=a.index)
+            model_data.name = mod_name
+
+            kw = dict(method='time')
+            model_data = model_data.reindex(a.index).interpolate(**kw).ix[a.index]
+            model.update({obs['station']: model_data})
+
+        model = DataFrame.from_dict(model)
+        model.to_csv(fname)
+
+# <codecell>
+
+from glob import glob
+from pandas import Panel
+
+dfs = dict()
+kw = dict(parse_dates=True, index_col=0)
+for fname in glob('*.csv'):
+    df = read_csv(fname, **kw)
+    dfs.update({fname[:-4]: df})
+    
+dfs = Panel.fromDict(dfs)
+dfs = dfs.swapaxes(0, 2)
 
 # <codecell>
 
@@ -288,31 +295,28 @@ m.line(get_coordinates(bounding_box, bounding_box_type),
        line_color='#FF0000', line_weight=2)
 
 html = '<b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
-for station, obs in observations.iterrows():
-    df = None
-    try:
-        data = get_nearest_water(cube, tree, obs.lon, obs.lat,
-                                 shape=lon.shape, k=100)
-        data.name = mod_name
-        a = obs_data[obs['station']]
-        df = concat([a, data], axis=1).sort_index().interpolate().ix[a.index]
-    except (ValueError, KeyError) as e:
-        print(e)  # TODO: Output station object with name instead of position.
 
-    if df is not None:
-        vis = vincent.Line(df,
-                           width=400, height=200)
-        vis.axis_titles(x='Time', y='Sea surface height (m)')
-        vis.legend(title=obs.name)
-        json = 'station_%s.json' % obs['station']
-        vis.to_json(json)
-        m.simple_marker(location=[obs['lat'], obs['lon']],
-                        popup=(vis, json))
-    else:
-        popup_string = html % (obs['station'], obs.name)
-        m.circle_marker(location=[obs['lat'], obs['lon']],
-                         fill_color='#FF0000', popup=popup_string)
-        
-m.create_map(path='inundation.html')
+for station in dfs:
+    sta_name = get_coops_longname(station)
+    df = dfs[station].dropna(axis=1, how='all')
+    df.fillna(value=0, inplace=True)  # FIXME: This is bad!  But I cannot represent NaN with Vega!
+    vis = vincent.Line(df, width=400, height=200)
+    vis.axis_titles(x='Time', y='Sea surface height (m)')
+    vis.legend(title=sta_name)
+    json = 'station_%s.json' % station
+    vis.to_json(json)
+    obs = observations[observations['station'] == station]
+    m.simple_marker(location=[obs['lat'].values[0], obs['lon'].values[0]], popup=(vis, json))
+    m.create_map(path='inundation.html')
+
 inline_map(m)
+
+# <markdowncell>
+
+# ```python
+# for station in dfs:
+#     ax = dfs[station].dropna(axis=1, how='all').plot()
+#     ax.set_title(get_coops_longname(station))
+#     ax.set_ylim(-1, 1)
+# ```
 
