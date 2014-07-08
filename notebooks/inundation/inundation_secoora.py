@@ -36,7 +36,7 @@ from utilities import (dateRange, get_coops_longname, coops2df,
 
 # <codecell>
 
-now = datetime(2014, 7, 6, 12, 0, 0, 0)
+now = datetime(2014, 7, 7, 12, 0, 0, 0)
 
 start = now - timedelta(days=3)
 stop = now + timedelta(days=3)
