@@ -111,36 +111,38 @@ def make_tree(cube):
     lon = cube.coord(axis='X').points
     lat = cube.coord(axis='Y').points
     if cube.ndim == 3:  # Structured model
-        if (lon.ndim == 1) and (lat.ndim == 1):
+        if (lon.ndim == 1) and (lat.ndim == 1) and (cube.shape == 3):
             lon, lat = np.meshgrid(lon, lat)
     tree = KDTree(zip(lon.ravel(), lat.ravel()))
     return tree, lon, lat
 
 
-def get_nearest_water(cube, tree, xi, yi, k=10, shape=None,
+def get_nearest_water(cube, tree, xi, yi, k=10,
                       max_dist=0.04, min_var=0.01):
     """Find `k` nearest model data from `cube` at station
     `xi`, `yi` up to `max_dist`.  Must provide Scipy's KDTree
-    `tree` and a `shape`."""
+    `tree`."""
     dist, indices = tree.query(np.array([xi, yi]).T, k=k)
     if indices.size == 0:
         raise ValueError("No data found.")
     # Get data up to specified distance.
     mask = dist <= max_dist
     if mask is None:
-        raise ValueError("No data found at %s,%s using max_dist=%s." %
+        raise ValueError("No data found at %s, %s using max_dist=%s." %
                          (xi, yi, max_dist))
     dist, indices = dist[mask], indices[mask]
-    # Structure vs Unstructred models.
-    if not shape:
-        i = j = indices
-    else:
-        i, j = np.unravel_index(indices, shape)
     # is_water using Signell's var criteria (READ: `min_var` comment!)
-    for x, y in zip(i, j):
-        series = cube[..., x, y]
-        if series.data.std() >= min_var:
-            return series
+    if (cube.coord(axis='X').ndim == 1) and (cube.ndim == 2):  # Unstructured model.
+        for index in indices:
+            series = cube[..., index]
+            if series.data.std() >= min_var:
+                return series
+    else:  # Structured model.
+        i, j = np.unravel_index(indices, cube.coord(axis='X').shape)
+        for x, y in zip(i, j):
+            series = cube[..., x, y]
+            if series.data.std() >= min_var:
+                return series
         else:
             raise ValueError("No data found at %s,%s using min_var=%s." %
                              (xi, yi, min_var))
