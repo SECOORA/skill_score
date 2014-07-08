@@ -29,14 +29,13 @@ from owslib.csw import CatalogueServiceWeb
 from pyoos.collectors.coops.coops_sos import CoopsSos
 
 # Local imports
-# Local imports
 from utilities import (dateRange, get_coops_longname, coops2df,
                        service_urls, inline_map, get_coordinates,
                        get_cube, make_tree, get_nearest_water, get_model_name)
 
 # <codecell>
 
-now = datetime(2014, 7, 7, 12, 0, 0, 0)
+now = datetime(2014, 7, 4, 12, 0, 0, 0)
 
 start = now - timedelta(days=3)
 stop = now + timedelta(days=3)
@@ -253,10 +252,10 @@ for url in dap_urls:
         # Get model series at observed locations.
         model = dict()
         for station, obs in observations.iterrows():
-            kw = dict(shape=lon.shape, k=100)
             a = obs_data[obs['station']]
             try:
-                model_data = get_nearest_water(cube, tree, obs.lon, obs.lat, **kw)
+                model_data = get_nearest_water(cube, tree,
+                                               obs.lon, obs.lat, k=10)
                 model_data = as_series(model_data)
             except (ValueError, AttributeError) as e:
                 print('No data found for *%s*' % obs.name)
