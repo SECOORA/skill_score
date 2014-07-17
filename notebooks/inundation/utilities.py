@@ -106,12 +106,28 @@ def get_cube(url, constraint, jd_start, jd_stop):
     return cube[istart:istop]
 
 
+def wrap_lon180(lon):
+    lon = np.atleast_1d(lon).copy()
+    angles = np.logical_or((lon < -180), (180 < lon))
+    lon[angles] = wrap_lon360(lon[angles] + 180) - 180
+    return lon
+
+
+def wrap_lon360(lon):
+    lon = np.atleast_1d(lon).copy()
+    positive = lon > 0
+    lon = lon % 360
+    lon[np.logical_and(lon == 0, positive)] = 360
+    return lon
+
+
 def make_tree(cube):
     """Create KDTree."""
     lon = cube.coord(axis='X').points
     lat = cube.coord(axis='Y').points
+    lon = wrap_lon180(lon)
     if cube.ndim == 3:  # Structured model
-        if (lon.ndim == 1) and (lat.ndim == 1) and (cube.shape == 3):
+        if (lon.ndim == 1) and (lat.ndim == 1) and (cube.ndim == 3):
             lon, lat = np.meshgrid(lon, lat)
     tree = KDTree(zip(lon.ravel(), lat.ravel()))
     return tree, lon, lat
