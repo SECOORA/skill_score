@@ -23,7 +23,6 @@ import cartopy.crs as ccrs
 from pandas import read_csv
 import matplotlib.pyplot as plt
 from scipy.spatial import KDTree
-from IPython.display import HTML
 from iris.exceptions import CoordinateNotFoundError
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 
@@ -214,7 +213,8 @@ def get_nearest_water(cube, tree, xi, yi, k=10,
         series = cube[(slice(None),)+idx]
         # Accounting for wet-and-dry models.
         arr = ma.masked_invalid(series.data).filled(fill_value=0)
-        if arr.std() >= min_var:
+        if arr.std() <= min_var:
+            series = None
             break
     return series, dist, idx
 
@@ -306,13 +306,3 @@ def get_coordinates(bounding_box, bounding_box_type):
         coordinates.append([bounding_box[1][1], bounding_box[0][0]])
         coordinates.append([bounding_box[0][1], bounding_box[0][0]])
         return coordinates
-
-
-def inline_map(m):
-    """Work around to show folium in IPython notebooks."""
-    m._build_map()
-    srcdoc = m.HTML.replace('"', '&quot;')
-    embed = HTML('<iframe srcdoc="{srcdoc}" '
-                 'style="width: 100%; height: 500px; '
-                 'border: none"></iframe>'.format(srcdoc=srcdoc))
-    return embed
