@@ -10,18 +10,21 @@ Standard Library.
 from lxml import etree
 from io import BytesIO
 try:
-    from urllib.request import urlopen
-except ImportError:
     from urllib import urlopen
+except ImportError:
+    from urllib.request import urlopen
 
 # Scientific stack.
 import iris
-from iris.unit import Unit
 import numpy as np
+import numpy.ma as ma
+from iris.unit import Unit
+import cartopy.crs as ccrs
+from pandas import read_csv
+import matplotlib.pyplot as plt
 from scipy.spatial import KDTree
-from IPython.display import HTML
 from iris.exceptions import CoordinateNotFoundError
-from pandas import DataFrame, Series, read_csv, date_range
+from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 
 # Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
@@ -76,6 +79,19 @@ titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
                'Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE'})
 
 
+def plt_grid(lon, lat):
+    fig, ax = plt.subplots(figsize=(6, 6),
+                           subplot_kw=dict(projection=ccrs.PlateCarree()))
+    ax.coastlines('10m', color='k', zorder=3)
+    gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
+                      linewidth=1.5, color='gray', alpha=0.15)
+    gl.xlabels_top = gl.ylabels_right = False
+    gl.xformatter = LONGITUDE_FORMATTER
+    gl.yformatter = LATITUDE_FORMATTER
+    ax.plot(lon, lat, '.', color='gray', alpha=0.25, zorder=0, label='Model')
+    return fig, ax
+
+
 def get_model_name(cube, url):
     try:
         model_full_name = cube.attributes['title']
@@ -106,46 +122,101 @@ def get_cube(url, constraint, jd_start, jd_stop):
     return cube[istart:istop]
 
 
+def wrap_lon180(lon):
+    lon = np.atleast_1d(lon).copy()
+    angles = np.logical_or((lon < -180), (180 < lon))
+    lon[angles] = wrap_lon360(lon[angles] + 180) - 180
+    return lon
+
+
+def wrap_lon360(lon):
+    lon = np.atleast_1d(lon).copy()
+    positive = lon > 0
+    lon = lon % 360
+    lon[np.logical_and(lon == 0, positive)] = 360
+    return lon
+
+
 def make_tree(cube):
     """Create KDTree."""
     lon = cube.coord(axis='X').points
     lat = cube.coord(axis='Y').points
-    if cube.ndim == 3:  # Structured model
-        if (lon.ndim == 1) and (lat.ndim == 1) and (cube.shape == 3):
-            lon, lat = np.meshgrid(lon, lat)
+    # FIXME: Not sure if it is need when using `iris.intersect()`.
+    lon = wrap_lon180(lon)
+    # Structured models with 1D lon, lat.
+    if (lon.ndim == 1) and (lat.ndim == 1) and (cube.ndim == 3):
+        lon, lat = np.meshgrid(lon, lat)
+    # Unstructure are already paired!
     tree = KDTree(zip(lon.ravel(), lat.ravel()))
     return tree, lon, lat
 
 
+def slice_bbox_extract(cube, bbox):
+    """Extract a subsetted cube inside a lon,lat bounding box
+    bbox=[lon_min lon_max lat_min lat_max]."""
+    lons = cube.coord('longitude').points
+    lats = cube.coord('latitude').points
+
+    def minmax(v):
+        return np.min(v), np.max(v)
+
+    inregion = np.logical_and(np.logical_and(lons > bbox[0][0],
+                                             lons < bbox[1][0]),
+                              np.logical_and(lats > bbox[1][0],
+                                             lats < bbox[1][1]))
+    region_inds = np.where(inregion)
+    imin, imax = minmax(region_inds[0])
+    jmin, jmax = minmax(region_inds[1])
+    return cube[..., imin:imax+1, jmin:jmax+1]
+
+
 def get_nearest_water(cube, tree, xi, yi, k=10,
                       max_dist=0.04, min_var=0.01):
-    """Find `k` nearest model data from `cube` at station
-    `xi`, `yi` up to `max_dist`.  Must provide Scipy's KDTree
-    `tree`."""
-    dist, indices = tree.query(np.array([xi, yi]).T, k=k)
+    """Find `k` nearest model data points from an iris `cube` at station
+    lon=`xi`, lat=`yi` up to `max_dist` in degrees.  Must provide a Scipy's
+    KDTree `tree`."""
+    # TODO: pykdtree might be faster, but would introduce another dependency.
+    # Scipy is more likely to be already installed.  Still, this function could
+    # be generalized to accept pykdtree tree object.
+    # TODO: Make the `tree` optional, so it can be created here in case of a
+    #  single search.  However, make sure that it will be faster if the `tree`
+    #  is created and passed as an argument in multiple searches.
+    distances, indices = tree.query(np.array([xi, yi]).T, k=k)
     if indices.size == 0:
         raise ValueError("No data found.")
     # Get data up to specified distance.
-    mask = dist <= max_dist
-    if mask is None:
-        raise ValueError("No data found at %s, %s using max_dist=%s." %
+    mask = distances <= max_dist
+    distances, indices = distances[mask], indices[mask]
+    if distances.size == 0:
+        raise ValueError("No data found for (%s,%s) using max_dist=%s." %
                          (xi, yi, max_dist))
-    dist, indices = dist[mask], indices[mask]
-    # is_water using Signell's var criteria (READ: `min_var` comment!)
-    if (cube.coord(axis='X').ndim == 1) and (cube.ndim == 2):  # Unstructured model.
-        for index in indices:
-            series = cube[..., index]
-            if series.data.std() >= min_var:
-                return series
-    else:  # Structured model.
-        i, j = np.unravel_index(indices, cube.coord(axis='X').shape)
-        for x, y in zip(i, j):
-            series = cube[..., x, y]
-            if series.data.std() >= min_var:
-                return series
+    # Unstructured model.
+    if (cube.coord(axis='X').ndim == 1) and (cube.ndim == 2):
+        i = j = indices
+        unstructured = True
+    # Structured model.
+    else:
+        unstructured = False
+        if cube.coord(axis='X').ndim == 2:  # CoordinateMultiDim
+            i, j = np.unravel_index(indices, cube.coord(axis='X').shape)
         else:
-            raise ValueError("No data found at %s,%s using min_var=%s." %
-                             (xi, yi, min_var))
+            shape = (cube.coord(axis='Y').shape[0],
+                     cube.coord(axis='X').shape[0])
+            i, j = np.unravel_index(indices, shape)
+    # Use only data where the standard deviation of the time series exceeds
+    # 0.01 m (1 cm) this eliminates flat line model time series that come from
+    # land points that should have had missing values.
+    series, dist, idx = None, None, None
+    for dist, idx in zip(distances, zip(i, j)):
+        if unstructured:  # NOTE: This would be so elegant in py3k!
+            idx = (idx[0],)
+        series = cube[(slice(None),)+idx]
+        # Accounting for wet-and-dry models.
+        arr = ma.masked_invalid(series.data).filled(fill_value=0)
+        if arr.std() <= min_var:
+            series = None
+            break
+    return series, dist, idx
 
 
 def dateRange(start_date='1900-01-01', stop_date='2100-01-01',
@@ -190,56 +261,22 @@ def coops2df(collector, coops_id, sos_name):
     collector.features = [coops_id]
     collector.variables = [sos_name]
     long_name = get_coops_longname(coops_id)
-
     response = collector.raw(responseFormat="text/csv")
-    data_df = read_csv(BytesIO(response.encode('utf-8')),
-                       parse_dates=True,
-                       index_col='date_time')
+    kw = dict(parse_dates=True, index_col='date_time')
+    data_df = read_csv(BytesIO(response.encode('utf-8')), **kw)
     col = 'water_surface_height_above_reference_datum (m)'
-    if False:
-        data_df['Observed Data'] = (data_df[col] -
-                                    data_df['vertical_position (m)'])
     data_df['Observed Data'] = data_df[col]
-
     data_df.name = long_name
     return data_df
-
-
-def mod_df(arr, timevar, istart, istop,
-           jd_start, jd_stop, mod_name):
-    """Return time series (DataFrame) from model interpolated onto uniform time
-    base."""
-    t = timevar.points[istart:istop]
-    jd = timevar.units.num2date(t)
-
-    # Eliminate any data that is closer together than 10 seconds this was
-    # required to handle issues with CO-OPS aggregations, I think because they
-    # use floating point time in hours, which is not very accurate, so the
-    # FMRC aggregation is aggregating points that actually occur at the same
-    # time.  # FIXME: Can the interpolation take care of that?
-    dt = np.diff(jd)
-    s = np.array([ele.seconds for ele in dt])
-    ind = np.where(s > 10)[0]  # FIXME: Use boolean.
-    arr = arr[ind+1]  # FIXME: Why the +1?
-    jd = jd[ind+1]  # FIXME: Why the +1?
-
-    b = DataFrame(arr, index=jd, columns=[mod_name])
-    b.dropna(inplace=True)  # Faster and more verbose than:
-    # b = b[np.isfinite(b[mod_name])]
-    # Interpolate onto uniform time base, fill gaps up to:
-    # (10 values @ 6 min = 1 hour).
-    # FIXME: Improve this part to not depend on globals jd_start, jd_stop.
-    new_index = date_range(start=jd_start, end=jd_stop, freq='6Min')
-    return b.reindex(new_index).interpolate(limit=10)
 
 
 def service_urls(records, service='odp:url'):
     """Extract service_urls of a specific type (DAP, SOS) from records."""
     service_string = 'urn:x-esri:specification:ServiceType:' + service
     urls = []
-    for key, rec in records.iteritems():
+    for key, rec in records.items():
         # Create a generator object, and iterate through it until the match is
-        # found if not found, gets the default value (here "none").
+        # found if not found returns None.
         url = next((d['url'] for d in rec.references if
                     d['scheme'] == service_string), None)
         if url is not None:
@@ -247,26 +284,10 @@ def service_urls(records, service='odp:url'):
     return urls
 
 
-def get_nearest(cube, xi, yi, max_dist=0.04):
-    """Find model data near station data xi, yi."""
-    x = cube.coord(axis='X').points
-    y = cube.coord(axis='Y').points
-    if cube.ndim == 3:  # Structured model
-        if (x.ndim == 1) and (y.ndim == 1):
-            x, y = np.meshgrid(x, y)
-    tree = KDTree(zip(x.ravel(), y.ravel()))
-    dist, indices = tree.query(np.array([xi, yi]).T)
-    if cube.ndim == 3:  # Structured model
-        i, j = np.unravel_index(indices, x.shape)
-    else:
-        i = j = indices
-    mask = dist <= max_dist
-    return dist[mask], i[mask], j[mask]
-
-
 def find_timevar(cube):
-    """Return the time variable from Iris. This is a workaround for iris having
-    problems with FMRC aggregations, which produce two time coordinates."""
+    """Return the time variable from Iris.  This is a workaround for iris
+    having problems with FMRC aggregations, which produce two time
+    coordinates."""
     try:
         cube.coord(axis='T').rename('time')
     except CoordinateNotFoundError:
@@ -285,14 +306,3 @@ def get_coordinates(bounding_box, bounding_box_type):
         coordinates.append([bounding_box[1][1], bounding_box[0][0]])
         coordinates.append([bounding_box[0][1], bounding_box[0][0]])
         return coordinates
-
-
-def inline_map(m):
-    """From http://nbviewer.ipython.org/gist/rsignell-usgs/
-    bea6c0fe00a7d6e3249c."""
-    m._build_map()
-    srcdoc = m.HTML.replace('"', '&quot;')
-    embed = HTML('<iframe srcdoc="{srcdoc}" '
-                 'style="width: 100%; height: 500px; '
-                 'border: none"></iframe>'.format(srcdoc=srcdoc))
-    return embed

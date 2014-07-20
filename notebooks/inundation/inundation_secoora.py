@@ -4,38 +4,33 @@
 # <codecell>
 
 # Standard Library.
-import os
 import warnings
 warnings.filterwarnings("ignore")
 from datetime import datetime, timedelta
 
 # Scientific stack.
 import iris
-from iris.pandas import as_series
-from iris.exceptions import CoordinateNotFoundError
-
 iris.FUTURE.netcdf_promote = True
+from iris.pandas import as_series
+from iris.exceptions import CoordinateNotFoundError, CoordinateMultiDimError
 
 import folium
 import vincent
 import numpy as np
-import matplotlib.pyplot as plt
+from pandas import Series, DataFrame, read_csv
 
-from pandas import Series, DataFrame, read_csv, concat
-
-# Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
 from owslib.csw import CatalogueServiceWeb
 from pyoos.collectors.coops.coops_sos import CoopsSos
 
-# Local imports
-from utilities import (dateRange, get_coops_longname, coops2df,
-                       service_urls, inline_map, get_coordinates,
-                       get_cube, make_tree, get_nearest_water, get_model_name)
+# Local imports.
+from utilities import (dateRange, get_coops_longname, coops2df, make_tree,
+                       get_coordinates, get_model_name, get_nearest_water,
+                       service_urls, slice_bbox_extract, plt_grid, get_cube)
 
 # <codecell>
 
-now = datetime(2014, 7, 4, 12, 0, 0, 0)
+now = datetime.utcnow()
 
 start = now - timedelta(days=3)
 stop = now + timedelta(days=3)
@@ -112,18 +107,17 @@ if True:
 
 # <codecell>
 
+collector = CoopsSos()
 sos_name = 'water_surface_height_above_reference_datum'
 
-collector = CoopsSos()
-
 collector.set_datum('NAVD')
-collector.server.identification.title
-collector.start_time = jd_start
 collector.end_time = jd_stop
+collector.start_time = jd_start
 collector.variables = [sos_name]
 
 ofrs = collector.server.offerings
 if True:
+    print(collector.server.identification.title)
     print(len(ofrs))
 
 # <codecell>
@@ -132,8 +126,8 @@ iso_start = jd_start.strftime('%Y-%m-%dT%H:%M:%SZ')
 iso_stop = jd_stop.strftime('%Y-%m-%dT%H:%M:%SZ')
 box_str = ','.join(str(e) for e in box)
 
-print("Date: %s to %s" % (iso_start, iso_stop))
 print("Lat/Lon Box: %s" % box_str)
+print("Date: %s to %s" % (iso_start, iso_stop))
 
 # <codecell>
 
@@ -144,12 +138,14 @@ url = ('http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?'
        'text/csv&eventTime=%s' % (sos_name, box_str, iso_start))
 
 print(url)
-
 observations = read_csv(url)
+
+# <markdowncell>
+
+# ### Clean the dataframe.
 
 # <codecell>
 
-# Clean the dataframe.
 columns = {'station_id': 'station',
            'sensor_id': 'sensor',
            'datum_id': 'datum',
@@ -160,14 +156,12 @@ columns = {'station_id': 'station',
 
 observations.rename(columns=columns, inplace=True)
 
-observations['station'] = [s.split(':')[-1] for s in observations['station']]
-observations['sensor'] = [s.split(':')[-1] for s in observations['sensor']]
 observations['datum'] = [s.split(':')[-1] for s in observations['datum']]
+observations['sensor'] = [s.split(':')[-1] for s in observations['sensor']]
+observations['station'] = [s.split(':')[-1] for s in observations['station']]
 observations['name'] = [get_coops_longname(s) for s in observations['station']]
 
 observations.set_index('name', inplace=True)
-
-# <codecell>
 
 observations.head()
 
@@ -177,6 +171,7 @@ observations.head()
 
 # <codecell>
 
+import os
 from owslib.ows import ExceptionReport
 
 fname = 'OBS_DATA.csv'
@@ -188,8 +183,7 @@ if not os.path.isfile(fname):
             b = b['water_surface_height_above_reference_datum (m)']
             data.update({s: b})
         except ExceptionReport as e:
-            print("Station %s:\n%s" % (s, e))
-            
+            print("[%s] %s:\n%s" % (s, get_coops_longname(s), e))
     obs_data = DataFrame.from_dict(data)
     obs_data.to_csv(fname)
 else:
@@ -205,69 +199,75 @@ observations = observations[non_navd]
 
 # <markdowncell>
 
-# ### Get model output from OPeNDAP URLS
-
-# <codecell>
-
-name_in_list = lambda cube: cube.standard_name in name_list
-constraint = iris.Constraint(cube_func=name_in_list)
-
-# <codecell>
-
-# Use only data where the standard deviation of the time series exceeds 0.01 m
-# (1 cm) this eliminates flat line model time series that come from land
-# points that should have had missing values.
-min_var = 0.01
-
-# Use only data within 0.04 degrees (about 4 km).
-max_dist = 0.04
-
-# <markdowncell>
-
 # ### Loop the models and save a csv series at each station.
 
 # <codecell>
 
+name_in_list = lambda cube: cube.standard_name in name_list
+constraint = iris.Constraint(cube_func=name_in_list, coord_values=None)
+
 for url in dap_urls:
-    try:  # Download cube.
-        cube = get_cube(url, constraint, jd_start, jd_stop)
-        print(cube.attributes['title'])
-    except RuntimeError as e:
-        print('Cannot get cube for: %s' % url)
-        print(e)
+    # FIXME: NECOFS has cartesian coordinates.
+    if 'NECOFS' in url:
         continue
+    try:
+        cube = get_cube(url, constraint, jd_start, jd_stop)
+    except (RuntimeError, ValueError) as e:
+        print('Cannot get cube for: %s\n%s' % (url, e))
+        continue
+    try:
+        cube = cube.intersection(longitude=(bounding_box[0][0],
+                                            bounding_box[1][0]),
+                                 latitude=(bounding_box[0][1],
+                                           bounding_box[1][1]))
+    except CoordinateMultiDimError:
+        cube = slice_bbox_extract(cube, bounding_box)
 
     mod_name, model_full_name = get_model_name(cube, url)
-    print('\n%s:\n%s\n' % (mod_name, url))
-    fname = '%s.csv' % mod_name
+    print('\n[%s] %s:\n%s\n' % (mod_name, cube.attributes['title'], url))
 
+    fname = '%s.csv' % mod_name
     if not os.path.isfile(fname):
-        try:  # Make tree.
+        # Make tree.
+        try:
             tree, lon, lat = make_tree(cube)
+            fig, ax = plt_grid(lon, lat)
         except CoordinateNotFoundError as e:
-            # FIXME: NECOFS_GOM3_WAVE use in meters instead of lon, lat.
             print('Cannot make KDTree for: %s' % mod_name)
-            print(e)
             continue
         # Get model series at observed locations.
         model = dict()
         for station, obs in observations.iterrows():
             a = obs_data[obs['station']]
             try:
-                model_data = get_nearest_water(cube, tree,
-                                               obs.lon, obs.lat, k=10)
-                model_data = as_series(model_data)
-            except (ValueError, AttributeError) as e:
-                print('No data found for *%s*' % obs.name)
-                model_data = Series(np.empty_like(a) * np.NaN, index=a.index)
-            model_data.name = mod_name
+                kw = dict(k=10, max_dist=0.04, min_var=0.01)
+                series, dist, idx = get_nearest_water(cube, tree,
+                                                      obs.lon, obs.lat, **kw)
+            except ValueError as e:
+                print(e)
+                continue
+            if not series:
+                status = "Not Found"
+                series = Series(np.empty_like(a) * np.NaN, index=a.index)
+            else:
+                series = as_series(series)
+                status = "Found"
+                ax.plot(lon[idx], lat[idx], 'g.')
+
+            print('[%s] %s' % (status, obs.name))
 
             kw = dict(method='time')
-            model_data = model_data.reindex(a.index).interpolate(**kw).ix[a.index]
-            model.update({obs['station']: model_data})
+            series = series.reindex(a.index).interpolate(**kw).ix[a.index]
+            model.update({obs['station']: series})
 
-        model = DataFrame.from_dict(model)
+        model = DataFrame.from_dict(model).dropna(axis=1, how='all')
         model.to_csv(fname)
+
+        ax.set_title('%s: Points found %s' % (mod_name, len(model.columns)))
+        ax.plot(observations.lon, observations.lat, 'ro',
+                zorder=1, label='Observation', alpha=0.25)
+        ax.set_extent([bounding_box[0][0], bounding_box[1][0],
+                       bounding_box[0][1], bounding_box[1][1]])
 
 # <codecell>
 
@@ -279,43 +279,40 @@ kw = dict(parse_dates=True, index_col=0)
 for fname in glob('*.csv'):
     df = read_csv(fname, **kw)
     dfs.update({fname[:-4]: df})
-    
+
 dfs = Panel.fromDict(dfs)
 dfs = dfs.swapaxes(0, 2)
 
 # <codecell>
 
-m = folium.Map(location=[np.mean(bounding_box, axis=0)[1],
-                         np.mean(bounding_box, axis=0)[0]],
-               zoom_start=5)
+inundation_map = folium.Map(location=[np.mean(bounding_box, axis=0)[1],
+                                      np.mean(bounding_box, axis=0)[0]],
+                            zoom_start=5)
 
 # Create the map and add the bounding box line.
-m.line(get_coordinates(bounding_box, bounding_box_type),
-       line_color='#FF0000', line_weight=2)
+inundation_map.line(get_coordinates(bounding_box, bounding_box_type),
+                    line_color='#FF0000', line_weight=2)
 
 html = '<b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
 
 for station in dfs:
     sta_name = get_coops_longname(station)
     df = dfs[station].dropna(axis=1, how='all')
-    df.fillna(value=0, inplace=True)  # FIXME: This is bad!  But I cannot represent NaN with Vega!
+    # FIXME: This is bad!  But I cannot represent NaN with Vega!
+    df.fillna(value=0, inplace=True)
     vis = vincent.Line(df, width=400, height=200)
     vis.axis_titles(x='Time', y='Sea surface height (m)')
     vis.legend(title=sta_name)
     json = 'station_%s.json' % station
     vis.to_json(json)
     obs = observations[observations['station'] == station]
-    m.simple_marker(location=[obs['lat'].values[0], obs['lon'].values[0]], popup=(vis, json))
-    m.create_map(path='inundation.html')
+    inundation_map.simple_marker(location=[obs['lat'].values[0],
+                                           obs['lon'].values[0]],
+                                 popup=(vis, json))
 
-inline_map(m)
+# <codecell>
 
-# <markdowncell>
-
-# ```python
-# for station in dfs:
-#     ax = dfs[station].dropna(axis=1, how='all').plot()
-#     ax.set_title(get_coops_longname(station))
-#     ax.set_ylim(-1, 1)
-# ```
+inundation_map.create_map(path='inundation_map.html')
+inundation_map.render_iframe = True
+inundation_map
 
