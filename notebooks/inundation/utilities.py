@@ -19,10 +19,13 @@ import iris
 import numpy as np
 import numpy.ma as ma
 from iris.unit import Unit
+import cartopy.crs as ccrs
 from pandas import read_csv
+import matplotlib.pyplot as plt
 from scipy.spatial import KDTree
 from IPython.display import HTML
 from iris.exceptions import CoordinateNotFoundError
+from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 
 # Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
@@ -77,6 +80,19 @@ titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
                'Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE'})
 
 
+def plt_grid(lon, lat):
+    fig, ax = plt.subplots(figsize=(6, 6),
+                           subplot_kw=dict(projection=ccrs.PlateCarree()))
+    ax.coastlines('10m', color='k', zorder=3)
+    gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
+                      linewidth=1.5, color='gray', alpha=0.15)
+    gl.xlabels_top = gl.ylabels_right = False
+    gl.xformatter = LONGITUDE_FORMATTER
+    gl.yformatter = LATITUDE_FORMATTER
+    ax.plot(lon, lat, '.', color='gray', alpha=0.25, zorder=0, label='Model')
+    return fig, ax
+
+
 def get_model_name(cube, url):
     try:
         model_full_name = cube.attributes['title']
@@ -126,6 +142,7 @@ def make_tree(cube):
     """Create KDTree."""
     lon = cube.coord(axis='X').points
     lat = cube.coord(axis='Y').points
+    # FIXME: Not sure if it is need when using `iris.intersect()`.
     lon = wrap_lon180(lon)
     # Structured models with 1D lon, lat.
     if (lon.ndim == 1) and (lat.ndim == 1) and (cube.ndim == 3):
@@ -133,6 +150,25 @@ def make_tree(cube):
     # Unstructure are already paired!
     tree = KDTree(zip(lon.ravel(), lat.ravel()))
     return tree, lon, lat
+
+
+def slice_bbox_extract(cube, bbox):
+    """Extract a subsetted cube inside a lon,lat bounding box
+    bbox=[lon_min lon_max lat_min lat_max]."""
+    lons = cube.coord('longitude').points
+    lats = cube.coord('latitude').points
+
+    def minmax(v):
+        return np.min(v), np.max(v)
+
+    inregion = np.logical_and(np.logical_and(lons > bbox[0][0],
+                                             lons < bbox[1][0]),
+                              np.logical_and(lats > bbox[1][0],
+                                             lats < bbox[1][1]))
+    region_inds = np.where(inregion)
+    imin, imax = minmax(region_inds[0])
+    jmin, jmax = minmax(region_inds[1])
+    return cube[..., imin:imax+1, jmin:jmax+1]
 
 
 def get_nearest_water(cube, tree, xi, yi, k=10,
@@ -151,23 +187,32 @@ def get_nearest_water(cube, tree, xi, yi, k=10,
         raise ValueError("No data found.")
     # Get data up to specified distance.
     mask = distances <= max_dist
-    if mask is None:
+    distances, indices = distances[mask], indices[mask]
+    if distances.size == 0:
         raise ValueError("No data found for (%s,%s) using max_dist=%s." %
                          (xi, yi, max_dist))
-    distances, indices = distances[mask], indices[mask]
     # Unstructured model.
     if (cube.coord(axis='X').ndim == 1) and (cube.ndim == 2):
         i = j = indices
+        unstructured = True
     # Structured model.
     else:
-        i, j = np.unravel_index(indices, cube.coord(axis='X').shape)
+        unstructured = False
+        if cube.coord(axis='X').ndim == 2:  # CoordinateMultiDim
+            i, j = np.unravel_index(indices, cube.coord(axis='X').shape)
+        else:
+            shape = (cube.coord(axis='Y').shape[0],
+                     cube.coord(axis='X').shape[0])
+            i, j = np.unravel_index(indices, shape)
     # Use only data where the standard deviation of the time series exceeds
     # 0.01 m (1 cm) this eliminates flat line model time series that come from
     # land points that should have had missing values.
     series, dist, idx = None, None, None
     for dist, idx in zip(distances, zip(i, j)):
+        if unstructured:  # NOTE: This would be so elegant in py3k!
+            idx = (idx[0],)
         series = cube[(slice(None),)+idx]
-        # Is it possible to get NaNs here?
+        # Accounting for wet-and-dry models.
         arr = ma.masked_invalid(series.data).filled(fill_value=0)
         if arr.std() >= min_var:
             break
