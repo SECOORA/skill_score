@@ -1,9 +1,81 @@
 # Scientific stack.
 import iris
+iris.FUTURE.netcdf_promote = True
+
 import numpy as np
 import numpy.ma as ma
+from iris.cube import CubeList
 from netCDF4 import Dataset, num2date, date2index
-from iris.exceptions import CoordinateNotFoundError
+from iris.exceptions import CoordinateNotFoundError, CoordinateMultiDimError
+
+
+def find_timevar(cube):
+    """Return the time variable from Iris."""
+    try:
+        cube.coord(axis='T').rename('time')
+    except CoordinateNotFoundError:
+        pass
+    timevar = cube.coord('time')
+    return timevar
+
+
+def time_near(cube, start):
+    """Return the nearest time to `start`."""
+    timevar = find_timevar(cube)
+    try:
+        time = timevar.units.date2num(start)
+        itime = timevar.nearest_neighbour_index(time)
+    except IndexError:
+        itime = -1
+    return timevar.points[itime]
+
+
+def slice_bbox_extract(cube, bbox):
+    """Extract a subsetted cube inside a lon,lat bounding box
+    bbox = [[lon_min, lat_min], [lon_max, lat_max]]."""
+    lons = cube.coord('longitude').points
+    lats = cube.coord('latitude').points
+
+    def minmax(v):
+        return np.min(v), np.max(v)
+    inregion = np.logical_and(np.logical_and(lons > bbox[0][0],
+                                             lons < bbox[1][0]),
+                              np.logical_and(lats > bbox[1][0],
+                                             lats < bbox[1][1]))
+    region_inds = np.where(inregion)
+    imin, imax = minmax(region_inds[0])
+    jmin, jmax = minmax(region_inds[1])
+    return cube[..., imin:imax+1, jmin:jmax+1]
+
+
+def intersection(cube, bbox):
+    """Sub sets cube with 1D or 2D lon, lat coords.
+    Using `intersection` instead of `extract` we deal with 0-360
+    longitudes automagically."""
+    try:
+        cube = cube.intersection(longitude=(bbox[0][0], bbox[1][0]),
+                                 latitude=(bbox[0][1], bbox[1][1]))
+    except CoordinateMultiDimError:
+        cube = slice_bbox_extract(cube, bbox)
+    return cube
+
+
+def get_cubes(url, name_list=None, bbox=None, time=None):
+    """Load and time/space-slice the cubes from a given `url`.
+    name_list : CF standard_name list of cubes
+    bbox : [[lon_min, lat_min], [lon_max, lat_max]]
+    time : datetime object (TODO: make it a time range.)
+    """
+    cubes = iris.load_raw(url)
+    if name_list:
+        in_list = lambda cube: cube.standard_name in name_list
+        cubes = CubeList([cube for cube in cubes if in_list(cube)])
+        cubes = cubes.merge()
+    if time:
+        cubes = cubes.extract(iris.Constraint(time=time_near(cubes[0], time)))
+    if bbox:
+        cubes = CubeList([intersection(cube, bbox) for cube in cubes])
+    return cubes
 
 
 def rot2d(x, y, ang):
@@ -70,49 +142,7 @@ def shrink(a, b):
     return a
 
 
-def time_near(cube, start):
-    timevar = find_timevar(cube)
-    try:
-        time = timevar.units.date2num(start)
-        itime = timevar.nearest_neighbour_index(time)
-    except IndexError:
-        itime = -1
-    return timevar.points[itime]
-
-
-def find_timevar(cube):
-    """Return the time variable from Iris."""
-    try:
-        cube.coord(axis='T').rename('time')
-    except CoordinateNotFoundError:
-        pass
-    timevar = cube.coord('time')
-    return timevar
-
-
-def get_hfradar(url, time_slice, n=3):
-    u = iris.load_cube(url, 'surface_eastward_sea_water_velocity')
-    v = iris.load_cube(url, 'surface_northward_sea_water_velocity')
-
-    lon = v.coord(axis='X').points[::n]
-    lat = v.coord(axis='Y').points[::n]
-
-    uslice = u.extract(iris.Constraint(time=time_near(u, time_slice)))
-    vslice = v.extract(iris.Constraint(time=time_near(v, time_slice)))
-    u = uslice.data[::n, ::n]
-    v = vslice.data[::n, ::n]
-
-    time = uslice.coord('time')
-    time = time.units.num2date(time.points[0])
-
-    if (lon.ndim == 1) and (lat.ndim == 1):
-        lon, lat = np.meshgrid(lon, lat)
-    # FIXME: return iris cube instead.
-    return dict(lon=lon, lat=lat, u=u, v=v, time=time)
-
-
 def get_roms(url, time_slice, n=3):
-    """ FIXME: Re-write this using iris."""
     with Dataset(url) as nc:
         ncv = nc.variables
         time = ncv['ocean_time']
@@ -140,5 +170,4 @@ def get_roms(url, time_slice, n=3):
 
         u = ma.masked_invalid(u)
         v = ma.masked_invalid(v)
-    # FIXME: return iris cube instead.
     return dict(lon=lon, lat=lat, u=u, v=v, time=time)
