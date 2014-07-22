@@ -65,7 +65,7 @@ print(cubes)
 
 def subsample_cubes(cubes, n=6):
     u = cubes[0][::n, ::n]
-    v = cubes[0][::n, ::n]
+    v = cubes[1][::n, ::n]
     lon = u.coord(axis='X').points
     lat = u.coord(axis='Y').points
     if (lon.ndim == 1) and (lat.ndim == 1):
