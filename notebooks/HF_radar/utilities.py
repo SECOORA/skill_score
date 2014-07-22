@@ -154,8 +154,8 @@ def get_roms(url, time_slice, n=3):
         lat_rho = ncv['lat_rho'][:]
         anglev = ncv['angle'][:]
 
-        u = ncv['u'][tidx, -1, :, :]
-        v = ncv['v'][tidx, -1, :, :]
+        u = ncv['u'][tidx, -1, ...]
+        v = ncv['v'][tidx, -1, ...]
 
         u = shrink(u, mask[1:-1, 1:-1].shape)
         v = shrink(v, mask[1:-1, 1:-1].shape)
