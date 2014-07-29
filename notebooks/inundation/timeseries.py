@@ -3,7 +3,7 @@
 
 # <codecell>
 
-# http://cfconventions.org/Data/cf-convetions/cf-conventions-1.7/build/cf-conventions.html#Example%20H2.1.1
+# http://cfconventions.org/Data/cf-convetions/cf-conventions-1.5/build/cf-conventions.html#id2867470
 
 import iris
 from iris.pandas import as_cube
@@ -32,6 +32,9 @@ latitude = iris.coords.AuxCoord(range(len(obs_data.columns)),  # Fake lat.
 
 #cube.add_aux_coord(longitude, data_dims=?)
 #cube.add_aux_coord(latitude, data_dims=?)
+#char station_name(station, name_strlen)
+#dict(long_name="station name", station_name="timeseries_id")
 
+cube.attributes = {'featureType': 'timeSeries'}
 print(cube)
 
