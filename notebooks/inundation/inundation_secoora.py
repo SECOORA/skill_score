@@ -11,8 +11,9 @@ from datetime import datetime, timedelta
 # Scientific stack.
 import iris
 iris.FUTURE.netcdf_promote = True
-from iris.pandas import as_series
-from iris.exceptions import CoordinateNotFoundError, CoordinateMultiDimError
+from iris.pandas import as_series, as_data_frame
+from iris.exceptions import (CoordinateNotFoundError, CoordinateMultiDimError,
+                             ConstraintMismatchError, MergeError)
 
 import folium
 import vincent
@@ -26,7 +27,8 @@ from pyoos.collectors.coops.coops_sos import CoopsSos
 # Local imports.
 from utilities import (dateRange, get_coops_longname, coops2df, make_tree,
                        get_coordinates, get_model_name, get_nearest_water,
-                       service_urls, slice_bbox_extract, plt_grid, get_cube)
+                       service_urls, slice_bbox_extract, plt_grid, get_cube,
+                       save_timeseries_cube)
 
 # <codecell>
 
@@ -110,7 +112,8 @@ if True:
 collector = CoopsSos()
 sos_name = 'water_surface_height_above_reference_datum'
 
-collector.set_datum('NAVD')
+datum = 'NAVD'
+collector.set_datum(datum)
 collector.end_time = jd_stop
 collector.start_time = jd_start
 collector.variables = [sos_name]
@@ -174,7 +177,7 @@ observations.head()
 import os
 from owslib.ows import ExceptionReport
 
-fname = 'OBS_DATA.csv'
+fname = 'OBS_DATA.nc'
 if not os.path.isfile(fname):
     data = dict()
     for s in observations.station:
@@ -185,17 +188,31 @@ if not os.path.isfile(fname):
         except ExceptionReport as e:
             print("[%s] %s:\n%s" % (s, get_coops_longname(s), e))
     obs_data = DataFrame.from_dict(data)
-    obs_data.to_csv(fname)
+
+    diff = set(observations['station'].values).difference(obs_data.columns)
+    non_navd = [c not in diff for c in observations['station']]
+    observations = observations[non_navd]
+
+    comment = "Several stations from http://opendap.co-ops.nos.noaa.gov"
+    kw = dict(longitude=observations.lon,
+              latitude=observations.lat,
+              station_attr=dict(cf_role="timeseries_id"),
+              cube_attr=dict(featureType='timeSeries',
+                             Conventions='CF-1.6',
+                             standard_name_vocabulary='CF-1.6',
+                             cdm_data_type="Station",
+                             comment=comment,
+                             datum="NAVD",
+                             url=url))
+
+    save_timeseries_cube(obs_data, outfile=fname, **kw)
 else:
-    obs_data = read_csv(fname, parse_dates=True, index_col=0)
+    cube = iris.load_cube(fname)
+    cube.remove_coord('longitude')
+    cube.remove_coord('latitude')
+    obs_data = as_data_frame(cube)
 
 obs_data.head()
-
-# <codecell>
-
-diff = set(observations['station'].values).difference(obs_data.columns)
-non_navd = [c not in diff for c in observations['station']]
-observations = observations[non_navd]
 
 # <markdowncell>
 
@@ -206,13 +223,14 @@ observations = observations[non_navd]
 name_in_list = lambda cube: cube.standard_name in name_list
 constraint = iris.Constraint(cube_func=name_in_list, coord_values=None)
 
+dfs = dict()
 for url in dap_urls:
     # FIXME: NECOFS has cartesian coordinates.
     if 'NECOFS' in url:
         continue
     try:
         cube = get_cube(url, constraint, jd_start, jd_stop)
-    except (RuntimeError, ValueError) as e:
+    except (RuntimeError, ValueError, ConstraintMismatchError) as e:
         print('Cannot get cube for: %s\n%s' % (url, e))
         continue
     try:
@@ -226,17 +244,17 @@ for url in dap_urls:
     mod_name, model_full_name = get_model_name(cube, url)
     print('\n[%s] %s:\n%s\n' % (mod_name, cube.attributes['title'], url))
 
-    fname = '%s.csv' % mod_name
+    fname = '%s.nc' % mod_name
     if not os.path.isfile(fname):
-        # Make tree.
-        try:
+        try:  # Make tree.
             tree, lon, lat = make_tree(cube)
             fig, ax = plt_grid(lon, lat)
         except CoordinateNotFoundError as e:
             print('Cannot make KDTree for: %s' % mod_name)
             continue
         # Get model series at observed locations.
-        model = dict()
+        raw_series = dict()
+        interp_series = dict()
         for station, obs in observations.iterrows():
             a = obs_data[obs['station']]
             try:
@@ -250,6 +268,7 @@ for url in dap_urls:
                 status = "Not Found"
                 series = Series(np.empty_like(a) * np.NaN, index=a.index)
             else:
+                raw_series.update({obs['station']: series})
                 series = as_series(series)
                 status = "Found"
                 ax.plot(lon[idx], lat[idx], 'g.')
@@ -258,12 +277,28 @@ for url in dap_urls:
 
             kw = dict(method='time')
             series = series.reindex(a.index).interpolate(**kw).ix[a.index]
-            model.update({obs['station']: series})
+            interp_series.update({obs['station']: series})
 
-        model = DataFrame.from_dict(model).dropna(axis=1, how='all')
-        model.to_csv(fname)
+        interp_series = DataFrame.from_dict(interp_series).dropna(axis=1, how='all')
+        dfs.update({fname[:-3]: interp_series})
 
-        ax.set_title('%s: Points found %s' % (mod_name, len(model.columns)))
+        # Save cube.
+        if raw_series:
+            for station, cube in raw_series.items():
+                station_coord = iris.coords.AuxCoord(station,
+                                                     var_name="station",
+                                                     standard_name=None,
+                                                     long_name="station name",
+                                                     units=None)
+                cube.add_aux_coord(station_coord)
+
+            try:
+                cube = iris.cube.CubeList(raw_series.values()).merge_cube()
+            except MergeError:
+                cube = iris.cube.CubeList(raw_series.values()).merge()
+            iris.save(cube, fname)
+
+        ax.set_title('%s: Points found %s' % (mod_name, len(interp_series.columns)))
         ax.plot(observations.lon, observations.lat, 'ro',
                 zorder=1, label='Observation', alpha=0.25)
         ax.set_extent([bounding_box[0][0], bounding_box[1][0],
@@ -271,15 +306,7 @@ for url in dap_urls:
 
 # <codecell>
 
-from glob import glob
 from pandas import Panel
-
-dfs = dict()
-kw = dict(parse_dates=True, index_col=0)
-for fname in glob('*.csv'):
-    df = read_csv(fname, **kw)
-    dfs.update({fname[:-4]: df})
-
 dfs = Panel.fromDict(dfs)
 dfs = dfs.swapaxes(0, 2)
 
