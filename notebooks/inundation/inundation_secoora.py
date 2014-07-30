@@ -202,7 +202,7 @@ if not os.path.isfile(fname):
                              standard_name_vocabulary='CF-1.6',
                              cdm_data_type="Station",
                              comment=comment,
-                             datum="NAVD",
+                             datum=datum,
                              url=url))
 
     save_timeseries_cube(obs_data, outfile=fname, **kw)
@@ -225,8 +225,7 @@ constraint = iris.Constraint(cube_func=name_in_list, coord_values=None)
 
 dfs = dict()
 for url in dap_urls:
-    # FIXME: NECOFS has cartesian coordinates.
-    if 'NECOFS' in url:
+    if 'NECOFS' in url:  # FIXME: NECOFS has cartesian coordinates.
         continue
     try:
         cube = get_cube(url, constraint, jd_start, jd_stop)
@@ -234,10 +233,9 @@ for url in dap_urls:
         print('Cannot get cube for: %s\n%s' % (url, e))
         continue
     try:
-        cube = cube.intersection(longitude=(bounding_box[0][0],
-                                            bounding_box[1][0]),
-                                 latitude=(bounding_box[0][1],
-                                           bounding_box[1][1]))
+        longitude = bounding_box[0][0], bounding_box[1][0]
+        latitude = bounding_box[0][1], bounding_box[1][1]
+        cube = cube.intersection(longitude=longitude, latitude=latitude)
     except CoordinateMultiDimError:
         cube = slice_bbox_extract(cube, bounding_box)
 
@@ -282,14 +280,11 @@ for url in dap_urls:
         interp_series = DataFrame.from_dict(interp_series).dropna(axis=1, how='all')
         dfs.update({fname[:-3]: interp_series})
 
-        # Save cube.
-        if raw_series:
+        if raw_series:  # Save cube.
             for station, cube in raw_series.items():
                 station_coord = iris.coords.AuxCoord(station,
                                                      var_name="station",
-                                                     standard_name=None,
-                                                     long_name="station name",
-                                                     units=None)
+                                                     long_name="station name")
                 cube.add_aux_coord(station_coord)
 
             try:
@@ -307,6 +302,9 @@ for url in dap_urls:
 # <codecell>
 
 from pandas import Panel
+
+dfs.update(OBS_DATA=obs_data)
+
 dfs = Panel.fromDict(dfs)
 dfs = dfs.swapaxes(0, 2)
 
@@ -330,6 +328,7 @@ for station in dfs:
     vis = vincent.Line(df, width=400, height=200)
     vis.axis_titles(x='Time', y='Sea surface height (m)')
     vis.legend(title=sta_name)
+    vis.name = sta_name
     json = 'station_%s.json' % station
     vis.to_json(json)
     obs = observations[observations['station'] == station]
