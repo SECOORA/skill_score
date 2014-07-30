@@ -16,15 +16,18 @@ except ImportError:
 
 # Scientific stack.
 import iris
+from iris.pandas import as_cube
+from iris.exceptions import CoordinateNotFoundError
+
 import numpy as np
 import numpy.ma as ma
-from iris.unit import Unit
+
 import cartopy.crs as ccrs
-from pandas import read_csv
 import matplotlib.pyplot as plt
-from scipy.spatial import KDTree
-from iris.exceptions import CoordinateNotFoundError
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
+
+from pandas import read_csv
+from scipy.spatial import KDTree
 
 # Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
@@ -79,6 +82,48 @@ titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
                'Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE'})
 
 
+def save_timeseries_cube(df, outfile='timeseries.nc', **kw):
+    """FIXME: standard_name="platform_name" and long_name = "station name".
+    # http://cfconventions.org/Data/cf-convetions/cf-conventions-1.6/build/cf-conventions.html#idp5577536"""
+    cube = as_cube(df, calendars={1: iris.unit.CALENDAR_GREGORIAN})
+    cube.coord("index").rename("time")
+    cube.coord("columns").rename("platform_name")
+    cube.rename("water_surface_height_above_reference_datum")
+
+    longitude = kw.get("longitude")
+    latitude = kw.get("latitude")
+    if longitude is not None:
+        longitude = iris.coords.AuxCoord(longitude,
+                                         var_name="lon",
+                                         standard_name="longitude",
+                                         long_name="station longitude",
+                                         units=iris.unit.Unit("degrees"))
+    cube.add_aux_coord(longitude, data_dims=1)
+
+    if latitude is not None:
+        latitude = iris.coords.AuxCoord(latitude,
+                                        var_name="lat",
+                                        standard_name="latitude",
+                                        long_name="station latitude",
+                                        units=iris.unit.Unit("degrees"))
+        cube.add_aux_coord(latitude, data_dims=1)
+
+    # Work around iris to get String instead of np.array object.
+    string_list = cube.coord("platform_name").points.tolist()
+    cube.coord("platform_name").points = string_list
+    cube.coord("platform_name").var_name = 'station'
+
+    station_attr = kw.get("station_attr")
+    if station_attr is not None:
+        cube.coord("platform_name").attributes = station_attr
+
+    cube_attr = kw.get("cube_attr")
+    if cube_attr is not None:
+        cube.attributes = cube_attr
+
+    iris.save(cube, outfile)
+
+
 def plt_grid(lon, lat):
     fig, ax = plt.subplots(figsize=(6, 6),
                            subplot_kw=dict(projection=ccrs.PlateCarree()))
@@ -109,7 +154,7 @@ def get_cube(url, constraint, jd_start, jd_stop):
     """Load cube, check units and return a
     time-sliced cube to reduce download."""
     cube = iris.load_cube(url, constraint)
-    if not cube.units == Unit('meters'):
+    if not cube.units == iris.unit.Unit('meters'):
         # TODO: Isn't working for unstructured data.
         cube.convert_units('m')
     timevar = find_timevar(cube)
