@@ -28,12 +28,12 @@ from pyoos.collectors.coops.coops_sos import CoopsSos
 from utilities import (dateRange, get_coops_longname, coops2df, make_tree,
                        get_coordinates, get_model_name, get_nearest_water,
                        service_urls, slice_bbox_extract, plt_grid, get_cube,
+                       add_station, standardize_fill_value, ensure_timeseries,
                        save_timeseries_cube)
 
 # <codecell>
 
 now = datetime.utcnow()
-
 start = now - timedelta(days=3)
 stop = now + timedelta(days=3)
 
@@ -193,18 +193,12 @@ if not os.path.isfile(fname):
     non_navd = [c not in diff for c in observations['station']]
     observations = observations[non_navd]
 
-    comment = "Several stations from http://opendap.co-ops.nos.noaa.gov"
     kw = dict(longitude=observations.lon,
               latitude=observations.lat,
               station_attr=dict(cf_role="timeseries_id"),
               cube_attr=dict(featureType='timeSeries',
-                             Conventions='CF-1.6',
-                             standard_name_vocabulary='CF-1.6',
-                             cdm_data_type="Station",
-                             comment=comment,
                              datum=datum,
                              url=url))
-
     save_timeseries_cube(obs_data, outfile=fname, **kw)
 else:
     cube = iris.load_cube(fname)
@@ -277,23 +271,24 @@ for url in dap_urls:
             series = series.reindex(a.index).interpolate(**kw).ix[a.index]
             interp_series.update({obs['station']: series})
 
-        interp_series = DataFrame.from_dict(interp_series).dropna(axis=1, how='all')
+        interp = dict(axis=1, how='all')
+        interp_series = DataFrame.from_dict(interp_series).dropna(**interp)
         dfs.update({fname[:-3]: interp_series})
 
         if raw_series:  # Save cube.
             for station, cube in raw_series.items():
-                station_coord = iris.coords.AuxCoord(station,
-                                                     var_name="station",
-                                                     long_name="station name")
-                cube.add_aux_coord(station_coord)
-
+                cube = standardize_fill_value(cube)
+                cube = add_station(cube, station)
             try:
                 cube = iris.cube.CubeList(raw_series.values()).merge_cube()
-            except MergeError:
-                cube = iris.cube.CubeList(raw_series.values()).merge()
+            except MergeError as e:
+                print(e)
+
+            ensure_timeseries(cube)
             iris.save(cube, fname)
 
-        ax.set_title('%s: Points found %s' % (mod_name, len(interp_series.columns)))
+        size = len(interp_series.columns)
+        ax.set_title('%s: Points found %s' % (mod_name, size))
         ax.plot(observations.lon, observations.lat, 'ro',
                 zorder=1, label='Observation', alpha=0.25)
         ax.set_extent([bounding_box[0][0], bounding_box[1][0],
