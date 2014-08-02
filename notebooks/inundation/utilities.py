@@ -79,15 +79,17 @@ titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
                'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/'
                'Forecasts/NECOFS_GOM3_FORECAST.nc': 'NECOFS_GOM3_FVCOM',
                'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/'
-               'Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE'})
+               'Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE',
+               'http://crow.marine.usf.edu:8080/thredds/dodsC/'
+               'WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_'
+               'Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd': 'USF'})
 
 
 def save_timeseries_cube(df, outfile='timeseries.nc', **kw):
-    """FIXME: standard_name="platform_name" and long_name = "station name".
-    # http://cfconventions.org/Data/cf-convetions/cf-conventions-1.6/build/cf-conventions.html#idp5577536"""
+    """http://cfconventions.org/Data/cf-convetions/cf-conventions-1.6/build/cf-conventions.html#idp5577536"""
     cube = as_cube(df, calendars={1: iris.unit.CALENDAR_GREGORIAN})
     cube.coord("index").rename("time")
-    cube.coord("columns").rename("platform_name")
+    cube.coord("columns").rename("station name")
     cube.rename("water_surface_height_above_reference_datum")
 
     longitude = kw.get("longitude")
@@ -109,17 +111,17 @@ def save_timeseries_cube(df, outfile='timeseries.nc', **kw):
         cube.add_aux_coord(latitude, data_dims=1)
 
     # Work around iris to get String instead of np.array object.
-    string_list = cube.coord("platform_name").points.tolist()
-    cube.coord("platform_name").points = string_list
-    cube.coord("platform_name").var_name = 'station'
+    string_list = cube.coord("station name").points.tolist()
+    cube.coord("station name").points = string_list
+    cube.coord("station name").var_name = 'station'
 
     station_attr = kw.get("station_attr")
     if station_attr is not None:
-        cube.coord("platform_name").attributes = station_attr
+        cube.coord("station name").attributes.update(station_attr)
 
     cube_attr = kw.get("cube_attr")
     if cube_attr is not None:
-        cube.attributes = cube_attr
+        cube.attributes.update(cube_attr)
 
     iris.save(cube, outfile)
 
