@@ -85,8 +85,51 @@ titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
                'Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd': 'USF'})
 
 
+def standardize_fill_value(cube):
+    """Work around default `fill_value` when obtaining
+    `_CubeSignature` (iris) using `lazy_data()` (biggus).
+    Warning use only when you DO KNOW that the slices should
+    have the same `fill_value`!!!"""
+    if ma.isMaskedArray(cube._my_data):
+        fill_value = ma.empty(0, dtype=cube._my_data.dtype).fill_value
+        cube._my_data.fill_value = fill_value
+    return cube
+
+
+def make_aux_coord(cube, axis='Y'):
+    """Make any given coordinate an Auxiliary Coordinate."""
+    coord = cube.coord(axis=axis)
+    cube.remove_coord(coord)
+    if cube.ndim == 2:
+        cube.add_aux_coord(coord, 1)
+    else:
+        cube.add_aux_coord(coord)
+    return cube
+
+
+def ensure_timeseries(cube):
+    """Ensure that the cube is CF-timeSeries compliant."""
+    if not cube.coord('time').shape == cube.shape[0]:
+        cube.transpose()
+    make_aux_coord(cube, axis='Y')
+    make_aux_coord(cube, axis='X')
+
+    cube.attributes.update({'featureType': 'timeSeries'})
+    cube.coord("station name").attributes = dict(cf_role='timeseries_id')
+    return cube
+
+
+def add_station(cube, station):
+    """Add a station Auxiliary Coordinate and its name."""
+    kw = dict(var_name="station", long_name="station name")
+    coord = iris.coords.AuxCoord(station, **kw)
+    cube.add_aux_coord(coord)
+    return cube
+
+
 def save_timeseries_cube(df, outfile='timeseries.nc', **kw):
-    """http://cfconventions.org/Data/cf-convetions/cf-conventions-1.6/build/cf-conventions.html#idp5577536"""
+    """http://cfconventions.org/Data/cf-convetions/cf-conventions-1.6/build
+    /cf-conventions.html#idp5577536"""
     cube = as_cube(df, calendars={1: iris.unit.CALENDAR_GREGORIAN})
     cube.coord("index").rename("time")
     cube.coord("columns").rename("station name")
