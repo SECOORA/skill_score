@@ -1,12 +1,20 @@
 # Site settings
-title: Your awesome title
-email: your-email@domain.com
-description: "Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description."
-baseurl: ""
-url: "http://yourdomain.com"
-twitter_username: jekyllrb
-github_username:  jekyll
+title: SECOORA Model Skill Assessment
+#email: ocefpaf@gmail.com
+description: "Thoughts, notebooks and prototypes for the SECOORA skill score exercise"
+#baseurl: /secoora
+url: "http://ocefpaf.github.io/secoora"
+twitter_username: ocefpaf
+github_username:  ocefpaf
 
 # Build settings
+layout: default
 markdown: kramdown
+highlighter: pygments
+relative_permalinks: false
+google_analytics_id: UA-9133259-16
 permalink: pretty
+repository: https://github.com/ocefpaf/secoora
+collections:
+  comparisons:
+    output: true
