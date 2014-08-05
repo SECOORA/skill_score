@@ -1,8 +1,8 @@
 # Site settings
 title: SECOORA Model Skill Assessment
-#email: ocefpaf@gmail.com
+email: ocefpaf@gmail.com
 description: "Thoughts, notebooks and prototypes for the SECOORA skill score exercise"
-#baseurl: /secoora
+baseurl: "http://ocefpaf.github.io/secoora"
 url: "http://ocefpaf.github.io/secoora"
 twitter_username: ocefpaf
 github_username:  ocefpaf
