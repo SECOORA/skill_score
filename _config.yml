@@ -1,21 +1,9 @@
-# Site settings
 name: secoora
-title: SECOORA Model Skill Assessment
-email: ocefpaf@gmail.com
-description: "Thoughts, notebooks and prototypes for the SECOORA skill score exercise"
+description: "Prototypes for the SECOORA skill score exercise"
+
+paginate: 5
 url: "http://ocefpaf.github.io"
 baseurl: /secoora
-twitter_username: ocefpaf
-github_username:  ocefpaf
 
-# Build settings
-layout: default
+
 markdown: kramdown
-highlighter: pygments
-#relative_permalinks: false
-google_analytics_id: UA-9133259-16
-permalink: pretty
-repository: https://github.com/ocefpaf/secoora
-collections:
-  comparisons:
-    output: true
