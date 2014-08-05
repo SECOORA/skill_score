@@ -4,9 +4,8 @@ name: secoora
 safe: true
 email: ocefpaf@gmail.com
 description: "Prototypes for the SECOORA skill score exercise"
-#url: "http://ocefpaf.github.io"
-#baseurl: /secoora
-baseurl: "http://ocefpaf.github.io/secoora"
+url: "http://ocefpaf.github.io"
+baseurl: /secoora
 twitter_username: ocefpaf
 github_username:  ocefpaf
 
@@ -21,4 +20,3 @@ repository: https://github.com/ocefpaf/secoora
 collections:
   comparisons:
     output: true
-    permalink: secoora/:path/
