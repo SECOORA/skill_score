@@ -1,7 +1,7 @@
 ---
 layout: page
 title: HF-Radar Currents
-permalink: /comparisons/hf-radar/
+permalink: comparisons/hf-radar/
 ---
 
 TODO

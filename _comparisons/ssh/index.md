@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Sea Surface Height
-permalink: /comparisons/ssh/
+permalink: comparisons/ssh/
 ---
 
 Here are the results for Water Level comparison for each run
