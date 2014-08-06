@@ -29,7 +29,7 @@ from utilities import (dateRange, get_coops_longname, coops2df, make_tree,
                        get_coordinates, get_model_name, get_nearest_water,
                        service_urls, slice_bbox_extract, plt_grid, get_cube,
                        add_station, standardize_fill_value, ensure_timeseries,
-                       save_timeseries_cube)
+                       save_timeseries_cube, inline_map)
 
 # <codecell>
 
@@ -335,5 +335,5 @@ for station in dfs:
 
 inundation_map.create_map(path='inundation_map.html')
 inundation_map.render_iframe = True
-inundation_map
+inline_map(inundation_map)
 

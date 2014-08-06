@@ -29,6 +29,8 @@ from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from pandas import read_csv
 from scipy.spatial import KDTree
 
+from IPython.display import HTML
+
 # Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
 
@@ -396,3 +398,12 @@ def get_coordinates(bounding_box, bounding_box_type):
         coordinates.append([bounding_box[1][1], bounding_box[0][0]])
         coordinates.append([bounding_box[0][1], bounding_box[0][0]])
         return coordinates
+
+
+def inline_map(m):
+    m._build_map()
+    srcdoc = m.HTML.replace('"', '&quot;')
+    embed = HTML('<iframe srcdoc="{srcdoc}" '
+                 'style="width: 100%; height: 500px; '
+                 'border: none"></iframe>'.format(srcdoc=srcdoc))
+    return embed
