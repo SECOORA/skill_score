@@ -85,6 +85,7 @@ csw = CatalogueServiceWeb(endpoint, timeout=60)
 filter_list = fes_filter(jd_start, jd_stop, bounding_box, data_dict)
 csw.getrecords2(constraints=filter_list, maxrecords=1000, esn='full')
 
+<<<<<<< HEAD
 # <markdowncell>
 
 # ```python
@@ -124,6 +125,8 @@ csw.getrecords2(constraints=filter_list, maxrecords=1000, esn='full')
 #              'surface_northward_geostrophic_sea_water_velocity_assuming_sea_level_for_geoid']
 # ```
 
+=======
+>>>>>>> Trying to use catalog to find the data.
 # <codecell>
 
 print("Found {} csw records:\n".format(len(csw.records)))
