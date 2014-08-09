@@ -85,6 +85,45 @@ csw = CatalogueServiceWeb(endpoint, timeout=60)
 filter_list = fes_filter(jd_start, jd_stop, bounding_box, data_dict)
 csw.getrecords2(constraints=filter_list, maxrecords=1000, esn='full')
 
+# <markdowncell>
+
+# ```python
+# name_list = ['surface_eastward_sea_water_velocity',
+#              'surface_northward_sea_water_velocity',
+#              'surface_geostrophic_sea_water_x_velocity',
+#              'surface_geostrophic_sea_water_y_velocity'
+#              'surface_geostrophic_eastward_sea_water_velocity',
+#              'surface_geostrophic_northward_sea_water_velocity',
+#              'eastward_sea_water_velocity',
+#              'northward_sea_water_velocity',
+#              'sea_water_x_velocity',
+#              'sea_water_y_velocity',
+#              'baroclinic_eastward_sea_water_velocity',
+#              'baroclinic_northward_sea_water_velocity',
+#              'barotropic_eastward_sea_water_velocity',
+#              'barotropic_northward_sea_water_velocity',
+#              'barotropic_sea_water_x_velocity',
+#              'barotropic_sea_water_y_velocity',
+#              'bolus_eastward_sea_water_velocity',
+#              'bolus_northward_sea_water_velocity',
+#              'bolus_sea_water_x_velocity',
+#              'bolus_sea_water_y_velocity',
+#              'direction_of_sea_water_velocity',
+#              'sea_water_speed',
+#              'x_sea_water_velocity',
+#              'y_sea_water_velocity',
+#              'eastward_transformed_eulerian_mean_velocity',
+#              'northward_transformed_eulerian_mean_velocity',
+#              'surface_eastward_geostrophic_sea_water_velocity',
+#              'surface_northward_geostrophic_sea_water_velocity',
+#              'surface_geostrophic_sea_water_x_velocity_assuming_sea_level_for_geoid',
+#              'surface_geostrophic_sea_water_y_velocity_assuming_sea_level_for_geoid',
+#              'surface_geostrophic_eastward_sea_water_velocity_assuming_sea_level_for_geoid',
+#              'surface_geostrophic_northward_sea_water_velocity_assuming_sea_level_for_geoid',
+#              'surface_eastward_geostrophic_sea_water_velocity_assuming_sea_level_for_geoid',
+#              'surface_northward_geostrophic_sea_water_velocity_assuming_sea_level_for_geoid']
+# ```
+
 # <codecell>
 
 print("Found {} csw records:\n".format(len(csw.records)))
