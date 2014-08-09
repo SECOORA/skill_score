@@ -86,6 +86,9 @@ filter_list = fes_filter(jd_start, jd_stop, bounding_box, data_dict)
 csw.getrecords2(constraints=filter_list, maxrecords=1000, esn='full')
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Added currents CF names.
 # <markdowncell>
 
 # ```python
@@ -125,8 +128,11 @@ csw.getrecords2(constraints=filter_list, maxrecords=1000, esn='full')
 #              'surface_northward_geostrophic_sea_water_velocity_assuming_sea_level_for_geoid']
 # ```
 
+<<<<<<< HEAD
 =======
 >>>>>>> Trying to use catalog to find the data.
+=======
+>>>>>>> Added currents CF names.
 # <codecell>
 
 print("Found {} csw records:\n".format(len(csw.records)))
