@@ -1,52 +1,57 @@
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
 
+# <markdowncell>
+
+# ### SECOORA iundation notebook
+# Based on IOOS system-test [notebook](https://github.com/ioos/system-test/tree/master/Theme_2_Extreme_Events/Scenario_2A_Coastal_Inundation/Scenario_2A_ModelDataCompare_Inundation).
+
 # <codecell>
 
-# Standard Library.
-import warnings
-warnings.filterwarnings("ignore")
+import pytz
 from datetime import datetime, timedelta
 
-# Scientific stack.
-import iris
-iris.FUTURE.netcdf_promote = True
-from iris.pandas import as_series, as_data_frame
-from iris.exceptions import (CoordinateNotFoundError, CoordinateMultiDimError,
-                             ConstraintMismatchError, MergeError)
+# Choose the date range.
+if False:
+    stop = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+else:
+    stop = datetime(2014, 8, 8, 12)
 
-import folium
-import vincent
-import numpy as np
-from pandas import Series, DataFrame, read_csv
+stop = stop.replace(tzinfo=pytz.utc)
+start = stop - timedelta(days=7)
+
+# SECOORA region (NC, SC GA, FL).
+bounding_box = [-87.40, 24.25, -74.70, 36.70]
+
+# <markdowncell>
+
+# #### Start logging
+
+# <codecell>
+
+import logging as log
+reload(log)
+
+log.captureWarnings(True)
+LOG_FILENAME = '{:%Y-%m-%d}-{}'.format(start, 'secoora_inundation.log')
+log.basicConfig(filename=LOG_FILENAME,
+                filemode='w',
+                format='%(asctime)s %(levelname)s: %(message)s',
+                datefmt='%I:%M:%S',
+                level=log.INFO,
+                stream=None)
+
+log.info('Run date: {:%Y-%m-%d %H:%M:%S}'.format(datetime.utcnow()))
+log.info('Download start: {:%Y-%m-%d %H:%M:%S}'.format(start))
+log.info('Download stop: {:%Y-%m-%d %H:%M:%S}'.format(stop))
+log.info('Bounding box: {0:3.2f}, {1:3.2f}, {2:3.2f}, {3:3.2f}'.format(*bounding_box))
+
+# <codecell>
 
 from owslib import fes
-from owslib.csw import CatalogueServiceWeb
-from pyoos.collectors.coops.coops_sos import CoopsSos
+from utilities import date_range_filter
 
-# Local imports.
-from utilities import (dateRange, get_coops_longname, coops2df, make_tree,
-                       get_coordinates, get_model_name, get_nearest_water,
-                       service_urls, slice_bbox_extract, plt_grid, get_cube,
-                       save_timeseries_cube)
-
-# <codecell>
-
-now = datetime.utcnow()
-
-start = now - timedelta(days=3)
-stop = now + timedelta(days=3)
-
-start_date = start.strftime('%Y-%m-%d %H:00')
-stop_date = stop.strftime('%Y-%m-%d %H:00')
-
-jd_start = datetime.strptime(start_date, '%Y-%m-%d %H:%M')
-jd_stop = datetime.strptime(stop_date, '%Y-%m-%d %H:%M')
-
-print('%s to %s' % (start_date, stop_date))
-
-# <codecell>
-
+# CF-names to look for (Sea Surface Height).
 name_list = ['water level',
              'sea_surface_height',
              'sea_surface_elevation',
@@ -55,103 +60,92 @@ name_list = ['water level',
              'water_surface_height_above_reference_datum',
              'sea_surface_height_above_reference_ellipsoid']
 
-bounding_box_type = "box"
-bounding_box = [[-87.4, 24.25],
-                [-74.7, 36.70]]  # SECOORA: NC, SC GA, FL
+kw = dict(wildCard='*',
+          escapeChar='\\',
+          singleChar='?',
+          propertyname='apiso:AnyText')
 
-box = []
-box.append(bounding_box[0][0])
-box.append(bounding_box[0][1])
-box.append(bounding_box[1][0])
-box.append(bounding_box[1][1])
+or_filt = fes.Or([fes.PropertyIsLike(literal=('*%s*' % val), **kw)
+                  for val in name_list])
 
-start, stop = dateRange(start_date, stop_date)
-bbox = fes.BBox(box)
+not_filt = fes.Not([fes.PropertyIsLike(literal='*Averages*', **kw)])
 
-or_filt = fes.Or([fes.PropertyIsLike(propertyname='apiso:AnyText',
-                                     literal=('*%s*' % val),
-                                     escapeChar='\\',
-                                     wildCard='*',
-                                     singleChar='?') for val in name_list])
+bbox = fes.BBox(bounding_box)
 
-val = 'Averages'
-not_filt = fes.Not([fes.PropertyIsLike(propertyname='apiso:AnyText',
-                                       literal=('*%s*' % val),
-                                       escapeChar='\\',
-                                       wildCard='*',
-                                       singleChar='?')])
-
-filter_list = [fes.And([bbox, start, stop, or_filt, not_filt])]
+begin, end = date_range_filter(start, stop)
+filter_list = [fes.And([bbox, begin, end, or_filt, not_filt])]
 
 # <codecell>
+
+from owslib.csw import CatalogueServiceWeb
 
 endpoint = 'http://www.ngdc.noaa.gov/geoportal/csw'
 csw = CatalogueServiceWeb(endpoint, timeout=60)
 csw.getrecords2(constraints=filter_list, maxrecords=1000, esn='full')
 
-if True:
-    print("CSW version: %s" % csw.version)
-    print("Number of datasets available: %s" % len(csw.records.keys()))
+log.info("CSW version: %s" % csw.version)
+log.info("Number of datasets available: %s" % len(csw.records.keys()))
 
 # <codecell>
+
+from utilities import service_urls
 
 dap_urls = service_urls(csw.records, service='odp:url')
 sos_urls = service_urls(csw.records, service='sos:url')
 
-if True:
-    print("CSW:")
-    for rec, item in csw.records.items():
-        print(item.title)
-    print("\nDAP:")
-    print("\n".join(dap_urls))
-    print("\nSOS:")
-    print("\n".join(sos_urls))
+for rec, item in csw.records.items():
+    log.info('CSW: {}'.format(item.title))
+
+for url in dap_urls:
+    log.info('DAP: {}.html'.format(url))
+
+for url in sos_urls:
+    log.info('SOS: {}'.format(url))
 
 # <codecell>
+
+from pyoos.collectors.coops.coops_sos import CoopsSos
 
 collector = CoopsSos()
 sos_name = 'water_surface_height_above_reference_datum'
 
 datum = 'NAVD'
 collector.set_datum(datum)
-collector.end_time = jd_stop
-collector.start_time = jd_start
+collector.end_time = stop
+collector.start_time = start
 collector.variables = [sos_name]
 
 ofrs = collector.server.offerings
-if True:
-    print(collector.server.identification.title)
-    print(len(ofrs))
+
+log.info('{}: {} offerings'.format(collector.server.identification.title, len(ofrs)))
 
 # <codecell>
 
-iso_start = jd_start.strftime('%Y-%m-%dT%H:%M:%SZ')
-iso_stop = jd_stop.strftime('%Y-%m-%dT%H:%M:%SZ')
-box_str = ','.join(str(e) for e in box)
+from pandas import read_csv
+from utilities import sos_request
 
-print("Lat/Lon Box: %s" % box_str)
-print("Date: %s to %s" % (iso_start, iso_stop))
+params = dict(observedProperty=sos_name,
+              eventTime=start.strftime('%Y-%m-%dT%H:%M:%SZ'),
+              featureOfInterest='BBOX:{0},{1},{2},{3}'.format(*bounding_box),
+              offering = 'urn:ioos:network:NOAA.NOS.CO-OPS:WaterLevelActive')
 
-# <codecell>
-
-url = ('http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?'
-       'service=SOS&request=GetObservation&version=1.0.0&'
-       'observedProperty=%s&offering=urn:ioos:network:NOAA.NOS.CO-OPS:'
-       'WaterLevelActive&featureOfInterest=BBOX:%s&responseFormat='
-       'text/csv&eventTime=%s' % (sos_name, box_str, iso_start))
-
-print(url)
+url = sos_request(url='http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **params)
 observations = read_csv(url)
+
+log.info('sos_request'.format(url))
 
 # <markdowncell>
 
-# ### Clean the dataframe.
+# #### Clean the dataframe
 
 # <codecell>
 
-columns = {'station_id': 'station',
+from IPython.display import HTML
+from utilities import get_coops_longname, table_style
+
+columns = {'datum_id': 'datum',
            'sensor_id': 'sensor',
-           'datum_id': 'datum',
+           'station_id': 'station',
            'latitude (degree)': 'lat',
            'longitude (degree)': 'lon',
            'vertical_position (m)': 'height',
@@ -165,19 +159,23 @@ observations['station'] = [s.split(':')[-1] for s in observations['station']]
 observations['name'] = [get_coops_longname(s) for s in observations['station']]
 
 observations.set_index('name', inplace=True)
-
-observations.head()
+HTML(table_style +  observations.head().to_html(classes='df'))
 
 # <markdowncell>
 
-# ### Generate a uniform 6-min time base for model/data comparison:
+# #### Generate a uniform 6-min time base for model/data comparison
 
 # <codecell>
 
 import os
+import iris
+iris.FUTURE.netcdf_promote = True
+from iris.pandas import as_data_frame
+from pandas import DataFrame
+from utilities import coops2df, save_timeseries_cube
 from owslib.ows import ExceptionReport
 
-fname = 'OBS_DATA.nc'
+fname = '{:%Y-%m-%d}-OBS_DATA.nc'.format(start)
 if not os.path.isfile(fname):
     data = dict()
     for s in observations.station:
@@ -186,7 +184,7 @@ if not os.path.isfile(fname):
             b = b['water_surface_height_above_reference_datum (m)']
             data.update({s: b})
         except ExceptionReport as e:
-            print("[%s] %s:\n%s" % (s, get_coops_longname(s), e))
+            log.warning("[%s] %s:\n%s" % (s, get_coops_longname(s), e))
     obs_data = DataFrame.from_dict(data)
 
     diff = set(observations['station'].values).difference(obs_data.columns)
@@ -212,11 +210,25 @@ else:
     cube.remove_coord('latitude')
     obs_data = as_data_frame(cube)
 
-obs_data.head()
+HTML(table_style +  obs_data.head().to_html(max_cols=10, classes='df'))
 
 # <markdowncell>
 
-# ### Loop the models and save a csv series at each station.
+# #### Loop the models and save a csv series at each station
+
+# <codecell>
+
+from iris.pandas import as_series
+from iris.exceptions import (CoordinateNotFoundError, CoordinateMultiDimError,
+                             ConstraintMismatchError, MergeError)
+
+import folium
+import vincent
+import numpy as np
+from pandas import Series
+
+# Local imports.
+from utilities import make_tree, get_coordinates, get_model_name, get_nearest_water, service_urls, slice_bbox_extract, plt_grid, get_cube
 
 # <codecell>
 
@@ -341,4 +353,10 @@ for station in dfs:
 inundation_map.create_map(path='inundation_map.html')
 inundation_map.render_iframe = True
 inundation_map
+
+# <codecell>
+
+with open(LOG_FILENAME, 'rt') as f:
+    print('Log file:\n')
+    print(body)
 
