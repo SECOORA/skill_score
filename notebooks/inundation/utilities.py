@@ -7,6 +7,7 @@ way in the future...
 Standard Library.
 """
 
+import requests
 from lxml import etree
 from io import BytesIO
 try:
@@ -29,9 +30,7 @@ from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from pandas import read_csv
 from scipy.spatial import KDTree
 
-# Custom IOOS/ASA modules (available at PyPI).
 from owslib import fes
-
 
 CSW = {'NGDC Geoportal':
        'http://www.ngdc.noaa.gov/geoportal/csw',
@@ -264,24 +263,28 @@ def get_nearest_water(cube, tree, xi, yi, k=10,
     return series, dist, idx
 
 
-def dateRange(start_date='1900-01-01', stop_date='2100-01-01',
-              constraint='overlaps'):
-    """Hopefully something like this will be implemented in fes soon."""
+def date_range_filter(start, stop, constraint='overlaps'):
+    """Hopefully something like this will be implemented in fes soon.
+    NOTE: Truncates the minutes!"""
+    start = start.strftime('%Y-%m-%d %H:00')
+    stop = stop.strftime('%Y-%m-%d %H:00')
     if constraint == 'overlaps':
         propertyname = 'apiso:TempExtent_begin'
-        start = fes.PropertyIsLessThanOrEqualTo(propertyname=propertyname,
-                                                literal=stop_date)
+        begin = fes.PropertyIsLessThanOrEqualTo(propertyname=propertyname,
+                                                literal=stop)
         propertyname = 'apiso:TempExtent_end'
-        stop = fes.PropertyIsGreaterThanOrEqualTo(propertyname=propertyname,
-                                                  literal=start_date)
+        end = fes.PropertyIsGreaterThanOrEqualTo(propertyname=propertyname,
+                                                  literal=start)
     elif constraint == 'within':
         propertyname = 'apiso:TempExtent_begin'
-        start = fes.PropertyIsGreaterThanOrEqualTo(propertyname=propertyname,
-                                                   literal=start_date)
+        begin = fes.PropertyIsGreaterThanOrEqualTo(propertyname=propertyname,
+                                                   literal=start)
         propertyname = 'apiso:TempExtent_end'
-        stop = fes.PropertyIsLessThanOrEqualTo(propertyname=propertyname,
-                                               literal=stop_date)
-    return start, stop
+        end = fes.PropertyIsLessThanOrEqualTo(propertyname=propertyname,
+                                               literal=stop)
+    else:
+        raise NameError('Unrecognized constraint {}'.format(constraint))
+    return begin, end
 
 
 def get_coops_longname(station):
@@ -341,13 +344,43 @@ def find_timevar(cube):
     return timevar
 
 
-def get_coordinates(bounding_box, bounding_box_type):
-    """Create bounding box coordinates for the map."""
-    coordinates = []
-    if bounding_box_type is "box":
-        coordinates.append([bounding_box[0][1], bounding_box[0][0]])
-        coordinates.append([bounding_box[0][1], bounding_box[1][0]])
-        coordinates.append([bounding_box[1][1], bounding_box[1][0]])
-        coordinates.append([bounding_box[1][1], bounding_box[0][0]])
-        coordinates.append([bounding_box[0][1], bounding_box[0][0]])
-        return coordinates
+def get_coordinates(bbox):
+    """Create bounding box coordinates for the map.  It takes flat or
+    nested list/numpy.array and returns 4 points for the map corners."""
+    bbox = np.asanyarray(bbox).ravel()
+    if bbox.size == 4:
+        bbox = bbox.reshape(2, 2)
+        coordinates = []
+        coordinates.append([bbox[0][1], bbox[0][0]])
+        coordinates.append([bbox[0][1], bbox[1][0]])
+        coordinates.append([bbox[1][1], bbox[1][0]])
+        coordinates.append([bbox[1][1], bbox[0][0]])
+        coordinates.append([bbox[0][1], bbox[0][0]])
+    else:
+        raise ValueError('Wrong number corners.  Expected 4 got {}'.format(bbox.size))
+    return coordinates
+
+
+def sos_request(url='http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **kw):
+    offering = 'urn:ioos:network:NOAA.NOS.CO-OPS:CurrentsActive'
+    params = dict(service='SOS',
+                  request='GetObservation',
+                  version='1.0.0',
+                  offering=offering,
+                  responseFormat='text/csv')
+    params.update(kw)
+    r = requests.get(url, params=params)
+    r.raise_for_status()
+    if 'excel' in r.headers['Content-Type'] or 'csv' in r.headers['Content-Type']:
+        return r.url
+    else:
+
+        raise NameError('Bad url {}'.format(r.url))
+
+table_style = """
+<style>
+    .df th { background-color: LightGray; }
+    .df tbody tr:nth-child(odd) { background-color: AliceBlue; }
+    .df tbody tr:nth-child(even) { background-color: Ivory; }
+</style>
+"""
