@@ -23,10 +23,6 @@ start = stop - timedelta(days=7)
 # SECOORA region (NC, SC GA, FL).
 bounding_box = [-87.40, 24.25, -74.70, 36.70]
 
-# <markdowncell>
-
-# #### Start logging
-
 # <codecell>
 
 import logging as log
@@ -136,12 +132,11 @@ log.info('sos_request'.format(url))
 
 # <markdowncell>
 
-# #### Clean the dataframe
+# #### Clean the dataframe (visualization purpose only)
 
 # <codecell>
 
-from IPython.display import HTML
-from utilities import get_coops_longname, table_style
+from utilities import get_coops_longname, df_html
 
 columns = {'datum_id': 'datum',
            'sensor_id': 'sensor',
@@ -159,7 +154,7 @@ observations['station'] = [s.split(':')[-1] for s in observations['station']]
 observations['name'] = [get_coops_longname(s) for s in observations['station']]
 
 observations.set_index('name', inplace=True)
-HTML(table_style +  observations.head().to_html(classes='df'))
+df_html(observations.head())
 
 # <markdowncell>
 
@@ -169,27 +164,36 @@ HTML(table_style +  observations.head().to_html(classes='df'))
 
 import os
 import iris
-iris.FUTURE.netcdf_promote = True
-from iris.pandas import as_data_frame
 from pandas import DataFrame
-from utilities import coops2df, save_timeseries_cube
+from iris.pandas import as_data_frame
 from owslib.ows import ExceptionReport
+from utilities import coops2df, save_timeseries_cube
 
+iris.FUTURE.netcdf_promote = True
+
+# Quick re-run with without downloading the data again.
+# Note that it will not download new dicovered station
+# and/or will keep stations that might have disapeared!
 fname = '{:%Y-%m-%d}-OBS_DATA.nc'.format(start)
 if not os.path.isfile(fname):
+    log.info('Downloading observation to file {}.'.format(fname))
     data = dict()
+    bad_datum = []
     for s in observations.station:
         try:
             b = coops2df(collector, s, sos_name)
             b = b['water_surface_height_above_reference_datum (m)']
             data.update({s: b})
         except ExceptionReport as e:
+            bad_datum.append(s)
             log.warning("[%s] %s:\n%s" % (s, get_coops_longname(s), e))
     obs_data = DataFrame.from_dict(data)
 
-    diff = set(observations['station'].values).difference(obs_data.columns)
-    non_navd = [c not in diff for c in observations['station']]
-    observations = observations[non_navd]
+    # Split good and bad vertical datum stations.
+    pattern = '|'.join(bad_datum)
+    non_navd = observations.station.str.contains(pattern)
+    bad_datum = observations[non_navd]
+    observations = observations[~non_navd]
 
     comment = "Several stations from http://opendap.co-ops.nos.noaa.gov"
     kw = dict(longitude=observations.lon,
@@ -202,32 +206,26 @@ if not os.path.isfile(fname):
                              comment=comment,
                              datum=datum,
                              url=url))
-
     save_timeseries_cube(obs_data, outfile=fname, **kw)
 else:
+    log.info('Loading observation from file {}.'.format(fname))
     cube = iris.load_cube(fname)
     cube.remove_coord('longitude')
     cube.remove_coord('latitude')
     obs_data = as_data_frame(cube)
 
-HTML(table_style +  obs_data.head().to_html(max_cols=10, classes='df'))
+df_html(obs_data.head())
 
 # <markdowncell>
 
-# #### Loop the models and save a csv series at each station
+# #### Loop the dicovery models and save a series near each observed station
 
 # <codecell>
 
 from iris.pandas import as_series
 from iris.exceptions import (CoordinateNotFoundError, CoordinateMultiDimError,
                              ConstraintMismatchError, MergeError)
-
-import folium
-import vincent
-import numpy as np
 from pandas import Series
-
-# Local imports.
 from utilities import make_tree, get_coordinates, get_model_name, get_nearest_water, service_urls, slice_bbox_extract, plt_grid, get_cube
 
 # <codecell>
@@ -242,7 +240,7 @@ for url in dap_urls:
     try:
         cube = get_cube(url, constraint, jd_start, jd_stop)
     except (RuntimeError, ValueError, ConstraintMismatchError) as e:
-        print('Cannot get cube for: %s\n%s' % (url, e))
+        log.info('Cannot get cube for: %s\n%s' % (url, e))
         continue
     try:
         longitude = bounding_box[0][0], bounding_box[1][0]
@@ -252,15 +250,16 @@ for url in dap_urls:
         cube = slice_bbox_extract(cube, bounding_box)
 
     mod_name, model_full_name = get_model_name(cube, url)
-    print('\n[%s] %s:\n%s\n' % (mod_name, cube.attributes['title'], url))
+    log.info('\n[%s] %s:\n%s\n' % (mod_name, cube.attributes['title'], url))
 
     fname = '%s.nc' % mod_name
+    log.info('Downloading model series to file {}.'.format(fname))
     if not os.path.isfile(fname):
         try:  # Make tree.
             tree, lon, lat = make_tree(cube)
             fig, ax = plt_grid(lon, lat)
         except CoordinateNotFoundError as e:
-            print('Cannot make KDTree for: %s' % mod_name)
+            log.warning('Cannot make KDTree for: %s' % mod_name)
             continue
         # Get model series at observed locations.
         raw_series = dict()
@@ -272,7 +271,7 @@ for url in dap_urls:
                 series, dist, idx = get_nearest_water(cube, tree,
                                                       obs.lon, obs.lat, **kw)
             except ValueError as e:
-                print(e)
+                log.warning(e)
                 continue
             if not series:
                 status = "Not Found"
@@ -283,7 +282,7 @@ for url in dap_urls:
                 status = "Found"
                 ax.plot(lon[idx], lat[idx], 'g.')
 
-            print('[%s] %s' % (status, obs.name))
+            log.info('[%s] %s' % (status, obs.name))
 
             kw = dict(method='time')
             series = series.reindex(a.index).interpolate(**kw).ix[a.index]
@@ -294,11 +293,9 @@ for url in dap_urls:
 
         if raw_series:  # Save cube.
             for station, cube in raw_series.items():
-                station_coord = iris.coords.AuxCoord(station,
-                                                     var_name="station",
-                                                     long_name="station name")
+                kw = dict(var_name="station", long_name="station name")
+                station_coord = iris.coords.AuxCoord(station, **kw)
                 cube.add_aux_coord(station_coord)
-
             try:
                 cube = iris.cube.CubeList(raw_series.values()).merge_cube()
             except MergeError:
@@ -322,9 +319,12 @@ dfs = dfs.swapaxes(0, 2)
 
 # <codecell>
 
-inundation_map = folium.Map(location=[np.mean(bounding_box, axis=0)[1],
-                                      np.mean(bounding_box, axis=0)[0]],
-                            zoom_start=5)
+import folium
+import vincent
+import numpy as np
+
+lon_center, lat_center = np.array(bounding_box).reshape(2, 2).mean(axis=0)
+inundation_map = folium.Map(location=[lat_center, lon_center], zoom_start=5)
 
 # Create the map and add the bounding box line.
 inundation_map.line(get_coordinates(bounding_box, bounding_box_type),
@@ -359,4 +359,14 @@ inundation_map
 with open(LOG_FILENAME, 'rt') as f:
     print('Log file:\n')
     print(body)
+
+# <codecell>
+
+GetTidesOnline = [8410140, 8413320, 8418150, 8443970, 8449130, 8447930, 8452660,
+                  8461490, 8465705, 8516945, 8510560, 8531680, 8534720, 8557380,
+                  8570283, 8632200, 8575512, 8636580, 8651370, 8656483, 8658163,
+                  8661070, 8665530, 8670870, 8720218, 8721604, 8722670, 8723214,
+                  8724580, 8723970, 8725110, 8726384, 8726724, 8727520, 8728690,
+                  8729108, 8735180, 8760922, 8764227, 8770570, 8771341, 8772447,
+                  8775870, 2695540]
 
