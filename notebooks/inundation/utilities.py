@@ -15,7 +15,8 @@ try:
 except ImportError:
     from urllib.request import urlopen
 
-# Scientific stack.
+from IPython.display import HTML
+
 import iris
 from iris.pandas import as_cube
 from iris.exceptions import CoordinateNotFoundError
@@ -377,10 +378,13 @@ def sos_request(url='http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **kw)
 
         raise NameError('Bad url {}'.format(r.url))
 
-table_style = """
-<style>
+
+def df_html(df, max_cols=10):
+    table_style = """
+    <style>
     .df th { background-color: LightGray; }
     .df tbody tr:nth-child(odd) { background-color: AliceBlue; }
     .df tbody tr:nth-child(even) { background-color: Ivory; }
-</style>
-"""
+    </style>
+    """
+    return HTML(table_style +  df.to_html(max_cols=max_cols, classes='df'))
