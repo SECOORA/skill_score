@@ -21,7 +21,7 @@ stop = stop.replace(tzinfo=pytz.utc)
 start = stop - timedelta(days=7)
 
 # SECOORA region (NC, SC GA, FL).
-bounding_box = [-87.40, 24.25, -74.70, 36.70]
+bbox = [-87.40, 24.25, -74.70, 36.70]
 
 # <codecell>
 
@@ -29,7 +29,7 @@ import logging as log
 reload(log)
 
 log.captureWarnings(True)
-LOG_FILENAME = '{:%Y-%m-%d}-{}'.format(start, 'secoora_inundation.log')
+LOG_FILENAME = '{:%Y-%m-%d}-{}'.format(stop, 'secoora_inundation.log')
 log.basicConfig(filename=LOG_FILENAME,
                 filemode='w',
                 format='%(asctime)s %(levelname)s: %(message)s',
@@ -40,12 +40,13 @@ log.basicConfig(filename=LOG_FILENAME,
 log.info('Run date: {:%Y-%m-%d %H:%M:%S}'.format(datetime.utcnow()))
 log.info('Download start: {:%Y-%m-%d %H:%M:%S}'.format(start))
 log.info('Download stop: {:%Y-%m-%d %H:%M:%S}'.format(stop))
-log.info('Bounding box: {0:3.2f}, {1:3.2f}, {2:3.2f}, {3:3.2f}'.format(*bounding_box))
+log.info('Bounding box: {0:3.2f}, {1:3.2f},'
+         '{2:3.2f}, {3:3.2f}'.format(*bbox))
 
 # <codecell>
 
 from owslib import fes
-from utilities import date_range_filter
+from utilities import fes_date_filter
 
 # CF-names to look for (Sea Surface Height).
 name_list = ['water level',
@@ -66,10 +67,8 @@ or_filt = fes.Or([fes.PropertyIsLike(literal=('*%s*' % val), **kw)
 
 not_filt = fes.Not([fes.PropertyIsLike(literal='*Averages*', **kw)])
 
-bbox = fes.BBox(bounding_box)
-
-begin, end = date_range_filter(start, stop)
-filter_list = [fes.And([bbox, begin, end, or_filt, not_filt])]
+begin, end = fes_date_filter(start, stop)
+filter_list = [fes.And([fes.BBox(bbox), begin, end, or_filt, not_filt])]
 
 # <codecell>
 
@@ -112,8 +111,8 @@ collector.start_time = start
 collector.variables = [sos_name]
 
 ofrs = collector.server.offerings
-
-log.info('{}: {} offerings'.format(collector.server.identification.title, len(ofrs)))
+title = collector.server.identification.title
+log.info('{}: {} offerings'.format(title, len(ofrs)))
 
 # <codecell>
 
@@ -122,10 +121,11 @@ from utilities import sos_request
 
 params = dict(observedProperty=sos_name,
               eventTime=start.strftime('%Y-%m-%dT%H:%M:%SZ'),
-              featureOfInterest='BBOX:{0},{1},{2},{3}'.format(*bounding_box),
-              offering = 'urn:ioos:network:NOAA.NOS.CO-OPS:WaterLevelActive')
+              featureOfInterest='BBOX:{0},{1},{2},{3}'.format(*bbox),
+              offering='urn:ioos:network:NOAA.NOS.CO-OPS:WaterLevelActive')
 
-url = sos_request(url='http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **params)
+uri = 'http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS'
+url = sos_request(uri, **params)
 observations = read_csv(url)
 
 log.info('sos_request'.format(url))
@@ -174,7 +174,7 @@ iris.FUTURE.netcdf_promote = True
 # Quick re-run with without downloading the data again.
 # Note that it will not download new dicovered station
 # and/or will keep stations that might have disapeared!
-fname = '{:%Y-%m-%d}-OBS_DATA.nc'.format(start)
+fname = '{:%Y-%m-%d}-OBS_DATA.nc'.format(stop)
 if not os.path.isfile(fname):
     log.info('Downloading observation to file {}.'.format(fname))
     data = dict()
@@ -206,6 +206,7 @@ if not os.path.isfile(fname):
                              comment=comment,
                              datum=datum,
                              url=url))
+
     save_timeseries_cube(obs_data, outfile=fname, **kw)
 else:
     log.info('Loading observation from file {}.'.format(fname))
@@ -218,17 +219,19 @@ df_html(obs_data.head())
 
 # <markdowncell>
 
-# #### Loop the dicovery models and save a series near each observed station
+# #### Loop the discovery models and save a series near each observed station
 
 # <codecell>
 
+import numpy as np
+from pandas import Series
 from iris.pandas import as_series
 from iris.exceptions import (CoordinateNotFoundError, CoordinateMultiDimError,
                              ConstraintMismatchError, MergeError)
-from pandas import Series
-from utilities import make_tree, get_coordinates, get_model_name, get_nearest_water, service_urls, slice_bbox_extract, plt_grid, get_cube
-
-# <codecell>
+from utilities import (slice_bbox_extract, standardize_fill_value,
+                       plt_grid, get_cube, get_model_name, make_tree,
+                       get_nearest_water, add_station, ensure_timeseries,
+                       get_coordinates)
 
 name_in_list = lambda cube: cube.standard_name in name_list
 constraint = iris.Constraint(cube_func=name_in_list, coord_values=None)
@@ -238,21 +241,20 @@ for url in dap_urls:
     if 'NECOFS' in url:  # FIXME: NECOFS has cartesian coordinates.
         continue
     try:
-        cube = get_cube(url, constraint, jd_start, jd_stop)
+        cube = get_cube(url, constraint, start, stop)
     except (RuntimeError, ValueError, ConstraintMismatchError) as e:
-        log.info('Cannot get cube for: %s\n%s' % (url, e))
+        log.warning('Cannot get cube for: %s\n%s' % (url, e))
         continue
     try:
-        longitude = bounding_box[0][0], bounding_box[1][0]
-        latitude = bounding_box[0][1], bounding_box[1][1]
-        cube = cube.intersection(longitude=longitude, latitude=latitude)
+        cube = cube.intersection(longitude=(bbox[0], bbox[2]),
+                                 latitude=(bbox[1], bbox[3]))
     except CoordinateMultiDimError:
-        cube = slice_bbox_extract(cube, bounding_box)
+        cube = slice_bbox_extract(cube, bbox)
 
     mod_name, model_full_name = get_model_name(cube, url)
     log.info('\n[%s] %s:\n%s\n' % (mod_name, cube.attributes['title'], url))
 
-    fname = '%s.nc' % mod_name
+    fname = '{:%Y-%m-%d}-{}.nc'.format(stop, mod_name)
     log.info('Downloading model series to file {}.'.format(fname))
     if not os.path.isfile(fname):
         try:  # Make tree.
@@ -288,25 +290,27 @@ for url in dap_urls:
             series = series.reindex(a.index).interpolate(**kw).ix[a.index]
             interp_series.update({obs['station']: series})
 
-        interp_series = DataFrame.from_dict(interp_series).dropna(axis=1, how='all')
-        dfs.update({fname[:-3]: interp_series})
+        interp = dict(axis=1, how='all')
+        interp_series = DataFrame.from_dict(interp_series).dropna(**interp)
+        dfs.update({mod_name: interp_series})
 
         if raw_series:  # Save cube.
             for station, cube in raw_series.items():
-                kw = dict(var_name="station", long_name="station name")
-                station_coord = iris.coords.AuxCoord(station, **kw)
-                cube.add_aux_coord(station_coord)
+                cube = standardize_fill_value(cube)
+                cube = add_station(cube, station)
             try:
                 cube = iris.cube.CubeList(raw_series.values()).merge_cube()
-            except MergeError:
-                cube = iris.cube.CubeList(raw_series.values()).merge()
+            except MergeError as e:
+                log.warning(e)
+
+            ensure_timeseries(cube)
             iris.save(cube, fname)
 
-        ax.set_title('%s: Points found %s' % (mod_name, len(interp_series.columns)))
+        size = len(interp_series.columns)
+        ax.set_title('%s: Points found %s' % (mod_name, size))
         ax.plot(observations.lon, observations.lat, 'ro',
                 zorder=1, label='Observation', alpha=0.25)
-        ax.set_extent([bounding_box[0][0], bounding_box[1][0],
-                       bounding_box[0][1], bounding_box[1][1]])
+        ax.set_extent([bbox[0], bbox[2], bbox[1], bbox[3]])
 
 # <codecell>
 
@@ -321,17 +325,16 @@ dfs = dfs.swapaxes(0, 2)
 
 import folium
 import vincent
-import numpy as np
+from utilities import inline_map
 
-lon_center, lat_center = np.array(bounding_box).reshape(2, 2).mean(axis=0)
+lon_center, lat_center = np.array(bbox).reshape(2, 2).mean(axis=0)
 inundation_map = folium.Map(location=[lat_center, lon_center], zoom_start=5)
 
 # Create the map and add the bounding box line.
-inundation_map.line(get_coordinates(bounding_box, bounding_box_type),
-                    line_color='#FF0000', line_weight=2)
+kw = dict(line_color='#FF0000', line_weight=2)
+inundation_map.line(get_coordinates(bbox), **kw)
 
 html = '<b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
-
 for station in dfs:
     sta_name = get_coops_longname(station)
     df = dfs[station].dropna(axis=1, how='all')
@@ -343,30 +346,17 @@ for station in dfs:
     vis.name = sta_name
     json = 'station_%s.json' % station
     vis.to_json(json)
-    obs = observations[observations['station'] == station]
-    inundation_map.simple_marker(location=[obs['lat'].values[0],
-                                           obs['lon'].values[0]],
-                                 popup=(vis, json))
+    obs = observations[observations['station'] == station].squeeze()
+    popup = (vis, json)
+    kw = dict(popup=popup, marker_color="green", marker_icon="ok")
+    inundation_map.simple_marker(location=[obs['lat'], obs['lon']], **kw)
 
-# <codecell>
+for station, obs in bad_datum.iterrows():
+    popup = ('<b>Station:</b><br>%s<br>' % station)
+    kw = dict(popup=popup, marker_color="red", marker_icon="remove")
+    inundation_map.simple_marker(location=[obs['lat'], obs['lon']], **kw)
 
 inundation_map.create_map(path='inundation_map.html')
 inundation_map.render_iframe = True
-inundation_map
-
-# <codecell>
-
-with open(LOG_FILENAME, 'rt') as f:
-    print('Log file:\n')
-    print(body)
-
-# <codecell>
-
-GetTidesOnline = [8410140, 8413320, 8418150, 8443970, 8449130, 8447930, 8452660,
-                  8461490, 8465705, 8516945, 8510560, 8531680, 8534720, 8557380,
-                  8570283, 8632200, 8575512, 8636580, 8651370, 8656483, 8658163,
-                  8661070, 8665530, 8670870, 8720218, 8721604, 8722670, 8723214,
-                  8724580, 8723970, 8725110, 8726384, 8726724, 8727520, 8728690,
-                  8729108, 8735180, 8760922, 8764227, 8770570, 8771341, 8772447,
-                  8775870, 2695540]
+inline_map(inundation_map)
 

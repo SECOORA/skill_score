@@ -79,15 +79,60 @@ titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
                'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/'
                'Forecasts/NECOFS_GOM3_FORECAST.nc': 'NECOFS_GOM3_FVCOM',
                'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/'
-               'Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE'})
+               'Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE',
+               'http://crow.marine.usf.edu:8080/thredds/dodsC/'
+               'WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_'
+               'Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd': 'USF'})
+
+
+def standardize_fill_value(cube):
+    """Work around default `fill_value` when obtaining
+    `_CubeSignature` (iris) using `lazy_data()` (biggus).
+    Warning use only when you DO KNOW that the slices should
+    have the same `fill_value`!!!"""
+    if ma.isMaskedArray(cube._my_data):
+        fill_value = ma.empty(0, dtype=cube._my_data.dtype).fill_value
+        cube._my_data.fill_value = fill_value
+    return cube
+
+
+def make_aux_coord(cube, axis='Y'):
+    """Make any given coordinate an Auxiliary Coordinate."""
+    coord = cube.coord(axis=axis)
+    cube.remove_coord(coord)
+    if cube.ndim == 2:
+        cube.add_aux_coord(coord, 1)
+    else:
+        cube.add_aux_coord(coord)
+    return cube
+
+
+def ensure_timeseries(cube):
+    """Ensure that the cube is CF-timeSeries compliant."""
+    if not cube.coord('time').shape == cube.shape[0]:
+        cube.transpose()
+    make_aux_coord(cube, axis='Y')
+    make_aux_coord(cube, axis='X')
+
+    cube.attributes.update({'featureType': 'timeSeries'})
+    cube.coord("station name").attributes = dict(cf_role='timeseries_id')
+    return cube
+
+
+def add_station(cube, station):
+    """Add a station Auxiliary Coordinate and its name."""
+    kw = dict(var_name="station", long_name="station name")
+    coord = iris.coords.AuxCoord(station, **kw)
+    cube.add_aux_coord(coord)
+    return cube
 
 
 def save_timeseries_cube(df, outfile='timeseries.nc', **kw):
-    """FIXME: standard_name="platform_name" and long_name = "station name".
-    # http://cfconventions.org/Data/cf-convetions/cf-conventions-1.6/build/cf-conventions.html#idp5577536"""
+    """http://cfconventions.org/Data/cf-convetions/cf-conventions-1.6/build
+    /cf-conventions.html#idp5577536"""
     cube = as_cube(df, calendars={1: iris.unit.CALENDAR_GREGORIAN})
     cube.coord("index").rename("time")
-    cube.coord("columns").rename("platform_name")
+    cube.coord("columns").rename("station name")
     cube.rename("water_surface_height_above_reference_datum")
 
     longitude = kw.get("longitude")
@@ -109,17 +154,17 @@ def save_timeseries_cube(df, outfile='timeseries.nc', **kw):
         cube.add_aux_coord(latitude, data_dims=1)
 
     # Work around iris to get String instead of np.array object.
-    string_list = cube.coord("platform_name").points.tolist()
-    cube.coord("platform_name").points = string_list
-    cube.coord("platform_name").var_name = 'station'
+    string_list = cube.coord("station name").points.tolist()
+    cube.coord("station name").points = string_list
+    cube.coord("station name").var_name = 'station'
 
     station_attr = kw.get("station_attr")
     if station_attr is not None:
-        cube.coord("platform_name").attributes = station_attr
+        cube.coord("station name").attributes.update(station_attr)
 
     cube_attr = kw.get("cube_attr")
     if cube_attr is not None:
-        cube.attributes = cube_attr
+        cube.attributes.update(cube_attr)
 
     iris.save(cube, outfile)
 
@@ -197,7 +242,7 @@ def make_tree(cube):
 
 
 def slice_bbox_extract(cube, bbox):
-    """Extract a subsetted cube inside a lon,lat bounding box
+    """Extract a subsetted cube inside a lon, lat bounding box
     bbox=[lon_min lon_max lat_min lat_max]."""
     lons = cube.coord('longitude').points
     lats = cube.coord('latitude').points
@@ -205,10 +250,10 @@ def slice_bbox_extract(cube, bbox):
     def minmax(v):
         return np.min(v), np.max(v)
 
-    inregion = np.logical_and(np.logical_and(lons > bbox[0][0],
-                                             lons < bbox[1][0]),
-                              np.logical_and(lats > bbox[1][0],
-                                             lats < bbox[1][1]))
+    inregion = np.logical_and(np.logical_and(lons > bbox[0],
+                                             lons < bbox[2]),
+                              np.logical_and(lats > bbox[1],
+                                             lats < bbox[3]))
     region_inds = np.where(inregion)
     imin, imax = minmax(region_inds[0])
     jmin, jmax = minmax(region_inds[1])
@@ -264,7 +309,7 @@ def get_nearest_water(cube, tree, xi, yi, k=10,
     return series, dist, idx
 
 
-def date_range_filter(start, stop, constraint='overlaps'):
+def fes_date_filter(start, stop, constraint='overlaps'):
     """Hopefully something like this will be implemented in fes soon.
     NOTE: Truncates the minutes!"""
     start = start.strftime('%Y-%m-%d %H:00')
@@ -275,14 +320,14 @@ def date_range_filter(start, stop, constraint='overlaps'):
                                                 literal=stop)
         propertyname = 'apiso:TempExtent_end'
         end = fes.PropertyIsGreaterThanOrEqualTo(propertyname=propertyname,
-                                                  literal=start)
+                                                 literal=start)
     elif constraint == 'within':
         propertyname = 'apiso:TempExtent_begin'
         begin = fes.PropertyIsGreaterThanOrEqualTo(propertyname=propertyname,
                                                    literal=start)
         propertyname = 'apiso:TempExtent_end'
         end = fes.PropertyIsLessThanOrEqualTo(propertyname=propertyname,
-                                               literal=stop)
+                                              literal=stop)
     else:
         raise NameError('Unrecognized constraint {}'.format(constraint))
     return begin, end
@@ -358,11 +403,12 @@ def get_coordinates(bbox):
         coordinates.append([bbox[1][1], bbox[0][0]])
         coordinates.append([bbox[0][1], bbox[0][0]])
     else:
-        raise ValueError('Wrong number corners.  Expected 4 got {}'.format(bbox.size))
+        raise ValueError('Wrong number corners.'
+                         '  Expected 4 got {}'.format(bbox.size))
     return coordinates
 
 
-def sos_request(url='http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **kw):
+def sos_request(url, **kw):
     offering = 'urn:ioos:network:NOAA.NOS.CO-OPS:CurrentsActive'
     params = dict(service='SOS',
                   request='GetObservation',
@@ -372,7 +418,8 @@ def sos_request(url='http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **kw)
     params.update(kw)
     r = requests.get(url, params=params)
     r.raise_for_status()
-    if 'excel' in r.headers['Content-Type'] or 'csv' in r.headers['Content-Type']:
+    file_type = r.headers['Content-Type']
+    if 'excel' in file_type or 'csv' in file_type:
         return r.url
     else:
 
@@ -387,4 +434,13 @@ def df_html(df, max_cols=10):
     .df tbody tr:nth-child(even) { background-color: Ivory; }
     </style>
     """
-    return HTML(table_style +  df.to_html(max_cols=max_cols, classes='df'))
+    return HTML(table_style + df.to_html(max_cols=max_cols, classes='df'))
+
+
+def inline_map(m):
+    m._build_map()
+    srcdoc = m.HTML.replace('"', '&quot;')
+    embed = HTML('<iframe srcdoc="{srcdoc}" '
+                 'style="width: 100%; height: 500px; '
+                 'border: none"></iframe>'.format(srcdoc=srcdoc))
+    return embed
