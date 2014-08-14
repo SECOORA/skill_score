@@ -334,7 +334,6 @@ inundation_map = folium.Map(location=[lat_center, lon_center], zoom_start=5)
 kw = dict(line_color='#FF0000', line_weight=2)
 inundation_map.line(get_coordinates(bbox), **kw)
 
-html = '<b>Station:</b><br>%s<br><b>Long Name:</b><br>%s'
 for station in dfs:
     sta_name = get_coops_longname(station)
     df = dfs[station].dropna(axis=1, how='all')
@@ -344,7 +343,7 @@ for station in dfs:
     vis.axis_titles(x='Time', y='Sea surface height (m)')
     vis.legend(title=sta_name)
     vis.name = sta_name
-    json = 'station_%s.json' % station
+    json = 'station_{}.json'.format(station)
     vis.to_json(json)
     obs = observations[observations['station'] == station].squeeze()
     popup = (vis, json)
@@ -352,7 +351,7 @@ for station in dfs:
     inundation_map.simple_marker(location=[obs['lat'], obs['lon']], **kw)
 
 for station, obs in bad_datum.iterrows():
-    popup = ('<b>Station:</b><br>%s<br>' % station)
+    popup = '<b>Station:</b> {}<br><b>Datum:</b> {}<br>'.format(station, obs['datum'])
     kw = dict(popup=popup, marker_color="red", marker_icon="remove")
     inundation_map.simple_marker(location=[obs['lat'], obs['lon']], **kw)
 
