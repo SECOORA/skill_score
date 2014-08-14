@@ -27,12 +27,6 @@ install:
     - source activate $ENV_NAME
     # Customise the testing environment.
     - conda config --add channels rsignell
-    - conda install biggus
-    - conda install cartopy
-    - conda install netcdf4
-    - conda install numpy
-    - conda install pyke
-    - conda install udunits
     - conda install setuptools pip lxml requests pytz jinja2
     - conda install numpy scipy matplotlib pandas ipython-notebook
     - conda install OWSLib pyoos
