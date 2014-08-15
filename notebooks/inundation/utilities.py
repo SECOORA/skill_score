@@ -18,7 +18,7 @@ except ImportError:
 from IPython.display import HTML
 
 import iris
-from iris.pandas import as_cube
+from iris.pandas import as_cube, as_data_frame
 from iris.exceptions import CoordinateNotFoundError
 
 import numpy as np
@@ -444,3 +444,20 @@ def inline_map(m):
                  'style="width: 100%; height: 500px; '
                  'border: none"></iframe>'.format(srcdoc=srcdoc))
     return embed
+
+
+def nc2df(fname):
+    cube = iris.load_cube(fname)
+    for coord in cube.coords(dimensions=[0]):
+        name = coord.name()
+        if name != 'time':
+            cube.remove_coord(name)
+    for coord in cube.coords(dimensions=[1]):
+        name = coord.name()
+        if name != 'station name':
+            cube.remove_coord(name)
+    df = as_data_frame(cube)
+    if cube.ndim == 1:  # Horrible work around iris.
+        station = cube.coord('station name').points[0]
+        df.columns = [station]
+    return df
