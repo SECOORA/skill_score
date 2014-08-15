@@ -5,7 +5,9 @@ python:
 
 before_install:
   - sudo apt-get update -qq
-
+  # GUI
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 install:
     # Make sure system components are up to date.
     - sudo apt-get update
