@@ -219,12 +219,11 @@ df_html(obs_data.head())
 
 # <markdowncell>
 
-# #### Loop the discovery models and save a series near each observed station
+# #### Loop the discovered models and save the nearest time-series to each observed station
 
 # <codecell>
 
 import numpy as np
-from pandas import Series
 from iris.pandas import as_series
 from iris.exceptions import (CoordinateNotFoundError, CoordinateMultiDimError,
                              ConstraintMismatchError, MergeError)
@@ -236,7 +235,6 @@ from utilities import (slice_bbox_extract, standardize_fill_value,
 name_in_list = lambda cube: cube.standard_name in name_list
 constraint = iris.Constraint(cube_func=name_in_list, coord_values=None)
 
-dfs = dict()
 for url in dap_urls:
     if 'NECOFS' in url:  # FIXME: NECOFS has cartesian coordinates.
         continue
@@ -265,7 +263,6 @@ for url in dap_urls:
             continue
         # Get model series at observed locations.
         raw_series = dict()
-        interp_series = dict()
         for station, obs in observations.iterrows():
             a = obs_data[obs['station']]
             try:
@@ -277,7 +274,6 @@ for url in dap_urls:
                 continue
             if not series:
                 status = "Not Found"
-                series = Series(np.empty_like(a) * np.NaN, index=a.index)
             else:
                 raw_series.update({obs['station']: series})
                 series = as_series(series)
@@ -285,14 +281,6 @@ for url in dap_urls:
                 ax.plot(lon[idx], lat[idx], 'g.')
 
             log.info('[%s] %s' % (status, obs.name))
-
-            kw = dict(method='time')
-            series = series.reindex(a.index).interpolate(**kw).ix[a.index]
-            interp_series.update({obs['station']: series})
-
-        interp = dict(axis=1, how='all')
-        interp_series = DataFrame.from_dict(interp_series).dropna(**interp)
-        dfs.update({mod_name: interp_series})
 
         if raw_series:  # Save cube.
             for station, cube in raw_series.items():
@@ -306,20 +294,38 @@ for url in dap_urls:
             ensure_timeseries(cube)
             iris.save(cube, fname)
 
-        size = len(interp_series.columns)
+        size = len(raw_series)
         ax.set_title('%s: Points found %s' % (mod_name, size))
         ax.plot(observations.lon, observations.lat, 'ro',
                 zorder=1, label='Observation', alpha=0.25)
         ax.set_extent([bbox[0], bbox[2], bbox[1], bbox[3]])
 
+# <markdowncell>
+
+# #### Load the saved files and intepolate to the same time interval as the observed series
+
 # <codecell>
 
+from glob import glob
 from pandas import Panel
+from utilities import nc2df
 
-dfs.update(OBS_DATA=obs_data)
+date = '2014-08-08'
+OBS_DATA = nc2df('{}-OBS_DATA.nc'.format(date))
+index = OBS_DATA.index
 
-dfs = Panel.fromDict(dfs)
-dfs = dfs.swapaxes(0, 2)
+dfs = dict(OBS_DATA=OBS_DATA)
+for fname in glob('*.nc'):
+    if 'OBS_DATA' in fname:
+        pass
+    else:
+        model = fname.split('.')[0].split('-')[-1]
+        df = nc2df(fname)
+        kw = dict(method='time')
+        df = df.reindex(index).interpolate(**kw).ix[index]
+        dfs.update({model: df})
+
+dfs = Panel.fromDict(dfs).swapaxes(0, 2)
 
 # <codecell>
 
@@ -351,11 +357,16 @@ for station in dfs:
     inundation_map.simple_marker(location=[obs['lat'], obs['lon']], **kw)
 
 for station, obs in bad_datum.iterrows():
-    popup = '<b>Station:</b> {}<br><b>Datum:</b> {}<br>'.format(station, obs['datum'])
+    popup = '<b>Station:</b> {}<br><b>Datum:</b> {}<br>'
+    popup = popup.format(station, obs['datum'])
     kw = dict(popup=popup, marker_color="red", marker_icon="remove")
     inundation_map.simple_marker(location=[obs['lat'], obs['lon']], **kw)
 
 inundation_map.create_map(path='inundation_map.html')
 inundation_map.render_iframe = True
 inline_map(inundation_map)
+
+# <codecell>
+
+log.info('EOF')
 
