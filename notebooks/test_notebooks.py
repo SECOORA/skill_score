@@ -7,7 +7,7 @@
 # e-mail:   ocefpaf@gmail
 # web:      http://ocefpaf.github.io/
 # created:  14-Aug-2014
-# modified: Thu 14 Aug 2014 02:52:39 PM BRT
+# modified: Fri 15 Aug 2014 10:45:53 AM BRT
 #
 # obs:
 #
@@ -16,7 +16,12 @@ import os
 import sys
 import nose
 import unittest
+import subprocess
 from glob import glob
+
+
+def clean_output(pattern='*.nc'):
+    [os.unlink(fname) for fname in glob(pattern)]
 
 
 class RunNotebooks(unittest.TestCase):
@@ -41,7 +46,10 @@ class RunNotebooks(unittest.TestCase):
                 os.chdir(folder)  # If reading or saving in that directory.
                 sys.path.append(folder)
                 print("Running {}".format(py_file))
-                execfile(py_file, {})
+                clean_output(pattern='*.nc')
+                clean_output(pattern='*.log')
+                clean_output(pattern='*.json')
+                subprocess.call(['python', py_file])
                 sys.path.pop()
             else:
                 print("Test for {} is not implemented!".format(py_file))
