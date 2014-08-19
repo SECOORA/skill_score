@@ -6,8 +6,8 @@
 import os
 from utilities import nc2df
 
-directory = '2014-08-08'
-fname = '{}-OBS_DATA.nc'.format(directory)
+directory = 'bias'
+fname = '2014-06-07-OBS_DATA.nc'
 fname = os.path.join(directory, fname)
 OBS_DATA = nc2df(fname)
 index = OBS_DATA.index
@@ -48,10 +48,12 @@ for station, df in dfs.iteritems():
             series.dropna().plot(ax=ax)
         ax.set_title(station)
         ax.legend()
+        plt.close(fig)
 
 # <codecell>
 
 from pandas import DataFrame
+%config InlineBackend.figure_format = 'svg'
 
 means = dict()
 for station, df in dfs.iteritems():
@@ -74,6 +76,21 @@ for station, df in dfs.iteritems():
 
 # <codecell>
 
+from utilities import df_html
+
 bias = DataFrame.from_dict(means).dropna(axis=1, how='all')
-bias
+
+string_table = bias.applymap('{:.2f}'.format).replace('nan', '--')
+
+columns = dict()
+[columns.update({station: get_coops_longname(station)}) for station in string_table.columns.values]
+string_table.rename(columns=columns, inplace=True)
+
+df_html(string_table.T)
+
+# <codecell>
+
+logfile = '2014-06-07-secoora_inundation.log'
+with open(os.path.join(directory, logfile)) as f:
+    print(f.read())
 
