@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
 
+# <codecell>
+
+import time
+start_time = time.time()
+
 # <markdowncell>
 
 # ### SECOORA iundation notebook
@@ -15,7 +20,7 @@ from datetime import datetime, timedelta
 if False:
     stop = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
 else:
-    stop = datetime(2014, 8, 8, 12)
+    stop = datetime(2014, 7, 7, 12)
 
 stop = stop.replace(tzinfo=pytz.utc)
 start = stop - timedelta(days=7)
@@ -25,11 +30,20 @@ bbox = [-87.40, 24.25, -74.70, 36.70]
 
 # <codecell>
 
+import os
+directory = '{:%Y-%m-%d}'.format(stop)
+
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
+# <codecell>
+
 import logging as log
 reload(log)
 
 log.captureWarnings(True)
 LOG_FILENAME = '{:%Y-%m-%d}-{}'.format(stop, 'secoora_inundation.log')
+LOG_FILENAME = os.path.join(directory, LOG_FILENAME)
 log.basicConfig(filename=LOG_FILENAME,
                 filemode='w',
                 format='%(asctime)s %(levelname)s: %(message)s',
@@ -162,7 +176,6 @@ df_html(observations.head())
 
 # <codecell>
 
-import os
 import iris
 from pandas import DataFrame
 from iris.pandas import as_data_frame
@@ -171,29 +184,33 @@ from utilities import coops2df, save_timeseries_cube
 
 iris.FUTURE.netcdf_promote = True
 
-# Quick re-run with without downloading the data again.
-# Note that it will not download new dicovered station
-# and/or will keep stations that might have disapeared!
+# Saving allows for re-run with without downloading the
+# data again.  Note that it will not download new
+# dicovered station and will keep stations that might
+# have disapeared!
 fname = '{:%Y-%m-%d}-OBS_DATA.nc'.format(stop)
+fname = os.path.join(directory, fname)
 if not os.path.isfile(fname):
     log.info('Downloading observation to file {}.'.format(fname))
     data = dict()
     bad_datum = []
-    for s in observations.station:
+    for station in observations.station:
         try:
-            b = coops2df(collector, s, sos_name)
-            b = b['water_surface_height_above_reference_datum (m)']
-            data.update({s: b})
+            df = coops2df(collector, station, sos_name)
+            col = 'water_surface_height_above_reference_datum (m)'
+            data.update({station: df[col]})
         except ExceptionReport as e:
-            bad_datum.append(s)
-            log.warning("[%s] %s:\n%s" % (s, get_coops_longname(s), e))
+            bad_datum.append(station)
+            name = get_coops_longname(station)
+            log.warning("[%s] %s:\n%s" % (station, name, e))
     obs_data = DataFrame.from_dict(data)
 
     # Split good and bad vertical datum stations.
     pattern = '|'.join(bad_datum)
-    non_navd = observations.station.str.contains(pattern)
-    bad_datum = observations[non_navd]
-    observations = observations[~non_navd]
+    if pattern:
+        non_navd = observations.station.str.contains(pattern)
+        bad_datum = observations[non_navd]
+        observations = observations[~non_navd]
 
     comment = "Several stations from http://opendap.co-ops.nos.noaa.gov"
     kw = dict(longitude=observations.lon,
@@ -229,8 +246,7 @@ from iris.exceptions import (CoordinateNotFoundError, CoordinateMultiDimError,
                              ConstraintMismatchError, MergeError)
 from utilities import (slice_bbox_extract, standardize_fill_value,
                        plt_grid, get_cube, get_model_name, make_tree,
-                       get_nearest_water, add_station, ensure_timeseries,
-                       get_coordinates)
+                       get_nearest_water, add_station, ensure_timeseries)
 
 name_in_list = lambda cube: cube.standard_name in name_list
 constraint = iris.Constraint(cube_func=name_in_list, coord_values=None)
@@ -240,6 +256,9 @@ for url in dap_urls:
         continue
     try:
         cube = get_cube(url, constraint, start, stop)
+        if cube.ndim == 1:  # We Need a better way to identify model data.
+            log.warning('url {} is probably a timeSeries!'.format(url))
+            continue
     except (RuntimeError, ValueError, ConstraintMismatchError) as e:
         log.warning('Cannot get cube for: %s\n%s' % (url, e))
         continue
@@ -253,6 +272,7 @@ for url in dap_urls:
     log.info('\n[%s] %s:\n%s\n' % (mod_name, cube.attributes['title'], url))
 
     fname = '{:%Y-%m-%d}-{}.nc'.format(stop, mod_name)
+    fname = os.path.join(directory, fname)
     log.info('Downloading model series to file {}.'.format(fname))
     if not os.path.isfile(fname):
         try:  # Make tree.
@@ -269,15 +289,16 @@ for url in dap_urls:
                 kw = dict(k=10, max_dist=0.04, min_var=0.01)
                 series, dist, idx = get_nearest_water(cube, tree,
                                                       obs.lon, obs.lat, **kw)
+            # RuntimeError may occurs, but you should run it again!
             except ValueError as e:
                 log.warning(e)
                 continue
             if not series:
-                status = "Not Found"
+                status = "Found Land"
             else:
                 raw_series.update({obs['station']: series})
                 series = as_series(series)
-                status = "Found"
+                status = "Found Water"
                 ax.plot(lon[idx], lat[idx], 'g.')
 
             log.info('[%s] %s' % (status, obs.name))
@@ -302,7 +323,7 @@ for url in dap_urls:
 
 # <markdowncell>
 
-# #### Load the saved files and intepolate to the same time interval as the observed series
+# #### Load the saved files and interpolate to the same time interval as the observed series
 
 # <codecell>
 
@@ -310,12 +331,13 @@ from glob import glob
 from pandas import Panel
 from utilities import nc2df
 
-date = '2014-08-08'
-OBS_DATA = nc2df('{}-OBS_DATA.nc'.format(date))
+fname = '{}-OBS_DATA.nc'.format(directory)
+fname = os.path.join(directory, fname)
+OBS_DATA = nc2df(fname)
 index = OBS_DATA.index
 
 dfs = dict(OBS_DATA=OBS_DATA)
-for fname in glob('*.nc'):
+for fname in glob(os.path.join(directory, "*.nc")):
     if 'OBS_DATA' in fname:
         pass
     else:
@@ -329,9 +351,10 @@ dfs = Panel.fromDict(dfs).swapaxes(0, 2)
 
 # <codecell>
 
+import shutil
 import folium
 import vincent
-from utilities import inline_map
+from utilities import get_coordinates, inline_map
 
 lon_center, lat_center = np.array(bbox).reshape(2, 2).mean(axis=0)
 inundation_map = folium.Map(location=[lat_center, lon_center], zoom_start=5)
@@ -356,11 +379,12 @@ for station in dfs:
     kw = dict(popup=popup, marker_color="green", marker_icon="ok")
     inundation_map.simple_marker(location=[obs['lat'], obs['lon']], **kw)
 
-for station, obs in bad_datum.iterrows():
-    popup = '<b>Station:</b> {}<br><b>Datum:</b> {}<br>'
-    popup = popup.format(station, obs['datum'])
-    kw = dict(popup=popup, marker_color="red", marker_icon="remove")
-    inundation_map.simple_marker(location=[obs['lat'], obs['lon']], **kw)
+if isinstance(bad_datum, DataFrame):
+    for station, obs in bad_datum.iterrows():
+        popup = '<b>Station:</b> {}<br><b>Datum:</b> {}<br>'
+        popup = popup.format(station, obs['datum'])
+        kw = dict(popup=popup, marker_color="red", marker_icon="remove")
+        inundation_map.simple_marker(location=[obs['lat'], obs['lon']], **kw)
 
 inundation_map.create_map(path='inundation_map.html')
 inundation_map.render_iframe = True
@@ -368,5 +392,10 @@ inline_map(inundation_map)
 
 # <codecell>
 
+[shutil.copy(json, directory) for json_file in glob('*.json')]
+shutil.copy('inundation_map.html', directory)
+
+elapsed = time.time() - start_time
+log.info(elapsed)
 log.info('EOF')
 
