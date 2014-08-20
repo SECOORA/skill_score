@@ -77,6 +77,12 @@ plot_series(dfs, marker='.', dropna=False)
 
 plot_series(dfs, marker=None, dropna=True)
 
+# <codecell>
+
+model = 'SABGOM'
+NaNs = np.count_nonzero(np.isnan(dfs.minor_xs(model).dropna(axis=1, how='all')))
+print('Model {} have {} NaNs'.format(model, NaNs))
+
 # <markdowncell>
 
 # Conclusion: I have to either use `dropna` or use a `marker` to plot the series
@@ -114,6 +120,12 @@ plot_series(dfs, marker='.', dropna=False)
 
 # <codecell>
 
+model = 'SABGOM'
+NaNs = np.count_nonzero(np.isnan(dfs.minor_xs(model).dropna(axis=1, how='all')))
+print('Model {} have {} NaNs'.format(model, NaNs))
+
+# <codecell>
+
 dfs = dict(OBS_DATA=OBS_DATA)
 for fname in glob(os.path.join(directory, "*.nc")):
     if 'OBS_DATA' in fname:
@@ -133,6 +145,12 @@ plot_series(dfs, marker='.', dropna=False)
 
 # 10 is bad for `SABGOM` and will be worse for `USF` and `HYCOM` low resolutions.
 # Lets try to interpolate all the series to `SABGOM` 3H resolution using a 1 hour limit to extrapolation.
+
+# <codecell>
+
+model = 'SABGOM'
+NaNs = np.count_nonzero(np.isnan(dfs.minor_xs(model).dropna(axis=1, how='all')))
+print('Model {} have {} NaNs'.format(model, NaNs))
 
 # <codecell>
 
@@ -158,6 +176,12 @@ for fname in glob(os.path.join(directory, "*.nc")):
 
 dfs = Panel.fromDict(dfs).swapaxes(0, 2)
 plot_series(dfs, marker='.', dropna=False)
+
+# <codecell>
+
+model = 'SABGOM'
+NaNs = np.count_nonzero(np.isnan(dfs.minor_xs(model).dropna(axis=1, how='all')))
+print('Model {} have {} NaNs'.format(model, NaNs))
 
 # <markdowncell>
 
@@ -202,4 +226,10 @@ plot_series(dfs, marker=None, dropna=False)
 # <markdowncell>
 
 # I will probaly be using this to plot.
+
+# <codecell>
+
+model = 'SABGOM'
+NaNs = np.count_nonzero(np.isnan(dfs.minor_xs(model).dropna(axis=1, how='all')))
+print('Model {} have {} NaNs'.format(model, NaNs))
 
