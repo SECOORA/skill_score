@@ -392,7 +392,7 @@ inline_map(inundation_map)
 
 # <codecell>
 
-[shutil.copy(json, directory) for json_file in glob('*.json')]
+[shutil.copy(json_file, directory) for json_file in glob('*.json')]
 shutil.copy('inundation_map.html', directory)
 
 elapsed = time.time() - start_time
