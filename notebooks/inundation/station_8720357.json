@@ -8438,7 +8438,7 @@
       ]
     }
   ],
-  "height": 200,
+  "height": 150,
   "legends": [
     {
       "fill": "color",
@@ -8518,5 +8518,5 @@
       "type": "ordinal"
     }
   ],
-  "width": 400
+  "width": 500
 }
