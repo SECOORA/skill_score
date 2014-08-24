@@ -87,8 +87,11 @@ csw.getrecords2(constraints=filter_list, maxrecords=1000, esn='full')
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Added currents CF names.
+=======
+>>>>>>> 6cb334599ccb7661357564cc98abf7ebf1ab3deb
 # <markdowncell>
 
 # ```python
@@ -129,10 +132,13 @@ csw.getrecords2(constraints=filter_list, maxrecords=1000, esn='full')
 # ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Trying to use catalog to find the data.
 =======
 >>>>>>> Added currents CF names.
+=======
+>>>>>>> 6cb334599ccb7661357564cc98abf7ebf1ab3deb
 # <codecell>
 
 print("Found {} csw records:\n".format(len(csw.records)))
