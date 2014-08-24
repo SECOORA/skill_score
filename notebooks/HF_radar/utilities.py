@@ -242,7 +242,7 @@ def inline_map(m):
 
 
 def css_styles():
-    return HTML("""
+    style = """
         <style>
         .info {
             background-color: #fcf8e3; border-color: #faebcc;
@@ -260,8 +260,13 @@ def css_styles():
             background-color: #fcf8e3; border-color: #faebcc;
                 border-left: 5px solid #8a6d3b; padding: 0.5em; color: #8a6d3b;
         }
+        .text-shadow {
+            text-shadow: 0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,
+            0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1)
+            }
         </style>
-    """)
+    """
+    return HTML(style)
 
 
 def processStationInfo(obs_loc_df, st_list, source):
