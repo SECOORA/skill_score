@@ -1,0 +1,313 @@
+12:59:55 INFO: Run date: 2014-08-24 15:59:55
+12:59:55 INFO: Download start: 2014-08-08 12:00:00
+12:59:55 INFO: Download stop: 2014-08-15 12:00:00
+12:59:55 INFO: Bounding box: -87.40, 24.25,-74.70, 36.70
+01:00:00 INFO: CSW version: 2.0.2
+01:00:00 INFO: Number of datasets available: 10
+01:00:00 INFO: CSW: ROMS/TOMS 3.0 - South-Atlantic Bight and Gulf of Mexico
+01:00:00 INFO: CSW: COAWST Forecast System : USGS : US East Coast and Gulf of Mexico (Experimental)
+01:00:00 INFO: CSW: ROMS ESPRESSO Real-Time Operational IS4DVAR Forecast System Version 2 (NEW) 2013-present FMRC History (Best)
+01:00:00 INFO: CSW: Barotropic Tide Model for the Pacific Basin
+01:00:00 INFO: CSW: TBOFS - Tampa Bay Operational Forecast System - NOAA CO-OPS - POM
+01:00:00 INFO: CSW: NDBC Standard Meteorological Buoy Data
+01:00:00 INFO: CSW: HYbrid Coordinate Ocean Model (HYCOM): Global
+01:00:00 INFO: CSW: CBOFS - Chesapeake Bay Operational Forecast System - NOAA CO-OPS - POM
+01:00:00 INFO: CSW: ESTOFS Storm Surge Model - Atlantic - v1.0.0 - NOAA - NCEP - ADCIRC
+01:00:00 INFO: CSW: NECOFS GOM3 (FVCOM) - Northeast US - Latest Forecast
+01:00:00 INFO: DAP: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd.html
+01:00:00 INFO: DAP: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd.html
+01:00:00 INFO: DAP: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd.html
+01:00:00 INFO: DAP: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac.html
+01:00:00 INFO: DAP: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd.html
+01:00:00 INFO: DAP: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global.html
+01:00:00 INFO: DAP: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd.html
+01:00:00 INFO: DAP: http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic.html
+01:00:00 INFO: DAP: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc.html
+01:00:11 INFO: NOAA.NOS.CO-OPS SOS: 1023 offerings
+01:00:11 INFO: Starting new HTTP connection (1): opendap.co-ops.nos.noaa.gov
+01:00:15 INFO: sos_request
+01:00:44 INFO: Downloading observation to file 2014-08-15/2014-08-15-OBS_DATA.nc.
+01:00:53 WARNING: [8654467] USCG Station Hatteras, NC:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+01:00:55 WARNING: [8656483] Beaufort, NC:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+01:00:58 WARNING: [8658120] Wilmington, NC:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+01:02:25 WARNING: [8726520] St Petersburg, FL:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+01:02:27 WARNING: [8726607] Old Port Tampa, FL:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+01:02:47 WARNING: [8729210] Panama City Beach, FL:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+01:02:53 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/cf.py:1038: UserWarning: Ignoring formula terms variable u'h' referenced by data variable u'v' via variable u's_rho': Dimensions (u'eta_rho', u'xi_rho') do not span (u'time', u's_rho', u'eta_v', u'xi_v')
+  warnings.warn(msg)
+
+01:02:53 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/cf.py:1038: UserWarning: Ignoring formula terms variable u'zeta' referenced by data variable u'v' via variable u's_rho': Dimensions (u'time', u'eta_rho', u'xi_rho') do not span (u'time', u's_rho', u'eta_v', u'xi_v')
+  warnings.warn(msg)
+
+01:02:53 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/cf.py:1038: UserWarning: Ignoring formula terms variable u'h' referenced by data variable u'u' via variable u's_rho': Dimensions (u'eta_rho', u'xi_rho') do not span (u'time', u's_rho', u'eta_u', u'xi_u')
+  warnings.warn(msg)
+
+01:02:53 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/cf.py:1038: UserWarning: Ignoring formula terms variable u'zeta' referenced by data variable u'u' via variable u's_rho': Dimensions (u'time', u'eta_rho', u'xi_rho') do not span (u'time', u's_rho', u'eta_u', u'xi_u')
+  warnings.warn(msg)
+
+01:02:53 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'chlorophyll' invalid units 'milligrams_chlorophyll meter-3'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:02:53 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1290: UserWarning: Gracefully filling 'time' dimension coordinate masked points
+  warnings.warn(msg.format(str(cf_coord_var.cf_name)))
+
+01:02:53 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'phytoplankton' invalid units 'millimole_nitrogen meter-3'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:02:53 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'NO3' invalid units 'millimole_N03 meter-3'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:02:53 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'zooplankton' invalid units 'millimole_nitrogen meter-3'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:02:53 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'NH4' invalid units 'millimole_NH4 meter-3'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:03:02 INFO: 
+[SABGOM] ROMS/TOMS 3.0 - South-Atlantic Bight and Gulf of Mexico:
+http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+
+01:03:02 INFO: Downloading model series to file 2014-08-15/2014-08-15-SABGOM.nc.
+01:03:07 INFO: [Found Water] Duck, NC
+01:03:09 INFO: [Found Land] Oregon Inlet Marina, NC
+01:03:11 INFO: [Found Water] Wrightsville Beach, NC
+01:03:12 INFO: [Found Water] Springmaid Pier, SC
+01:03:14 INFO: [Found Land] Oyster Landing (N Inlet Estuary), SC
+01:03:16 INFO: [Found Land] Charleston, SC
+01:03:18 INFO: [Found Land] Fort Pulaski, GA
+01:03:20 INFO: [Found Land] Fernandina Beach, FL
+01:03:22 INFO: [Found Land] Mayport (Bar Pilots Dock), FL
+01:03:24 INFO: [Found Land] Dames Point, FL
+01:03:25 INFO: [Found Land] Southbank Riverwalk, St Johns River, FL
+01:03:27 INFO: [Found Land] I-295 Bridge, St Johns River, FL
+01:03:29 INFO: [Found Land] Red Bay Point, St Johns River, FL
+01:03:31 INFO: [Found Land] Racy Point, St Johns River, FL
+01:03:35 INFO: [Found Land] Trident Pier, FL
+01:03:39 INFO: [Found Land] Lake Worth Pier, FL
+01:03:41 INFO: [Found Water] Virginia Key, FL
+01:03:44 INFO: [Found Land] Vaca Key, FL
+01:03:46 INFO: [Found Water] Key West, FL
+01:03:48 INFO: [Found Land] Naples, FL
+01:03:50 INFO: [Found Land] Fort Myers, FL
+01:03:54 INFO: [Found Land] Port Manatee, FL
+01:03:58 INFO: [Found Land] Mckay Bay Entrance, FL
+01:04:02 INFO: [Found Land] Clearwater Beach, FL
+01:04:04 INFO: [Found Water] Cedar Key, FL
+01:04:05 INFO: [Found Land] Apalachicola, FL
+01:04:07 INFO: [Found Land] Panama City, FL
+01:04:09 INFO: [Found Land] Pensacola, FL
+01:04:30 INFO: 
+[COAWST_4] COAWST Forecast System : USGS : US East Coast and Gulf of Mexico (Experimental):
+http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd
+
+01:04:30 INFO: Downloading model series to file 2014-08-15/2014-08-15-COAWST_4.nc.
+01:04:36 INFO: [Found Land] Duck, NC
+01:04:43 INFO: [Found Water] Oregon Inlet Marina, NC
+01:04:47 INFO: [Found Water] Wrightsville Beach, NC
+01:04:55 INFO: [Found Water] Springmaid Pier, SC
+01:04:59 INFO: [Found Land] Oyster Landing (N Inlet Estuary), SC
+01:05:03 INFO: [Found Land] Charleston, SC
+01:05:06 INFO: [Found Land] Fort Pulaski, GA
+01:05:10 INFO: [Found Land] Fernandina Beach, FL
+01:05:14 INFO: [Found Land] Mayport (Bar Pilots Dock), FL
+01:05:18 INFO: [Found Land] Dames Point, FL
+01:05:22 INFO: [Found Land] Southbank Riverwalk, St Johns River, FL
+01:05:26 INFO: [Found Land] I-295 Bridge, St Johns River, FL
+01:05:30 INFO: [Found Land] Red Bay Point, St Johns River, FL
+01:05:35 INFO: [Found Land] Racy Point, St Johns River, FL
+01:05:39 INFO: [Found Land] Trident Pier, FL
+01:05:49 INFO: [Found Water] Lake Worth Pier, FL
+01:05:53 INFO: [Found Land] Virginia Key, FL
+01:05:58 INFO: [Found Land] Vaca Key, FL
+01:06:07 INFO: [Found Water] Key West, FL
+01:06:11 INFO: [Found Land] Naples, FL
+01:06:16 INFO: [Found Land] Fort Myers, FL
+01:06:21 INFO: [Found Land] Port Manatee, FL
+01:06:26 INFO: [Found Land] Mckay Bay Entrance, FL
+01:06:30 INFO: [Found Land] Clearwater Beach, FL
+01:06:38 INFO: [Found Water] Cedar Key, FL
+01:06:43 INFO: [Found Water] Apalachicola, FL
+01:06:47 INFO: [Found Water] Panama City, FL
+01:06:51 INFO: [Found Water] Pensacola, FL
+01:07:01 INFO: 
+[ESPRESSO] ROMS ESPRESSO Real-Time Operational IS4DVAR Forecast System Version 2 (NEW) 2013-present FMRC History (Best):
+http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd
+
+01:07:01 INFO: Downloading model series to file 2014-08-15/2014-08-15-ESPRESSO.nc.
+01:07:03 INFO: [Found Land] Duck, NC
+01:07:05 INFO: [Found Water] Oregon Inlet Marina, NC
+01:07:05 WARNING: No data found for (-77.7867,34.2133) using max_dist=0.04.
+01:07:05 WARNING: No data found for (-78.9183,33.655) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-79.1867,33.3517) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-79.925,32.7817) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-80.9017,32.0333) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-81.465,30.6717) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-81.43,30.3967) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-81.5583,30.3867) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-81.6583,30.32) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-81.6917,30.1917) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-81.6283,29.9783) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-81.5483,29.8017) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-80.5931,28.4158) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-80.0333,26.6117) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-80.1618,25.7314) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-81.105,24.7117) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-81.8079,24.5557) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-81.8075,26.1317) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-81.8712,26.6477) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-82.5621,27.6387) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-82.425,27.9133) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-82.8317,27.9783) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-83.0317,29.135) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-84.9817,29.7267) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-85.6669,30.1523) using max_dist=0.04.
+01:07:06 WARNING: No data found for (-87.2112,30.4044) using max_dist=0.04.
+01:07:09 INFO: 
+[BTMPB] Barotropic Tide Model for the Pacific Basin:
+http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac
+
+01:07:09 INFO: Downloading model series to file 2014-08-15/2014-08-15-BTMPB.nc.
+01:07:09 WARNING: No data found for (-75.7467,36.1833) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-75.5483,35.795) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-77.7867,34.2133) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-78.9183,33.655) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-79.1867,33.3517) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-79.925,32.7817) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-80.9017,32.0333) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-81.465,30.6717) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-81.43,30.3967) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-81.5583,30.3867) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-81.6583,30.32) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-81.6917,30.1917) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-81.6283,29.9783) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-81.5483,29.8017) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-80.5931,28.4158) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-80.0333,26.6117) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-80.1618,25.7314) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-81.105,24.7117) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-81.8079,24.5557) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-81.8075,26.1317) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-81.8712,26.6477) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-82.5621,27.6387) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-82.425,27.9133) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-82.8317,27.9783) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-83.0317,29.135) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-84.9817,29.7267) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-85.6669,30.1523) using max_dist=0.04.
+01:07:09 WARNING: No data found for (-87.2112,30.4044) using max_dist=0.04.
+01:07:14 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/cf.py:1038: UserWarning: Ignoring formula terms variable u'h' referenced by data variable u'Cs_r' via variable u's_rho': Dimensions (u'eta_rho', u'xi_rho') do not span (u's_rho',)
+  warnings.warn(msg)
+
+01:07:14 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/cf.py:1038: UserWarning: Ignoring formula terms variable u'zeta' referenced by data variable u'Cs_r' via variable u's_rho': Dimensions (u'time', u'eta_rho', u'xi_rho') do not span (u's_rho',)
+  warnings.warn(msg)
+
+01:07:14 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/cf.py:1038: UserWarning: Ignoring formula terms variable u'h' referenced by data variable u'Cs_w' via variable u's_w': Dimensions (u'eta_rho', u'xi_rho') do not span (u's_w',)
+  warnings.warn(msg)
+
+01:07:14 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/cf.py:1038: UserWarning: Ignoring formula terms variable u'zeta' referenced by data variable u'Cs_w' via variable u's_w': Dimensions (u'time', u'eta_rho', u'xi_rho') do not span (u's_w',)
+  warnings.warn(msg)
+
+01:07:31 WARNING: Cannot get cube for: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd
+
+01:07:46 INFO: 
+[HYCOM] HYbrid Coordinate Ocean Model (HYCOM): Global:
+http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global
+
+01:07:46 INFO: Downloading model series to file 2014-08-15/2014-08-15-HYCOM.nc.
+01:07:49 INFO: [Found Land] Duck, NC
+01:07:51 INFO: [Found Water] Oregon Inlet Marina, NC
+01:07:53 INFO: [Found Water] Wrightsville Beach, NC
+01:07:53 WARNING: No data found for (-78.9183,33.655) using max_dist=0.04.
+01:07:55 INFO: [Found Land] Oyster Landing (N Inlet Estuary), SC
+01:07:57 INFO: [Found Land] Charleston, SC
+01:08:00 INFO: [Found Land] Fort Pulaski, GA
+01:08:02 INFO: [Found Land] Fernandina Beach, FL
+01:08:04 INFO: [Found Land] Mayport (Bar Pilots Dock), FL
+01:08:07 INFO: [Found Land] Dames Point, FL
+01:08:09 INFO: [Found Land] Southbank Riverwalk, St Johns River, FL
+01:08:11 INFO: [Found Land] I-295 Bridge, St Johns River, FL
+01:08:13 INFO: [Found Land] Red Bay Point, St Johns River, FL
+01:08:13 WARNING: No data found for (-81.5483,29.8017) using max_dist=0.04.
+01:08:15 INFO: [Found Land] Trident Pier, FL
+01:08:17 INFO: [Found Water] Lake Worth Pier, FL
+01:08:20 INFO: [Found Land] Virginia Key, FL
+01:08:21 INFO: [Found Land] Vaca Key, FL
+01:08:24 INFO: [Found Land] Key West, FL
+01:08:24 WARNING: No data found for (-81.8075,26.1317) using max_dist=0.04.
+01:08:26 INFO: [Found Land] Fort Myers, FL
+01:08:28 INFO: [Found Land] Port Manatee, FL
+01:08:29 INFO: [Found Land] Mckay Bay Entrance, FL
+01:08:29 WARNING: No data found for (-82.8317,27.9783) using max_dist=0.04.
+01:08:31 INFO: [Found Land] Cedar Key, FL
+01:08:33 INFO: [Found Land] Apalachicola, FL
+01:08:35 INFO: [Found Land] Panama City, FL
+01:08:37 INFO: [Found Land] Pensacola, FL
+01:09:04 WARNING: Cannot get cube for: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd
+
+01:09:05 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'nbdv' invalid units 'nondimensional'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:09:05 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'neta' invalid units 'nondimensional'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:09:05 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'ibtypee' invalid units 'nondimensional'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:09:05 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'nvell' invalid units 'nondimensional'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:09:05 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'ibtype' invalid units 'nondimensional'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:09:05 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'nbvv' invalid units 'nondimensional'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:09:05 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'nvel' invalid units 'nondimensional'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:09:05 WARNING: /home/filipe/miniconda/envs/ioos/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1195: UserWarning: Ignoring netCDF variable 'nvdll' invalid units 'nondimensional'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+01:09:12 INFO: 
+[ESTOFS] ESTOFS Storm Surge Model - Atlantic - v1.0.0 - NOAA - NCEP - ADCIRC:
+http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic
+
+01:09:12 INFO: Downloading model series to file 2014-08-15/2014-08-15-ESTOFS.nc.
+01:09:17 INFO: [Found Water] Duck, NC
+01:09:19 INFO: [Found Water] Oregon Inlet Marina, NC
+01:09:26 INFO: [Found Water] Wrightsville Beach, NC
+01:09:36 INFO: [Found Water] Springmaid Pier, SC
+01:09:39 INFO: [Found Water] Oyster Landing (N Inlet Estuary), SC
+01:09:39 WARNING: No data found for (-79.925,32.7817) using max_dist=0.04.
+01:09:42 INFO: [Found Water] Fort Pulaski, GA
+01:09:43 INFO: [Found Water] Fernandina Beach, FL
+01:09:45 INFO: [Found Water] Mayport (Bar Pilots Dock), FL
+01:09:45 WARNING: No data found for (-81.5583,30.3867) using max_dist=0.04.
+01:09:45 WARNING: No data found for (-81.6583,30.32) using max_dist=0.04.
+01:09:45 WARNING: No data found for (-81.6917,30.1917) using max_dist=0.04.
+01:09:45 WARNING: No data found for (-81.6283,29.9783) using max_dist=0.04.
+01:09:45 WARNING: No data found for (-81.5483,29.8017) using max_dist=0.04.
+01:09:50 INFO: [Found Water] Trident Pier, FL
+01:09:54 INFO: [Found Water] Lake Worth Pier, FL
+01:10:02 INFO: [Found Water] Virginia Key, FL
+01:10:11 INFO: [Found Water] Vaca Key, FL
+01:10:18 INFO: [Found Water] Key West, FL
+01:10:25 INFO: [Found Water] Naples, FL
+01:10:25 WARNING: No data found for (-81.8712,26.6477) using max_dist=0.04.
+01:10:36 INFO: [Found Water] Port Manatee, FL
+01:10:41 INFO: [Found Water] Mckay Bay Entrance, FL
+01:10:48 INFO: [Found Water] Clearwater Beach, FL
+01:10:59 INFO: [Found Water] Cedar Key, FL
+01:11:06 INFO: [Found Water] Apalachicola, FL
+01:11:06 WARNING: No data found for (-85.6669,30.1523) using max_dist=0.04.
+01:11:06 WARNING: No data found for (-87.2112,30.4044) using max_dist=0.04.
+01:11:15 WARNING: -c:17: SettingWithCopyWarning: A value is trying to be set on a copy of a slice from a DataFrame
+
+01:11:48 INFO: 713.733378887
+01:11:48 INFO: EOF
