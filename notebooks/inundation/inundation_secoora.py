@@ -368,7 +368,7 @@ for station in dfs:
     df = dfs[station].dropna(axis=1, how='all')
     # FIXME: This is bad!  But I cannot represent NaN with Vega!
     df.fillna(value=0, inplace=True)
-    vis = vincent.Line(df, width=400, height=200)
+    vis = vincent.Line(df, width=500, height=150)
     vis.axis_titles(x='Time', y='Sea surface height (m)')
     vis.legend(title=sta_name)
     vis.name = sta_name
