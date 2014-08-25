@@ -367,7 +367,12 @@ def css_styles():
         .datagrid table {
             border-collapse:collapse;
             text-align:left;
-            width:100%
+            width:65%
+        }
+
+        .datagrid td {
+            border-collapse:collapse;
+            text-align:right;
         }
 
         .datagrid {
