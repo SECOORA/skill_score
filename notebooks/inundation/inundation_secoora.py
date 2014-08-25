@@ -6,6 +6,13 @@
 import time
 start_time = time.time()
 
+# <codecell>
+
+import os
+import sys
+root = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+sys.path.append(root)
+
 # <markdowncell>
 
 # ### SECOORA iundation notebook
@@ -30,7 +37,6 @@ bbox = [-87.40, 24.25, -74.70, 36.70]
 
 # <codecell>
 
-import os
 directory = '{:%Y-%m-%d}'.format(stop)
 
 if not os.path.exists(directory):
