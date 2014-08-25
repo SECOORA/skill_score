@@ -3,6 +3,13 @@
 
 # <codecell>
 
+import os
+import sys
+root = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+sys.path.append(root)
+
+# <codecell>
+
 from cartopy.io import shapereader
 
 kw = dict(resolution='110m', category='cultural',
@@ -49,14 +56,13 @@ print('%s, %s ' % (jd_start,  jd_stop))
 from owslib import fes
 from owslib.csw import CatalogueServiceWeb
 
-from utilities import date_range
+from utilities import fes_date_filter
 from ipy_table import make_table, apply_theme
 
 def fes_filter(jd_start, jd_stop, bounding_box, data_dict):
     """Convert User Input into FES filters."""
     time_fmt = '%Y-%m-%d %H:%M'
-    start, stop = date_range(jd_start.strftime(time_fmt),
-                             jd_stop.strftime(time_fmt))
+    start, stop = fes_date_filter(jd_start, jd_stop)
     bbox = fes.BBox(bounding_box)
     # Use the search name to create search filter.
     kw = dict(propertyname='apiso:AnyText', escapeChar='\\',
@@ -188,9 +194,8 @@ coops_collector.server.identification.title
 
 ofrs = coops_collector.server.offerings
 
-print("{}\n{}".format(coops_collector.start_time,
-                      coops_collector.end_time))
-print(len(ofrs))
+print("{}\n{}\n{}".format(coops_collector.start_time,
+                          coops_collector.end_time, len(ofrs)))
 
 # <markdowncell>
 
@@ -201,7 +206,8 @@ print(len(ofrs))
 from pandas import read_csv
 from utilities import sos_request
 
-params = dict(observedProperty=sos_name,
+params = dict(bin='1',
+              observedProperty=sos_name,
               featureOfInterest='BBOX:{0},{1},{2},{3}'.format(*bounding_box))
 
 url = sos_request(url='http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **params)
@@ -241,9 +247,8 @@ ndbc_collector.variables = data_dict["currents"]["sos_name"]
 ndbc_collector.server.identification.title
 ofrs = ndbc_collector.server.offerings
 
-print("{}\n{}".format(ndbc_collector.start_time,
-                      ndbc_collector.end_time))
-print(len(ofrs))
+print("{}\n{}\n{}".format(ndbc_collector.start_time,
+                      ndbc_collector.end_time, len(ofrs)))
 
 # <codecell>
 
@@ -254,10 +259,6 @@ params = dict(offering='urn:ioos:network:noaa.nws.ndbc:all',
 url = sos_request(url='http://sdf.ndbc.noaa.gov/sos/server.php', **params)
 obs_loc_df = read_csv(url)
 obs_loc_df.drop_duplicates(subset='station_id', inplace=True)
-
-# <codecell>
-
-obs_loc_df.columns
 
 # <codecell>
 
