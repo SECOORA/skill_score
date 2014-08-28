@@ -1,7 +1,10 @@
 # Standard Library.
+import time
 import fnmatch
 import requests
+import contextlib
 from io import BytesIO
+from warnings import warn
 try:
     from urllib import urlopen
     from urlparse import urlparse
@@ -22,6 +25,7 @@ import iris
 from iris.cube import CubeList
 from iris.pandas import as_cube, as_data_frame
 from iris.exceptions import CoordinateNotFoundError, CoordinateMultiDimError
+
 iris.FUTURE.netcdf_promote = True
 
 import cartopy.crs as ccrs
@@ -85,38 +89,46 @@ titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
                'Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd': 'USF'})
 
 
-def parse_url(url):
-    """This will preserve any given scheme but will add http if none is
-    provided."""
-    if not urlparse(url).scheme:
-        url = "http://{}".format(url)
-    return url
-
-
 def find_timevar(cube):
-    """Return the time variable from iris."""
+    """Return the variable attached to time axis and rename it to time."""
     try:
+        oldname = cube.coord(axis='T').var_name
         cube.coord(axis='T').rename('time')
+        warn('Renaming {} to time for cube'
+             '{}'.format(oldname, cube.name))
     except CoordinateNotFoundError:
         pass
     timevar = cube.coord('time')
     return timevar
 
 
-def time_near(cube, start):
-    """Return the nearest time to `start`."""
+def time_near(cube, datetime):
+    """Return the nearest index to a `datetime`.
+    TODO: Adapt to the new slice syntax"""
     timevar = find_timevar(cube)
     try:
-        time = timevar.units.date2num(start)
-        itime = timevar.nearest_neighbour_index(time)
+        time = timevar.units.date2num(datetime)
+        idx = timevar.nearest_neighbour_index(time)
     except IndexError:
-        itime = -1
-    return timevar.points[itime]
+        idx = -1
+    return idx
 
 
-def slice_bbox_extract(cube, bbox):
+def time_slice(cube, start, stop):
+    """TODO: Re-write to use `iris.FUTURE.cell_datetime_objects`."""
+    istart = time_near(cube, start)
+    istop = time_near(cube, stop)
+    if istart == istop:
+        raise ValueError('istart must be different from istop.'
+                         '  Got istart {} and istop {}'.format(istart, istop))
+    return cube[istart:istop]
+
+
+def bbox_extract_2Dcoords(cube, bbox):
     """Extract a sub-set of a cube inside a lon, lat bounding box
-    bbox=[lon_min lon_max lat_min lat_max]."""
+    bbox=[lon_min lon_max lat_min lat_max].
+    NOTE: This is a work around too subset an iris cube that has
+    2D lon, lat coords."""
     lons = cube.coord('longitude').points
     lats = cube.coord('latitude').points
 
@@ -138,30 +150,43 @@ def intersection(cube, bbox):
     Using `intersection` instead of `extract` we deal with 0-360
     longitudes automagically."""
     try:
-        cube = cube.intersection(longitude=(bbox[0][0], bbox[1][0]),
-                                 latitude=(bbox[0][1], bbox[1][1]))
+        cube = cube.intersection(longitude=(bbox[0], bbox[2]),
+                                 latitude=(bbox[1], bbox[3]))
     except CoordinateMultiDimError:
-        cube = slice_bbox_extract(cube, bbox)
+        cube = bbox_extract_2Dcoords(cube, bbox)
     return cube
 
 
-def get_cubes(url, name_list=None, bbox=None, time=None):
-    """Load and time/space-slice the cubes from a given `url`.
-    name_list : CF standard_name list of cubes
-    bbox : [[lon_min, lat_min], [lon_max, lat_max]]
-    time : datetime object (TODO: make it a time range.)
-    """
-    url = parse_url(url)
+def get_cube(url, name_list=None, bbox=None, time=None,
+             units=iris.unit.Unit('meters')):
     cubes = iris.load_raw(url)
     if name_list:
         in_list = lambda cube: cube.standard_name in name_list
         cubes = CubeList([cube for cube in cubes if in_list(cube)])
-        cubes = cubes.merge()
-    if time:
-        cubes = cubes.extract(iris.Constraint(time=time_near(cubes[0], time)))
+        cube = cubes.merge_cube()
     if bbox:
-        cubes = CubeList([intersection(cube, bbox) for cube in cubes])
-    return cubes
+        cube = intersection(cube, bbox)
+    if time:
+        if len(time) == 1:
+            start, stop = time, None
+        if len(time) == 2:
+            start, stop = time[0], time[1]
+        else:
+            raise ValueError('Time must be start or (start, stop).'
+                             '  Got {}'.format(time))
+        cube = time_slice(cube, start, stop)
+    if units:
+        if not cube.units == units:
+            cube.convert_units('m')
+    return cube
+
+
+def parse_url(url):
+    """This will preserve any given scheme but will add http if none is
+    provided."""
+    if not urlparse(url).scheme:
+        url = "http://{}".format(url)
+    return url
 
 
 def rot2d(x, y, ang):
@@ -325,160 +350,10 @@ def inline_map(m):
     return embed
 
 
-def css_styles():
-    style = """
-        <style>
-        .info {
-            background-color:#fcf8e3;
-            border-color:#faebcc;
-            border-left:5px solid #8a6d3b;
-            padding:.5em;
-            color:#8a6d3b
-        }
-
-        .success {
-            background-color:#d9edf7;
-            border-color:#bce8f1;
-            border-left:5px solid #31708f;
-            padding:.5em;
-            color:#31708f
-        }
-
-        .error {
-            background-color:#f2dede;
-            border-color:#ebccd1;
-            border-left:5px solid #a94442;
-            padding:.5em;
-            color:#a94442
-        }
-
-        .warning {
-            background-color:#fcf8e3;
-            border-color:#faebcc;
-            border-left:5px solid #8a6d3b;
-            padding:.5em;
-            color:#8a6d3b
-        }
-
-        .text-shadow {
-            text-shadow:0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1)
-        }
-
-        .datagrid table {
-            border-collapse:collapse;
-            text-align:left;
-            width:65%
-        }
-
-        .datagrid td {
-            border-collapse:collapse;
-            text-align:right;
-        }
-
-        .datagrid {
-            font:normal 12px/150% Arial,Helvetica,sans-serif;
-            background:#fff;
-            overflow:hidden;
-            border:1px solid #069;
-            -webkit-border-radius:3px;
-            -moz-border-radius:3px;
-            border-radius:3px
-        }
-
-        .datagrid table td,.datagrid table th {
-            padding:3px 10px
-        }
-
-        .datagrid table thead th {
-            background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#069),color-stop(1,#00557F));
-            background:-moz-linear-gradient(center top,#069 5%,#00557F 100%);
-            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699',endColorstr='#00557F');
-            background-color:#069;
-            color:#FFF;
-            font-size:15px;
-            font-weight:700;
-            border-left:1px solid #0070A8
-        }
-
-        .datagrid table thead th:first-child {
-            border:none
-        }
-
-        .datagrid table tbody td {
-            color:#00496B;
-            border-left:1px solid #E1EEF4;
-            font-size:12px;
-            font-weight:400
-        }
-
-        .datagrid table tbody .alt td {
-            background:#E1EEF4;
-            color:#00496B
-        }
-
-        .datagrid table tbody td:first-child {
-            border-left:none
-        }
-
-        .datagrid table tbody tr:last-child td {
-            border-bottom:none
-        }
-
-        .datagrid table tfoot td div {
-            border-top:1px solid #069;
-            background:#E1EEF4
-        }
-
-        .datagrid table tfoot td {
-            padding:0;
-            font-size:12px
-        }
-
-        .datagrid table tfoot td div {
-            padding:2px
-        }
-
-        .datagrid table tfoot td ul {
-            margin:0;
-            padding:0;
-            list-style:none;
-            text-align:right
-        }
-
-        .datagrid table tfoot li {
-            display:inline
-        }
-
-        .datagrid table tfoot li a {
-            text-decoration:none;
-            display:inline-block;
-            padding:2px 8px;
-            margin:1px;
-            color:#FFF;
-            border:1px solid #069;
-            -webkit-border-radius:3px;
-            -moz-border-radius:3px;
-            border-radius:3px;
-            background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#069),color-stop(1,#00557F));
-            background:-moz-linear-gradient(center top,#069 5%,#00557F 100%);
-            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699',endColorstr='#00557F');
-            background-color:#069
-        }
-
-        .datagrid table tfoot ul.active,.datagrid table tfoot ul a:hover {
-            text-decoration:none;
-            border-color:#069;
-            color:#FFF;
-            background:none;
-            background-color:#00557F
-        }
-
-        div.dhtmlx_window_active,div.dhx_modal_cover_dv {
-            position:fixed!important
-        }
-        </style>
-    """
-    return HTML(style)
+def css_styles(css='style.css'):
+    with open(css) as f:
+        styles = f.read()
+    return HTML('<style>{}</style>'.format(styles))
 
 
 def processStationInfo(obs_loc_df, st_list, source):
@@ -676,24 +551,6 @@ def get_model_name(cube, url):
     return mod_name, model_full_name
 
 
-def get_cube(url, constraint, jd_start, jd_stop):
-    """Load cube, check units and return a
-    time-sliced cube to reduce download."""
-    url = parse_url(url)
-    cube = iris.load_cube(url, constraint)
-    if not cube.units == iris.unit.Unit('meters'):
-        # TODO: Isn't working for unstructured data.
-        cube.convert_units('m')
-    timevar = find_timevar(cube)
-    start = timevar.units.date2num(jd_start)
-    istart = timevar.nearest_neighbour_index(start)
-    stop = timevar.units.date2num(jd_stop)
-    istop = timevar.nearest_neighbour_index(stop)
-    if istart == istop:
-        raise(ValueError)
-    return cube[istart:istop]
-
-
 def wrap_lon180(lon):
     lon = np.atleast_1d(lon).copy()
     angles = np.logical_or((lon < -180), (180 < lon))
@@ -830,3 +687,14 @@ def nc2df(fname):
         station = cube.coord('station name').points[0]
         df.columns = [station]
     return df
+
+
+@contextlib.contextmanager
+def timeit(log=None):
+    t = time.time()
+    yield
+    elapsed = time.strftime("%H:%M:%S", time.gmtime(time.time()-t))
+    if log:
+        log.info(elapsed)
+    else:
+        print(elapsed)
