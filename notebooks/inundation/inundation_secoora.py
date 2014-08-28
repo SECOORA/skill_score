@@ -3,6 +3,12 @@
 
 # <codecell>
 
+%matplotlib inline
+
+import iris
+import pyoos
+import owslib
+
 import time
 start_time = time.time()
 
@@ -12,6 +18,8 @@ import os
 import sys
 root = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(root)
+
+from utilities import timeit
 
 # <markdowncell>
 
@@ -25,9 +33,10 @@ from datetime import datetime, timedelta
 
 # Choose the date range.
 if False:
-    stop = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+    kw = dict(hour=12, minute=0, second=0, microsecond=0)
+    stop = datetime.utcnow().replace(**kw)
 else:
-    stop = datetime(2014, 7, 7, 12)
+    stop = datetime(2014, 7, 25, 12)
 
 stop = stop.replace(tzinfo=pytz.utc)
 start = stop - timedelta(days=7)
@@ -62,6 +71,9 @@ log.info('Download start: {:%Y-%m-%d %H:%M:%S}'.format(start))
 log.info('Download stop: {:%Y-%m-%d %H:%M:%S}'.format(stop))
 log.info('Bounding box: {0:3.2f}, {1:3.2f},'
          '{2:3.2f}, {3:3.2f}'.format(*bbox))
+log.info('Iris version: {}'.format(iris.__version__))
+log.info('owslib version: {}'.format(owslib.__version__))
+log.info('pyoos version: {}'.format(pyoos.__version__))
 
 # <codecell>
 
@@ -242,94 +254,92 @@ df_html(obs_data.head())
 
 # <markdowncell>
 
-# #### Loop the discovered models and save the nearest time-series to each observed station
+# #### Loop discovered models and save the nearest time-series
 
 # <codecell>
 
 import numpy as np
 from iris.pandas import as_series
-from iris.exceptions import (CoordinateNotFoundError, CoordinateMultiDimError,
-                             ConstraintMismatchError, MergeError)
-from utilities import (slice_bbox_extract, standardize_fill_value,
-                       plt_grid, get_cube, get_model_name, make_tree,
-                       get_nearest_water, add_station, ensure_timeseries)
+from iris.exceptions import (CoordinateNotFoundError, ConstraintMismatchError,
+                             MergeError)
 
-name_in_list = lambda cube: cube.standard_name in name_list
-constraint = iris.Constraint(cube_func=name_in_list, coord_values=None)
+from utilities import (standardize_fill_value, plt_grid, get_cube,
+                       get_model_name, make_tree, get_nearest_water,
+                       add_station, ensure_timeseries)
 
-for url in dap_urls:
-    if 'NECOFS' in url:  # FIXME: NECOFS has cartesian coordinates.
-        continue
-    try:
-        cube = get_cube(url, constraint, start, stop)
-        if cube.ndim == 1:  # We Need a better way to identify model data.
-            log.warning('url {} is probably a timeSeries!'.format(url))
+for k, url in enumerate(dap_urls):
+    with timeit(log):
+        log.info('\n[Reading url {}/{}]: {}'.format(k+1, len(dap_urls), url))
+        if 'NECOFS' in url:  # FIXME: NECOFS has cartesian coordinates.
             continue
-    except (RuntimeError, ValueError, ConstraintMismatchError) as e:
-        log.warning('Cannot get cube for: %s\n%s' % (url, e))
-        continue
-    try:
-        cube = cube.intersection(longitude=(bbox[0], bbox[2]),
-                                 latitude=(bbox[1], bbox[3]))
-    except CoordinateMultiDimError:
-        cube = slice_bbox_extract(cube, bbox)
-
-    mod_name, model_full_name = get_model_name(cube, url)
-    log.info('\n[%s] %s:\n%s\n' % (mod_name, cube.attributes['title'], url))
-
-    fname = '{:%Y-%m-%d}-{}.nc'.format(stop, mod_name)
-    fname = os.path.join(directory, fname)
-    log.info('Downloading model series to file {}.'.format(fname))
-    if not os.path.isfile(fname):
-        try:  # Make tree.
-            tree, lon, lat = make_tree(cube)
-            fig, ax = plt_grid(lon, lat)
-        except CoordinateNotFoundError as e:
-            log.warning('Cannot make KDTree for: %s' % mod_name)
-            continue
-        # Get model series at observed locations.
-        raw_series = dict()
-        for station, obs in observations.iterrows():
-            a = obs_data[obs['station']]
-            try:
-                kw = dict(k=10, max_dist=0.04, min_var=0.01)
-                series, dist, idx = get_nearest_water(cube, tree,
-                                                      obs.lon, obs.lat, **kw)
-            # RuntimeError may occurs, but you should run it again!
-            except ValueError as e:
-                log.warning(e)
+        try:
+            cube = get_cube(url, name_list=name_list, bbox=bbox,
+                            time=(start, stop), units=iris.unit.Unit('meters'))
+            if cube.ndim == 1:  # We Need a better way to identify model data.
+                log.warning('url {} is probably a timeSeries!'.format(url))
                 continue
-            if not series:
-                status = "Found Land"
-            else:
-                raw_series.update({obs['station']: series})
-                series = as_series(series)
-                status = "Found Water"
-                ax.plot(lon[idx], lat[idx], 'g.')
+        except (MergeError, RuntimeError, ValueError, ConstraintMismatchError) as e:
+            log.warning('Cannot get cube for: %s\n%s' % (url, e))
+            continue
 
-            log.info('[%s] %s' % (status, obs.name))
+        mod_name, model_full_name = get_model_name(cube, url)
 
-        if raw_series:  # Save cube.
-            for station, cube in raw_series.items():
-                cube = standardize_fill_value(cube)
-                cube = add_station(cube, station)
-            try:
-                cube = iris.cube.CubeList(raw_series.values()).merge_cube()
-            except MergeError as e:
-                log.warning(e)
+        fname = '{:%Y-%m-%d}-{}.nc'.format(stop, mod_name)
+        fname = os.path.join(directory, fname)
+        log.info('Downloading model series to file {}.'.format(fname))
+        if not os.path.isfile(fname):
+            try:  # Make tree.
+                tree, lon, lat = make_tree(cube)
+                fig, ax = plt_grid(lon, lat)
+            except CoordinateNotFoundError as e:
+                log.warning('Cannot make KDTree for: %s' % mod_name)
+                continue
+            # Get model series at observed locations.
+            raw_series = dict()
+            for station, obs in observations.iterrows():
+                a = obs_data[obs['station']]
+                try:
+                    kw = dict(k=10, max_dist=0.04, min_var=0.01)
+                    args = cube, tree, obs.lon, obs.lat
+                    series, dist, idx = get_nearest_water(*args, **kw)
+                # RuntimeError may occurs, but you should run it again!
+                except ValueError as e:
+                    log.warning(e)
+                    continue
+                if not series:
+                    status = "Found Land"
+                else:
+                    raw_series.update({obs['station']: series})
+                    series = as_series(series)
+                    status = "Found Water"
+                    ax.plot(lon[idx], lat[idx], 'g.')
 
-            ensure_timeseries(cube)
-            iris.save(cube, fname)
+                log.info('[%s] %s' % (status, obs.name))
 
-        size = len(raw_series)
-        ax.set_title('%s: Points found %s' % (mod_name, size))
-        ax.plot(observations.lon, observations.lat, 'ro',
-                zorder=1, label='Observation', alpha=0.25)
-        ax.set_extent([bbox[0], bbox[2], bbox[1], bbox[3]])
+            if raw_series:  # Save cube.
+                for station, cube in raw_series.items():
+                    cube = standardize_fill_value(cube)
+                    cube = add_station(cube, station)
+                try:
+                    cube = iris.cube.CubeList(raw_series.values()).merge_cube()
+                except MergeError as e:
+                    log.warning(e)
+
+                ensure_timeseries(cube)
+                iris.save(cube, fname)
+                del cube
+
+            size = len(raw_series)
+            ax.set_title('%s: Points found %s' % (mod_name, size))
+            ax.plot(observations.lon, observations.lat, 'ro',
+                    zorder=1, label='Observation', alpha=0.25)
+            ax.set_extent([bbox[0], bbox[2], bbox[1], bbox[3]])
+
+        log.info('[{}]: {}'.format(mod_name, url))
 
 # <markdowncell>
 
-# #### Load the saved files and interpolate to the same time interval as the observed series
+# #### Load saved files and interpolate to the observations time interval
 
 # <codecell>
 
@@ -349,7 +359,7 @@ for fname in glob(os.path.join(directory, "*.nc")):
     else:
         model = fname.split('.')[0].split('-')[-1]
         df = nc2df(fname)
-        kw = dict(method='time')
+        kw = dict(method='time', limit=30)
         df = df.reindex(index).interpolate(**kw).ix[index]
         dfs.update({model: df})
 
@@ -373,7 +383,7 @@ for station in dfs:
     sta_name = get_coops_longname(station)
     df = dfs[station].dropna(axis=1, how='all')
     # FIXME: This is bad!  But I cannot represent NaN with Vega!
-    df.fillna(value=0, inplace=True)
+    df.fillna(value='null', inplace=True)
     vis = vincent.Line(df, width=500, height=150)
     vis.axis_titles(x='Time', y='Sea surface height (m)')
     vis.legend(title=sta_name)
