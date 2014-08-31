@@ -1,4 +1,4 @@
-# Site settings
+# Site settings.
 title: SECOORA Model Skill Assessment
 name: secoora
 safe: true
@@ -9,7 +9,7 @@ baseurl: /secoora
 twitter_username: ocefpaf
 github_username:  ocefpaf
 
-# Build settings
+# Build settings.
 layout: default
 markdown: kramdown
 highlighter: pygments
