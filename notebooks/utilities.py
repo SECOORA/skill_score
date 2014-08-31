@@ -22,6 +22,7 @@ from pandas import DataFrame, read_csv
 from netCDF4 import Dataset, MFDataset, date2index, num2date
 
 import iris
+from iris.unit import Unit
 from iris.cube import CubeList
 from iris.pandas import as_cube, as_data_frame
 from iris.exceptions import CoordinateNotFoundError, CoordinateMultiDimError
@@ -35,7 +36,7 @@ from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 import lxml.html
 from lxml import etree
 from IPython.display import HTML
-
+from folium.folium import Map
 
 CSW = {'NGDC Geoportal':
        'http://www.ngdc.noaa.gov/geoportal/csw',
@@ -89,6 +90,7 @@ titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
                'Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd': 'USF'})
 
 
+# Iris.
 def find_timevar(cube):
     """Return the variable attached to time axis and rename it to time."""
     try:
@@ -157,8 +159,7 @@ def intersection(cube, bbox):
     return cube
 
 
-def get_cube(url, name_list=None, bbox=None, time=None,
-             units=iris.unit.Unit('meters')):
+def get_cube(url, name_list=None, bbox=None, time=None, units=Unit('meters')):
     cubes = iris.load_raw(url)
     if name_list:
         in_list = lambda cube: cube.standard_name in name_list
@@ -179,265 +180,6 @@ def get_cube(url, name_list=None, bbox=None, time=None,
         if not cube.units == units:
             cube.convert_units('m')
     return cube
-
-
-def parse_url(url):
-    """This will preserve any given scheme but will add http if none is
-    provided."""
-    if not urlparse(url).scheme:
-        url = "http://{}".format(url)
-    return url
-
-
-def rot2d(x, y, ang):
-    """Rotate vectors by geometric angle."""
-    xr = x * np.cos(ang) - y * np.sin(ang)
-    yr = x * np.sin(ang) + y * np.cos(ang)
-    return xr, yr
-
-
-def shrink(a, b):
-    """Return array shrunk to fit a specified shape by trimming or averaging.
-
-    a = shrink(array, shape)
-
-    array is an numpy ndarray, and shape is a tuple (e.g., from
-    array.shape).  `a` is the input array shrunk such that its maximum
-    dimensions are given by shape. If shape has more dimensions than
-    array, the last dimensions of shape are fit.
-
-    as, bs = shrink(a, b)
-
-    If the second argument is also an array, both a and b are shrunk to
-    the dimensions of each other. The input arrays must have the same
-    number of dimensions, and the resulting arrays will have the same
-    shape.
-    Example
-    -------
-
-    >>> shrink(rand(10, 10), (5, 9, 18)).shape
-    (9, 10)
-    >>> map(shape, shrink(rand(10, 10, 10), rand(5, 9, 18)))
-    [(5, 9, 10), (5, 9, 10)]
-
-    """
-
-    if isinstance(b, np.ndarray):
-        if not len(a.shape) == len(b.shape):
-            raise Exception('Input arrays must have the same number of'
-                            'dimensions')
-        a = shrink(a, b.shape)
-        b = shrink(b, a.shape)
-        return (a, b)
-
-    if isinstance(b, int):
-        b = (b,)
-
-    if len(a.shape) == 1:  # 1D array is a special case
-        dim = b[-1]
-        while a.shape[0] > dim:  # Only shrink a.
-            if (dim - a.shape[0]) >= 2:  # Trim off edges evenly.
-                a = a[1:-1]
-            else:  # Or average adjacent cells.
-                a = 0.5*(a[1:] + a[:-1])
-    else:
-        for dim_idx in range(-(len(a.shape)), 0):
-            dim = b[dim_idx]
-            a = a.swapaxes(0, dim_idx)  # Put working dim first
-            while a.shape[0] > dim:  # Only shrink a
-                if (a.shape[0] - dim) >= 2:  # trim off edges evenly
-                    a = a[1:-1, :]
-                if (a.shape[0] - dim) == 1:  # Or average adjacent cells.
-                    a = 0.5*(a[1:, :] + a[:-1, :])
-            a = a.swapaxes(0, dim_idx)  # Swap working dim back.
-    return a
-
-
-def get_roms(url, time_slice, n=3):
-    url = parse_url(url)
-    with Dataset(url) as nc:
-        ncv = nc.variables
-        time = ncv['ocean_time']
-        tidx = date2index(time_slice, time, select='nearest')
-        time = num2date(time[tidx], time.units, time.calendar)
-
-        mask = ncv['mask_rho'][:]
-        lon_rho = ncv['lon_rho'][:]
-        lat_rho = ncv['lat_rho'][:]
-        anglev = ncv['angle'][:]
-
-        u = ncv['u'][tidx, -1, ...]
-        v = ncv['v'][tidx, -1, ...]
-
-        u = shrink(u, mask[1:-1, 1:-1].shape)
-        v = shrink(v, mask[1:-1, 1:-1].shape)
-
-        u, v = rot2d(u, v, anglev[1:-1, 1:-1])
-
-        lon = lon_rho[1:-1, 1:-1]
-        lat = lat_rho[1:-1, 1:-1]
-
-        u, v = u[::n, ::n], v[::n, ::n]
-        lon, lat = lon[::n, ::n], lat[::n, ::n]
-
-        u = ma.masked_invalid(u)
-        v = ma.masked_invalid(v)
-    return dict(lon=lon, lat=lat, u=u, v=v, time=time)
-
-
-def fes_date_filter(start, stop, constraint='overlaps'):
-    """Take datetime-like objects and returns a fes filter for date range.
-    NOTE: Truncates the minutes!"""
-    start = start.strftime('%Y-%m-%d %H:00')
-    stop = stop.strftime('%Y-%m-%d %H:00')
-    if constraint == 'overlaps':
-        propertyname = 'apiso:TempExtent_begin'
-        begin = fes.PropertyIsLessThanOrEqualTo(propertyname=propertyname,
-                                                literal=stop)
-        propertyname = 'apiso:TempExtent_end'
-        end = fes.PropertyIsGreaterThanOrEqualTo(propertyname=propertyname,
-                                                 literal=start)
-    elif constraint == 'within':
-        propertyname = 'apiso:TempExtent_begin'
-        begin = fes.PropertyIsGreaterThanOrEqualTo(propertyname=propertyname,
-                                                   literal=start)
-        propertyname = 'apiso:TempExtent_end'
-        end = fes.PropertyIsLessThanOrEqualTo(propertyname=propertyname,
-                                              literal=stop)
-    else:
-        raise NameError('Unrecognized constraint {}'.format(constraint))
-    return begin, end
-
-
-def service_urls(records, service='odp:url'):
-    """Extract service_urls of a specific type (DAP, SOS) from records."""
-    service_string = 'urn:x-esri:specification:ServiceType:' + service
-    urls = []
-    for key, rec in records.items():
-        # Create a generator object, and iterate through it until the match is
-        # found if not found, gets the default value (here "none").
-        url = next((d['url'] for d in rec.references if
-                    d['scheme'] == service_string), None)
-        if url is not None:
-            urls.append(url)
-    return urls
-
-
-def get_coordinates(bbox):
-    """Create bounding box coordinates for the map.  It takes flat or
-    nested list/numpy.array and returns 4 points for the map corners."""
-    bbox = np.asanyarray(bbox).ravel()
-    if bbox.size == 4:
-        bbox = bbox.reshape(2, 2)
-        coordinates = []
-        coordinates.append([bbox[0][1], bbox[0][0]])
-        coordinates.append([bbox[0][1], bbox[1][0]])
-        coordinates.append([bbox[1][1], bbox[1][0]])
-        coordinates.append([bbox[1][1], bbox[0][0]])
-        coordinates.append([bbox[0][1], bbox[0][0]])
-    else:
-        raise ValueError('Wrong number corners.'
-                         '  Expected 4 got {}'.format(bbox.size))
-    return coordinates
-
-
-def inline_map(m):
-    m._build_map()
-    srcdoc = m.HTML.replace('"', '&quot;')
-    embed = HTML('<iframe srcdoc="{srcdoc}" '
-                 'style="width: 100%; height: 500px; '
-                 'border: none"></iframe>'.format(srcdoc=srcdoc))
-    return embed
-
-
-def css_styles(css='style.css'):
-    with open(css) as f:
-        styles = f.read()
-    return HTML('<style>{}</style>'.format(styles))
-
-
-def processStationInfo(obs_loc_df, st_list, source):
-    st_data = obs_loc_df['station_id']
-    lat_data = obs_loc_df['latitude (degree)']
-    lon_data = obs_loc_df['longitude (degree)']
-    for k in range(0, len(st_data)):
-        station_name = st_data[k]
-        if station_name in st_list:
-            pass
-        else:
-            st_list[station_name] = {}
-            st_list[station_name]["lat"] = lat_data[k]
-            st_list[station_name]["source"] = source
-            st_list[station_name]["lon"] = lon_data[k]
-            print(station_name)
-    print("number of stations in bbox %s" % len(st_list.keys()))
-    return st_list
-
-
-def get_ncfiles_catalog(station_id, jd_start, jd_stop):
-    station_name = station_id.split(":")[-1]
-    uri = 'http://dods.ndbc.noaa.gov/thredds/dodsC/data/adcp'
-    url = ('%s/%s/' % (uri, station_name))
-    urls = url_lister(url)
-    filetype = "*.nc"
-    file_list = [filename for filename in fnmatch.filter(urls, filetype)]
-    files = [fname.split('/')[-1] for fname in file_list]
-    urls = ['%s/%s/%s' % (uri, station_name, fname) for fname in files]
-
-    nc = MFDataset(urls)
-
-    time_dim = nc.variables['time']
-    calendar = 'gregorian'
-    idx_start = date2index(jd_start, time_dim, calendar=calendar,
-                           select='nearest')
-    idx_stop = date2index(jd_stop, time_dim, calendar=calendar,
-                          select='nearest')
-
-    dir_dim = nc.variables['water_dir'][idx_start:idx_stop, ...].squeeze()
-    speed_dim = nc.variables['water_spd'][idx_start:idx_stop, ...].squeeze()
-    if dir_dim.ndim != 1:
-        dir_dim = dir_dim[:, 0]
-        speed_dim = speed_dim[:, 0]
-    time_dim = nc.variables['time']
-    dates = num2date(time_dim[idx_start:idx_stop],
-                     units=time_dim.units,
-                     calendar='gregorian').squeeze()
-    data = dict()
-    data['sea_water_speed (cm/s)'] = speed_dim
-    col = 'direction_of_sea_water_velocity (degree)'
-    data[col] = dir_dim
-    time = dates
-    columns = ['sea_water_speed (cm/s)',
-               'direction_of_sea_water_velocity (degree)']
-    df = DataFrame(data=data, index=time, columns=columns)
-    return df
-
-
-def url_lister(url):
-    urls = []
-    connection = urlopen(url)
-    dom = lxml.html.fromstring(connection.read())
-    for link in dom.xpath('//a/@href'):
-        urls.append(link)
-    return urls
-
-
-def sos_request(url='opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **kw):
-    url = parse_url(url)
-    offering = 'urn:ioos:network:NOAA.NOS.CO-OPS:CurrentsActive'
-    params = dict(service='SOS',
-                  request='GetObservation',
-                  version='1.0.0',
-                  offering=offering,
-                  responseFormat='text/csv')
-    params.update(kw)
-    r = requests.get(url, params=params)
-    r.raise_for_status()
-    content = r.headers['Content-Type']
-    if 'excel' in content or 'csv' in content:
-        return r.url
-    else:
-        raise TypeError('Bad url {}'.format(r.url))
 
 
 def standardize_fill_value(cube):
@@ -580,8 +322,7 @@ def make_tree(cube):
     return tree, lon, lat
 
 
-def get_nearest_water(cube, tree, xi, yi, k=10,
-                      max_dist=0.04, min_var=0.01):
+def get_nearest_water(cube, tree, xi, yi, k=10, max_dist=0.04, min_var=0.01):
     """Find `k` nearest model data points from an iris `cube` at station
     lon=`xi`, lat=`yi` up to `max_dist` in degrees.  Must provide a Scipy's
     KDTree `tree`."""
@@ -629,6 +370,217 @@ def get_nearest_water(cube, tree, xi, yi, k=10,
     return series, dist, idx
 
 
+# ROMS.
+def rot2d(x, y, ang):
+    """Rotate vectors by geometric angle."""
+    xr = x * np.cos(ang) - y * np.sin(ang)
+    yr = x * np.sin(ang) + y * np.cos(ang)
+    return xr, yr
+
+
+def shrink(a, b):
+    """Return array shrunk to fit a specified shape by trimming or averaging.
+
+    a = shrink(array, shape)
+
+    array is an numpy ndarray, and shape is a tuple (e.g., from
+    array.shape).  `a` is the input array shrunk such that its maximum
+    dimensions are given by shape. If shape has more dimensions than
+    array, the last dimensions of shape are fit.
+
+    as, bs = shrink(a, b)
+
+    If the second argument is also an array, both a and b are shrunk to
+    the dimensions of each other. The input arrays must have the same
+    number of dimensions, and the resulting arrays will have the same
+    shape.
+    Example
+    -------
+
+    >>> shrink(rand(10, 10), (5, 9, 18)).shape
+    (9, 10)
+    >>> map(shape, shrink(rand(10, 10, 10), rand(5, 9, 18)))
+    [(5, 9, 10), (5, 9, 10)]
+
+    """
+
+    if isinstance(b, np.ndarray):
+        if not len(a.shape) == len(b.shape):
+            raise Exception('Input arrays must have the same number of'
+                            'dimensions')
+        a = shrink(a, b.shape)
+        b = shrink(b, a.shape)
+        return (a, b)
+
+    if isinstance(b, int):
+        b = (b,)
+
+    if len(a.shape) == 1:  # 1D array is a special case
+        dim = b[-1]
+        while a.shape[0] > dim:  # Only shrink a.
+            if (dim - a.shape[0]) >= 2:  # Trim off edges evenly.
+                a = a[1:-1]
+            else:  # Or average adjacent cells.
+                a = 0.5*(a[1:] + a[:-1])
+    else:
+        for dim_idx in range(-(len(a.shape)), 0):
+            dim = b[dim_idx]
+            a = a.swapaxes(0, dim_idx)  # Put working dim first
+            while a.shape[0] > dim:  # Only shrink a
+                if (a.shape[0] - dim) >= 2:  # trim off edges evenly
+                    a = a[1:-1, :]
+                if (a.shape[0] - dim) == 1:  # Or average adjacent cells.
+                    a = 0.5*(a[1:, :] + a[:-1, :])
+            a = a.swapaxes(0, dim_idx)  # Swap working dim back.
+    return a
+
+
+def get_roms(url, time_slice, n=3):
+    url = parse_url(url)
+    with Dataset(url) as nc:
+        ncv = nc.variables
+        time = ncv['ocean_time']
+        tidx = date2index(time_slice, time, select='nearest')
+        time = num2date(time[tidx], time.units, time.calendar)
+
+        mask = ncv['mask_rho'][:]
+        lon_rho = ncv['lon_rho'][:]
+        lat_rho = ncv['lat_rho'][:]
+        anglev = ncv['angle'][:]
+
+        u = ncv['u'][tidx, -1, ...]
+        v = ncv['v'][tidx, -1, ...]
+
+        u = shrink(u, mask[1:-1, 1:-1].shape)
+        v = shrink(v, mask[1:-1, 1:-1].shape)
+
+        u, v = rot2d(u, v, anglev[1:-1, 1:-1])
+
+        lon = lon_rho[1:-1, 1:-1]
+        lat = lat_rho[1:-1, 1:-1]
+
+        u, v = u[::n, ::n], v[::n, ::n]
+        lon, lat = lon[::n, ::n], lat[::n, ::n]
+
+        u = ma.masked_invalid(u)
+        v = ma.masked_invalid(v)
+    return dict(lon=lon, lat=lat, u=u, v=v, time=time)
+
+
+# OWS/PYOOS.
+def fes_date_filter(start, stop, constraint='overlaps'):
+    """Take datetime-like objects and returns a fes filter for date range.
+    NOTE: Truncates the minutes!"""
+    start = start.strftime('%Y-%m-%d %H:00')
+    stop = stop.strftime('%Y-%m-%d %H:00')
+    if constraint == 'overlaps':
+        propertyname = 'apiso:TempExtent_begin'
+        begin = fes.PropertyIsLessThanOrEqualTo(propertyname=propertyname,
+                                                literal=stop)
+        propertyname = 'apiso:TempExtent_end'
+        end = fes.PropertyIsGreaterThanOrEqualTo(propertyname=propertyname,
+                                                 literal=start)
+    elif constraint == 'within':
+        propertyname = 'apiso:TempExtent_begin'
+        begin = fes.PropertyIsGreaterThanOrEqualTo(propertyname=propertyname,
+                                                   literal=start)
+        propertyname = 'apiso:TempExtent_end'
+        end = fes.PropertyIsLessThanOrEqualTo(propertyname=propertyname,
+                                              literal=stop)
+    else:
+        raise NameError('Unrecognized constraint {}'.format(constraint))
+    return begin, end
+
+
+def service_urls(records, service='odp:url'):
+    """Extract service_urls of a specific type (DAP, SOS) from records."""
+    service_string = 'urn:x-esri:specification:ServiceType:' + service
+    urls = []
+    for key, rec in records.items():
+        # Create a generator object, and iterate through it until the match is
+        # found if not found, gets the default value (here "none").
+        url = next((d['url'] for d in rec.references if
+                    d['scheme'] == service_string), None)
+        if url is not None:
+            urls.append(url)
+    return urls
+
+
+def processStationInfo(obs_loc_df, st_list, source):
+    st_data = obs_loc_df['station_id']
+    lat_data = obs_loc_df['latitude (degree)']
+    lon_data = obs_loc_df['longitude (degree)']
+    for k in range(0, len(st_data)):
+        station_name = st_data[k]
+        if station_name in st_list:
+            pass
+        else:
+            st_list[station_name] = {}
+            st_list[station_name]["lat"] = lat_data[k]
+            st_list[station_name]["source"] = source
+            st_list[station_name]["lon"] = lon_data[k]
+            print(station_name)
+    print("number of stations in bbox %s" % len(st_list.keys()))
+    return st_list
+
+
+def get_ncfiles_catalog(station_id, jd_start, jd_stop):
+    station_name = station_id.split(":")[-1]
+    uri = 'http://dods.ndbc.noaa.gov/thredds/dodsC/data/adcp'
+    url = ('%s/%s/' % (uri, station_name))
+    urls = url_lister(url)
+    filetype = "*.nc"
+    file_list = [filename for filename in fnmatch.filter(urls, filetype)]
+    files = [fname.split('/')[-1] for fname in file_list]
+    urls = ['%s/%s/%s' % (uri, station_name, fname) for fname in files]
+
+    nc = MFDataset(urls)
+
+    time_dim = nc.variables['time']
+    calendar = 'gregorian'
+    idx_start = date2index(jd_start, time_dim, calendar=calendar,
+                           select='nearest')
+    idx_stop = date2index(jd_stop, time_dim, calendar=calendar,
+                          select='nearest')
+
+    dir_dim = nc.variables['water_dir'][idx_start:idx_stop, ...].squeeze()
+    speed_dim = nc.variables['water_spd'][idx_start:idx_stop, ...].squeeze()
+    if dir_dim.ndim != 1:
+        dir_dim = dir_dim[:, 0]
+        speed_dim = speed_dim[:, 0]
+    time_dim = nc.variables['time']
+    dates = num2date(time_dim[idx_start:idx_stop],
+                     units=time_dim.units,
+                     calendar='gregorian').squeeze()
+    data = dict()
+    data['sea_water_speed (cm/s)'] = speed_dim
+    col = 'direction_of_sea_water_velocity (degree)'
+    data[col] = dir_dim
+    time = dates
+    columns = ['sea_water_speed (cm/s)',
+               'direction_of_sea_water_velocity (degree)']
+    df = DataFrame(data=data, index=time, columns=columns)
+    return df
+
+
+def sos_request(url='opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **kw):
+    url = parse_url(url)
+    offering = 'urn:ioos:network:NOAA.NOS.CO-OPS:CurrentsActive'
+    params = dict(service='SOS',
+                  request='GetObservation',
+                  version='1.0.0',
+                  offering=offering,
+                  responseFormat='text/csv')
+    params.update(kw)
+    r = requests.get(url, params=params)
+    r.raise_for_status()
+    content = r.headers['Content-Type']
+    if 'excel' in content or 'csv' in content:
+        return r.url
+    else:
+        raise TypeError('Bad url {}'.format(r.url))
+
+
 def get_coops_longname(station):
     """Get longName for specific station from COOPS SOS using DescribeSensor
     request."""
@@ -661,17 +613,6 @@ def coops2df(collector, coops_id, sos_name):
     return data_df
 
 
-def df_html(df, max_cols=10):
-    table_style = """
-    <style>
-    .df th { background-color: LightGray; }
-    .df tbody tr:nth-child(odd) { background-color: AliceBlue; }
-    .df tbody tr:nth-child(even) { background-color: Ivory; }
-    </style>
-    """
-    return HTML(table_style + df.to_html(max_cols=max_cols, classes='df'))
-
-
 def nc2df(fname):
     cube = iris.load_cube(fname)
     for coord in cube.coords(dimensions=[0]):
@@ -689,6 +630,72 @@ def nc2df(fname):
     return df
 
 
+# IPython display.
+def css_styles(css='style.css'):
+    with open(css) as f:
+        styles = f.read()
+    return HTML('<style>{}</style>'.format(styles))
+
+
+def to_html(df, css='../style.css'):
+    with open(css, 'r') as f:
+        style = """<style>{}</style>""".format(f.read())
+    table = dict(style=style, table=df.to_html())
+    return HTML('{style}<div class="datagrid">{table}</div>'.format(**table))
+
+
+def inline_map(m):
+    """Takes a folium instance or a html path and load into an iframe."""
+    if isinstance(m, Map):
+        m._build_map()
+        srcdoc = m.HTML.replace('"', '&quot;')
+        embed = HTML('<iframe srcdoc="{srcdoc}" '
+                     'style="width: 100%; height: 500px; '
+                     'border: none"></iframe>'.format(srcdoc=srcdoc))
+    elif isinstance(m, str):
+        embed = HTML('<iframe src="{src}" '
+                     'style="width: 100%; height: 500px; '
+                     'border: none"></iframe>'.format(src=m))
+    return embed
+
+
+# Web-parsing.
+def parse_url(url):
+    """This will preserve any given scheme but will add http if none is
+    provided."""
+    if not urlparse(url).scheme:
+        url = "http://{}".format(url)
+    return url
+
+
+def url_lister(url):
+    urls = []
+    connection = urlopen(url)
+    dom = lxml.html.fromstring(connection.read())
+    for link in dom.xpath('//a/@href'):
+        urls.append(link)
+    return urls
+
+
+def get_coordinates(bbox):
+    """Create bounding box coordinates for the map.  It takes flat or
+    nested list/numpy.array and returns 4 points for the map corners."""
+    bbox = np.asanyarray(bbox).ravel()
+    if bbox.size == 4:
+        bbox = bbox.reshape(2, 2)
+        coordinates = []
+        coordinates.append([bbox[0][1], bbox[0][0]])
+        coordinates.append([bbox[0][1], bbox[1][0]])
+        coordinates.append([bbox[1][1], bbox[1][0]])
+        coordinates.append([bbox[1][1], bbox[0][0]])
+        coordinates.append([bbox[0][1], bbox[0][0]])
+    else:
+        raise ValueError('Wrong number corners.'
+                         '  Expected 4 got {}'.format(bbox.size))
+    return coordinates
+
+
+# Misc.
 @contextlib.contextmanager
 def timeit(log=None):
     t = time.time()
