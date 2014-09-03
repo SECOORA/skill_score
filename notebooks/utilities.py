@@ -94,10 +94,7 @@ titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
 def find_timevar(cube):
     """Return the variable attached to time axis and rename it to time."""
     try:
-        oldname = cube.coord(axis='T').var_name
         cube.coord(axis='T').rename('time')
-        warn('Renaming {} to time for cube'
-             '{}'.format(oldname, cube.name))
     except CoordinateNotFoundError:
         pass
     timevar = cube.coord('time')
