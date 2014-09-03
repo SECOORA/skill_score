@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
-# <nbformat>3.0</nbformat>
 
-# <codecell>
+# coding: utf-8
 
-%matplotlib inline
+# In[1]:
+
+get_ipython().magic('matplotlib inline')
 
 import iris
 import pyoos
@@ -12,7 +12,8 @@ import owslib
 import time
 start_time = time.time()
 
-# <codecell>
+
+# In[2]:
 
 import os
 import sys
@@ -21,12 +22,11 @@ sys.path.append(root)
 
 from utilities import timeit
 
-# <markdowncell>
 
-# ### SECOORA iundation notebook
-# Based on IOOS system-test [notebook](https://github.com/ioos/system-test/tree/master/Theme_2_Extreme_Events/Scenario_2A_Coastal_Inundation/Scenario_2A_ModelDataCompare_Inundation).
+# ### SECOORA inundation notebook
+# Based on IOOS system-test [notebook](http://nbviewer.ipython.org/github/ioos/system-test/blob/master/Theme_2_Extreme_Events/Scenario_2A/ModelDataCompare_Inundation/Water_Level_Signell.ipynb).
 
-# <codecell>
+# In[3]:
 
 import pytz
 from datetime import datetime, timedelta
@@ -44,14 +44,16 @@ start = stop - timedelta(days=7)
 # SECOORA region (NC, SC GA, FL).
 bbox = [-87.40, 24.25, -74.70, 36.70]
 
-# <codecell>
+
+# In[4]:
 
 directory = '{:%Y-%m-%d}'.format(stop)
 
 if not os.path.exists(directory):
     os.makedirs(directory)
 
-# <codecell>
+
+# In[5]:
 
 import logging as log
 reload(log)
@@ -75,7 +77,8 @@ log.info('Iris version: {}'.format(iris.__version__))
 log.info('owslib version: {}'.format(owslib.__version__))
 log.info('pyoos version: {}'.format(pyoos.__version__))
 
-# <codecell>
+
+# In[6]:
 
 from owslib import fes
 from utilities import fes_date_filter
@@ -102,7 +105,8 @@ not_filt = fes.Not([fes.PropertyIsLike(literal='*Averages*', **kw)])
 begin, end = fes_date_filter(start, stop)
 filter_list = [fes.And([fes.BBox(bbox), begin, end, or_filt, not_filt])]
 
-# <codecell>
+
+# In[7]:
 
 from owslib.csw import CatalogueServiceWeb
 
@@ -113,7 +117,8 @@ csw.getrecords2(constraints=filter_list, maxrecords=1000, esn='full')
 log.info("CSW version: %s" % csw.version)
 log.info("Number of datasets available: %s" % len(csw.records.keys()))
 
-# <codecell>
+
+# In[8]:
 
 from utilities import service_urls
 
@@ -129,7 +134,8 @@ for url in dap_urls:
 for url in sos_urls:
     log.info('SOS: {}'.format(url))
 
-# <codecell>
+
+# In[9]:
 
 from pyoos.collectors.coops.coops_sos import CoopsSos
 
@@ -146,7 +152,8 @@ ofrs = collector.server.offerings
 title = collector.server.identification.title
 log.info('{}: {} offerings'.format(title, len(ofrs)))
 
-# <codecell>
+
+# In[10]:
 
 from pandas import read_csv
 from utilities import sos_request
@@ -162,11 +169,10 @@ observations = read_csv(url)
 
 log.info('sos_request'.format(url))
 
-# <markdowncell>
 
 # #### Clean the dataframe (visualization purpose only)
 
-# <codecell>
+# In[11]:
 
 from utilities import get_coops_longname, df_html
 
@@ -188,11 +194,10 @@ observations['name'] = [get_coops_longname(s) for s in observations['station']]
 observations.set_index('name', inplace=True)
 df_html(observations.head())
 
-# <markdowncell>
 
 # #### Generate a uniform 6-min time base for model/data comparison
 
-# <codecell>
+# In[12]:
 
 import iris
 from pandas import DataFrame
@@ -252,11 +257,10 @@ else:
 
 df_html(obs_data.head())
 
-# <markdowncell>
 
 # #### Loop discovered models and save the nearest time-series
 
-# <codecell>
+# In[13]:
 
 import numpy as np
 from iris.pandas import as_series
@@ -337,11 +341,10 @@ for k, url in enumerate(dap_urls):
 
         log.info('[{}]: {}'.format(mod_name, url))
 
-# <markdowncell>
 
 # #### Load saved files and interpolate to the observations time interval
 
-# <codecell>
+# In[14]:
 
 from glob import glob
 from pandas import Panel
@@ -365,7 +368,8 @@ for fname in glob(os.path.join(directory, "*.nc")):
 
 dfs = Panel.fromDict(dfs).swapaxes(0, 2)
 
-# <codecell>
+
+# In[15]:
 
 import shutil
 import folium
@@ -406,7 +410,8 @@ inundation_map.create_map(path='inundation_map.html')
 inundation_map.render_iframe = True
 inline_map(inundation_map)
 
-# <codecell>
+
+# In[16]:
 
 [shutil.copy(json_file, directory) for json_file in glob('*.json')]
 shutil.copy('inundation_map.html', directory)

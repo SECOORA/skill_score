@@ -26,7 +26,7 @@ from utilities import timeit
 
 
 # ### SECOORA iundation notebook
-# Based on IOOS system-test [notebook](https://github.com/ioos/system-test/tree/master/Theme_2_Extreme_Events/Scenario_2A_Coastal_Inundation/Scenario_2A_ModelDataCompare_Inundation).
+# Based on IOOS system-test [notebook](http://nbviewer.ipython.org/github/ioos/system-test/blob/master/Theme_2_Extreme_Events/Scenario_2A/ModelDataCompare_Inundation/Water_Level_Signell.ipynb).
 
 # In[3]:
 
