@@ -13,6 +13,7 @@ Weekly results for Water Level comparison.
 | [2014-08-15]({{ site.baseurl }}/notebooks/inundation/2014-08-15/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-08-15/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-08-15/2014-08-15-secoora_inundation.log) |
 | [2014-08-22]({{ site.baseurl }}/notebooks/inundation/2014-08-22/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-08-22/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-08-22/2014-08-22-secoora_inundation.log) |
 | [2014-08-29]({{ site.baseurl }}/notebooks/inundation/2014-08-29/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-08-29/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-08-29/2014-08-29-secoora_inundation.log) |
+| [2014-09-06]({{ site.baseurl }}/notebooks/inundation/2014-09-06/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-09-06/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-09-06/2014-09-06-secoora_inundation.log) |
 |                                                                                      |                                                                       |
 
 
