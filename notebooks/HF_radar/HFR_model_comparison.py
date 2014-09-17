@@ -1,269 +1,249 @@
-# -*- coding: utf-8 -*-
-# <nbformat>3.0</nbformat>
 
-# <codecell>
+# coding: utf-8
+
+# In[1]:
+
+get_ipython().magic('matplotlib inline')
+
+import iris
+import pyoos
+import owslib
+
+import time
+start_time = time.time()
+
+
+# In[2]:
 
 import os
 import sys
 root = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(root)
 
-# <codecell>
+from utilities import css_styles, timeit
+css_styles('../style.css')
 
-from cartopy.io import shapereader
 
-kw = dict(resolution='110m', category='cultural',
-          name='admin_1_states_provinces')
-shpfilename = shapereader.natural_earth(**kw)
+# ### SECOORA Currents notebook
+# Based on IOOS system-test [notebook](http://nbviewer.ipython.org/github/ioos/system-test/blob/master/Theme_2_Extreme_Events/Scenario_2A/ModelDataCompare_Currents/Model_Obs_Compare_Currents.ipynb).
+# 
+# 
 
-reader = shapereader.Reader(shpfilename)
-states = reader.records()
-SECOORA = ('North Carolina', 'South Carolina', 'Georgia', 'Florida')
-for state in states:
-    name = state.attributes['name']
-    if name in SECOORA:
-        print(name)
+# In[3]:
 
-# <codecell>
-
-from utilities import css_styles
-css_styles()
-
-# <markdowncell>
-
-# #### User options are bbox and time range
-
-# <codecell>
-
+import pytz
 from datetime import datetime, timedelta
 
-# SECOORA: NC, SC GA, FL
-bounding_box_type = "box"
-bounding_box = [-87.4, 24.25, -74.7, 36.70]
+# Choose the date range.
+if False:
+    kw = dict(hour=12, minute=0, second=0, microsecond=0)
+    stop = datetime.utcnow().replace(**kw)
+else:
+    stop = datetime(2014, 8, 29, 12)
 
-# Temporal range.
-jd_now = datetime.utcnow().replace(minute=0, second=0, microsecond=0)
-jd_start,  jd_stop = jd_now - timedelta(hours=(6)), jd_now
+stop = stop.replace(tzinfo=pytz.utc)
+start = stop - timedelta(hours=24)
 
-print('%s, %s ' % (jd_start,  jd_stop))
+# SECOORA region (NC, SC GA, FL).
+bbox = [-87.40, 24.25, -74.70, 36.70]
 
-# <markdowncell>
 
-# #### CSW Search NGDC Geoportal
+# In[4]:
 
-# <codecell>
+directory = '{:%Y-%m-%d}'.format(stop)
+
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
+
+# In[5]:
+
+import logging as log
+reload(log)
+
+log.captureWarnings(True)
+LOG_FILENAME = '{:%Y-%m-%d}-{}'.format(stop, 'secoora_currents.log')
+LOG_FILENAME = os.path.join(directory, LOG_FILENAME)
+log.basicConfig(filename=LOG_FILENAME,
+                filemode='w',
+                format='%(asctime)s %(levelname)s: %(message)s',
+                datefmt='%I:%M:%S',
+                level=log.INFO,
+                stream=None)
+
+log.info('Run date: {:%Y-%m-%d %H:%M:%S}'.format(datetime.utcnow()))
+log.info('Download start: {:%Y-%m-%d %H:%M:%S}'.format(start))
+log.info('Download stop: {:%Y-%m-%d %H:%M:%S}'.format(stop))
+log.info('Bounding box: {0:3.2f}, {1:3.2f},'
+         '{2:3.2f}, {3:3.2f}'.format(*bbox))
+log.info('Iris version: {}'.format(iris.__version__))
+log.info('owslib version: {}'.format(owslib.__version__))
+log.info('pyoos version: {}'.format(pyoos.__version__))
+
+
+# In[6]:
 
 from owslib import fes
+from utilities import fes_date_filter, CF_names
+
+name_list = CF_names['currents']
+
+begin, end = fes_date_filter(start, stop)
+
+kw = dict(wildCard='*',
+          escapeChar='\\',
+          singleChar='?',
+          propertyname='apiso:AnyText')
+
+
+or_filt = fes.Or([fes.PropertyIsLike(literal=('*%s*' % val), **kw) for
+                  val in name_list])
+
+not_filt = fes.Not([fes.PropertyIsLike(literal='*Averages*', **kw)])
+
+
+filter_list = [fes.And([fes.BBox(bbox), begin, end, or_filt, not_filt])]
+
+
+# In[7]:
+
 from owslib.csw import CatalogueServiceWeb
 
-from utilities import fes_date_filter
-from ipy_table import make_table, apply_theme
-
-def fes_filter(jd_start, jd_stop, bounding_box, data_dict):
-    """Convert User Input into FES filters."""
-    time_fmt = '%Y-%m-%d %H:%M'
-    start, stop = fes_date_filter(jd_start, jd_stop)
-    bbox = fes.BBox(bounding_box)
-    # Use the search name to create search filter.
-    kw = dict(propertyname='apiso:AnyText', escapeChar='\\',
-              wildCard='*', singleChar='?')
-    or_filt = fes.Or([fes.PropertyIsLike(literal=('*%s*' % val), **kw) for
-                      val in data_dict['currents']['names']])
-    
-    val = 'Averages'
-    not_filt = fes.Not([fes.PropertyIsLike(literal=('*%s*' % val), **kw)])
-    
-    filter_list = [fes.And([bbox, start, stop, or_filt, not_filt])]
-    return filter_list
-    
-# CF and SOS names.
-data_dict = dict()
-sos_name = 'Currents'
-# FIXME: Add model names
-data_dict['currents'] = {"names": ['currents',
-                                   'surface_eastward_sea_water_velocity',
-                                   '*surface_eastward_sea_water_velocity*'],
-                         "sos_name": ['currents']}  # <- TODOL Check why sos_name is here!
-
-# Catalog.
 endpoint = 'http://www.ngdc.noaa.gov/geoportal/csw'
 csw = CatalogueServiceWeb(endpoint, timeout=60)
-filter_list = fes_filter(jd_start, jd_stop, bounding_box, data_dict)
 csw.getrecords2(constraints=filter_list, maxrecords=1000, esn='full')
 
-# <markdowncell>
+log.info("CSW version: %s" % csw.version)
+log.info("Number of datasets available: %s" % len(csw.records.keys()))
 
-# ```python
-# name_list = ['surface_eastward_sea_water_velocity',
-#              'surface_northward_sea_water_velocity',
-#              'surface_geostrophic_sea_water_x_velocity',
-#              'surface_geostrophic_sea_water_y_velocity'
-#              'surface_geostrophic_eastward_sea_water_velocity',
-#              'surface_geostrophic_northward_sea_water_velocity',
-#              'eastward_sea_water_velocity',
-#              'northward_sea_water_velocity',
-#              'sea_water_x_velocity',
-#              'sea_water_y_velocity',
-#              'baroclinic_eastward_sea_water_velocity',
-#              'baroclinic_northward_sea_water_velocity',
-#              'barotropic_eastward_sea_water_velocity',
-#              'barotropic_northward_sea_water_velocity',
-#              'barotropic_sea_water_x_velocity',
-#              'barotropic_sea_water_y_velocity',
-#              'bolus_eastward_sea_water_velocity',
-#              'bolus_northward_sea_water_velocity',
-#              'bolus_sea_water_x_velocity',
-#              'bolus_sea_water_y_velocity',
-#              'direction_of_sea_water_velocity',
-#              'sea_water_speed',
-#              'x_sea_water_velocity',
-#              'y_sea_water_velocity',
-#              'eastward_transformed_eulerian_mean_velocity',
-#              'northward_transformed_eulerian_mean_velocity',
-#              'surface_eastward_geostrophic_sea_water_velocity',
-#              'surface_northward_geostrophic_sea_water_velocity',
-#              'surface_geostrophic_sea_water_x_velocity_assuming_sea_level_for_geoid',
-#              'surface_geostrophic_sea_water_y_velocity_assuming_sea_level_for_geoid',
-#              'surface_geostrophic_eastward_sea_water_velocity_assuming_sea_level_for_geoid',
-#              'surface_geostrophic_northward_sea_water_velocity_assuming_sea_level_for_geoid',
-#              'surface_eastward_geostrophic_sea_water_velocity_assuming_sea_level_for_geoid',
-#              'surface_northward_geostrophic_sea_water_velocity_assuming_sea_level_for_geoid']
-# ```
 
-# <codecell>
-
-print("Found {} csw records:\n".format(len(csw.records)))
-
-table = [(item.title, rec) for rec, item in csw.records.items()]
-table.insert(0, ('Title', 'Record'))
-make_table(table)
-apply_theme('basic')
-
-# <markdowncell>
-
-# #### DAP
-
-# <codecell>
+# In[8]:
 
 from utilities import service_urls
-
 dap_urls = service_urls(csw.records, service='odp:url')
-dap_urls = sorted(set(dap_urls))
-print("Total DAP: %s" % len(dap_urls))
-print("\n".join(dap_urls))
-
-# <markdowncell>
-
-# #### SOS
-
-# <codecell>
-
 sos_urls = service_urls(csw.records, service='sos:url')
-sos_urls = sorted(set(sos_urls))
-print("Total SOS: %s" % len(sos_urls))
-print("\n".join(sos_urls))
 
-# <markdowncell>
+for rec, item in csw.records.items():
+    log.info('CSW: {}'.format(item.title))
+    
+for url in dap_urls:
+    log.info('DAP: {}.html'.format(url))
 
-# #### Update SOS time-date
+for url in sos_urls:
+    log.info('SOS: {}'.format(url))
 
-# <codecell>
-
-iso_start = jd_start.strftime('%Y-%m-%dT%H:%M:%SZ')
-iso_end = jd_stop.strftime('%Y-%m-%dT%H:%M:%SZ')
-print('{}\n{}'.format(iso_start, iso_end))
-
-# <markdowncell>
 
 # <div class="success"><strong>Get list of stations</strong>
-# - we get a list of the available stations from NOAA and COOPS</div>
+# - we get a list of the available stations from COOPS/NDBC</div>
 
-# <markdowncell>
-
-# #### Get CO-OPS Station Data
-
-# <codecell>
+# In[9]:
 
 from pyoos.collectors.coops.coops_sos import CoopsSos
 
-coops_collector = CoopsSos()
-coops_collector.start_time = jd_start
-coops_collector.end_time = jd_stop
-coops_collector.variables = data_dict["currents"]["sos_name"]
-coops_collector.server.identification.title
+sos_name = 'Currents'
 
-ofrs = coops_collector.server.offerings
+sos = CoopsSos()
+sos.end_time = stop
+sos.start_time = start
+sos.variables = [sos_name]
+sos.server.identification.title
 
-print("{}\n{}\n{}".format(coops_collector.start_time,
-                          coops_collector.end_time, len(ofrs)))
+ofrs = sos.server.offerings
+title = sos.server.identification.title
+log.info('{}: {} offerings'.format(title, len(ofrs)))
 
-# <markdowncell>
 
-# #### Gets a list of the active stations from coops
+# In[10]:
 
-# <codecell>
+from pyoos.collectors.ndbc.ndbc_sos import NdbcSos
+
+ndbc = NdbcSos()
+
+ndbc.end_time = stop
+ndbc.start_time = start
+ndbc.variables = [sos_name]
+ndbc.server.identification.title
+
+ofrs = sos.server.offerings
+title = sos.server.identification.title
+log.info('{}: {} offerings'.format(title, len(ofrs)))
+
+
+# In[11]:
 
 from pandas import read_csv
-from utilities import sos_request
+from utilities import sos_request, get_coops_longname, to_html
 
 params = dict(bin='1',
               observedProperty=sos_name,
-              featureOfInterest='BBOX:{0},{1},{2},{3}'.format(*bounding_box))
+              featureOfInterest='BBOX:{0},{1},{2},{3}'.format(*bbox))
 
-url = sos_request(url='http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **params)
-obs_loc_df = read_csv(url)
-obs_loc_df.drop_duplicates(subset='station_id', inplace=True)
+uri = 'http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS'
+url = sos_request(uri, **params)
+log.info('sos_request: {}'.format(url))
 
-# <codecell>
+obs_sos = read_csv(url)
+obs_sos.drop_duplicates(subset='station_id', inplace=True)
 
-cols = ['processing_level',
+# Clean the dataframe.
+drop = ['bin (count)',
+        'orientation',
+        'bin_size (m)',
+        'number_of_bins',
+        'bin_distance (m)',
+        'processing_level',
+        'sensor_depth (m)',
+        'sampling_rate (Hz)',
+        'first_bin_center (m)',
         'reporting_interval (s)',
+        'sea_water_speed (cm/s)',
         'sea_water_temperature (C)',
         'platform_roll_angle (degree)',
         'platform_orientation (degree)',
         'platform_pitch_angle (degree)',
-        'orientation', 'sampling_rate (Hz)',
-        'bin_size (m)', 'first_bin_center (m)',
-        'direction_of_sea_water_velocity (degree)',
-        'sea_water_speed (cm/s)', 'sensor_depth (m)',
-        'number_of_bins', 'bin (count)', 'bin_distance (m)']
-obs_loc_df.drop(cols, axis=1, inplace=True)
+        'direction_of_sea_water_velocity (degree)']
 
-make_table(np.r_[obs_loc_df.columns[None, :], obs_loc_df.values])
-apply_theme('basic')
+rename = {'sensor_id': 'sensor',
+          'station_id': 'station',
+          'latitude (degree)': 'lat',
+          'longitude (degree)': 'lon'}
 
-# <markdowncell>
+obs_sos.drop(drop, axis=1, inplace=True)
+obs_sos.rename(columns=rename, inplace=True)
 
-# #### Get NDBC Station Data
+obs_sos['sensor'] = [s.split(':')[-1] for s in obs_sos['sensor']]
+obs_sos['station'] = [s.split(':')[-1] for s in obs_sos['station']]
+obs_sos['name'] = [get_coops_longname(s) for s in obs_sos['station']]
 
-# <codecell>
+obs_sos.set_index('name', inplace=True)
+to_html(obs_sos)
 
-from pyoos.collectors.ndbc.ndbc_sos import NdbcSos
 
-ndbc_collector = NdbcSos()
-ndbc_collector.start_time = jd_start
-ndbc_collector.end_time = jd_stop
-ndbc_collector.variables = data_dict["currents"]["sos_name"]
-ndbc_collector.server.identification.title
-ofrs = ndbc_collector.server.offerings
+# In[12]:
 
-print("{}\n{}\n{}".format(ndbc_collector.start_time,
-                      ndbc_collector.end_time, len(ofrs)))
-
-# <codecell>
+from utilities import get_ndbc_longname
 
 params = dict(offering='urn:ioos:network:noaa.nws.ndbc:all',
               observedProperty=sos_name,
-              featureOfInterest='BBOX:{0},{1},{2},{3}'.format(*bounding_box))
+              featureOfInterest='BBOX:{0},{1},{2},{3}'.format(*bbox))
 
-url = sos_request(url='http://sdf.ndbc.noaa.gov/sos/server.php', **params)
-obs_loc_df = read_csv(url)
-obs_loc_df.drop_duplicates(subset='station_id', inplace=True)
+uri = 'http://sdf.ndbc.noaa.gov/sos/server.php'
+url = sos_request(uri, **params)
+log.info('sos_request: {}'.format(url))
 
-# <codecell>
+obs_ndbc = read_csv(url)
+obs_ndbc.drop_duplicates(subset='station_id', inplace=True)
 
-cols = ['sea_water_speed (cm/s)',
-        'bin (count)', 'depth (m)',
+# Clean the dataframe.
+drop = ['depth (m)',
+        'bin (count)',
+        'pct_bad (%)',
+        'quality_flags',
+        'pct_rejected (%)',
+        'pct_good_3_beam (%)',
+        'pct_good_4_beam (%)',
+        'error_velocity (cm/s)',
+        'sea_water_speed (cm/s)',
         'sea_water_temperature (C)',
         'platform_roll_angle (degree)',
         'echo_intensity_beam1 (count)',
@@ -272,316 +252,230 @@ cols = ['sea_water_speed (cm/s)',
         'echo_intensity_beam4 (count)',
         'platform_pitch_angle (degree)',
         'platform_orientation (degree)',
-        'pct_rejected (%)', 'pct_bad (%)',
         'upward_sea_water_velocity (cm/s)',
         'correlation_magnitude_beam1 (count)',
         'correlation_magnitude_beam2 (count)',
         'correlation_magnitude_beam3 (count)',
         'correlation_magnitude_beam4 (count)',
-        'error_velocity (cm/s)', 'quality_flags',
-        'direction_of_sea_water_velocity (degree)',
-        'pct_good_3_beam (%)', 'pct_good_4_beam (%)']
+        'direction_of_sea_water_velocity (degree)']
 
-obs_loc_df.drop(cols, axis=1, inplace=True)
+rename = {'sensor_id': 'sensor',
+          'station_id': 'station',
+          'latitude (degree)': 'lat',
+          'longitude (degree)': 'lon'}
 
-make_table(np.r_[obs_loc_df.columns[None, :], obs_loc_df.values])
-apply_theme('basic')
+obs_ndbc.drop(drop, axis=1, inplace=True)
+obs_ndbc.rename(columns=rename, inplace=True)
 
-# <markdowncell>
+obs_ndbc['sensor'] = [s.split(':')[-1] for s in obs_ndbc['sensor']]
+obs_ndbc['station'] = [s.split(':')[-1] for s in obs_ndbc['station']]
+obs_ndbc['name'] = [get_ndbc_longname(s) for s in obs_ndbc['station']]
 
-# #### NDBC Station information
+obs_ndbc.set_index('name', inplace=True)
+to_html(obs_ndbc)
 
-# <markdowncell>
 
-# ```python
-# import os
-# import folium
-# import numpy as np
-# import matplotlib.pyplot as plt
-# from utilities import service_urls, get_coordinates, inline_map, processStationInfo, get_ncfiles_catalog
-# ```
+# In[13]:
 
-# <markdowncell>
+import numpy as np
+from pandas import Panel, DataFrame
 
-# #### The function only support who date time differences
-
-# <markdowncell>
-
-# <div class="error">
-# <strong>Large Temporal Requests Need To Be Broken Down</strong> -
-# When requesting a large temporal range outside the SOS limit, the sos
-# request needs to be broken down.  See issues in
-# [ioos](https://github.com/ioos/system-test/issues/81),
-# [ioos](https://github.com/ioos/system-test/issues/101),
-# [ioos](https://github.com/ioos/system-test/issues/116)
-# and
-# [pyoos](https://github.com/ioos/pyoos/issues/35).  Unfortunately currents
-# is not available via DAP
-# ([ioos](https://github.com/ioos/system-test/issues/116))</div>
-
-# <markdowncell>
-
-# <div class="error">
-# <strong>Large Temporal Requests Need To Be Broken Down</strong> -
-# Obtaining long time series from COOPS via SOS is not ideal and the opendap
-# links are not available, so we use the tides and currents api to get the
-# currents in json format. The api response provides in default bin, unless a
-# bin is specified (i.e bin=1)</div>
-
-# <markdowncell>
-
-# <div class="warning"><strong>Pyoos</strong> -
-# Should be able to use the collector, but does not work?</div>
-
-# <markdowncell>
-
-# <div class="info">
-# <strong>Use NDBC DAP endpoints to get time-series data</strong> -
-# The DAP server for currents is available for NDBC data, we use that
-# to get long time series data.</div>
-
-# <markdowncell>
-
-# <div class="info"><strong>Progress Information For Large Requests</strong> -
-# Shows the user a progress bar for each stations as its processed.  Click
-# [here]('http://www.tidesandcurrents.noaa.gov/cdata/StationList?type=Current+Data&filter=active')
-# to show more information on the CO-OPS locations</div>
-
-# <markdowncell>
-
-# <div class="error"><strong>Processing long time series</strong> -
-# The CO-OPS Server responds really slow (> 30 secs, for what should be
-# a 5 sec request) to multiple requests, so getting long time series
-# data is almost impossible.</div>
-
-# <markdowncell>
-
-# #### get CO-OPS station data
-
-# <codecell>
-
-# Used to define the number of days allowable by the service.
-coops_point_max_days = ndbc_point_max_days = 30
-print("start & end dates: %s, %s\n" % (jd_start, jd_stop))
-
-for station_index in st_list.keys():
-    # Set it so we can use it later.
-    st = station_index.split(":")[-1]
-    print('[%s]: %s' % (st_list[station_index]['source'], station_index))
-
-    if st_list[station_index]['source'] == 'coops':
-        # Coops fails for large requests.
-        master_df = []
-    elif st_list[station_index]['source'] == 'ndbc':
-        # Use the dap catalog to get the data.
-        master_df = get_ncfiles_catalog(station_index, jd_start, jd_stop)
-    if len(master_df) > 0:
-        st_list[station_index]['hasObsData'] = True
-    st_list[station_index]['obsData'] = master_df
-
-# <codecell>
-
-# Check theres data in there.
-st_list[st_list.keys()[2]]
-
-# <markdowncell>
-
-# #### Plot the pandas data frames for the stations
-
-# <markdowncell>
-
-# <div class="error"><strong>Station Data Plot</strong> -
-# There might be an issue with some of the NDBC station data...</div>
-
-# <codecell>
-
-for station_index in st_list.keys():
-    df = st_list[station_index]['obsData']
-    if len(df) > 1:
-        st_list[station_index]['hasObsData'] = True
-        print("num rows: %s" % len(df))
-        fig = plt.figure(figsize=(18, 3))
-        plt.scatter(df.index, df['sea_water_speed (cm/s)'])
-        fig.suptitle('Station:'+station_index, fontsize=20)
-        plt.xlabel('Date', fontsize=18)
-        plt.ylabel('sea_water_speed (cm/s)', fontsize=16)
+def df2xt(df):
+    """Enter a coops2df `currents` and return a distance by time df."""
+    num_bins = np.unique(df['number_of_bins'])
+    if num_bins.size == 1:
+        num_bins = num_bins[0]
     else:
-        st_list[station_index]['hasObsData'] = False
+        raise ValueError('Expect unique num_bins.  Got {!r}'.format(num_bins))
+    shape = df.shape
+    num_time = shape[0] // num_bins
+    depths = depth = df['bin_distance (m)'].iloc[:num_bins].values
+    times = df.index.values.reshape(-1, num_bins)[:, 0]
+    kw = dict(index=times, columns=depths)
+    ang = df['direction_of_sea_water_velocity (degree)']
+    spd = df['sea_water_speed (cm/s)']
+    tmp = df['sea_water_temperature (C)']
+    panel = dict(ang=DataFrame(ang.reshape(-1, num_bins), **kw),
+                 spd=DataFrame(spd.reshape(-1, num_bins), **kw),
+                 tmp=DataFrame(tmp.reshape(-1, num_bins), **kw))
+    panel = Panel.fromDict(panel)
+    panel.name = df.name
+    return panel
 
-# <markdowncell>
 
-# #### Find the min and max data values
+# In[14]:
 
-# <markdowncell>
+import iris
+from pandas import DataFrame
+from iris.pandas import as_data_frame
+from owslib.ows import ExceptionReport
+from utilities import coops2df, save_timeseries
 
-# <div class="warning"><strong>Station Data Plot</strong> -
-# Some stations might not plot due to the data.</div>
+iris.FUTURE.netcdf_promote = True
 
-# <codecell>
-
-# Build current roses.
-filelist = [f for f in os.listdir("./images") if f.endswith(".png")]
-for f in filelist:
-    os.remove("./images/"+f)
-
-station_min_max = {}
-for station_index in st_list.keys():
-    all_spd_data = {}
-    all_dir_data = {}
-    all_time_spd = []
-    all_time_dir = []
-    df = st_list[station_index]['obsData']
-    if len(df) > 1:
+# Saving allows for re-run with without downloading the
+# data again.  Note that it will not download new
+# discovered station and will keep stations that might
+# have disappeared!
+fname = '{:%Y-%m-%d}-SOS_DATA.nc'.format(stop)
+fname = os.path.join(directory, fname)
+if not os.path.isfile(fname):
+    #log.info('Downloading observation to file {}.'.format(fname))
+    print('Downloading observation to file {}.'.format(fname))
+    data = dict()
+    bad_data = []
+    for station in obs_sos.station:
         try:
-            spd_data = df['sea_water_speed (cm/s)'].values
-            spd_data = np.array(spd_data)
-
-            dir_data = df['direction_of_sea_water_velocity (degree)'].values
-            dir_data = np.array(dir_data)
-
-            time_data = df.index.tolist()
-            time_data = np.array(time_data)
-
-            for idx in range(0, len(spd_data)):
-                if spd_data[idx] > 998:
-                    continue
-                elif np.isnan(spd_data[idx]):
-                    continue
-                elif dir_data[idx] == 0:
-                    continue
-                else:
-                    dt_year = time_data[idx].year
-                    dt_year = str(dt_year)
-                    if dt_year not in all_spd_data.keys():
-                        all_spd_data[dt_year] = []
-                        all_dir_data[dt_year] = []
-                    # Convert to knots.
-                    knot_val = (spd_data[idx] * 0.0194384449)
-                    knot_val = "%.4f" % knot_val
-                    knot_val = float(knot_val)
-
-                    all_spd_data[dt_year].append(knot_val)
-                    all_dir_data[dt_year].append(dir_data[idx])
-
-                    all_time_spd.append(knot_val)
-                    all_time_dir.append(dir_data[idx])
-
-            all_time_spd = np.array(all_time_spd, dtype=np.float)
-            all_time_dir = np.array(all_time_dir, dtype=np.float)
-
-            station_min_max[station_index] = {}
-            for year in all_spd_data.keys():
-                year_spd = np.array(all_spd_data[year])
-                year_dir = np.array(all_dir_data[year])
-                station_min_max[station_index][year] = {}
-                station_min_max[station_index][year]['pts'] = len(year_spd)
-                min_spd, max_spd = np.min(year_spd), np.max(year_spd)
-                station_min_max[station_index][year]['spd_min'] = min_spd
-                station_min_max[station_index][year]['spd_max'] = max_spd
-                dir_min, dir_max = np.argmin(year_spd), np.argmax(year_spd)
-                yr_dir_min, yr_dir_max = year_dir[dir_min], year_dir[dir_max]
-                station_min_max[station_index][year]['dir_at_min'] = yr_dir_min
-                station_min_max[station_index][year]['dir_at_max'] = yr_dir_max
-            try:
-                # A stacked histogram with normed
-                # (displayed in percent) results.
-                ax = new_axes()
-                ax.set_title(station_index.split(":")[-1] +
-                             " stacked histogram with normed (displayed in %)"
-                             "\nresults (spd in knots), All Time.")
-                ax.bar(all_time_dir, all_time_spd, normed=True,
-                       opening=0.8, edgecolor='white')
-                set_legend(ax)
-
-                fig = plt.gcf()
-                fig.set_size_inches(8, 8)
-                fname = './images/%s.png' % station_index.split(":")[-1]
-                fig.savefig(fname, dpi=100)
-            except Exception as e:
-                print("Error when plotting %s" % e)
-                pass
-
-        except Exception as e:  # Be specific here!
-            print("Error: %s" % e)
-            pass
-
-# <codecell>
-
-# Plot the min and max from each station.
-fields = ['spd_']
-
-for idx in range(0, len(fields)):
-    d_field = fields[idx]
-    fig, ax = plt.subplots(1, 1, figsize=(18, 5))
-    for st in station_min_max:
-        x = y_min = y_max = []
-        for year in station_min_max[st]:
-            x.append(year)
-            y_max.append(station_min_max[st][year][d_field+'max'])
-        marker_size = station_min_max[st][year]['pts'] / 80
-        marker_size += 20
-        station_label = st.split(":")[-1]
-
-        ax.scatter(np.array(x), np.array(y_max),
-                   label=station_label, s=marker_size,
-                   c=np.random.rand(3, 1), marker="o")
-        ax.set_xlim([2000, 2015])
-        ax.set_title("Yearly Max Speed Per Station, Marker Scaled Per"
-                     "Annual Pts (bigger = more pts per year)")
-        ax.set_ylabel("speed (knots)")
-        ax.set_xlabel("Year")
-        ax.legend(loc='upper left')
-
-# <markdowncell>
-
-# #### Produce Interactive Map
-
-# <codecell>
-
-station = st_list[st_list.keys()[0]]
-m = folium.Map(location=[station["lat"], station["lon"]], zoom_start=4)
-m.line(get_coordinates(bounding_box, bounding_box_type),
-       line_color='#FF0000', line_weight=5)
-
-# Plot the obs station.
-for st in st_list:
-    hasObs = st_list[st]['hasObsData']
-    if hasObs:
-        fname = './images/%s.png' % st.split(":")[-1]
-        if os.path.isfile(fname):
-            popup = ('Obs Location:<br>%s<br><img border=120 src="'
-                     './images/%s.png" width="242" height="242">' %
-                     (st, st.split(":")[-1]))
-            m.simple_marker([st_list[st]["lat"], st_list[st]["lon"]],
-                            popup=popup,
-                            marker_color="green",
-                            marker_icon="ok")
-        else:
-            popup = 'Obs Location:<br>%s' % st
-            m.simple_marker([st_list[st]["lat"], st_list[st]["lon"]],
-                            popup=popup,
-                            marker_color="green",
-                            marker_icon="ok")
-    else:
-        popup = 'Obs Location:<br>%s' % st
-        m.simple_marker([st_list[st]["lat"], st_list[st]["lon"]],
-                        popup=popup,
-                        marker_color="red",
-                        marker_icon="remove")
-inline_map(m)
-
-# <codecell>
-
-def new_axes():
-    fig = plt.figure(figsize=(8, 8), dpi=80, facecolor='w', edgecolor='w')
-    rect = [0.1, 0.1, 0.8, 0.8]
-    ax = WindroseAxes(fig, rect, axisbg='w')
-    fig.add_axes(ax)
-    return ax
+            df = coops2df(sos, station)
+            p = df2xt(df)
+            df = p.swapaxes(0, 1).swapaxes(1, 2).to_frame()
+            data.update({station: df})
+        except Exception as e:
+            #log.warning(e)
+            print(e)
+            bad_data.append(station)
+            name = get_coops_longname(station)
+            log.warning("[%s] %s:\n%s" % (station, name, e))
 
 
-def set_legend(ax):
-    """Adjust the legend box."""
-    l = ax.legend()
-    plt.setp(l.get_texts(), fontsize=8)
+# In[15]:
+
+#    obs_data = DataFrame.from_dict(data)
+
+    # Split good and bad_data.
+#    pattern = '|'.join(bad_data)
+#    if pattern:
+#        mask = obs_sos.station.str.contains(pattern)
+#        bad_data = obs_sos[mask]
+#        obs_sos = obs_sos[~mask]
+
+#    comment = "Several stations from http://opendap.co-ops.nos.noaa.gov"
+#    kw = dict(longitude=obs_sos.lon,
+#              latitude=obs_sos.lat,
+#              station_attr=dict(cf_role="timeseries_id"),
+#              cube_attr=dict(featureType='timeSeries',
+#                             Conventions='CF-1.6',
+#                             standard_name_vocabulary='CF-1.6',
+#                             cdm_data_type="Station",
+#                             comment=comment,
+#                             url=url))
+#    save_timeseries_cube(obs_data, outfile=fname, **kw)
+#else:
+#    log.info('Loading observation from file {}.'.format(fname))
+#    cube = iris.load_cube(fname)
+#    cube.remove_coord('longitude')
+#    cube.remove_coord('latitude')
+#    obs_data = as_data_frame(cube)
+
+#df_html(obs_data.head())
+
+
+# <div class="error"><strong>Test: </strong>
+# The following cells are just to check if the data makes sense.
+# It will be removed from future versions of this notebook!</div>
+
+# In[16]:
+
+from utilities import coops2df
+
+df = coops2df(sos, 'jx0101')
+
+
+# In[17]:
+
+for station_name, obs in obs_ndbc.iterrows():
+    try:
+        ndbc2df(ndbc, obs['station'])
+    except Exception as e:
+        log.warning(e)
+
+
+# In[18]:
+
+import matplotlib
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+plt.style.use('ggplot')
+
+p = df2xt(df)
+depth = -p['spd'].columns.values
+index = p['spd'].index.to_pydatetime()
+
+fig, ax = plt.subplots(figsize=(7, 2.75))
+cs = ax.pcolormesh(index, depth, p['spd'].values.T, cmap=plt.cm.RdBu_r)
+_ = ax.set_title(p.name)
+fig.tight_layout()
+
+
+# In[19]:
+
+import mpl_toolkits.axisartist as AA
+from mpl_toolkits.axes_grid1 import host_subplot
+
+fig = plt.figure(figsize=(7, 2.75))
+ax0 = host_subplot(111, axes_class=AA.Axes)
+ax1 = ax0.twinx()
+ax2 = ax0.twinx()
+
+offset = 60
+new_fixed_axis = ax2.get_grid_helper().new_fixed_axis
+ax2.axis["right"] = new_fixed_axis(loc="right", axes=ax2,
+                                   offset=(offset, 0))
+
+ax2.axis["right"].toggle(all=True)
+
+# Only plot the first bin.
+kw = dict(linewidth=1.0, zorder=1)
+
+p0, = ax0.plot(index, p['spd'].icol(0), color='blue', **kw)
+ax0.set_ylabel('Current Speed (cm/s)')
+ax0.axis["left"].label.set_color(p0.get_color())
+
+color = 'green'
+p1, = ax1.plot(index, p['ang'].icol(0), color=color, **kw)
+ax1.set_ylabel('Current Direction (degrees)')
+ax1.axis["right"].label.set_color(p1.get_color())
+
+color = 'red'
+p2, = ax2.plot(index, p['tmp'].icol(0), color=color, **kw)
+ax2.set_ylabel('sea_water_temperature (C)')
+ax2.axis["right"].label.set_color(p2.get_color())
+
+ax0.grid(False)
+
+
+# In[20]:
+
+import folium
+from utilities import get_coordinates, inline_map
+
+lon_center, lat_center = np.array(bbox).reshape(2, 2).mean(axis=0)
+currents = folium.Map(location=[lat_center, lon_center], zoom_start=5)
+
+# Create the map and add the bounding box line.
+kw = dict(line_color='#FF0000', line_weight=2)
+currents.line(get_coordinates(bbox), **kw)
+
+for station, obs in obs_sos.iterrows():
+    popup = '<b>SOS:</b> {}'
+    popup = popup.format(station)
+    kw = dict(popup=popup, marker_color="green", marker_icon="ok")
+    currents.simple_marker(location=[obs['lat'], obs['lon']], **kw)
+    
+for station, obs in obs_ndbc.iterrows():
+    popup = '<b>NDBC:</b> {}'
+    popup = popup.format(station)
+    kw = dict(popup=popup, marker_color="red", marker_icon="remove")
+    currents.simple_marker(location=[obs['lat'], obs['lon']], **kw)
+
+currents.create_map(path='currents.html')
+currents.render_iframe = True
+inline_map(currents)
+
+
+# In[21]:
+
+elapsed = time.time() - start_time
+log.info(elapsed)
+log.info('EOF')
 
