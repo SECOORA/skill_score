@@ -1,12 +1,16 @@
-SECOORA
-=======
+# SECOORA
 
 Thoughts, notebooks and prototypes for SECOORA's Model Skill Assessment
 exercise.
 
-The goal is to have
-[@Wilkin_2013](http://onlinelibrary.wiley.com/doi/10.1002/jgrc.20223/abstract)
-test bed implemented in python and running as a web service.
+
+The goal is to have skill assessment tool akin to
+http://onlinelibrary.wiley.com/doi/10.1002/jgrc.20223/abstract
+implemented in python and running as a web service.
+
+Navigate all the notebooks in this repository:
+
+    http://nbviewer.ipython.org/github/ioos/secoora/tree/master/
 
 <!--
 pandoc --standalone --smart \
