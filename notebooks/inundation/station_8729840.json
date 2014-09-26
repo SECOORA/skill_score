@@ -8633,7 +8633,7 @@
         {
           "col": "OBS_DATA",
           "idx": 1404450360000,
-          "val": 0.0
+          "val": "null"
         },
         {
           "col": "COAWST_4",
@@ -8683,7 +8683,7 @@
         {
           "col": "OBS_DATA",
           "idx": 1404452160000,
-          "val": 0.0
+          "val": "null"
         },
         {
           "col": "COAWST_4",
@@ -8723,7 +8723,7 @@
         {
           "col": "OBS_DATA",
           "idx": 1404453600000,
-          "val": 0.0
+          "val": "null"
         },
         {
           "col": "COAWST_4",
@@ -8733,7 +8733,7 @@
         {
           "col": "OBS_DATA",
           "idx": 1404453960000,
-          "val": 0.0
+          "val": "null"
         },
         {
           "col": "COAWST_4",
@@ -10363,7 +10363,7 @@
         {
           "col": "OBS_DATA",
           "idx": 1404512520000,
-          "val": 0.0
+          "val": "null"
         },
         {
           "col": "COAWST_4",
@@ -10693,7 +10693,7 @@
         {
           "col": "OBS_DATA",
           "idx": 1404524040000,
-          "val": 0.0
+          "val": "null"
         },
         {
           "col": "COAWST_4",
@@ -10723,7 +10723,7 @@
         {
           "col": "OBS_DATA",
           "idx": 1404524760000,
-          "val": 0.0
+          "val": "null"
         },
         {
           "col": "COAWST_4",

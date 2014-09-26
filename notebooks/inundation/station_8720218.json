@@ -10363,7 +10363,7 @@
         {
           "col": "OBS_DATA",
           "idx": 1404512520000,
-          "val": 0.0
+          "val": "null"
         },
         {
           "col": "ESTOFS",
@@ -10693,7 +10693,7 @@
         {
           "col": "OBS_DATA",
           "idx": 1404524040000,
-          "val": 0.0
+          "val": "null"
         },
         {
           "col": "ESTOFS",
@@ -10723,7 +10723,7 @@
         {
           "col": "OBS_DATA",
           "idx": 1404524760000,
-          "val": 0.0
+          "val": "null"
         },
         {
           "col": "ESTOFS",
