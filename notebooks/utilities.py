@@ -1,10 +1,11 @@
 # Standard Library.
 import time
 import fnmatch
-import requests
+import warnings
 import contextlib
 from io import BytesIO
-from warnings import warn
+from datetime import datetime
+
 try:
     from urllib import urlopen
     from urlparse import urlparse
@@ -22,21 +23,76 @@ from pandas import DataFrame, read_csv
 from netCDF4 import Dataset, MFDataset, date2index, num2date
 
 import iris
-from iris.unit import Unit
 from iris.cube import CubeList
 from iris.pandas import as_cube, as_data_frame
 from iris.exceptions import CoordinateNotFoundError, CoordinateMultiDimError
 
 iris.FUTURE.netcdf_promote = True
+iris.FUTURE.cell_datetime_objects = True  # <- TODO!
 
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 
-
+import requests
 import lxml.html
 from lxml import etree
-from IPython.display import HTML
+from bs4 import BeautifulSoup
 from folium.folium import Map
+from IPython.display import HTML
+
+from pyugrid import UGrid
+from oceans import wrap_lon180
+
+water_level = ['sea_surface_height',
+               'sea_surface_elevation',
+               'sea_surface_height_above_geoid',
+               'sea_surface_height_above_sea_level',
+               'water_surface_height_above_reference_datum',
+               'sea_surface_height_above_reference_ellipsoid']
+
+currents = ['sea_water_speed',
+            'direction_of_sea_water_velocity',
+            'surface_eastward_sea_water_velocity',
+            'surface_northward_sea_water_velocity',
+            'surface_geostrophic_sea_water_x_velocity',
+            'surface_geostrophic_sea_water_y_velocity'
+            'surface_geostrophic_eastward_sea_water_velocity',
+            'surface_geostrophic_northward_sea_water_velocity',
+            'eastward_sea_water_velocity',
+            'northward_sea_water_velocity',
+            'sea_water_x_velocity',
+            'sea_water_y_velocity',
+            'baroclinic_eastward_sea_water_velocity',
+            'baroclinic_northward_sea_water_velocity',
+            'barotropic_eastward_sea_water_velocity',
+            'barotropic_northward_sea_water_velocity',
+            'barotropic_sea_water_x_velocity',
+            'barotropic_sea_water_y_velocity',
+            'bolus_eastward_sea_water_velocity',
+            'bolus_northward_sea_water_velocity',
+            'bolus_sea_water_x_velocity',
+            'bolus_sea_water_y_velocity',
+            'x_sea_water_velocity',
+            'y_sea_water_velocity',
+            'eastward_transformed_eulerian_mean_velocity',
+            'northward_transformed_eulerian_mean_velocity',
+            'surface_eastward_geostrophic_sea_water_velocity',
+            'surface_northward_geostrophic_sea_water_velocity',
+            'surface_geostrophic_sea_water_x_velocity_assuming_'
+            'sea_level_for_geoid',
+            'surface_geostrophic_sea_water_y_velocity_assuming_'
+            'sea_level_for_geoid',
+            'surface_geostrophic_eastward_sea_water_velocity_assuming_'
+            'sea_level_for_geoid',
+            'surface_geostrophic_northward_sea_water_velocity_assuming_'
+            'sea_level_for_geoid',
+            'surface_eastward_geostrophic_sea_water_velocity_assuming_'
+            'sea_level_for_geoid',
+            'surface_northward_geostrophic_sea_water_velocity_assuming_'
+            'sea_level_for_geoid']
+
+CF_names = dict({'water level': water_level,
+                 'currents': currents})
 
 CSW = {'NGDC Geoportal':
        'http://www.ngdc.noaa.gov/geoportal/csw',
@@ -87,11 +143,25 @@ titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
                'Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE',
                'http://crow.marine.usf.edu:8080/thredds/dodsC/'
                'WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_'
-               'Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd': 'USF'})
+               'Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd': 'USF',
+               'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/'
+               'US_East_Forecast_Model_Run_Collection_best.ncd': 'USEAST'})
 
 
 # Iris.
-def find_timevar(cube):
+def z_coord(cube):
+    """Heuristic way to return **one** the vertical coordinate."""
+    try:
+        z = cube.coord(axis='Z')
+    except CoordinateNotFoundError:
+        z = cube.coords(axis='Z')
+        for coord in cube.coords(axis='Z'):
+            if coord.ndim == 1:
+                z = coord
+    return z
+
+
+def time_coord(cube):
     """Return the variable attached to time axis and rename it to time."""
     try:
         cube.coord(axis='T').rename('time')
@@ -102,9 +172,8 @@ def find_timevar(cube):
 
 
 def time_near(cube, datetime):
-    """Return the nearest index to a `datetime`.
-    TODO: Adapt to the new slice syntax"""
-    timevar = find_timevar(cube)
+    """Return the nearest index to a `datetime`."""
+    timevar = time_coord(cube)
     try:
         time = timevar.units.date2num(datetime)
         idx = timevar.nearest_neighbour_index(time)
@@ -113,14 +182,22 @@ def time_near(cube, datetime):
     return idx
 
 
-def time_slice(cube, start, stop):
+def time_slice(cube, start, stop=None):
     """TODO: Re-write to use `iris.FUTURE.cell_datetime_objects`."""
     istart = time_near(cube, start)
-    istop = time_near(cube, stop)
-    if istart == istop:
-        raise ValueError('istart must be different from istop.'
-                         '  Got istart {} and istop {}'.format(istart, istop))
-    return cube[istart:istop]
+    if stop:
+        istop = time_near(cube, stop)
+        if istart == istop:
+            raise ValueError('istart must be different from istop!'
+                             'Got istart {!r} and '
+                             ' istop {!r}'.format(istart, istop))
+        return cube[istart:istop, ...]
+    else:
+        return cube[istart, ...]
+
+
+def minmax(v):
+    return np.min(v), np.max(v)
 
 
 def bbox_extract_2Dcoords(cube, bbox):
@@ -130,9 +207,7 @@ def bbox_extract_2Dcoords(cube, bbox):
     2D lon, lat coords."""
     lons = cube.coord('longitude').points
     lats = cube.coord('latitude').points
-
-    def minmax(v):
-        return np.min(v), np.max(v)
+    lons = wrap_lon180(lons)
 
     inregion = np.logical_and(np.logical_and(lons > bbox[0],
                                              lons < bbox[2]),
@@ -148,34 +223,53 @@ def intersection(cube, bbox):
     """Sub sets cube with 1D or 2D lon, lat coords.
     Using `intersection` instead of `extract` we deal with 0-360
     longitudes automagically."""
-    try:
+    if (cube.coord(axis='X').ndim == 1 and cube.coord(axis='Y').ndim == 1):
         cube = cube.intersection(longitude=(bbox[0], bbox[2]),
                                  latitude=(bbox[1], bbox[3]))
-    except CoordinateMultiDimError:
+    elif (cube.coord(axis='X').ndim == 2 and
+          cube.coord(axis='Y').ndim == 2):
         cube = bbox_extract_2Dcoords(cube, bbox)
+    else:
+        msg = "Cannot deal with X:{!r} and Y:{!r} dimensions"
+        raise CoordinateMultiDimError(msg.format(cube.coord(axis='X').ndim),
+                                      cube.coord(axis='y').ndim)
     return cube
 
 
-def get_cube(url, name_list=None, bbox=None, time=None, units=Unit('meters')):
-    cubes = iris.load_raw(url)
+def get_cube(url, name_list=None, bbox=None, callback=None,
+             time=None, units=None, constraint=None):
+    cubes = iris.load_raw(url, callback=callback)
+    if constraint:
+        cubes = cubes.extract(constraint)
     if name_list:
         in_list = lambda cube: cube.standard_name in name_list
         cubes = CubeList([cube for cube in cubes if in_list(cube)])
-        cube = cubes.merge_cube()
+        if not cubes:
+            raise ValueError('Cube does not contain {!r}'.format(name_list))
+        else:
+            cube = cubes.merge_cube()
     if bbox:
         cube = intersection(cube, bbox)
     if time:
-        if len(time) == 1:
+        if isinstance(time, datetime):
             start, stop = time, None
-        if len(time) == 2:
+        elif isinstance(time, tuple):
             start, stop = time[0], time[1]
         else:
             raise ValueError('Time must be start or (start, stop).'
-                             '  Got {}'.format(time))
+                             '  Got {!r}'.format(time))
         cube = time_slice(cube, start, stop)
     if units:
         if not cube.units == units:
-            cube.convert_units('m')
+            cube.convert_units(units)
+    return cube
+
+
+def add_mesh(cube, url):
+    """Soon in an iris near you!"""
+    ug = UGrid.from_ncfile(url)
+    cube.mesh = ug
+    cube.mesh_dimension = 1
     return cube
 
 
@@ -221,13 +315,15 @@ def add_station(cube, station):
     return cube
 
 
-def save_timeseries_cube(df, outfile='timeseries.nc', **kw):
+def save_timeseries(df, outfile='timeseries.nc',
+                    standard_name="water_surface_height_above_reference_datum",
+                    **kw):
     """http://cfconventions.org/Data/cf-convetions/cf-conventions-1.6/build
     /cf-conventions.html#idp5577536"""
     cube = as_cube(df, calendars={1: iris.unit.CALENDAR_GREGORIAN})
     cube.coord("index").rename("time")
     cube.coord("columns").rename("station name")
-    cube.rename("water_surface_height_above_reference_datum")
+    cube.rename(standard_name)
 
     longitude = kw.get("longitude")
     latitude = kw.get("latitude")
@@ -285,16 +381,9 @@ def get_model_name(cube, url):
     try:
         mod_name = titles[url]
     except KeyError:
-        print('Model %s not in the list' % url)
+        warning.warn('Model %s not in the list' % url)
         mod_name = model_full_name
     return mod_name, model_full_name
-
-
-def wrap_lon180(lon):
-    lon = np.atleast_1d(lon).copy()
-    angles = np.logical_or((lon < -180), (180 < lon))
-    lon[angles] = wrap_lon360(lon[angles] + 180) - 180
-    return lon
 
 
 def wrap_lon360(lon):
@@ -500,6 +589,7 @@ def service_urls(records, service='odp:url'):
                     d['scheme'] == service_string), None)
         if url is not None:
             urls.append(url)
+    urls = sorted(set(urls))
     return urls
 
 
@@ -521,45 +611,6 @@ def processStationInfo(obs_loc_df, st_list, source):
     return st_list
 
 
-def get_ncfiles_catalog(station_id, jd_start, jd_stop):
-    station_name = station_id.split(":")[-1]
-    uri = 'http://dods.ndbc.noaa.gov/thredds/dodsC/data/adcp'
-    url = ('%s/%s/' % (uri, station_name))
-    urls = url_lister(url)
-    filetype = "*.nc"
-    file_list = [filename for filename in fnmatch.filter(urls, filetype)]
-    files = [fname.split('/')[-1] for fname in file_list]
-    urls = ['%s/%s/%s' % (uri, station_name, fname) for fname in files]
-
-    nc = MFDataset(urls)
-
-    time_dim = nc.variables['time']
-    calendar = 'gregorian'
-    idx_start = date2index(jd_start, time_dim, calendar=calendar,
-                           select='nearest')
-    idx_stop = date2index(jd_stop, time_dim, calendar=calendar,
-                          select='nearest')
-
-    dir_dim = nc.variables['water_dir'][idx_start:idx_stop, ...].squeeze()
-    speed_dim = nc.variables['water_spd'][idx_start:idx_stop, ...].squeeze()
-    if dir_dim.ndim != 1:
-        dir_dim = dir_dim[:, 0]
-        speed_dim = speed_dim[:, 0]
-    time_dim = nc.variables['time']
-    dates = num2date(time_dim[idx_start:idx_stop],
-                     units=time_dim.units,
-                     calendar='gregorian').squeeze()
-    data = dict()
-    data['sea_water_speed (cm/s)'] = speed_dim
-    col = 'direction_of_sea_water_velocity (degree)'
-    data[col] = dir_dim
-    time = dates
-    columns = ['sea_water_speed (cm/s)',
-               'direction_of_sea_water_velocity (degree)']
-    df = DataFrame(data=data, index=time, columns=columns)
-    return df
-
-
 def sos_request(url='opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **kw):
     url = parse_url(url)
     offering = 'urn:ioos:network:NOAA.NOS.CO-OPS:CurrentsActive'
@@ -576,6 +627,20 @@ def sos_request(url='opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS', **kw):
         return r.url
     else:
         raise TypeError('Bad url {}'.format(r.url))
+
+
+def get_ndbc_longname(station):
+    """Get long_name for specific station from NOAA NDBC."""
+    url = "http://www.ndbc.noaa.gov/station_page.php"
+    params = dict(station=station)
+    r = requests.get(url, params=params)
+    r.raise_for_status()
+    soup = BeautifulSoup(r.content)
+    # NOTE: Should be only one!
+    long_name = soup.findAll("h1")[0]
+    long_name = long_name.text.split(' - ')[1].strip()
+    long_name = long_name.split(',')[0].strip()
+    return long_name.title()
 
 
 def get_coops_longname(station):
@@ -596,18 +661,56 @@ def get_coops_longname(station):
     return longName[0]
 
 
-def coops2df(collector, coops_id, sos_name):
+def coops2df(collector, coops_id):
     """Request CSV response from SOS and convert to Pandas DataFrames."""
     collector.features = [coops_id]
-    collector.variables = [sos_name]
     long_name = get_coops_longname(coops_id)
     response = collector.raw(responseFormat="text/csv")
     kw = dict(parse_dates=True, index_col='date_time')
     data_df = read_csv(BytesIO(response.encode('utf-8')), **kw)
-    col = 'water_surface_height_above_reference_datum (m)'
-    data_df['Observed Data'] = data_df[col]
     data_df.name = long_name
     return data_df
+
+
+def ndbc2df(collector, ndbc_id):
+    uri = 'http://dods.ndbc.noaa.gov/thredds/dodsC/data/adcp'
+    url = ('%s/%s/' % (uri, ndbc_id))
+    urls = url_lister(url)
+
+    filetype = "*.nc"
+    file_list = [filename for filename in fnmatch.filter(urls, filetype)]
+    files = [fname.split('/')[-1] for fname in file_list]
+    urls = ['%s/%s/%s' % (uri, ndbc_id, fname) for fname in files]
+    if not urls:
+        raise Exception("Cannot find data at {!r}".format(url))
+    nc = MFDataset(urls)
+
+    kw = dict(calendar='gregorian', select='nearest')
+    time_dim = nc.variables['time']
+    dates = num2date(time_dim[:], units=time_dim.units,
+                     calendar=kw['calendar'])
+
+    idx_start = date2index(collector.start_time, time_dim, **kw)
+    idx_stop = date2index(collector.end_time, time_dim, **kw)
+    if idx_start == idx_stop:
+        raise Exception("No data within time range"
+                        " {!r} and {!r}".format(collector.start_time,
+                                                collector.end_time))
+    dir_dim = nc.variables['water_dir'][idx_start:idx_stop, ...].squeeze()
+    speed_dim = nc.variables['water_spd'][idx_start:idx_stop, ...].squeeze()
+    if dir_dim.ndim != 1:
+        dir_dim = dir_dim[:, 0]
+        speed_dim = speed_dim[:, 0]
+    time_dim = nc.variables['time']
+    dates = dates[idx_start:idx_stop].squeeze()
+    data = dict()
+    data['sea_water_speed (cm/s)'] = speed_dim
+    col = 'direction_of_sea_water_velocity (degree)'
+    data[col] = dir_dim
+    time = dates
+    columns = ['sea_water_speed (cm/s)',
+               'direction_of_sea_water_velocity (degree)']
+    return DataFrame(data=data, index=time, columns=columns)
 
 
 def nc2df(fname):
