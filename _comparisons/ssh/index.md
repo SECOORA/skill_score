@@ -2,25 +2,29 @@
 layout: page
 title: Sea Surface Height
 permalink: comparisons/ssh/
+notebook: /notebooks/inundation/
 ---
 
 Weekly results for Water Level comparison.
 
+<iframe width="750" height="500" frameBorder="0" src="{{ site.baseurl }}{{ page.notebook }}2014-09-26/ssh.html" name="iframe_inundation"> <p>Your browser does not support iframes.</p> </iframe>
+
 <!--
-| [2014-08-01]({{ site.baseurl }}/notebooks/inundation/2014-08-01/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-08-01/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-08-01/2014-08-01-secoora_inundation.log) |
+| [2014-08-01]({{ site.baseurl }}{{ page.notebook }}2014-08-01/ssh.html) | [bias]({{ site.baseurl }}{{ page.notebook }}2014-08-01/bias.html) | [log]({{ site.baseurl }}{{ page.notebook }}2014-08-01/log) |
 -->
 
-| Elevations                                                                           | Skill                                                                 | Log
-|:------------------------------------------------------------------------------------:|:---------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------:|
-| [2014-08-08]({{ site.baseurl }}/notebooks/inundation/2014-08-08/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-08-08/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-08-08/2014-08-08-secoora_inundation.log) |
-| [2014-08-15]({{ site.baseurl }}/notebooks/inundation/2014-08-15/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-08-15/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-08-15/2014-08-15-secoora_inundation.log) |
-| [2014-08-22]({{ site.baseurl }}/notebooks/inundation/2014-08-22/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-08-22/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-08-22/2014-08-22-secoora_inundation.log) |
-| [2014-08-29]({{ site.baseurl }}/notebooks/inundation/2014-08-29/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-08-29/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-08-29/2014-08-29-secoora_inundation.log) |
-| [2014-09-06]({{ site.baseurl }}/notebooks/inundation/2014-09-06/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-09-06/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-09-06/2014-09-06-secoora_inundation.log) |
-| [2014-09-13]({{ site.baseurl }}/notebooks/inundation/2014-09-13/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-09-13/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-09-13/2014-09-13-secoora_inundation.log) |
-| [2014-09-20]({{ site.baseurl }}/notebooks/inundation/2014-09-20/inundation_map.html) | [bias]({{ site.baseurl }}/notebooks/inundation/2014-09-20/table.html) | [log]({{ site.baseurl }}/notebooks/inundation/2014-09-20/2014-09-20-secoora_inundation.log) |
-|                                                                                      |                                                                       |
+
+
+| Elevations series                                                                                            | Skill                                                              | Log                                                       |
+|:------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------:|:---------------------------------------------------------:|
+| <a href="{{ site.baseurl }}{{ page.notebook }}2014-08-08/ssh.html" target="iframe_inundation">2014-08-08</a> | [bias]({{ site.baseurl }}{{ page.notebook }}2014-08-08/bias.html) | [log]({{ site.baseurl }}{{ page.notebook }}2014-08-08/log) |
+| <a href="{{ site.baseurl }}{{ page.notebook }}2014-08-15/ssh.html" target="iframe_inundation">2014-08-15</a> | [bias]({{ site.baseurl }}{{ page.notebook }}2014-08-15/bias.html) | [log]({{ site.baseurl }}{{ page.notebook }}2014-08-15/log) |
+| <a href="{{ site.baseurl }}{{ page.notebook }}2014-08-22/ssh.html" target="iframe_inundation">2014-08-22</a> | [bias]({{ site.baseurl }}{{ page.notebook }}2014-08-22/bias.html) | [log]({{ site.baseurl }}{{ page.notebook }}2014-08-22/log) |
+| <a href="{{ site.baseurl }}{{ page.notebook }}2014-08-29/ssh.html" target="iframe_inundation">2014-08-29</a> | [bias]({{ site.baseurl }}{{ page.notebook }}2014-08-29/bias.html) | [log]({{ site.baseurl }}{{ page.notebook }}2014-08-29/log) |
+| <a href="{{ site.baseurl }}{{ page.notebook }}2014-09-05/ssh.html" target="iframe_inundation">2014-09-05</a> | [bias]({{ site.baseurl }}{{ page.notebook }}2014-09-05/bias.html) | [log]({{ site.baseurl }}{{ page.notebook }}2014-09-05/log) |
+| <a href="{{ site.baseurl }}{{ page.notebook }}2014-09-12/ssh.html" target="iframe_inundation">2014-09-12</a> | [bias]({{ site.baseurl }}{{ page.notebook }}2014-09-12/bias.html) | [log]({{ site.baseurl }}{{ page.notebook }}2014-09-12/log) |
+| <a href="{{ site.baseurl }}{{ page.notebook }}2014-09-19/ssh.html" target="iframe_inundation">2014-09-19</a> | [bias]({{ site.baseurl }}{{ page.notebook }}2014-09-19/bias.html) | [log]({{ site.baseurl }}{{ page.notebook }}2014-09-19/log) |
+| <a href="{{ site.baseurl }}{{ page.notebook }}2014-09-26/ssh.html" target="iframe_inundation">2014-09-26</a> | [bias]({{ site.baseurl }}{{ page.notebook }}2014-09-26/bias.html) | [log]({{ site.baseurl }}{{ page.notebook }}2014-09-26/log) |
+|                                                                                                              |                                                                   |                                                            |
 
 The netCDF time-series files are version controlled and stored [here](https://github.com/ocefpaf/secoora/tree/gh-pages/notebooks/inundation).
-
-<!-- <iframe width="420" height="315" src="{{ site.baseurl }}/notebooks/inundation/2014-08-01/inundation_map.html"></iframe> -->
