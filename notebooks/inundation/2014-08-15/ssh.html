@@ -1,4 +1,4 @@
-4!DOCTYPE html>
+<!DOCTYPE html>
 <head>
    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
@@ -19,9 +19,9 @@
    <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster-src.js"></script>
    <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
 
-   
 
-   
+
+
    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
    <script src="http://trifacta.github.io/vega/vega.js"></script>
    <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
@@ -62,13 +62,13 @@
       //cluster group
       var clusteredmarkers = L.markerClusterGroup();
       //section for adding clustered markers
-      
+
       //add the clustered markers to the group anyway
       map.addLayer(clusteredmarkers);
 
-      
+
       var marker_1_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_1 = L.marker([36.1833, 
+      var marker_1 = L.marker([36.1833,
 							-75.7467],
 							{'icon':marker_1_icon}
 							);
@@ -80,9 +80,9 @@
       parse('station_8651370.json', '#station_8651370');
     });
       map.addLayer(marker_1)
-      
+
       var marker_2_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_2 = L.marker([35.795, 
+      var marker_2 = L.marker([35.795,
 							-75.5483],
 							{'icon':marker_2_icon}
 							);
@@ -94,9 +94,9 @@
       parse('station_8652587.json', '#station_8652587');
     });
       map.addLayer(marker_2)
-      
+
       var marker_3_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_3 = L.marker([34.2133, 
+      var marker_3 = L.marker([34.2133,
 							-77.7867],
 							{'icon':marker_3_icon}
 							);
@@ -108,9 +108,9 @@
       parse('station_8658163.json', '#station_8658163');
     });
       map.addLayer(marker_3)
-      
+
       var marker_4_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_4 = L.marker([33.655, 
+      var marker_4 = L.marker([33.655,
 							-78.9183],
 							{'icon':marker_4_icon}
 							);
@@ -122,9 +122,9 @@
       parse('station_8661070.json', '#station_8661070');
     });
       map.addLayer(marker_4)
-      
+
       var marker_5_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_5 = L.marker([33.3517, 
+      var marker_5 = L.marker([33.3517,
 							-79.1867],
 							{'icon':marker_5_icon}
 							);
@@ -136,9 +136,9 @@
       parse('station_8662245.json', '#station_8662245');
     });
       map.addLayer(marker_5)
-      
+
       var marker_6_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_6 = L.marker([32.7817, 
+      var marker_6 = L.marker([32.7817,
 							-79.925],
 							{'icon':marker_6_icon}
 							);
@@ -150,9 +150,9 @@
       parse('station_8665530.json', '#station_8665530');
     });
       map.addLayer(marker_6)
-      
+
       var marker_7_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_7 = L.marker([32.0333, 
+      var marker_7 = L.marker([32.0333,
 							-80.9017],
 							{'icon':marker_7_icon}
 							);
@@ -164,9 +164,9 @@
       parse('station_8670870.json', '#station_8670870');
     });
       map.addLayer(marker_7)
-      
+
       var marker_8_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_8 = L.marker([30.6717, 
+      var marker_8 = L.marker([30.6717,
 							-81.465],
 							{'icon':marker_8_icon}
 							);
@@ -178,9 +178,9 @@
       parse('station_8720030.json', '#station_8720030');
     });
       map.addLayer(marker_8)
-      
+
       var marker_9_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_9 = L.marker([30.3967, 
+      var marker_9 = L.marker([30.3967,
 							-81.43],
 							{'icon':marker_9_icon}
 							);
@@ -192,9 +192,9 @@
       parse('station_8720218.json', '#station_8720218');
     });
       map.addLayer(marker_9)
-      
+
       var marker_10_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_10 = L.marker([30.3867, 
+      var marker_10 = L.marker([30.3867,
 							-81.5583],
 							{'icon':marker_10_icon}
 							);
@@ -206,9 +206,9 @@
       parse('station_8720219.json', '#station_8720219');
     });
       map.addLayer(marker_10)
-      
+
       var marker_11_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_11 = L.marker([30.32, 
+      var marker_11 = L.marker([30.32,
 							-81.6583],
 							{'icon':marker_11_icon}
 							);
@@ -220,9 +220,9 @@
       parse('station_8720226.json', '#station_8720226');
     });
       map.addLayer(marker_11)
-      
+
       var marker_12_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_12 = L.marker([30.1917, 
+      var marker_12 = L.marker([30.1917,
 							-81.6917],
 							{'icon':marker_12_icon}
 							);
@@ -234,9 +234,9 @@
       parse('station_8720357.json', '#station_8720357');
     });
       map.addLayer(marker_12)
-      
+
       var marker_13_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_13 = L.marker([29.9783, 
+      var marker_13 = L.marker([29.9783,
 							-81.6283],
 							{'icon':marker_13_icon}
 							);
@@ -248,9 +248,9 @@
       parse('station_8720503.json', '#station_8720503');
     });
       map.addLayer(marker_13)
-      
+
       var marker_14_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_14 = L.marker([29.8017, 
+      var marker_14 = L.marker([29.8017,
 							-81.5483],
 							{'icon':marker_14_icon}
 							);
@@ -262,9 +262,9 @@
       parse('station_8720625.json', '#station_8720625');
     });
       map.addLayer(marker_14)
-      
+
       var marker_15_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_15 = L.marker([28.4158, 
+      var marker_15 = L.marker([28.4158,
 							-80.5931],
 							{'icon':marker_15_icon}
 							);
@@ -276,9 +276,9 @@
       parse('station_8721604.json', '#station_8721604');
     });
       map.addLayer(marker_15)
-      
+
       var marker_16_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_16 = L.marker([26.6117, 
+      var marker_16 = L.marker([26.6117,
 							-80.0333],
 							{'icon':marker_16_icon}
 							);
@@ -290,9 +290,9 @@
       parse('station_8722670.json', '#station_8722670');
     });
       map.addLayer(marker_16)
-      
+
       var marker_17_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_17 = L.marker([25.7314, 
+      var marker_17 = L.marker([25.7314,
 							-80.1618],
 							{'icon':marker_17_icon}
 							);
@@ -304,9 +304,9 @@
       parse('station_8723214.json', '#station_8723214');
     });
       map.addLayer(marker_17)
-      
+
       var marker_18_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_18 = L.marker([24.7117, 
+      var marker_18 = L.marker([24.7117,
 							-81.105],
 							{'icon':marker_18_icon}
 							);
@@ -318,9 +318,9 @@
       parse('station_8723970.json', '#station_8723970');
     });
       map.addLayer(marker_18)
-      
+
       var marker_19_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_19 = L.marker([24.5557, 
+      var marker_19 = L.marker([24.5557,
 							-81.8079],
 							{'icon':marker_19_icon}
 							);
@@ -332,9 +332,9 @@
       parse('station_8724580.json', '#station_8724580');
     });
       map.addLayer(marker_19)
-      
+
       var marker_20_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_20 = L.marker([26.1317, 
+      var marker_20 = L.marker([26.1317,
 							-81.8075],
 							{'icon':marker_20_icon}
 							);
@@ -346,9 +346,9 @@
       parse('station_8725110.json', '#station_8725110');
     });
       map.addLayer(marker_20)
-      
+
       var marker_21_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_21 = L.marker([26.6477, 
+      var marker_21 = L.marker([26.6477,
 							-81.8712],
 							{'icon':marker_21_icon}
 							);
@@ -360,9 +360,9 @@
       parse('station_8725520.json', '#station_8725520');
     });
       map.addLayer(marker_21)
-      
+
       var marker_22_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_22 = L.marker([27.6387, 
+      var marker_22 = L.marker([27.6387,
 							-82.5621],
 							{'icon':marker_22_icon}
 							);
@@ -374,9 +374,9 @@
       parse('station_8726384.json', '#station_8726384');
     });
       map.addLayer(marker_22)
-      
+
       var marker_23_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_23 = L.marker([27.9133, 
+      var marker_23 = L.marker([27.9133,
 							-82.425],
 							{'icon':marker_23_icon}
 							);
@@ -388,9 +388,9 @@
       parse('station_8726667.json', '#station_8726667');
     });
       map.addLayer(marker_23)
-      
+
       var marker_24_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_24 = L.marker([27.9783, 
+      var marker_24 = L.marker([27.9783,
 							-82.8317],
 							{'icon':marker_24_icon}
 							);
@@ -402,9 +402,9 @@
       parse('station_8726724.json', '#station_8726724');
     });
       map.addLayer(marker_24)
-      
+
       var marker_25_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_25 = L.marker([29.135, 
+      var marker_25 = L.marker([29.135,
 							-83.0317],
 							{'icon':marker_25_icon}
 							);
@@ -416,9 +416,9 @@
       parse('station_8727520.json', '#station_8727520');
     });
       map.addLayer(marker_25)
-      
+
       var marker_26_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_26 = L.marker([29.7267, 
+      var marker_26 = L.marker([29.7267,
 							-84.9817],
 							{'icon':marker_26_icon}
 							);
@@ -430,9 +430,9 @@
       parse('station_8728690.json', '#station_8728690');
     });
       map.addLayer(marker_26)
-      
+
       var marker_27_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_27 = L.marker([30.1523, 
+      var marker_27 = L.marker([30.1523,
 							-85.6669],
 							{'icon':marker_27_icon}
 							);
@@ -444,9 +444,9 @@
       parse('station_8729108.json', '#station_8729108');
     });
       map.addLayer(marker_27)
-      
+
       var marker_28_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon' });
-      var marker_28 = L.marker([30.4044, 
+      var marker_28 = L.marker([30.4044,
 							-87.2112],
 							{'icon':marker_28_icon}
 							);
@@ -458,59 +458,59 @@
       parse('station_8729840.json', '#station_8729840');
     });
       map.addLayer(marker_28)
-      
+
       var marker_29_icon = L.AwesomeMarkers.icon({ icon: 'remove',markerColor: 'red',prefix: 'glyphicon' });
-      var marker_29 = L.marker([35.2086, 
+      var marker_29 = L.marker([35.2086,
 							-75.7042],
 							{'icon':marker_29_icon}
 							);
       marker_29.bindPopup("<b>Station:</b> USCG Station Hatteras, NC<br><b>Datum:</b> MLLW<br>");
       map.addLayer(marker_29)
-      
+
       var marker_30_icon = L.AwesomeMarkers.icon({ icon: 'remove',markerColor: 'red',prefix: 'glyphicon' });
-      var marker_30 = L.marker([34.72, 
+      var marker_30 = L.marker([34.72,
 							-76.67],
 							{'icon':marker_30_icon}
 							);
       marker_30.bindPopup("<b>Station:</b> Beaufort, NC<br><b>Datum:</b> MLLW<br>");
       map.addLayer(marker_30)
-      
+
       var marker_31_icon = L.AwesomeMarkers.icon({ icon: 'remove',markerColor: 'red',prefix: 'glyphicon' });
-      var marker_31 = L.marker([34.2267, 
+      var marker_31 = L.marker([34.2267,
 							-77.9533],
 							{'icon':marker_31_icon}
 							);
       marker_31.bindPopup("<b>Station:</b> Wilmington, NC<br><b>Datum:</b> MLLW<br>");
       map.addLayer(marker_31)
-      
+
       var marker_32_icon = L.AwesomeMarkers.icon({ icon: 'remove',markerColor: 'red',prefix: 'glyphicon' });
-      var marker_32 = L.marker([27.7606, 
+      var marker_32 = L.marker([27.7606,
 							-82.6269],
 							{'icon':marker_32_icon}
 							);
       marker_32.bindPopup("<b>Station:</b> St Petersburg, FL<br><b>Datum:</b> MLLW<br>");
       map.addLayer(marker_32)
-      
+
       var marker_33_icon = L.AwesomeMarkers.icon({ icon: 'remove',markerColor: 'red',prefix: 'glyphicon' });
-      var marker_33 = L.marker([27.8578, 
+      var marker_33 = L.marker([27.8578,
 							-82.5527],
 							{'icon':marker_33_icon}
 							);
       marker_33.bindPopup("<b>Station:</b> Old Port Tampa, FL<br><b>Datum:</b> MLLW<br>");
       map.addLayer(marker_33)
-      
+
       var marker_34_icon = L.AwesomeMarkers.icon({ icon: 'remove',markerColor: 'red',prefix: 'glyphicon' });
-      var marker_34 = L.marker([30.2133, 
+      var marker_34 = L.marker([30.2133,
 							-85.8783],
 							{'icon':marker_34_icon}
 							);
       marker_34.bindPopup("<b>Station:</b> Panama City Beach, FL<br><b>Datum:</b> MLLW<br>");
       map.addLayer(marker_34)
-      
 
-      
 
-      
+
+
+
       var latLngs = [ [24.25, -87.4],  [24.25, -74.7],  [36.7, -74.7],  [36.7, -87.4],  [24.25, -87.4], ];
 var line_1 = L.polyline(latLngs,{
 color: '#FF0000',
@@ -518,11 +518,11 @@ weight: 2,
 
 });
       map.addLayer(line_1);
-      
 
-      
 
-      
+
+
+
 
    </script>
 
