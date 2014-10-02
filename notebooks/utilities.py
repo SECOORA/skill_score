@@ -219,18 +219,29 @@ def bbox_extract_2Dcoords(cube, bbox):
     return cube[..., imin:imax+1, jmin:jmax+1]
 
 
+def bbox_extract_1Dcoords(cube, bbox):
+    lon = iris.Constraint(longitude=lambda l: bbox[0] <= l <= bbox[2])
+    lat = iris.Constraint(latitude=lambda l: bbox[1] <= l < bbox[3])
+    cube = cube.extract(lon & lat)
+    return cube
+
+
 def intersection(cube, bbox):
     """Sub sets cube with 1D or 2D lon, lat coords.
     Using `intersection` instead of `extract` we deal with 0-360
     longitudes automagically."""
     if (cube.coord(axis='X').ndim == 1 and cube.coord(axis='Y').ndim == 1):
-        cube = cube.intersection(longitude=(bbox[0], bbox[2]),
-                                 latitude=(bbox[1], bbox[3]))
+        lons = cube.coord('longitude').points
+        cube.coord('longitude').points = wrap_lon180(lons)
+        cube = bbox_extract_1Dcoords(cube, bbox)  # Works around intersect.
+        if False:
+            cube = cube.intersection(longitude=(bbox[0], bbox[2]),
+                                     latitude=(bbox[1], bbox[3]))
     elif (cube.coord(axis='X').ndim == 2 and
           cube.coord(axis='Y').ndim == 2):
         cube = bbox_extract_2Dcoords(cube, bbox)
     else:
-        msg = "Cannot deal with X:{!r} and Y:{!r} dimensions"
+        msg = "Cannot deal with X:{!r} and Y:{!r} dimensions."
         raise CoordinateMultiDimError(msg.format(cube.coord(axis='X').ndim),
                                       cube.coord(axis='y').ndim)
     return cube
@@ -737,7 +748,7 @@ def css_styles(css='style.css'):
     return HTML('<style>{}</style>'.format(styles))
 
 
-def to_html(df, css='../style.css'):
+def to_html(df, css='style.css'):
     with open(css, 'r') as f:
         style = """<style>{}</style>""".format(f.read())
     table = dict(style=style, table=df.to_html())
