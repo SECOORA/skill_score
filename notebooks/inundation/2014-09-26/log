@@ -1,0 +1,243 @@
+12:51:19 INFO: *********************** Run information ************************
+12:51:19 INFO: Run date: 2014-10-02 15:51:19
+12:51:19 INFO: Download start: 2014-09-19 12:00:00
+12:51:19 INFO: Download stop: 2014-09-26 12:00:00
+12:51:19 INFO: Bounding box: -87.40, 24.25,-74.70, 36.70
+12:51:19 INFO: *********************** Software version ***********************
+12:51:19 INFO: Iris version: 1.7.2-DEV
+12:51:19 INFO: owslib version: 0.8.7
+12:51:19 INFO: pyoos version: 0.6.1
+12:51:22 INFO: ********************* Catalog information **********************
+12:51:22 INFO: URL: http://www.ngdc.noaa.gov/geoportal/csw
+12:51:22 INFO: CSW version: 2.0.2
+12:51:22 INFO: Number of datasets available: 11
+12:51:22 INFO: *************************** CSW URLs ***************************
+12:51:22 INFO: USF FVCOM - Nowcast Aggregation
+12:51:22 INFO: ROMS/TOMS 3.0 - South-Atlantic Bight and Gulf of Mexico
+12:51:22 INFO: USEAST
+12:51:22 INFO: COAWST Forecast System : USGS : US East Coast and Gulf of Mexico (Experimental)
+12:51:22 INFO: ROMS ESPRESSO Real-Time Operational IS4DVAR Forecast System Version 2 (NEW) 2013-present FMRC History (Best)
+12:51:22 INFO: USF West Florida Coastal Ocean Nowcast/Forecast Model
+12:51:22 INFO: USF West Florida Coastal Ocean Nowcast/Forecast Model
+12:51:22 INFO: Barotropic Tide Model for the Pacific Basin
+12:51:22 INFO: HYbrid Coordinate Ocean Model (HYCOM): Global
+12:51:22 INFO: ESTOFS Storm Surge Model - Atlantic - v1.0.0 - NOAA - NCEP - ADCIRC
+12:51:22 INFO: NECOFS GOM3 (FVCOM) - Northeast US - Latest Forecast
+12:51:22 INFO: *************************** DAP URLs ***************************
+12:51:22 INFO: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc.html
+12:51:22 INFO: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_FVCOM_NF_model/USF_WFCOM_NF_20140922.nc.html
+12:51:22 INFO: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_FVCOM_NF_model/USF_WFCOM_NF_20140923.nc.html
+12:51:22 INFO: http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic.html
+12:51:22 INFO: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd.html
+12:51:22 INFO: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd.html
+12:51:22 INFO: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/US_East_Forecast_Model_Run_Collection_best.ncd.html
+12:51:22 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac.html
+12:51:22 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global.html
+12:51:22 INFO: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd.html
+12:51:22 INFO: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc.html
+12:51:22 INFO: *************************** SOS URLs ***************************
+12:51:25 INFO: ********************* Collector offerings **********************
+12:51:25 INFO: NOAA.NOS.CO-OPS SOS: 62 offerings
+12:51:28 INFO: SOS URL request: http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?eventTime=2014-09-19T12%3A00%3A00Z&service=SOS&offering=urn%3Aioos%3Anetwork%3ANOAA.NOS.CO-OPS%3AWaterLevelActive&request=GetObservation&version=1.0.0&responseFormat=text%2Fcsv&featureOfInterest=BBOX%3A-87.4%2C24.25%2C-74.7%2C36.7&observedProperty=water_surface_height_above_reference_datum
+12:51:52 INFO: ***************** Observations (station data) ******************
+12:51:52 INFO: **** Downloading to file 2014-09-26/2014-09-26-OBS_DATA.nc *****
+12:52:03 WARNING: [8654467] USCG Station Hatteras, NC:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+12:52:05 WARNING: [8656483] Beaufort, NC:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+12:52:07 WARNING: [8658120] Wilmington, NC:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+12:54:04 WARNING: [8726520] St Petersburg, FL:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+12:54:06 WARNING: [8726607] Old Port Tampa, FL:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+12:54:29 WARNING: [8729210] Panama City Beach, FL:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+12:54:36 INFO: ******************* Models (simulated data) ********************
+12:54:36 INFO: 
+[Reading url 1/10]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+12:54:39 WARNING: Cannot get cube for: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+12:54:39 INFO: 00:00:03
+12:54:39 INFO: 
+[Reading url 2/10]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_FVCOM_NF_model/USF_WFCOM_NF_20140922.nc
+12:54:41 WARNING: Cannot get cube for: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_FVCOM_NF_model/USF_WFCOM_NF_20140922.nc
+'Expected to find exactly 1  coordinate, but found none.'
+12:54:41 INFO: 00:00:01
+12:54:41 INFO: 
+[Reading url 3/10]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_FVCOM_NF_model/USF_WFCOM_NF_20140923.nc
+12:54:43 WARNING: Cannot get cube for: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_FVCOM_NF_model/USF_WFCOM_NF_20140923.nc
+'Expected to find exactly 1  coordinate, but found none.'
+12:54:43 INFO: 00:00:02
+12:54:43 INFO: 
+[Reading url 4/10]: http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic
+12:55:14 INFO: ***** Downloading to file 2014-09-26/2014-09-26-ESTOFS.nc ******
+12:55:22 INFO: [Found Water] Duck, NC
+12:55:26 INFO: [Found Water] Oregon Inlet Marina, NC
+12:55:35 INFO: [Found Water] Wrightsville Beach, NC
+12:55:48 INFO: [Found Water] Springmaid Pier, SC
+12:55:52 INFO: [Found Water] Oyster Landing (N Inlet Estuary), SC
+12:55:52 WARNING: No data found for (-79.925,32.7817) using max_dist=0.04.
+12:55:58 INFO: [Found Water] Fort Pulaski, GA
+12:56:00 INFO: [Found Water] Fernandina Beach, FL
+12:56:03 INFO: [Found Water] Mayport (Bar Pilots Dock), FL
+12:56:03 WARNING: No data found for (-81.5583,30.3867) using max_dist=0.04.
+12:56:03 WARNING: No data found for (-81.6583,30.32) using max_dist=0.04.
+12:56:03 WARNING: No data found for (-81.6917,30.1917) using max_dist=0.04.
+12:56:03 WARNING: No data found for (-81.6283,29.9783) using max_dist=0.04.
+12:56:03 WARNING: No data found for (-81.5483,29.8017) using max_dist=0.04.
+12:56:10 INFO: [Found Water] Trident Pier, FL
+12:56:17 INFO: [Found Water] Lake Worth Pier, FL
+12:56:27 INFO: [Found Water] Virginia Key, FL
+12:56:42 INFO: [Found Water] Vaca Key, FL
+12:56:51 INFO: [Found Water] Key West, FL
+12:57:00 INFO: [Found Water] Naples, FL
+12:57:00 WARNING: No data found for (-81.8712,26.6477) using max_dist=0.04.
+12:57:12 INFO: [Found Water] Port Manatee, FL
+12:57:17 INFO: [Found Water] Mckay Bay Entrance, FL
+12:57:31 INFO: [Found Water] Cedar Key, FL
+12:57:42 INFO: [Found Water] Apalachicola, FL
+12:57:42 WARNING: No data found for (-85.6669,30.1523) using max_dist=0.04.
+12:57:42 WARNING: No data found for (-87.2112,30.4044) using max_dist=0.04.
+12:57:42 INFO: 00:02:58
+12:57:42 INFO: [ESTOFS]: http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic
+12:57:42 INFO: 
+[Reading url 5/10]: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd
+12:58:05 INFO: **** Downloading to file 2014-09-26/2014-09-26-COAWST_4.nc *****
+12:58:12 INFO: [Found Land] Duck, NC
+12:58:21 INFO: [Found Water] Oregon Inlet Marina, NC
+12:58:27 INFO: [Found Water] Wrightsville Beach, NC
+12:58:36 INFO: [Found Water] Springmaid Pier, SC
+12:58:40 INFO: [Found Land] Oyster Landing (N Inlet Estuary), SC
+12:58:44 INFO: [Found Land] Charleston, SC
+12:58:49 INFO: [Found Land] Fort Pulaski, GA
+12:58:53 INFO: [Found Land] Fernandina Beach, FL
+12:58:57 INFO: [Found Land] Mayport (Bar Pilots Dock), FL
+12:59:01 INFO: [Found Land] Dames Point, FL
+12:59:05 INFO: [Found Land] Southbank Riverwalk, St Johns River, FL
+12:59:10 INFO: [Found Land] I-295 Bridge, St Johns River, FL
+12:59:14 INFO: [Found Land] Red Bay Point, St Johns River, FL
+12:59:19 INFO: [Found Land] Racy Point, St Johns River, FL
+12:59:24 INFO: [Found Land] Trident Pier, FL
+12:59:33 INFO: [Found Water] Lake Worth Pier, FL
+12:59:37 INFO: [Found Land] Virginia Key, FL
+12:59:41 INFO: [Found Land] Vaca Key, FL
+12:59:50 INFO: [Found Water] Key West, FL
+12:59:54 INFO: [Found Land] Naples, FL
+12:59:59 INFO: [Found Land] Fort Myers, FL
+01:00:03 INFO: [Found Land] Port Manatee, FL
+01:00:07 INFO: [Found Land] Mckay Bay Entrance, FL
+01:00:16 INFO: [Found Water] Cedar Key, FL
+01:00:20 INFO: [Found Water] Apalachicola, FL
+01:00:25 INFO: [Found Water] Panama City, FL
+01:00:29 INFO: [Found Water] Pensacola, FL
+01:01:05 INFO: 00:03:22
+01:01:05 INFO: [COAWST_4]: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd
+01:01:05 INFO: 
+[Reading url 6/10]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+01:01:16 INFO: ***** Downloading to file 2014-09-26/2014-09-26-SABGOM.nc ******
+01:01:22 INFO: [Found Water] Duck, NC
+01:01:24 INFO: [Found Land] Oregon Inlet Marina, NC
+01:01:26 INFO: [Found Water] Wrightsville Beach, NC
+01:01:28 INFO: [Found Water] Springmaid Pier, SC
+01:01:30 INFO: [Found Land] Oyster Landing (N Inlet Estuary), SC
+01:01:32 INFO: [Found Land] Charleston, SC
+01:01:34 INFO: [Found Land] Fort Pulaski, GA
+01:01:37 INFO: [Found Land] Fernandina Beach, FL
+01:01:39 INFO: [Found Land] Mayport (Bar Pilots Dock), FL
+01:01:41 INFO: [Found Land] Dames Point, FL
+01:01:43 INFO: [Found Land] Southbank Riverwalk, St Johns River, FL
+01:01:46 INFO: [Found Land] I-295 Bridge, St Johns River, FL
+01:01:49 INFO: [Found Land] Red Bay Point, St Johns River, FL
+01:01:53 INFO: [Found Land] Racy Point, St Johns River, FL
+01:01:58 INFO: [Found Land] Trident Pier, FL
+01:02:02 INFO: [Found Land] Lake Worth Pier, FL
+01:02:05 INFO: [Found Water] Virginia Key, FL
+01:02:09 INFO: [Found Land] Vaca Key, FL
+01:02:12 INFO: [Found Water] Key West, FL
+01:02:14 INFO: [Found Land] Naples, FL
+01:02:16 INFO: [Found Land] Fort Myers, FL
+01:02:20 INFO: [Found Land] Port Manatee, FL
+01:02:24 INFO: [Found Land] Mckay Bay Entrance, FL
+01:02:26 INFO: [Found Water] Cedar Key, FL
+01:02:28 INFO: [Found Land] Apalachicola, FL
+01:02:30 INFO: [Found Land] Panama City, FL
+01:02:32 INFO: [Found Land] Pensacola, FL
+01:02:43 INFO: 00:01:38
+01:02:43 INFO: [SABGOM]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+01:02:43 INFO: 
+[Reading url 7/10]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/US_East_Forecast_Model_Run_Collection_best.ncd
+01:02:54 INFO: ***** Downloading to file 2014-09-26/2014-09-26-USEAST.nc ******
+01:02:55 WARNING: No data found for (-75.7467,36.1833) using max_dist=0.04.
+01:02:55 WARNING: No data found for (-75.5483,35.795) using max_dist=0.04.
+01:02:55 WARNING: No data found for (-77.7867,34.2133) using max_dist=0.04.
+01:02:57 INFO: [Found Water] Springmaid Pier, SC
+01:03:00 INFO: [Found Land] Oyster Landing (N Inlet Estuary), SC
+01:03:00 WARNING: No data found for (-79.925,32.7817) using max_dist=0.04.
+01:03:00 WARNING: No data found for (-80.9017,32.0333) using max_dist=0.04.
+01:03:02 INFO: [Found Land] Fernandina Beach, FL
+01:03:05 INFO: [Found Land] Mayport (Bar Pilots Dock), FL
+01:03:05 WARNING: No data found for (-81.5583,30.3867) using max_dist=0.04.
+01:03:07 INFO: [Found Land] Southbank Riverwalk, St Johns River, FL
+01:03:07 WARNING: No data found for (-81.6917,30.1917) using max_dist=0.04.
+01:03:09 INFO: [Found Land] Red Bay Point, St Johns River, FL
+01:03:11 INFO: [Found Land] Racy Point, St Johns River, FL
+01:03:11 WARNING: No data found for (-80.5931,28.4158) using max_dist=0.04.
+01:03:11 WARNING: No data found for (-80.0333,26.6117) using max_dist=0.04.
+01:03:14 INFO: [Found Water] Virginia Key, FL
+01:03:14 WARNING: No data found for (-81.105,24.7117) using max_dist=0.04.
+01:03:14 WARNING: No data found for (-81.8079,24.5557) using max_dist=0.04.
+01:03:16 INFO: [Found Land] Naples, FL
+01:03:16 WARNING: No data found for (-81.8712,26.6477) using max_dist=0.04.
+01:03:16 WARNING: No data found for (-82.5621,27.6387) using max_dist=0.04.
+01:03:18 INFO: [Found Land] Mckay Bay Entrance, FL
+01:03:21 INFO: [Found Water] Cedar Key, FL
+01:03:21 WARNING: No data found for (-84.9817,29.7267) using max_dist=0.04.
+01:03:21 WARNING: No data found for (-85.6669,30.1523) using max_dist=0.04.
+01:03:21 WARNING: No data found for (-87.2112,30.4044) using max_dist=0.04.
+01:03:26 INFO: 00:00:42
+01:03:26 INFO: [USEAST]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/US_East_Forecast_Model_Run_Collection_best.ncd
+01:03:26 INFO: 
+[Reading url 8/10]: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac
+01:03:30 WARNING: Cannot get cube for: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac
+The points array must be strictly monotonic.
+01:03:30 INFO: 00:00:04
+01:03:30 INFO: 
+[Reading url 9/10]: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global
+01:03:41 WARNING: Cannot get cube for: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global
+The points array must be strictly monotonic.
+01:03:41 INFO: 00:00:10
+01:03:41 INFO: 
+[Reading url 10/10]: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd
+01:03:49 INFO: **** Downloading to file 2014-09-26/2014-09-26-ESPRESSO.nc *****
+01:03:55 INFO: [Found Land] Duck, NC
+01:03:57 INFO: [Found Water] Oregon Inlet Marina, NC
+01:03:57 WARNING: No data found for (-77.7867,34.2133) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-78.9183,33.655) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-79.1867,33.3517) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-79.925,32.7817) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-80.9017,32.0333) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-81.465,30.6717) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-81.43,30.3967) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-81.5583,30.3867) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-81.6583,30.32) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-81.6917,30.1917) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-81.6283,29.9783) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-81.5483,29.8017) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-80.5931,28.4158) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-80.0333,26.6117) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-80.1618,25.7314) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-81.105,24.7117) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-81.8079,24.5557) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-81.8075,26.1317) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-81.8712,26.6477) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-82.5621,27.6387) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-82.425,27.9133) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-83.0317,29.135) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-84.9817,29.7267) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-85.6669,30.1523) using max_dist=0.04.
+01:03:57 WARNING: No data found for (-87.2112,30.4044) using max_dist=0.04.
+01:03:59 INFO: 00:00:18
+01:03:59 INFO: [ESPRESSO]: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd
+01:04:59 INFO: 820.83891511
+01:04:59 INFO: EOF
