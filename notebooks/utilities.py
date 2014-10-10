@@ -23,15 +23,20 @@ from pandas import DataFrame, read_csv
 from netCDF4 import Dataset, MFDataset, date2index, num2date
 
 import iris
+from iris import Constraint
 from iris.cube import CubeList
 from iris.pandas import as_cube, as_data_frame
 from iris.exceptions import CoordinateNotFoundError, CoordinateMultiDimError
 
 iris.FUTURE.netcdf_promote = True
-iris.FUTURE.cell_datetime_objects = True  # <- TODO!
+iris.FUTURE.cell_datetime_objects = True
 
 import cartopy.crs as ccrs
+from cartopy.feature import NaturalEarthFeature, COLORS
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
+
+LAND = NaturalEarthFeature('physical', 'land', '10m', edgecolor='face',
+                           facecolor=COLORS['land'])
 
 import requests
 import lxml.html
@@ -183,7 +188,8 @@ def time_near(cube, datetime):
 
 
 def time_slice(cube, start, stop=None):
-    """TODO: Re-write to use `iris.FUTURE.cell_datetime_objects`."""
+    """Slice time by indexes using a nearest criteria.
+    NOTE: Assumes time is the first dimension!"""
     istart = time_near(cube, start)
     if stop:
         istop = time_near(cube, stop)
@@ -194,6 +200,14 @@ def time_slice(cube, start, stop=None):
         return cube[istart:istop, ...]
     else:
         return cube[istart, ...]
+
+
+def time_constraint(cube, start, stop):
+    """Slice time by constraint."""
+    begin = lambda cell: cell >= start
+    end = lambda cell: cell <= stop
+    constraint = Constraint(begin & end)
+    return cube.extract(constraint)
 
 
 def minmax(v):
@@ -220,13 +234,13 @@ def bbox_extract_2Dcoords(cube, bbox):
 
 
 def bbox_extract_1Dcoords(cube, bbox):
-    lon = iris.Constraint(longitude=lambda l: bbox[0] <= l <= bbox[2])
-    lat = iris.Constraint(latitude=lambda l: bbox[1] <= l < bbox[3])
+    lat = Constraint(latitude=lambda cell: bbox[1] <= cell < bbox[3])
+    lon = Constraint(longitude=lambda cell: bbox[0] <= cell <= bbox[2])
     cube = cube.extract(lon & lat)
     return cube
 
 
-def intersection(cube, bbox):
+def subset(cube, bbox):
     """Sub sets cube with 1D or 2D lon, lat coords.
     Using `intersection` instead of `extract` we deal with 0-360
     longitudes automagically."""
@@ -247,11 +261,18 @@ def intersection(cube, bbox):
     return cube
 
 
-def get_cube(url, name_list=None, bbox=None, callback=None,
-             time=None, units=None, constraint=None):
+def get_cube(url, **kw):
+    """Only `url` and `name_list` are mandatory.  The kw args are:
+    `bbox`, `callback`, `time`, `units`, `constraint`."""
+
+    bbox = kw.pop('bbox', None)
+    time = kw.pop('time', None)
+    units = kw.pop('units', None)
+    callback = kw.pop('callback', None)
+    name_list = kw.pop('name_list', None)
+    constraint = kw.pop('constraint', None)
+
     cubes = iris.load_raw(url, callback=callback)
-    if constraint:
-        cubes = cubes.extract(constraint)
     if name_list:
         in_list = lambda cube: cube.standard_name in name_list
         cubes = CubeList([cube for cube in cubes if in_list(cube)])
@@ -259,8 +280,10 @@ def get_cube(url, name_list=None, bbox=None, callback=None,
             raise ValueError('Cube does not contain {!r}'.format(name_list))
         else:
             cube = cubes.merge_cube()
+    if constraint:
+        cubes = cubes.extract(constraint)
     if bbox:
-        cube = intersection(cube, bbox)
+        cube = subset(cube, bbox)
     if time:
         if isinstance(time, datetime):
             start, stop = time, None
@@ -326,9 +349,7 @@ def add_station(cube, station):
     return cube
 
 
-def save_timeseries(df, outfile='timeseries.nc',
-                    standard_name="water_surface_height_above_reference_datum",
-                    **kw):
+def save_timeseries(df, outfile, standard_name, **kw):
     """http://cfconventions.org/Data/cf-convetions/cf-conventions-1.6/build
     /cf-conventions.html#idp5577536"""
     cube = as_cube(df, calendars={1: iris.unit.CALENDAR_GREGORIAN})
@@ -392,17 +413,9 @@ def get_model_name(cube, url):
     try:
         mod_name = titles[url]
     except KeyError:
-        warning.warn('Model %s not in the list' % url)
+        warnings.warn('Model %s not in the list' % url)
         mod_name = model_full_name
     return mod_name, model_full_name
-
-
-def wrap_lon360(lon):
-    lon = np.atleast_1d(lon).copy()
-    positive = lon > 0
-    lon = lon % 360
-    lon[np.logical_and(lon == 0, positive)] = 360
-    return lon
 
 
 def make_tree(cube):
