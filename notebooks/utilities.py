@@ -9,7 +9,7 @@ from datetime import datetime
 try:
     from urllib import urlopen
     from urlparse import urlparse
-except ImportError:  # py3k
+except ImportError:
     from urllib.parse import urlparse
     from urllib.request import urlopen
 
@@ -47,6 +47,13 @@ from IPython.display import HTML
 
 from pyugrid import UGrid
 from oceans import wrap_lon180
+
+temperature = ['sea_water_temperature',
+               'sea_surface_temperature',
+               'sea_water_potential_temperature',
+               'equivalent_potential_temperature',
+               'sea_water_conservative_temperature',
+               'pseudo_equivalent_potential_temperature']
 
 water_level = ['sea_surface_height',
                'sea_surface_elevation',
@@ -96,8 +103,9 @@ currents = ['sea_water_speed',
             'surface_northward_geostrophic_sea_water_velocity_assuming_'
             'sea_level_for_geoid']
 
-CF_names = dict({'water level': water_level,
-                 'currents': currents})
+CF_names = dict({'currents': currents,
+                 'water level': water_level,
+                 'sea_water_temperature': temperature})
 
 CSW = {'NGDC Geoportal':
        'http://www.ngdc.noaa.gov/geoportal/csw',
@@ -159,11 +167,25 @@ def z_coord(cube):
     try:
         z = cube.coord(axis='Z')
     except CoordinateNotFoundError:
-        z = cube.coords(axis='Z')
         for coord in cube.coords(axis='Z'):
-            if coord.ndim == 1:
+            if coord.name() not in water_level:
                 z = coord
     return z
+
+
+def get_surface(cube):
+    """Work around `iris.cube.Cube.slices` error:
+    The requested coordinates are not orthogonal."""
+    z = z_coord(cube)
+    if z:
+        positive = z.attributes.get('positive', None)
+        if positive == 'up':
+            idx = np.unique(z.points.argmax(axis=0))[0]
+        else:
+            idx = np.unique(z.points.argmin(axis=0))[0]
+    else:
+        idx = None
+    return cube[:, idx, ...]
 
 
 def time_coord(cube):
@@ -349,6 +371,17 @@ def add_station(cube, station):
     return cube
 
 
+def remove_ssh(cube):
+    """Remove all `aux_coords`, bu the time, that has the same shape as the
+    data."""
+    for coord in cube.aux_coords:
+        if coord.shape == cube.shape:
+            if 'time' not in coord.name():
+                print(coord.name())
+                cube.remove_coord(coord.name())
+    return cube
+
+
 def save_timeseries(df, outfile, standard_name, **kw):
     """http://cfconventions.org/Data/cf-convetions/cf-conventions-1.6/build
     /cf-conventions.html#idp5577536"""
@@ -471,6 +504,7 @@ def get_nearest_water(cube, tree, xi, yi, k=10, max_dist=0.04, min_var=0.01):
     for dist, idx in zip(distances, zip(i, j)):
         if unstructured:  # NOTE: This would be so elegant in py3k!
             idx = (idx[0],)
+        # This weird syntax allow for idx to be len 1 or 2.
         series = cube[(slice(None),)+idx]
         # Accounting for wet-and-dry models.
         arr = ma.masked_invalid(series.data).filled(fill_value=0)
