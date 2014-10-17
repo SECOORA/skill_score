@@ -301,9 +301,13 @@ def get_cube(url, **kw):
         else:
             cube = cubes.merge_cube()
     if constraint:
-        cubes = cubes.extract(constraint)
+        cube = cube.extract(constraint)
+        if not cube:
+            raise ValueError('No cube using {!r}'.format(constraint))
     if bbox:
         cube = subset(cube, bbox)
+        if not cube:
+            raise ValueError('No cube using {!r}'.format(bbox))
     if time:
         if isinstance(time, datetime):
             start, stop = time, None
@@ -375,7 +379,6 @@ def remove_ssh(cube):
     for coord in cube.aux_coords:
         if coord.shape == cube.shape:
             if 'time' not in coord.name():
-                print(coord.name())
                 cube.remove_coord(coord.name())
     return cube
 
