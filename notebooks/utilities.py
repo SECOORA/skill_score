@@ -35,9 +35,6 @@ import cartopy.crs as ccrs
 from cartopy.feature import NaturalEarthFeature, COLORS
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 
-LAND = NaturalEarthFeature('physical', 'land', '10m', edgecolor='face',
-                           facecolor=COLORS['land'])
-
 import requests
 import lxml.html
 from lxml import etree
@@ -47,6 +44,7 @@ from IPython.display import HTML
 
 from pyugrid import UGrid
 from oceans import wrap_lon180
+
 
 temperature = ['sea_water_temperature',
                'sea_surface_temperature',
@@ -303,9 +301,13 @@ def get_cube(url, **kw):
         else:
             cube = cubes.merge_cube()
     if constraint:
-        cubes = cubes.extract(constraint)
+        cube = cube.extract(constraint)
+        if not cube:
+            raise ValueError('No cube using {!r}'.format(constraint))
     if bbox:
         cube = subset(cube, bbox)
+        if not cube:
+            raise ValueError('No cube using {!r}'.format(bbox))
     if time:
         if isinstance(time, datetime):
             start, stop = time, None
@@ -377,7 +379,6 @@ def remove_ssh(cube):
     for coord in cube.aux_coords:
         if coord.shape == cube.shape:
             if 'time' not in coord.name():
-                print(coord.name())
                 cube.remove_coord(coord.name())
     return cube
 
@@ -802,6 +803,29 @@ def to_html(df, css='style.css'):
     return HTML('{style}<div class="datagrid">{table}</div>'.format(**table))
 
 
+# Mapping
+LAND = NaturalEarthFeature('physical', 'land', '10m', edgecolor='face',
+                           facecolor=COLORS['land'])
+
+
+def make_map(bbox=[-87.40, 24.25, -74.70, 36.70], zoom_start=5,
+             line=True, states=True):
+    """Creates a folium map instance for SECOORA."""
+    lon, lat = np.array(bbox).reshape(2, 2).mean(axis=0)
+    m = Map(width=750, height=500,
+            location=[lat, lon], zoom_start=zoom_start)
+    if line:
+        # Create the map and add the bounding box line.
+        kw = dict(line_color='#FF0000', line_weight=2)
+        m.line(get_coordinates(bbox), **kw)
+    if states:
+        path = 'https://raw.githubusercontent.com/ocefpaf/secoora/factor_map/'
+        path += 'notebooks/secoora.json'
+        m.geo_json(geo_path=path,
+                   fill_color='none', line_color='Orange')
+    return m
+
+
 def inline_map(m):
     """Takes a folium instance or a html path and load into an iframe."""
     if isinstance(m, Map):
@@ -815,24 +839,6 @@ def inline_map(m):
                      'style="width: 100%; height: 500px; '
                      'border: none"></iframe>'.format(src=m))
     return embed
-
-
-# Web-parsing.
-def parse_url(url):
-    """This will preserve any given scheme but will add http if none is
-    provided."""
-    if not urlparse(url).scheme:
-        url = "http://{}".format(url)
-    return url
-
-
-def url_lister(url):
-    urls = []
-    connection = urlopen(url)
-    dom = lxml.html.fromstring(connection.read())
-    for link in dom.xpath('//a/@href'):
-        urls.append(link)
-    return urls
 
 
 def get_coordinates(bbox):
@@ -851,6 +857,24 @@ def get_coordinates(bbox):
         raise ValueError('Wrong number corners.'
                          '  Expected 4 got {}'.format(bbox.size))
     return coordinates
+
+
+# Web-parsing.
+def parse_url(url):
+    """This will preserve any given scheme but will add http if none is
+    provided."""
+    if not urlparse(url).scheme:
+        url = "http://{}".format(url)
+    return url
+
+
+def url_lister(url):
+    urls = []
+    connection = urlopen(url)
+    dom = lxml.html.fromstring(connection.read())
+    for link in dom.xpath('//a/@href'):
+        urls.append(link)
+    return urls
 
 
 # Misc.
