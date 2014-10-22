@@ -6,11 +6,11 @@
 
 /usr/X11R6/bin/Xvfb :6  &
 
-echo $! > /home/hunter/roms/codar_comp/codar_xvfb.pid
+echo $! > /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/codar_compare/codar_xvfb.pid
 DISPLAY=localhost:6
-export DISPLAY 
- 
-/opt/matlab//bin/matlab  -nodesktop < /home/hunter/roms/codar_comp/codar_compare_wrapper.m
+export DISPLAY
 
-kill `cat /home/hunter/roms/codar_comp/codar_xvfb.pid`
-rm /home/hunter/roms/codar_comp/codar_xvfb.pid
+matlab  -nodesktop < /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/codar_compare/codar_compare_wrapper.m
+
+kill `cat /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/codar_compare/codar_xvfb.pid`
+rm /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/codar_compare/codar_xvfb.pid
