@@ -11,7 +11,7 @@ addpath /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/toolboxes/rom
 addpath /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/toolboxes/xml
 javaaddpath('/home/filipe/Dropbox/REPOS/mymatlab/toolsUI-4.2.jar','-end')
 
-oLog = logger('~/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/glider_compare','GLIDER_MODEL');
+oLog = logger('~/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/glider_compare/','GLIDER_MODEL');
 
 %  MODELS={'NCOM','ESPRESSO','COAWST','NYHOPS','UMASSHOPS'}
 %  MODELS={'NCOM_R1','NCOM_US_E'}

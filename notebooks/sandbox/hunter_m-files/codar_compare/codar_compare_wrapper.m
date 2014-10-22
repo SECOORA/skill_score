@@ -14,7 +14,7 @@ addpath /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/toolboxes/mex
 addpath /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/toolboxes/snctools
 javaaddpath('/home/filipe/Dropbox/REPOS/mymatlab/toolsUI-4.2.jar','-end')
 
-oLog = logger('/home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/codar_compare', 'CODAR_MODEL');
+oLog = logger('/home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/codar_compare/', 'CODAR_MODEL');
 
 
 %
