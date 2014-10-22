@@ -45,6 +45,10 @@ from IPython.display import HTML
 from pyugrid import UGrid
 from oceans import wrap_lon180
 
+salinity = ['sea_water_salinity',
+            'sea_surface_salinity',
+            'sea_water_absolute_salinity',
+            'sea_water_practical_salinity']
 
 temperature = ['sea_water_temperature',
                'sea_surface_temperature',
@@ -101,7 +105,8 @@ currents = ['sea_water_speed',
             'surface_northward_geostrophic_sea_water_velocity_assuming_'
             'sea_level_for_geoid']
 
-CF_names = dict({'currents': currents,
+CF_names = dict({'salinity': salinity,
+                 'currents': currents,
                  'water level': water_level,
                  'sea_water_temperature': temperature})
 
