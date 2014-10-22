@@ -5,7 +5,7 @@ clear objects
 % Paths.
 addpath /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/toolboxes/nctoolbox/cdm
 addpath /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/toolboxes/nctoolbox/cdm/utilities
-addpath /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/codar_compare/bin
+addpath /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/toolboxes/bin
 addpath /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/toolboxes/seawater
 addpath /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/toolboxes/roms_wilkin
 addpath /home/filipe/IOOS/SECOORA/notebooks/sandbox/hunter_m-files/toolboxes/xml
