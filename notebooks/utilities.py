@@ -1,4 +1,5 @@
 # Standard Library.
+import os
 import time
 import fnmatch
 import warnings
@@ -135,33 +136,31 @@ CSW = {'NGDC Geoportal':
        'CWIC':
        'http://cwic.csiss.gmu.edu/cwicv1/discovery'}
 
-titles = dict({'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/'
-               'SABGOM_Forecast_Model_Run_Collection_best.ncd': 'SABGOM',
-               'http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/'
-               'coawst_4_use_best.ncd': 'COAWST_4',
-               'http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/'
-               '2013_da/his_Best/'
-               'ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd':
-               'ESPRESSO',
-               'http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac':
-               'BTMPB',
-               'http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/'
-               'Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd': 'TBOFS',
-               'http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/'
-               'global': 'HYCOM',
-               'http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/'
-               'Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd': 'CBOFS',
-               'http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic':
-               'ESTOFS',
-               'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/'
-               'Forecasts/NECOFS_GOM3_FORECAST.nc': 'NECOFS_GOM3_FVCOM',
-               'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/'
-               'Forecasts/NECOFS_WAVE_FORECAST.nc': 'NECOFS_GOM3_WAVE',
-               'http://crow.marine.usf.edu:8080/thredds/dodsC/'
-               'WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_'
-               'Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd': 'USF',
-               'http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/'
-               'US_East_Forecast_Model_Run_Collection_best.ncd': 'USEAST'})
+titles = dict(SABGOM='http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/'
+              'sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd',
+              USEAST='http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/'
+              'us_east/US_East_Forecast_Model_Run_Collection_best.ncd',
+              COAWST_4='http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/'
+              'fmrc/coawst_4_use_best.ncd',
+              ESPRESSO='http://tds.marine.rutgers.edu/thredds/dodsC/roms/'
+              'espresso/2013_da/his_Best/'
+              'ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd',
+              BTMPB='http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac',
+              TBOFS='http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/'
+              'fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd',
+              HYCOM='http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/'
+              'global',
+              CBOFS='http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/'
+              'fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd',
+              ESTOFS='http://geoport-dev.whoi.edu/thredds/dodsC/estofs/'
+              'atlantic',
+              NECOFS_GOM3_FVCOM='http://www.smast.umassd.edu:8080/thredds/'
+              'dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc',
+              NECOFS_GOM3_WAVE='http://www.smast.umassd.edu:8080/thredds/dodsC'
+              '/FVCOM/NECOFS/Forecasts/NECOFS_WAVE_FORECAST.nc',
+              USF='http://crow.marine.usf.edu:8080/thredds/dodsC/'
+              'WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_'
+              'Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd')
 
 
 # Iris.
@@ -450,7 +449,9 @@ def get_model_name(cube, url):
     except AttributeError:
         model_full_name = url
     try:
-        mod_name = titles[url]
+        for mod_name, uri in titles.items():
+            if url == uri:
+                break
     except KeyError:
         warnings.warn('Model %s not in the list' % url)
         mod_name = model_full_name
@@ -812,10 +813,18 @@ def to_html(df, css='style.css'):
 LAND = NaturalEarthFeature('physical', 'land', '10m', edgecolor='face',
                            facecolor=COLORS['land'])
 
+rootpath = os.path.split(__file__)[0]
+df = read_csv(os.path.join(rootpath, 'climatology_data_sources.csv'))
 
-def make_map(bbox=[-87.40, 24.25, -74.70, 36.70], zoom_start=5,
-             line=True, states=True):
+
+def make_map(bbox, **kw):
     """Creates a folium map instance for SECOORA."""
+
+    line = kw.pop('line', True)
+    states = kw.pop('states', True)
+    zoom_start = kw.pop('zoom_start', 5)
+    secoora_stations = kw.pop('secoora_stations', True)
+
     lon, lat = np.array(bbox).reshape(2, 2).mean(axis=0)
     m = Map(width=750, height=500,
             location=[lat, lon], zoom_start=zoom_start)
@@ -828,6 +837,14 @@ def make_map(bbox=[-87.40, 24.25, -74.70, 36.70], zoom_start=5,
         path += 'notebooks/secoora.json'
         m.geo_json(geo_path=path,
                    fill_color='none', line_color='Orange')
+    if secoora_stations:
+        for x, y, name in zip(df['lon'], df['lat'], df['ID']):
+            if not np.isnan(x) and not np.isnan(y):
+                location = y, x
+                popup = '<b>{}</b>'.format(name)
+                kw = dict(radius=500, fill_color='#3186cc', popup=popup,
+                          fill_opacity=0.2)
+                m.circle_marker(location=location, **kw)
     return m
 
 
