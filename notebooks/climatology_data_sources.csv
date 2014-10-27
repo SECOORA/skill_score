@@ -1,0 +1,30 @@
+Program,ID,NDBC ID,start,salinity,surface water temp,depth water temp,air temp,wind speed,current speed,current dir,chlorophyll,,lon,lat,,USC TDS?,Notes
+,,,,,,,,,,,,,,,,,
+CRCOOS,CAP2,,2005-02-11,Y,Y,,Y,Y,,,,,-79.62,32.80,,NRT,
+CRCOOS,CMS,,2013-10-13,,,,Y,Y,,,,,-77.86,34.14,,,
+CRCOOS,FRP2,,2005-02-10,Y,Y,,Y,Y,,,,,-80.40,32.27,,NRT,
+CRCOOS,ILM2,,2008-05-08,Y,Y,,Y,,,,,,-77.72,34.14,,NRT,
+CRCOOS,ILM3,,2005-06-07,Y,Y,,Y,Y,,,,,-77.36,33.99,,NRT,
+CRCOOS,LEJ3,,2006-05-24,,Y,,Y,Y,Y,Y,,,-77.28,34.48,,,
+CRCOOS,OCP1,,2006-05-26,Y,Y,,Y,Y,,,,,-78.15,33.91,,NRT,
+CRCOOS,SUN2,,2003-07-29,Y,Y,,Y,Y,,,,,-78.48,33.83,,NRT,
+,,,,,,,,,,,,,,,,,
+COMPS,ANC,ANCF1,2005-08-22,Y,Y,,Y,Y,,,,,-82.79,28.19,,,
+COMPS,APK,ARPF1,2005-06-30,,,,Y,Y,,,,,-82.67,28.43,,NRT,Water temp and salinity sensors are discontinued
+COMPS,BCP,,2005-08-23,,,,Y,Y,,,,,-81.88,26.40,,NRT,Water temp and salinity sensors are discontinued
+COMPS,C10,42013,1998-09-14,Y,Y,Y,?,Y,Y,Y,,,-82.92,27.17,,,AT sensor might be down for now
+COMPS,C12,42022,2005-05-23,Y,Y,Y,Y,Y,Y,Y,,,-83.72,27.50,,NRT,Only surface temp. and salinity are available now
+COMPS,C13,42023,2006-11-22,Y,Y,Y,Y,Y,Y,Y,,,-83.07,26.06,,,Only surface temp. and salinity are available now
+COMPS,C21,,2010-04-27,,,,Y,Y,thru 1/27/2014,thru 1/27/2014,,,-82.77,27.68,,NRT,At present the ADCP is not working at this site
+COMPS,CLB,,2009-05-29,Y,Y,,Y,Y,,,began 04/2014,,-82.69,27.74,,,New YSI Sonde was added two months ago at this site. Still not activated to push chlorophyll data to SECOORA
+COMPS,CPK,,2007-03-02,,,,Y,Y,,,,,-85.91,26.07,,,Water temp and salinity sensors are discontinued
+COMPS,FHP,,2005-08-24,Y,Y,,Y,Y,,,,,-82.80,28.15,,NRT,
+COMPS,NFB,,2009-01-11,,,,Y,Y,,,,,-81.10,25.08,,NRT,
+COMPS,SHP,,2005-07-31,,,,Y,Y,,,,,-84.29,30.06,,NRT,Water temp and conductivity sensors have been removed from this site
+COMPS,TAS,,2005-07-31,,,,Y,Y,,,,,-82.76,28.16,,NRT,
+,,,,,,,,,,,,,,,,,
+COMPS,ANM,,2005-08-29,?,?,,?,?,?,?,?,,-82.74,27.54,,,Discontinued
+COMPS,EGK,,2005-08-31,?,?,,?,?,?,?,?,,-82.76,27.60,,,Discontinued
+COMPS,UTP,,2009-05-21,?,Y,,,,,,,,-82.46,27.95,,,"Suggest that we do not use this site. Looks like not being maintained, will confirm"
+,,,,,,,,,,,,,,,,,
+SABGOM,,,2011-01-01,Y,Y,Y,,,Y,Y,Y,,,,,NCSU,
