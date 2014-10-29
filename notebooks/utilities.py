@@ -169,6 +169,7 @@ def z_coord(cube):
     try:
         z = cube.coord(axis='Z')
     except CoordinateNotFoundError:
+        z = None
         for coord in cube.coords(axis='Z'):
             if coord.name() not in water_level:
                 z = coord
@@ -185,9 +186,9 @@ def get_surface(cube):
             idx = np.unique(z.points.argmax(axis=0))[0]
         else:
             idx = np.unique(z.points.argmin(axis=0))[0]
+        return cube[:, idx, ...]
     else:
-        idx = None
-    return cube[:, idx, ...]
+        return cube
 
 
 def time_coord(cube):
