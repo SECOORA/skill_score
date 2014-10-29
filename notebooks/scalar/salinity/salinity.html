@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+   <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.css">
+   <script src="//cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.js"></script>
+
+
+   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css">
+   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css">
+   <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster-src.js"></script>
+   <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
+
+   
+
+   
+   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+   <script src="http://trifacta.github.io/vega/vega.js"></script>
+   <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+
+
+   <style>
+
+      #map {
+        position:absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+      }
+
+   </style>
+</head>
+
+<body>
+
+   <div class="folium-map" id="folium_319992c5bfc14349942126676c421c37" style="width: 750px; height: 500px"></div>
+
+   <script>
+
+      function parse(spec, div) {
+
+    vg.parse.spec(spec, function(chart) { chart({el:div}).update(); });
+
+}
+
+      var map = L.map('folium_319992c5bfc14349942126676c421c37').setView([30.475, -81.05], 5);
+
+      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+          attribution: 'Map data (c) <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      //cluster group
+      var clusteredmarkers = L.markerClusterGroup();
+      //section for adding clustered markers
+      
+      //add the clustered markers to the group anyway
+      map.addLayer(clusteredmarkers);
+
+      
+      var marker_1_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon' });
+      var marker_1 = L.marker([30.3967, 
+							-81.43],
+							{'icon':marker_1_icon}
+							);
+      marker_1.on('click', function() {
+      var div = $('<div id="station_8720218" style="width: 575px; height: 200px;"></div>')[0];
+      marker_1.bindPopup(div);
+      marker_1._popup.options.maxWidth = 750;
+      marker_1.openPopup();
+      parse('station_8720218.json', '#station_8720218');
+    });
+      map.addLayer(marker_1)
+      
+      var marker_2_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon' });
+      var marker_2 = L.marker([30.1917, 
+							-81.6917],
+							{'icon':marker_2_icon}
+							);
+      marker_2.on('click', function() {
+      var div = $('<div id="station_8720357" style="width: 575px; height: 200px;"></div>')[0];
+      marker_2.bindPopup(div);
+      marker_2._popup.options.maxWidth = 750;
+      marker_2.openPopup();
+      parse('station_8720357.json', '#station_8720357');
+    });
+      map.addLayer(marker_2)
+      
+      var marker_3_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon' });
+      var marker_3 = L.marker([29.9783, 
+							-81.6283],
+							{'icon':marker_3_icon}
+							);
+      marker_3.on('click', function() {
+      var div = $('<div id="station_8720503" style="width: 575px; height: 200px;"></div>')[0];
+      marker_3.bindPopup(div);
+      marker_3._popup.options.maxWidth = 750;
+      marker_3.openPopup();
+      parse('station_8720503.json', '#station_8720503');
+    });
+      map.addLayer(marker_3)
+      
+
+      
+      var circle_1 = L.circle([32.8, -79.62], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_1.bindPopup("<b>CAP2</b>");
+      map.addLayer(circle_1)
+      
+      var circle_2 = L.circle([34.14, -77.86], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_2.bindPopup("<b>CMS</b>");
+      map.addLayer(circle_2)
+      
+      var circle_3 = L.circle([32.27, -80.4], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_3.bindPopup("<b>FRP2</b>");
+      map.addLayer(circle_3)
+      
+      var circle_4 = L.circle([34.14, -77.72], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_4.bindPopup("<b>ILM2</b>");
+      map.addLayer(circle_4)
+      
+      var circle_5 = L.circle([33.99, -77.36], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_5.bindPopup("<b>ILM3</b>");
+      map.addLayer(circle_5)
+      
+      var circle_6 = L.circle([34.48, -77.28], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_6.bindPopup("<b>LEJ3</b>");
+      map.addLayer(circle_6)
+      
+      var circle_7 = L.circle([33.91, -78.15], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_7.bindPopup("<b>OCP1</b>");
+      map.addLayer(circle_7)
+      
+      var circle_8 = L.circle([33.83, -78.48], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_8.bindPopup("<b>SUN2</b>");
+      map.addLayer(circle_8)
+      
+      var circle_9 = L.circle([28.19, -82.79], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_9.bindPopup("<b>ANC</b>");
+      map.addLayer(circle_9)
+      
+      var circle_10 = L.circle([28.43, -82.67], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_10.bindPopup("<b>APK</b>");
+      map.addLayer(circle_10)
+      
+      var circle_11 = L.circle([26.4, -81.88], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_11.bindPopup("<b>BCP</b>");
+      map.addLayer(circle_11)
+      
+      var circle_12 = L.circle([27.17, -82.92], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_12.bindPopup("<b>C10</b>");
+      map.addLayer(circle_12)
+      
+      var circle_13 = L.circle([27.5, -83.72], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_13.bindPopup("<b>C12</b>");
+      map.addLayer(circle_13)
+      
+      var circle_14 = L.circle([26.06, -83.07], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_14.bindPopup("<b>C13</b>");
+      map.addLayer(circle_14)
+      
+      var circle_15 = L.circle([27.68, -82.77], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_15.bindPopup("<b>C21</b>");
+      map.addLayer(circle_15)
+      
+      var circle_16 = L.circle([27.74, -82.69], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_16.bindPopup("<b>CLB</b>");
+      map.addLayer(circle_16)
+      
+      var circle_17 = L.circle([26.07, -85.91], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_17.bindPopup("<b>CPK</b>");
+      map.addLayer(circle_17)
+      
+      var circle_18 = L.circle([28.15, -82.8], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_18.bindPopup("<b>FHP</b>");
+      map.addLayer(circle_18)
+      
+      var circle_19 = L.circle([25.08, -81.1], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_19.bindPopup("<b>NFB</b>");
+      map.addLayer(circle_19)
+      
+      var circle_20 = L.circle([30.06, -84.29], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_20.bindPopup("<b>SHP</b>");
+      map.addLayer(circle_20)
+      
+      var circle_21 = L.circle([28.16, -82.76], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_21.bindPopup("<b>TAS</b>");
+      map.addLayer(circle_21)
+      
+      var circle_22 = L.circle([27.54, -82.74], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_22.bindPopup("<b>ANM</b>");
+      map.addLayer(circle_22)
+      
+      var circle_23 = L.circle([27.6, -82.76], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_23.bindPopup("<b>EGK</b>");
+      map.addLayer(circle_23)
+      
+      var circle_24 = L.circle([27.95, -82.46], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_24.bindPopup("<b>UTP</b>");
+      map.addLayer(circle_24)
+      
+
+      
+      var latLngs = [ [24.25, -87.4],  [24.25, -74.7],  [36.7, -74.7],  [36.7, -87.4],  [24.25, -87.4], ];
+var line_1 = L.polyline(latLngs,{
+color: '#FF0000',
+weight: 2,
+
+});
+      map.addLayer(line_1);
+      
+
+      
+
+      
+
+   </script>
+
+</body>
