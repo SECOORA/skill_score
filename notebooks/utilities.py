@@ -1,11 +1,12 @@
 # Standard Library.
 import os
 import time
+import signal
 import fnmatch
 import warnings
-import contextlib
 from io import BytesIO
 from datetime import datetime
+from contextlib import contextmanager
 
 try:
     from urllib import urlopen
@@ -41,7 +42,7 @@ import lxml.html
 from lxml import etree
 from bs4 import BeautifulSoup
 from folium.folium import Map
-from IPython.display import HTML
+from IPython.display import HTML, IFrame
 
 from pyugrid import UGrid
 from oceans import wrap_lon180
@@ -858,9 +859,7 @@ def inline_map(m):
                      'style="width: 100%; height: 500px; '
                      'border: none"></iframe>'.format(srcdoc=srcdoc))
     elif isinstance(m, str):
-        embed = HTML('<iframe src="{src}" '
-                     'style="width: 100%; height: 500px; '
-                     'border: none"></iframe>'.format(src=m))
+        embed = IFrame(m, width=750, height=500)
     return embed
 
 
@@ -901,7 +900,7 @@ def url_lister(url):
 
 
 # Misc.
-@contextlib.contextmanager
+@contextmanager
 def timeit(log=None):
     t = time.time()
     yield
@@ -910,3 +909,36 @@ def timeit(log=None):
         log.info(elapsed)
     else:
         print(elapsed)
+
+
+@contextmanager
+def time_limit(seconds=10):
+    def signal_handler(signum, frame):
+        raise TimeoutException("Timed out!")
+    signal.signal(signal.SIGALRM, signal_handler)
+    signal.alarm(seconds)
+    try:
+        yield
+    finally:
+        signal.alarm(0)
+
+
+class TimeoutException(Exception):
+    """
+    Example
+    -------
+    >>> def long_function_call():
+    >>>     import time
+    >>>     sec = 0
+    >>>>    while True:
+    >>>         sec += 1
+    >>>         print(sec)
+    >>>         time.sleep(1)
+    >>>
+    >>> try:
+    >>>     with time_limit(10):
+    >>>     long_function_call()
+    >>> except TimeoutException as msg:
+    >>>     print("Timed out!")
+    """
+    pass
