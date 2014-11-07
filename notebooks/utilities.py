@@ -220,7 +220,7 @@ def time_slice(cube, start, stop=None):
     if stop:
         istop = time_near(cube, stop)
         if istart == istop:
-            raise ValueError('istart must be different from istop!'
+            raise ValueError('istart must be different from istop! '
                              'Got istart {!r} and '
                              ' istop {!r}'.format(istart, istop))
         return cube[istart:istop, ...]
