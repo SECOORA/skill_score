@@ -127,16 +127,16 @@ git --no-pager log --author=ocefpaf --format='"%ci","%s"' --no-merges --until="1
 pandoc --standalone --smart \
        --reference-docx=reference.docx \
        --bibliography ../../references/references.bib \
-       --from markdown First_Quarter_Report.md \
+       --from markdown 1st_Quarter_Report.md \
        --to docx \
-       --output First_Quarter_Report.docx
+       --output 1st_Quarter_Report.docx
 -->
 
 <!--
 pandoc --standalone --smart \
        --latex-engine=xelatex \
        --bibliography ../../references/references.bib \
-       --from markdown First_Quarter_Report.md \
+       --from markdown 1st_Quarter_Report.md \
        --to latex \
-       --output First_Quarter_Report.pdf
+       --output 1st_Quarter_Report.pdf
 -->
