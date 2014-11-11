@@ -2,8 +2,8 @@
 ## (August 1, 2014 -- October 31, 2014)
 ### Filipe Pires Alvarenga Fernandes
 
-This report outlines the tasks and work performed in the second quarter for the
-SECOORA Model Skill Assessment project.
+This report outlines the tasks and work performed in the second quarter for
+the SECOORA Model Skill Assessment project.
 
 ## Task 1: Run and update a weekly report of the sea surface height notebook bias
 
@@ -37,12 +37,12 @@ shows an example of the work-flow frozen at the Hurricane Arthur event
 [00-generate_page_html.ipynb](http://nbviewer.ipython.org/github/ocefpaf/secoora/blob/master/notebooks/elevation/00-generate_page_html.ipynb)
 is used to generated the results displayed in the web-page.
 
-### Issues found.
+### Issues found:
 
 - Both SABGOM and USEAST, the SECOORA run models, are not always discoverable
   via the NOAA CSW.  To circumvent that the notebook tries to find both models
-  via the catalog first, if they are not found the URLs are hard-coded into the
-  notebook and a warning is issued in the log file.
+  via the catalog first, if they are not found the URLs are hard-coded into
+  the notebook and a warning is issued in the log file.
 - Not all the SECOORA moored stations and buoys listed at
   `https://github.com/ocefpaf/secoora/blob/master/notebooks/climatology_data_sources.csv`
   are found in the catalog.  Unlike the models their URLs are not hard-coded
@@ -50,13 +50,13 @@ is used to generated the results displayed in the web-page.
 <!--   (@vembus: Are there DAP/SOS URLs for those stations that I can use?) -->
 - The bias, or any other metric that will be computed in the future, is highly
   sensitive\* to the model grid point (or grid points in case of interpolation)
-  that are chosen for the comparison.  There is the need to discuss an strategy
+  that are chosen for the comparison.  There is the need to discuss a strategy
   for choosing and/or validation a grid point for comparison before advancing
   this notebook towards more sophisticated metrics like Taylor diagrams
   [@Taylor_and_Karl_2001] and the methods described in @Wilkin_and_Hunter_2013.
 
 \* Example: a barrier island where the observation is at one side and the model
-grid point at another, even though they are closee than 4 km they are not
+grid point at another, even though they are close than 4 km they are not
 correlated invalidating the comparison.
 
 ## Task 2) Salinity and temperature data discovery and plotting
@@ -84,17 +84,17 @@ are further than 4 km to any model grid point. See the notebook
 [01-salinity_secoora.ipynb](http://nbviewer.ipython.org/github/ocefpaf/secoora/blob/master/notebooks/salinity/01-salinity_secoora.ipynb).
 
 
-### Issues found.
-- Satellite data for both SSS and SST are discarded for now.  There is the need
-  to develop a heuristic method to discern from model and satellite gridded
-  data.
+### Issues found:
+- Satellite data for both SSS and SST are discarded for now.  There is the
+  need to develop a heuristic method to discern from model and satellite
+  gridded data.
 <!--   (@rsignell I think there is a CF rule to identify models, right?) -->
-- Like Sea Surface Height both temperature and salinity queries, using the NOAA
-  CSW, does not return all the SECOORA stations.
+- Like Sea Surface Height both temperature and salinity queries, using the
+  NOAA CSW, does not return all the SECOORA stations.
 - The salinity observations found are insufficient and the notebook needs
-  additional data sources (NDBC, regional SECOORA CSW?).
+  additional data sources (NDBC, regional SECOORA catalogs etc).
 - No metric is calculated for the temperature comparisons at this moment.
-  That is becase a visual comparison of the model and observation time-series
+  That is because a visual comparison of the model and observation time-series
   shows strong disagreement.  The reason for such disparity between model and
   observations is that the modeled data are actually SST, while the
   observations might be sub-surface.  To improve the comparison the notebook
@@ -113,12 +113,12 @@ and corresponding tests to plot them onto a regular grid.
 
 The velocity time-series notebook,
 [currents_time_series.ipynb](http://nbviewer.ipython.org/github/ocefpaf/secoora/blob/master/notebooks/velocity/currents_time_series.ipynb),
-uses both SOS and NDBC data endpoints, still both sources were are not sufficient
-for a near real time (past week data) comparison.  SOS finds only one observed
-location while all NDBC data found is older than the past week.
+uses both SOS and NDBC data endpoints, still both sources were are not
+sufficient for a near real time (past week data) comparison.  SOS finds only
+one observed location while all NDBC data found is older than the past week.
 <!-- (@vembus I believe that only HF-Radar will be, right?) -->
 
-### Issues found.
+### Issues found:
 
 - Use HF-Radar data as am additional source for the time-series comparison.
 - Interpolate model data to the HF-radar grid for the comparisons.
@@ -134,20 +134,20 @@ was created without data discovery.  This notebook uses the DAC to fetch and
 plot the data.
 
 
-### Issues found.
+### Issues found:
 
-- Glider data are very challenging to compare with models as it needs a 4D model
-  slice at the glider path coordinates (`x`, `y`, `z`, `t`).  Right now that is
-  not possible using iris [@Iris].  The next version of iris will implement
-  additional Ocean Dimensionless Vertical Coordinates (ODV) facilitating the
-  creation of such 4D slices.
+- Glider data are very challenging to compare with models as it needs a 4D
+  model slice at the glider path coordinates (`x`, `y`, `z`, `t`).  Right now
+  that is not possible using iris [@Iris].  The next version of iris will
+  implement additional Ocean Dimensionless Vertical Coordinates (ODV)
+  facilitating the creation of such 4D slices.
 
 ## Task 5) Implemented Ocean Dimensionless Vertical coordinates for iris
 
-All the notebooks make heavy use of the python library iris to load and process
-the URL endpoints as well as local files.  However, iris comes short when
-handling the CF Ocean Dimensionless Vertical Coordinates.  A
-software patch was created to solve the problem,
+All the notebooks make heavy use of the python library iris to load and
+process the URL endpoints as well as local files.  However, iris comes short
+when handling the CF Ocean Dimensionless Vertical Coordinates.  A software
+patch was created to solve the problem,
 
 `https://github.com/SciTools/iris/pull/1304`
 
