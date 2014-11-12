@@ -142,7 +142,7 @@ plot the data.
   implement additional Ocean Dimensionless Vertical Coordinates (ODV)
   facilitating the creation of such 4D slices.
 
-## Task 5) Implemented Ocean Dimensionless Vertical coordinates for iris
+## Task 5) Ocean Dimensionless Vertical coordinates for iris
 
 All the notebooks make heavy use of the python library iris to load and
 process the URL endpoints as well as local files.  However, iris comes short
