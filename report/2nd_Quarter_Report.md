@@ -178,9 +178,9 @@ pandoc --standalone --smart \
 
 <!--
 pandoc --standalone --smart \
-       --latex-engine=xelatex \
        --bibliography ../references/references.bib \
        --from markdown 2nd_Quarter_Report.md \
        --to latex \
+       --latex-engine=xelatex \
        --output 2nd_Quarter_Report.pdf
 -->
