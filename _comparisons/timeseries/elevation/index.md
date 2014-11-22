@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Sea Surface Height
-permalink: comparisons/elevation/
+permalink: comparisons/timeseries/elevation/
 notebook: /notebooks/elevation/
 ---
 
