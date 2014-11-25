@@ -380,8 +380,8 @@ def add_station(cube, station):
 
 
 def remove_ssh(cube):
-    """Remove all `aux_coords`, bu the time, that has the same shape as the
-    data."""
+    """Remove all `aux_coords` but time.  Should that has the same shape as
+    the data."""
     for coord in cube.aux_coords:
         if coord.shape == cube.shape:
             if 'time' not in coord.name():
