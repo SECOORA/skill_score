@@ -1,11 +1,11 @@
 ---
 layout: page
-title: Sea Surface Height
+title: Sea Surface Temperature
 permalink: comparisons/timeseries/temperature/
 notebook: /notebooks/temperature/
 ---
 
-Weekly results for Water Level comparison.
+Weekly results for Water Temperature comparison.
 
 <iframe width="750" height="500" frameBorder="0" src="{{ site.baseurl }}{{ page.notebook }}2014-11-21/temperature.html" name="iframe_tmp"> <p>Your browser does not support iframes.</p> </iframe>
 
