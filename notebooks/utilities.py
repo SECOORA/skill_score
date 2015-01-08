@@ -159,9 +159,14 @@ titles = dict(SABGOM='http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/'
               'dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc',
               NECOFS_GOM3_WAVE='http://www.smast.umassd.edu:8080/thredds/dodsC'
               '/FVCOM/NECOFS/Forecasts/NECOFS_WAVE_FORECAST.nc',
-              USF='http://crow.marine.usf.edu:8080/thredds/dodsC/'
+              USF_ROMS='http://crow.marine.usf.edu:8080/thredds/dodsC/'
               'WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_'
-              'Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd')
+              'Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd',
+              USF_SWAN='http://crow.marine.usf.edu:8080/thredds/dodsC/'
+              'WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_'
+              'Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd',
+              USF_FVCOM='http://crow.marine.usf.edu:8080/thredds/dodsC/'
+              'FVCOM-Nowcast-Agg.nc')
 
 
 # Iris.
