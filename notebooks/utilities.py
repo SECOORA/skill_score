@@ -16,6 +16,7 @@ except ImportError:
     from urllib.request import urlopen
 
 # Scientific stack.
+import mpld3
 import numpy as np
 import numpy.ma as ma
 from owslib import fes
@@ -496,8 +497,8 @@ def get_nearest_water(cube, tree, xi, yi, k=10, max_dist=0.04, min_var=0.01):
     mask = distances <= max_dist
     distances, indices = distances[mask], indices[mask]
     if distances.size == 0:
-        raise ValueError("No data found for (%s,%s) using max_dist=%s." %
-                         (xi, yi, max_dist))
+        msg = "No data near ({}, {}) max_dist={}.".format
+        raise ValueError(msg(xi, yi, max_dist))
     # Unstructured model.
     if (cube.coord(axis='X').ndim == 1) and (cube.ndim == 2):
         i = j = indices
@@ -625,7 +626,7 @@ def get_roms(url, time_slice, n=3):
     return dict(lon=lon, lat=lat, u=u, v=v, time=time)
 
 
-# OWS/PYOOS.
+# OWSLib and pyoos.
 def fes_date_filter(start, stop, constraint='overlaps'):
     """Take datetime-like objects and returns a fes filter for date range.
     NOTE: Truncates the minutes!"""
@@ -905,6 +906,23 @@ def url_lister(url):
 
 
 # Misc.
+def both_valid(x, y):
+    """Returns a mask where both series are valid."""
+    mask_x = np.isnan(x)
+    mask_y = np.isnan(y)
+    return np.logical_and(~mask_x, ~mask_y)
+
+
+def save_html(fig, fname):
+    """Workaround:
+    https://github.com/jakevdp/mpld3/issues/275
+    Alternative to `mpld3.save_html`."""
+    html = mpld3.fig_to_html(fig)
+    html = html.replace('"text": "None"', '"text": ""')
+    with open(fname, 'w') as f:
+        f.writelines(html)
+
+
 @contextmanager
 def timeit(log=None):
     t = time.time()
