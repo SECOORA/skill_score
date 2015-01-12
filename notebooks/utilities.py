@@ -497,8 +497,8 @@ def get_nearest_water(cube, tree, xi, yi, k=10, max_dist=0.04, min_var=0.01):
     mask = distances <= max_dist
     distances, indices = distances[mask], indices[mask]
     if distances.size == 0:
-        raise ValueError("No data found for (%s,%s) using max_dist=%s." %
-                         (xi, yi, max_dist))
+        msg = "No data near ({}, {}) max_dist={}.".format
+        raise ValueError(msg(xi, yi, max_dist))
     # Unstructured model.
     if (cube.coord(axis='X').ndim == 1) and (cube.ndim == 2):
         i = j = indices
