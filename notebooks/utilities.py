@@ -21,8 +21,8 @@ import numpy as np
 import numpy.ma as ma
 from owslib import fes
 import matplotlib.pyplot as plt
-from scipy.spatial import KDTree
 from pandas import DataFrame, read_csv
+from scipy.spatial import cKDTree as KDTree
 from netCDF4 import Dataset, MFDataset, date2index, num2date
 
 import iris
@@ -274,13 +274,14 @@ def bbox_extract_1Dcoords(cube, bbox):
 
 def subset(cube, bbox):
     """Sub sets cube with 1D or 2D lon, lat coords.
-    Using `intersection` instead of `extract` we deal with 0-360
+    Using `intersection` instead of `extract` we deal with 0--360
     longitudes automagically."""
     if (cube.coord(axis='X').ndim == 1 and cube.coord(axis='Y').ndim == 1):
-        lons = cube.coord('longitude').points
-        cube.coord('longitude').points = wrap_lon180(lons)
-        cube = bbox_extract_1Dcoords(cube, bbox)  # Works around intersect.
-        if False:
+        # Workaround `cube.intersection` hanging up on FVCOM models.
+        title = cube.attributes['title']
+        if ('FVCOM' in title) or ('ESTOFS' in title):
+            cube = bbox_extract_1Dcoords(cube, bbox)
+        else:
             cube = cube.intersection(longitude=(bbox[0], bbox[2]),
                                      latitude=(bbox[1], bbox[3]))
     elif (cube.coord(axis='X').ndim == 2 and
@@ -470,8 +471,6 @@ def make_tree(cube):
     """Create KDTree."""
     lon = cube.coord(axis='X').points
     lat = cube.coord(axis='Y').points
-    # FIXME: Not sure if it is need when using `iris.intersect()`.
-    lon = wrap_lon180(lon)
     # Structured models with 1D lon, lat.
     if (lon.ndim == 1) and (lat.ndim == 1) and (cube.ndim == 3):
         lon, lat = np.meshgrid(lon, lat)
@@ -482,14 +481,11 @@ def make_tree(cube):
 
 def get_nearest_water(cube, tree, xi, yi, k=10, max_dist=0.04, min_var=0.01):
     """Find `k` nearest model data points from an iris `cube` at station
-    lon=`xi`, lat=`yi` up to `max_dist` in degrees.  Must provide a Scipy's
+    lon: `xi`, lat: `yi` up to `max_dist` in degrees.  Must provide a Scipy's
     KDTree `tree`."""
-    # TODO: pykdtree might be faster, but would introduce another dependency.
-    # Scipy is more likely to be already installed.  Still, this function could
-    # be generalized to accept pykdtree tree object.
-    # TODO: Make the `tree` optional, so it can be created here in case of a
-    #  single search.  However, make sure that it will be faster if the `tree`
-    #  is created and passed as an argument in multiple searches.
+    # TODO: Use rtree instead of KDTree.
+    # NOTE: Based on the iris `_nearest_neighbour_indices_ndcoords`.
+
     distances, indices = tree.query(np.array([xi, yi]).T, k=k)
     if indices.size == 0:
         raise ValueError("No data found.")
