@@ -278,7 +278,8 @@ def subset(cube, bbox):
     longitudes automagically."""
     if (cube.coord(axis='X').ndim == 1 and cube.coord(axis='Y').ndim == 1):
         # Workaround `cube.intersection` hanging up on FVCOM models.
-        if 'FVCOM' in cube.attributes['title']:
+        title = cube.attributes['title']
+        if ('FVCOM' in title) or ('ESTOFS' in title):
             cube = bbox_extract_1Dcoords(cube, bbox)
         else:
             cube = cube.intersection(longitude=(bbox[0], bbox[2]),
