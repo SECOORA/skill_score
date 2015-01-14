@@ -1,0 +1,6 @@
+useast,http://omgsrv1.meas.ncsu.edu:8080/thredds/catalog/fmrc/us_east/catalog.html
+useast_xml,http://omgsrv1.meas.ncsu.edu:8080/thredds/catalog/fmrc/us_east/catalog.xml
+sabgom,http://omgsrv1.meas.ncsu.edu:8080/thredds/catalog/fmrc/sabgom/catalog.xml
+wfs_roms_nf,http://crow.marine.usf.edu:8080/thredds/catalog/WFS_ROMS_NF_model/catalog.html
+wfs_fvcom,http://crow.marine.usf.edu:8080/thredds/fvcom_agg.html
+wfs_swan,http://crow.marine.usf.edu:8080/thredds/swan_agg.html
