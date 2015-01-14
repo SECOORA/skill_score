@@ -1,0 +1,4 @@
+2015-01-14 16:01:39,859 - thredds_crawler - INFO - Crawling sabgom (http://omgsrv1.meas.ncsu.edu:8080/thredds/catalog/fmrc/sabgom/catalog.xml)
+2015-01-14 16:01:48,054 - thredds_crawler - INFO - Crawling: http://omgsrv1.meas.ncsu.edu:8080/thredds/catalog/fmrc/sabgom/catalog.xml
+2015-01-14 16:01:49,134 - thredds_crawler - DEBUG - Processing fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+2015-01-14 16:03:17,386 - thredds_crawler - INFO - Downloading/Saving iso_records/sabgom/fmrc_sabgom_SABGOM_Forecast_Model_Run_Collection_best.ncd.iso.xml
