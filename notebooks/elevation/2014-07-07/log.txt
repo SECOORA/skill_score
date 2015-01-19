@@ -1,270 +1,270 @@
-07:19:24 INFO: *********************** Run information ************************
-07:19:24 INFO: Run date: 2015-01-12 22:19:24
-07:19:24 INFO: Download start: 2014-06-30 12:00:00
-07:19:24 INFO: Download stop: 2014-07-07 12:00:00
-07:19:24 INFO: Bounding box: -87.40, 24.25,-74.70, 36.70
-07:19:24 INFO: *********************** Software version ***********************
-07:19:24 INFO: Iris version: 1.8.0-DEV
-07:19:24 INFO: owslib version: 0.8-dev
-07:19:24 INFO: pyoos version: 0.6.2
-07:19:27 INFO: ********************* Catalog information **********************
-07:19:27 INFO: URL: http://www.ngdc.noaa.gov/geoportal/csw
-07:19:27 INFO: CSW version: 2.0.2
-07:19:27 INFO: Number of datasets available: 9
-07:19:27 INFO: ***************************** CSW ******************************
-07:19:27 INFO: USF FVCOM - Nowcast Aggregation
-07:19:27 INFO: ROMS/TOMS 3.0 - New Floria Shelf Application
-07:19:27 INFO: ROMS/TOMS 3.0 - South-Atlantic Bight and Gulf of Mexico
-07:19:27 INFO: COAWST Forecast System : USGS : US East Coast and Gulf of Mexico (Experimental)
-07:19:27 INFO: ROMS ESPRESSO Real-Time Operational IS4DVAR Forecast System Version 2 (NEW) 2013-present FMRC History (Best)
-07:19:27 INFO: Barotropic Tide Model for the Pacific Basin
-07:19:27 INFO: HYbrid Coordinate Ocean Model (HYCOM): Global
-07:19:27 INFO: ESTOFS Storm Surge Model - Atlantic - v1.0.0 - NOAA - NCEP - ADCIRC
-07:19:27 INFO: NECOFS GOM3 Wave - Northeast US - Latest Forecast
-07:19:27 INFO: ***************************** DAP ******************************
-07:19:27 INFO: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc.html
-07:19:27 INFO: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd.html
-07:19:27 INFO: http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic.html
-07:19:27 INFO: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd.html
-07:19:27 INFO: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd.html
-07:19:27 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac.html
-07:19:27 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global.html
-07:19:27 INFO: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd.html
-07:19:27 INFO: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_WAVE_FORECAST.nc.html
-07:19:27 INFO: ***************************** SOS ******************************
-07:19:28 WARNING: USEAST not in the catalog
-07:19:28 WARNING: USF_SWAN not in the catalog
-07:19:43 INFO: ********************* Collector offerings **********************
-07:19:43 INFO: NOAA.NOS.CO-OPS SOS: 1024 offerings
-07:19:45 INFO: SOS URL request: http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?eventTime=2014-06-30T12%3A00%3A00Z&service=SOS&offering=urn%3Aioos%3Anetwork%3ANOAA.NOS.CO-OPS%3AWaterLevelActive&request=GetObservation&version=1.0.0&responseFormat=text%2Fcsv&featureOfInterest=BBOX%3A-87.4%2C24.25%2C-74.7%2C36.7&observedProperty=water_surface_height_above_reference_datum
-07:20:03 INFO: ***************** Observations (station data) ******************
-07:20:03 INFO: **** Downloading to file 2014-07-07/2014-07-07-OBS_DATA.nc *****
-07:20:13 WARNING: [8654467] USCG Station Hatteras, NC:
+06:23:06 INFO: *********************** Run information ************************
+06:23:06 INFO: Run date: 2015-01-19 21:23:06
+06:23:06 INFO: Download start: 2014-06-30 12:00:00
+06:23:06 INFO: Download stop: 2014-07-07 12:00:00
+06:23:06 INFO: Bounding box: -87.40, 24.25,-74.70, 36.70
+06:23:06 INFO: *********************** Software version ***********************
+06:23:06 INFO: Iris version: 1.8.0-DEV
+06:23:06 INFO: owslib version: 0.8-dev
+06:23:06 INFO: pyoos version: 0.6.2
+06:23:09 INFO: ********************* Catalog information **********************
+06:23:09 INFO: URL: http://www.ngdc.noaa.gov/geoportal/csw
+06:23:09 INFO: CSW version: 2.0.2
+06:23:09 INFO: Number of datasets available: 9
+06:23:09 INFO: ***************************** CSW ******************************
+06:23:09 INFO: USF FVCOM - Nowcast Aggregation
+06:23:09 INFO: ROMS/TOMS 3.0 - New Floria Shelf Application
+06:23:09 INFO: ROMS/TOMS 3.0 - South-Atlantic Bight and Gulf of Mexico
+06:23:09 INFO: COAWST Forecast System : USGS : US East Coast and Gulf of Mexico (Experimental)
+06:23:09 INFO: ROMS ESPRESSO Real-Time Operational IS4DVAR Forecast System Version 2 (NEW) 2013-present FMRC History (Best)
+06:23:09 INFO: Barotropic Tide Model for the Pacific Basin
+06:23:09 INFO: HYbrid Coordinate Ocean Model (HYCOM): Global
+06:23:09 INFO: ESTOFS Storm Surge Model - Atlantic - v1.0.0 - NOAA - NCEP - ADCIRC
+06:23:09 INFO: NECOFS GOM3 Wave - Northeast US - Latest Forecast
+06:23:09 INFO: ***************************** DAP ******************************
+06:23:09 INFO: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc.html
+06:23:09 INFO: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd.html
+06:23:09 INFO: http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic.html
+06:23:09 INFO: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd.html
+06:23:09 INFO: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd.html
+06:23:09 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac.html
+06:23:09 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global.html
+06:23:09 INFO: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd.html
+06:23:09 INFO: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_WAVE_FORECAST.nc.html
+06:23:09 INFO: ***************************** SOS ******************************
+06:23:09 WARNING: USEAST not in the NGDC csw
+06:23:09 WARNING: USF_SWAN not in the NGDC csw
+06:23:21 INFO: ********************* Collector offerings **********************
+06:23:21 INFO: NOAA.NOS.CO-OPS SOS: 1030 offerings
+06:23:26 INFO: SOS URL request: http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?eventTime=2014-06-30T12%3A00%3A00Z&service=SOS&offering=urn%3Aioos%3Anetwork%3ANOAA.NOS.CO-OPS%3AWaterLevelActive&request=GetObservation&version=1.0.0&responseFormat=text%2Fcsv&featureOfInterest=BBOX%3A-87.4%2C24.25%2C-74.7%2C36.7&observedProperty=water_surface_height_above_reference_datum
+06:23:48 INFO: ************************* Observations *************************
+06:23:48 INFO: **** Downloading to file 2014-07-07/2014-07-07-OBS_DATA.nc *****
+06:23:56 WARNING: [8654467] USCG Station Hatteras, NC:
 'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
-07:20:14 WARNING: [8656483] Beaufort, NC:
+06:23:57 WARNING: [8656483] Beaufort, NC:
 'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
-07:20:16 WARNING: [8658120] Wilmington, NC:
+06:24:00 WARNING: [8658120] Wilmington, NC:
 'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
-07:21:37 WARNING: [8726520] St Petersburg, FL:
+06:25:02 WARNING: [8726520] St Petersburg, FL:
 'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
-07:21:39 WARNING: [8726607] Old Port Tampa, FL:
+06:25:04 WARNING: [8726607] Old Port Tampa, FL:
 'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
-07:21:54 WARNING: [8729210] Panama City Beach, FL:
+06:25:16 WARNING: [8729210] Panama City Beach, FL:
 'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
-07:22:00 INFO: **************************** Models ****************************
-07:22:00 INFO: 
+06:25:20 INFO: **************************** Models ****************************
+06:25:20 INFO: 
 [Reading url 1/10]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
-07:22:13 INFO: 
+06:25:32 INFO: 
 [Reading url 2/10]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd
-07:22:18 INFO: 
+06:25:36 INFO: 
 [Reading url 3/10]: http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic
-07:23:40 INFO: 
+06:26:04 INFO: 
 [Reading url 4/10]: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd
-07:24:45 INFO: 
+06:26:27 INFO: 
 [Reading url 5/10]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
-07:24:55 WARNING: Cannot get cube for: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+06:26:38 WARNING: Cannot get cube for: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
 istart must be different from istop! Got istart 0 and  istop 0
-07:24:55 INFO: 
+06:26:38 INFO: 
 [Reading url 6/10]: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac
-07:25:05 INFO: 
+06:26:41 INFO: 
 [Reading url 7/10]: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global
-07:25:24 INFO: 
+06:26:53 INFO: 
 [Reading url 8/10]: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd
-07:25:36 INFO: 
+06:27:01 INFO: 
 [Reading url 9/10]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/US_East_Forecast_Model_Run_Collection_best.ncd
-07:25:47 WARNING: Cannot get cube for: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/US_East_Forecast_Model_Run_Collection_best.ncd
+06:27:14 WARNING: Cannot get cube for: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/US_East_Forecast_Model_Run_Collection_best.ncd
 istart must be different from istop! Got istart 0 and  istop 0
-07:25:47 INFO: 
+06:27:14 INFO: 
 [Reading url 10/10]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
-07:25:48 WARNING: Cannot get cube for: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+06:27:15 WARNING: Cannot get cube for: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
 Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
-07:25:48 INFO: ******** Saving to file 2014-07-07/2014-07-07-ESTOFS.nc ********
-07:25:54 INFO: [Water] Duck, NC
-07:25:57 INFO: [Water] Oregon Inlet Marina, NC
-07:26:06 INFO: [Water] Wrightsville Beach, NC
-07:26:17 INFO: [Water] Springmaid Pier, SC
-07:26:20 INFO: [Water] Oyster Landing (N Inlet Estuary), SC
-07:26:20 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
-07:26:21 INFO: [Water] Fernandina Beach, FL
-07:26:24 INFO: [Water] Mayport (Bar Pilots Dock), FL
-07:26:24 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
-07:26:24 WARNING: No data near (-81.6583, 30.32) max_dist=0.04.
-07:26:24 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
-07:26:24 WARNING: No data near (-81.6283, 29.9783) max_dist=0.04.
-07:26:24 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
-07:26:30 INFO: [Water] Trident Pier, FL
-07:26:35 INFO: [Water] Lake Worth Pier, FL
-07:26:47 INFO: [Water] Vaca Key, FL
-07:26:54 INFO: [Water] Key West, FL
-07:27:02 INFO: [Water] Naples, FL
-07:27:02 WARNING: No data near (-81.8712, 26.6477) max_dist=0.04.
-07:27:14 INFO: [Water] Port Manatee, FL
-07:27:26 INFO: [Water] Cedar Key, FL
-07:27:35 INFO: [Water] Apalachicola, FL
-07:27:35 WARNING: No data near (-85.6669, 30.1523) max_dist=0.04.
-07:27:35 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
-07:27:35 INFO: Finished processing [ESTOFS]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
-07:27:35 INFO: ******** Saving to file 2014-07-07/2014-07-07-BTMPB.nc *********
-07:27:35 WARNING: No data near (-75.7467, 36.1833) max_dist=0.04.
-07:27:35 WARNING: No data near (-75.5483, 35.795) max_dist=0.04.
-07:27:35 WARNING: No data near (-77.7867, 34.2133) max_dist=0.04.
-07:27:35 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
-07:27:35 WARNING: No data near (-79.1867, 33.3517) max_dist=0.04.
-07:27:35 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
-07:27:35 WARNING: No data near (-81.465, 30.6717) max_dist=0.04.
-07:27:35 WARNING: No data near (-81.43, 30.3967) max_dist=0.04.
-07:27:35 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
-07:27:35 WARNING: No data near (-81.6583, 30.32) max_dist=0.04.
-07:27:35 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
-07:27:35 WARNING: No data near (-81.6283, 29.9783) max_dist=0.04.
-07:27:35 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
-07:27:35 WARNING: No data near (-80.5931, 28.4158) max_dist=0.04.
-07:27:35 WARNING: No data near (-80.0333, 26.6117) max_dist=0.04.
-07:27:35 WARNING: No data near (-81.105, 24.7117) max_dist=0.04.
-07:27:35 WARNING: No data near (-81.8079, 24.5557) max_dist=0.04.
-07:27:35 WARNING: No data near (-81.8075, 26.1317) max_dist=0.04.
-07:27:35 WARNING: No data near (-81.8712, 26.6477) max_dist=0.04.
-07:27:35 WARNING: No data near (-82.5621, 27.6387) max_dist=0.04.
-07:27:35 WARNING: No data near (-83.0317, 29.135) max_dist=0.04.
-07:27:35 WARNING: No data near (-84.9817, 29.7267) max_dist=0.04.
-07:27:35 WARNING: No data near (-85.6669, 30.1523) max_dist=0.04.
-07:27:35 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
-07:27:35 INFO: Finished processing [BTMPB]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
-07:27:35 INFO: ******** Saving to file 2014-07-07/2014-07-07-HYCOM.nc *********
-07:27:38 INFO: [Land ] Duck, NC
-07:27:39 INFO: [Water] Oregon Inlet Marina, NC
-07:27:41 INFO: [Water] Wrightsville Beach, NC
-07:27:41 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
-07:27:42 INFO: [Land ] Oyster Landing (N Inlet Estuary), SC
-07:27:44 INFO: [Land ] Charleston, SC
-07:27:46 INFO: [Land ] Fernandina Beach, FL
-07:27:47 INFO: [Land ] Mayport (Bar Pilots Dock), FL
-07:27:49 INFO: [Land ] Dames Point, FL
-07:27:52 INFO: [Land ] Southbank Riverwalk, St Johns River, FL
-07:27:54 INFO: [Land ] I-295 Bridge, St Johns River, FL
-07:27:56 INFO: [Land ] Red Bay Point, St Johns River, FL
-07:27:56 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
-07:27:58 INFO: [Land ] Trident Pier, FL
-07:27:59 INFO: [Water] Lake Worth Pier, FL
-07:28:01 INFO: [Land ] Vaca Key, FL
-07:28:03 INFO: [Land ] Key West, FL
-07:28:03 WARNING: No data near (-81.8075, 26.1317) max_dist=0.04.
-07:28:04 INFO: [Land ] Fort Myers, FL
-07:28:06 INFO: [Land ] Port Manatee, FL
-07:28:09 INFO: [Land ] Cedar Key, FL
-07:28:12 INFO: [Land ] Apalachicola, FL
-07:28:14 INFO: [Land ] Panama City, FL
-07:28:16 INFO: [Land ] Pensacola, FL
-07:28:16 INFO: Finished processing [HYCOM]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
-07:28:16 INFO: ******* Saving to file 2014-07-07/2014-07-07-USF_ROMS.nc *******
-07:28:16 WARNING: No data near (-75.7467, 36.1833) max_dist=0.04.
-07:28:16 WARNING: No data near (-75.5483, 35.795) max_dist=0.04.
-07:28:16 WARNING: No data near (-77.7867, 34.2133) max_dist=0.04.
-07:28:16 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
-07:28:16 WARNING: No data near (-79.1867, 33.3517) max_dist=0.04.
-07:28:16 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
-07:28:16 WARNING: No data near (-81.465, 30.6717) max_dist=0.04.
-07:28:16 WARNING: No data near (-81.43, 30.3967) max_dist=0.04.
-07:28:16 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
-07:28:16 WARNING: No data near (-81.6583, 30.32) max_dist=0.04.
-07:28:16 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
-07:28:16 WARNING: No data near (-81.6283, 29.9783) max_dist=0.04.
-07:28:16 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
-07:28:16 WARNING: No data near (-80.5931, 28.4158) max_dist=0.04.
-07:28:16 WARNING: No data near (-80.0333, 26.6117) max_dist=0.04.
-07:28:16 WARNING: No data near (-81.105, 24.7117) max_dist=0.04.
-07:28:16 WARNING: No data near (-81.8079, 24.5557) max_dist=0.04.
-07:28:17 INFO: [Water] Naples, FL
-07:28:19 INFO: [Water] Fort Myers, FL
-07:28:21 INFO: [Water] Port Manatee, FL
-07:28:25 INFO: [Water] Cedar Key, FL
-07:28:28 INFO: [Water] Apalachicola, FL
-07:28:30 INFO: [Water] Panama City, FL
-07:28:30 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
-07:28:38 INFO: Finished processing [USF_ROMS]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
-07:28:38 INFO: ****** Saving to file 2014-07-07/2014-07-07-USF_FVCOM.nc *******
-07:28:38 WARNING: No data near (-75.7467, 36.1833) max_dist=0.04.
-07:28:38 WARNING: No data near (-75.5483, 35.795) max_dist=0.04.
-07:28:38 WARNING: No data near (-77.7867, 34.2133) max_dist=0.04.
-07:28:38 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
-07:28:38 WARNING: No data near (-79.1867, 33.3517) max_dist=0.04.
-07:28:38 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
-07:28:38 WARNING: No data near (-81.465, 30.6717) max_dist=0.04.
-07:28:38 WARNING: No data near (-81.43, 30.3967) max_dist=0.04.
-07:28:38 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
-07:28:38 WARNING: No data near (-81.6583, 30.32) max_dist=0.04.
-07:28:38 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
-07:28:38 WARNING: No data near (-81.6283, 29.9783) max_dist=0.04.
-07:28:38 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
-07:28:38 WARNING: No data near (-80.5931, 28.4158) max_dist=0.04.
-07:28:38 WARNING: No data near (-80.0333, 26.6117) max_dist=0.04.
-07:28:50 INFO: [Water] Vaca Key, FL
-07:29:02 INFO: [Water] Key West, FL
-07:29:14 INFO: [Water] Naples, FL
-07:29:26 INFO: [Water] Fort Myers, FL
-07:29:39 INFO: [Water] Port Manatee, FL
-07:29:43 INFO: [Water] Cedar Key, FL
-07:29:56 INFO: [Water] Apalachicola, FL
-07:29:56 WARNING: No data near (-85.6669, 30.1523) max_dist=0.04.
-07:29:56 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
-07:29:56 INFO: Finished processing [USF_FVCOM]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
-07:29:56 INFO: ******* Saving to file 2014-07-07/2014-07-07-COAWST_4.nc *******
-07:30:04 INFO: [Land ] Duck, NC
-07:30:17 INFO: [Water] Oregon Inlet Marina, NC
-07:30:25 INFO: [Water] Wrightsville Beach, NC
-07:30:38 INFO: [Water] Springmaid Pier, SC
-07:30:45 INFO: [Land ] Oyster Landing (N Inlet Estuary), SC
-07:30:51 INFO: [Land ] Charleston, SC
-07:30:58 INFO: [Land ] Fernandina Beach, FL
-07:31:05 INFO: [Land ] Mayport (Bar Pilots Dock), FL
-07:31:12 INFO: [Land ] Dames Point, FL
-07:31:18 INFO: [Land ] Southbank Riverwalk, St Johns River, FL
-07:31:25 INFO: [Land ] I-295 Bridge, St Johns River, FL
-07:31:32 INFO: [Land ] Red Bay Point, St Johns River, FL
-07:31:38 INFO: [Land ] Racy Point, St Johns River, FL
-07:31:46 INFO: [Land ] Trident Pier, FL
-07:32:01 INFO: [Water] Lake Worth Pier, FL
-07:32:08 INFO: [Land ] Vaca Key, FL
-07:32:21 INFO: [Water] Key West, FL
-07:32:27 INFO: [Land ] Naples, FL
-07:32:36 INFO: [Land ] Fort Myers, FL
-07:32:43 INFO: [Land ] Port Manatee, FL
-07:32:56 INFO: [Water] Cedar Key, FL
-07:33:03 INFO: [Water] Apalachicola, FL
-07:33:10 INFO: [Water] Panama City, FL
-07:33:16 INFO: [Water] Pensacola, FL
-07:34:12 INFO: Finished processing [COAWST_4]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
-07:34:12 INFO: ******* Saving to file 2014-07-07/2014-07-07-ESPRESSO.nc *******
-07:34:15 INFO: [Land ] Duck, NC
-07:34:18 INFO: [Water] Oregon Inlet Marina, NC
-07:34:18 WARNING: No data near (-77.7867, 34.2133) max_dist=0.04.
-07:34:18 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
-07:34:18 WARNING: No data near (-79.1867, 33.3517) max_dist=0.04.
-07:34:18 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
-07:34:18 WARNING: No data near (-81.465, 30.6717) max_dist=0.04.
-07:34:18 WARNING: No data near (-81.43, 30.3967) max_dist=0.04.
-07:34:18 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
-07:34:18 WARNING: No data near (-81.6583, 30.32) max_dist=0.04.
-07:34:18 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
-07:34:18 WARNING: No data near (-81.6283, 29.9783) max_dist=0.04.
-07:34:18 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
-07:34:18 WARNING: No data near (-80.5931, 28.4158) max_dist=0.04.
-07:34:18 WARNING: No data near (-80.0333, 26.6117) max_dist=0.04.
-07:34:18 WARNING: No data near (-81.105, 24.7117) max_dist=0.04.
-07:34:18 WARNING: No data near (-81.8079, 24.5557) max_dist=0.04.
-07:34:18 WARNING: No data near (-81.8075, 26.1317) max_dist=0.04.
-07:34:18 WARNING: No data near (-81.8712, 26.6477) max_dist=0.04.
-07:34:18 WARNING: No data near (-82.5621, 27.6387) max_dist=0.04.
-07:34:18 WARNING: No data near (-83.0317, 29.135) max_dist=0.04.
-07:34:18 WARNING: No data near (-84.9817, 29.7267) max_dist=0.04.
-07:34:18 WARNING: No data near (-85.6669, 30.1523) max_dist=0.04.
-07:34:18 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
-07:34:21 INFO: Finished processing [ESPRESSO]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
-07:34:21 WARNING: /home/filipe/.virtualenvs/iris/lib/python2.7/site-packages/pandas/util/decorators.py:81: FutureWarning: the 'cols' keyword is deprecated, use 'subset' instead
+06:27:15 INFO: ******** Saving to file 2014-07-07/2014-07-07-ESTOFS.nc ********
+06:27:19 INFO: [Water] Duck, NC
+06:27:21 INFO: [Water] Oregon Inlet Marina, NC
+06:27:28 INFO: [Water] Wrightsville Beach, NC
+06:27:37 INFO: [Water] Springmaid Pier, SC
+06:27:39 INFO: [Water] Oyster Landing (N Inlet Estuary), SC
+06:27:39 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
+06:27:40 INFO: [Water] Fernandina Beach, FL
+06:27:41 INFO: [Water] Mayport (Bar Pilots Dock), FL
+06:27:41 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
+06:27:41 WARNING: No data near (-81.6583, 30.32) max_dist=0.04.
+06:27:41 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
+06:27:41 WARNING: No data near (-81.6283, 29.9783) max_dist=0.04.
+06:27:41 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
+06:27:45 INFO: [Water] Trident Pier, FL
+06:27:50 INFO: [Water] Lake Worth Pier, FL
+06:27:58 INFO: [Water] Vaca Key, FL
+06:28:04 INFO: [Water] Key West, FL
+06:28:11 INFO: [Water] Naples, FL
+06:28:11 WARNING: No data near (-81.8712, 26.6477) max_dist=0.04.
+06:28:20 INFO: [Water] Port Manatee, FL
+06:28:30 INFO: [Water] Cedar Key, FL
+06:28:37 INFO: [Water] Apalachicola, FL
+06:28:37 WARNING: No data near (-85.6669, 30.1523) max_dist=0.04.
+06:28:37 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
+06:28:37 INFO: Finished processing [ESTOFS]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+06:28:37 INFO: ******** Saving to file 2014-07-07/2014-07-07-BTMPB.nc *********
+06:28:37 WARNING: No data near (-75.7467, 36.1833) max_dist=0.04.
+06:28:37 WARNING: No data near (-75.5483, 35.795) max_dist=0.04.
+06:28:37 WARNING: No data near (-77.7867, 34.2133) max_dist=0.04.
+06:28:37 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
+06:28:37 WARNING: No data near (-79.1867, 33.3517) max_dist=0.04.
+06:28:37 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
+06:28:37 WARNING: No data near (-81.465, 30.6717) max_dist=0.04.
+06:28:37 WARNING: No data near (-81.43, 30.3967) max_dist=0.04.
+06:28:37 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
+06:28:37 WARNING: No data near (-81.6583, 30.32) max_dist=0.04.
+06:28:37 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
+06:28:37 WARNING: No data near (-81.6283, 29.9783) max_dist=0.04.
+06:28:37 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
+06:28:37 WARNING: No data near (-80.5931, 28.4158) max_dist=0.04.
+06:28:37 WARNING: No data near (-80.0333, 26.6117) max_dist=0.04.
+06:28:37 WARNING: No data near (-81.105, 24.7117) max_dist=0.04.
+06:28:37 WARNING: No data near (-81.8079, 24.5557) max_dist=0.04.
+06:28:37 WARNING: No data near (-81.8075, 26.1317) max_dist=0.04.
+06:28:37 WARNING: No data near (-81.8712, 26.6477) max_dist=0.04.
+06:28:37 WARNING: No data near (-82.5621, 27.6387) max_dist=0.04.
+06:28:37 WARNING: No data near (-83.0317, 29.135) max_dist=0.04.
+06:28:37 WARNING: No data near (-84.9817, 29.7267) max_dist=0.04.
+06:28:37 WARNING: No data near (-85.6669, 30.1523) max_dist=0.04.
+06:28:37 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
+06:28:37 INFO: Finished processing [BTMPB]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+06:28:37 INFO: ******** Saving to file 2014-07-07/2014-07-07-HYCOM.nc *********
+06:28:39 INFO: [Land ] Duck, NC
+06:28:40 INFO: [Water] Oregon Inlet Marina, NC
+06:28:42 INFO: [Water] Wrightsville Beach, NC
+06:28:42 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
+06:28:45 INFO: [Land ] Oyster Landing (N Inlet Estuary), SC
+06:28:46 INFO: [Land ] Charleston, SC
+06:28:48 INFO: [Land ] Fernandina Beach, FL
+06:28:50 INFO: [Land ] Mayport (Bar Pilots Dock), FL
+06:28:52 INFO: [Land ] Dames Point, FL
+06:28:55 INFO: [Land ] Southbank Riverwalk, St Johns River, FL
+06:28:56 INFO: [Land ] I-295 Bridge, St Johns River, FL
+06:28:58 INFO: [Land ] Red Bay Point, St Johns River, FL
+06:28:58 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
+06:28:59 INFO: [Land ] Trident Pier, FL
+06:29:01 INFO: [Water] Lake Worth Pier, FL
+06:29:03 INFO: [Land ] Vaca Key, FL
+06:29:04 INFO: [Land ] Key West, FL
+06:29:04 WARNING: No data near (-81.8075, 26.1317) max_dist=0.04.
+06:29:06 INFO: [Land ] Fort Myers, FL
+06:29:08 INFO: [Land ] Port Manatee, FL
+06:29:09 INFO: [Land ] Cedar Key, FL
+06:29:11 INFO: [Land ] Apalachicola, FL
+06:29:13 INFO: [Land ] Panama City, FL
+06:29:15 INFO: [Land ] Pensacola, FL
+06:29:15 INFO: Finished processing [HYCOM]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+06:29:15 INFO: ******* Saving to file 2014-07-07/2014-07-07-USF_ROMS.nc *******
+06:29:15 WARNING: No data near (-75.7467, 36.1833) max_dist=0.04.
+06:29:15 WARNING: No data near (-75.5483, 35.795) max_dist=0.04.
+06:29:15 WARNING: No data near (-77.7867, 34.2133) max_dist=0.04.
+06:29:15 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
+06:29:15 WARNING: No data near (-79.1867, 33.3517) max_dist=0.04.
+06:29:15 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
+06:29:15 WARNING: No data near (-81.465, 30.6717) max_dist=0.04.
+06:29:15 WARNING: No data near (-81.43, 30.3967) max_dist=0.04.
+06:29:15 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
+06:29:15 WARNING: No data near (-81.6583, 30.32) max_dist=0.04.
+06:29:15 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
+06:29:15 WARNING: No data near (-81.6283, 29.9783) max_dist=0.04.
+06:29:15 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
+06:29:15 WARNING: No data near (-80.5931, 28.4158) max_dist=0.04.
+06:29:15 WARNING: No data near (-80.0333, 26.6117) max_dist=0.04.
+06:29:15 WARNING: No data near (-81.105, 24.7117) max_dist=0.04.
+06:29:15 WARNING: No data near (-81.8079, 24.5557) max_dist=0.04.
+06:29:16 INFO: [Water] Naples, FL
+06:29:17 INFO: [Water] Fort Myers, FL
+06:29:19 INFO: [Water] Port Manatee, FL
+06:29:22 INFO: [Water] Cedar Key, FL
+06:29:24 INFO: [Water] Apalachicola, FL
+06:29:26 INFO: [Water] Panama City, FL
+06:29:26 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
+06:29:31 INFO: Finished processing [USF_ROMS]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+06:29:31 INFO: ****** Saving to file 2014-07-07/2014-07-07-USF_FVCOM.nc *******
+06:29:32 WARNING: No data near (-75.7467, 36.1833) max_dist=0.04.
+06:29:32 WARNING: No data near (-75.5483, 35.795) max_dist=0.04.
+06:29:32 WARNING: No data near (-77.7867, 34.2133) max_dist=0.04.
+06:29:32 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
+06:29:32 WARNING: No data near (-79.1867, 33.3517) max_dist=0.04.
+06:29:32 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
+06:29:32 WARNING: No data near (-81.465, 30.6717) max_dist=0.04.
+06:29:32 WARNING: No data near (-81.43, 30.3967) max_dist=0.04.
+06:29:32 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
+06:29:32 WARNING: No data near (-81.6583, 30.32) max_dist=0.04.
+06:29:32 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
+06:29:32 WARNING: No data near (-81.6283, 29.9783) max_dist=0.04.
+06:29:32 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
+06:29:32 WARNING: No data near (-80.5931, 28.4158) max_dist=0.04.
+06:29:32 WARNING: No data near (-80.0333, 26.6117) max_dist=0.04.
+06:29:41 INFO: [Water] Vaca Key, FL
+06:29:50 INFO: [Water] Key West, FL
+06:29:58 INFO: [Water] Naples, FL
+06:30:07 INFO: [Water] Fort Myers, FL
+06:30:15 INFO: [Water] Port Manatee, FL
+06:30:19 INFO: [Water] Cedar Key, FL
+06:30:29 INFO: [Water] Apalachicola, FL
+06:30:29 WARNING: No data near (-85.6669, 30.1523) max_dist=0.04.
+06:30:29 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
+06:30:29 INFO: Finished processing [USF_FVCOM]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+06:30:29 INFO: ******* Saving to file 2014-07-07/2014-07-07-COAWST_4.nc *******
+06:30:34 INFO: [Land ] Duck, NC
+06:30:46 INFO: [Water] Oregon Inlet Marina, NC
+06:30:54 INFO: [Water] Wrightsville Beach, NC
+06:31:07 INFO: [Water] Springmaid Pier, SC
+06:31:14 INFO: [Land ] Oyster Landing (N Inlet Estuary), SC
+06:31:20 INFO: [Land ] Charleston, SC
+06:31:27 INFO: [Land ] Fernandina Beach, FL
+06:31:33 INFO: [Land ] Mayport (Bar Pilots Dock), FL
+06:31:40 INFO: [Land ] Dames Point, FL
+06:31:46 INFO: [Land ] Southbank Riverwalk, St Johns River, FL
+06:31:52 INFO: [Land ] I-295 Bridge, St Johns River, FL
+06:31:58 INFO: [Land ] Red Bay Point, St Johns River, FL
+06:32:05 INFO: [Land ] Racy Point, St Johns River, FL
+06:32:11 INFO: [Land ] Trident Pier, FL
+06:32:23 INFO: [Water] Lake Worth Pier, FL
+06:32:30 INFO: [Land ] Vaca Key, FL
+06:32:43 INFO: [Water] Key West, FL
+06:32:49 INFO: [Land ] Naples, FL
+06:32:56 INFO: [Land ] Fort Myers, FL
+06:33:02 INFO: [Land ] Port Manatee, FL
+06:33:14 INFO: [Water] Cedar Key, FL
+06:33:20 INFO: [Water] Apalachicola, FL
+06:33:26 INFO: [Water] Panama City, FL
+06:33:33 INFO: [Water] Pensacola, FL
+06:34:24 INFO: Finished processing [COAWST_4]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+06:34:24 INFO: ******* Saving to file 2014-07-07/2014-07-07-ESPRESSO.nc *******
+06:34:26 INFO: [Land ] Duck, NC
+06:34:28 INFO: [Water] Oregon Inlet Marina, NC
+06:34:28 WARNING: No data near (-77.7867, 34.2133) max_dist=0.04.
+06:34:28 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
+06:34:28 WARNING: No data near (-79.1867, 33.3517) max_dist=0.04.
+06:34:28 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
+06:34:28 WARNING: No data near (-81.465, 30.6717) max_dist=0.04.
+06:34:28 WARNING: No data near (-81.43, 30.3967) max_dist=0.04.
+06:34:28 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
+06:34:28 WARNING: No data near (-81.6583, 30.32) max_dist=0.04.
+06:34:28 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
+06:34:28 WARNING: No data near (-81.6283, 29.9783) max_dist=0.04.
+06:34:28 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
+06:34:28 WARNING: No data near (-80.5931, 28.4158) max_dist=0.04.
+06:34:28 WARNING: No data near (-80.0333, 26.6117) max_dist=0.04.
+06:34:28 WARNING: No data near (-81.105, 24.7117) max_dist=0.04.
+06:34:28 WARNING: No data near (-81.8079, 24.5557) max_dist=0.04.
+06:34:28 WARNING: No data near (-81.8075, 26.1317) max_dist=0.04.
+06:34:28 WARNING: No data near (-81.8712, 26.6477) max_dist=0.04.
+06:34:28 WARNING: No data near (-82.5621, 27.6387) max_dist=0.04.
+06:34:28 WARNING: No data near (-83.0317, 29.135) max_dist=0.04.
+06:34:28 WARNING: No data near (-84.9817, 29.7267) max_dist=0.04.
+06:34:28 WARNING: No data near (-85.6669, 30.1523) max_dist=0.04.
+06:34:28 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
+06:34:30 INFO: Finished processing [ESPRESSO]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+06:34:31 WARNING: /home/filipe/.virtualenvs/iris/lib/python2.7/site-packages/pandas/util/decorators.py:81: FutureWarning: the 'cols' keyword is deprecated, use 'subset' instead
   warnings.warn(msg, FutureWarning)
 
-07:34:50 WARNING: /home/filipe/.virtualenvs/iris/lib/python2.7/site-packages/matplotlib/pyplot.py:424: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+06:35:51 WARNING: /home/filipe/.virtualenvs/iris/lib/python2.7/site-packages/matplotlib/pyplot.py:424: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
   max_open_warning, RuntimeWarning)
 
-07:35:17 INFO: 15.98 minutes
-07:35:17 INFO: EOF
+06:39:21 INFO: 16.34 minutes
+06:39:21 INFO: EOF
