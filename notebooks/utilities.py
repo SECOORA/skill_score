@@ -113,7 +113,9 @@ CF_names = dict({'salinity': salinity,
                  'water level': water_level,
                  'sea_water_temperature': temperature})
 
-CSW = {'NGDC Geoportal':
+CSW = {'COMT':
+       'comt.sura.org:8000',
+       'NGDC Geoportal':
        'http://www.ngdc.noaa.gov/geoportal/csw',
        'USGS WHSC Geoportal':
        'http://geoport.whoi.edu/geoportal/csw',
@@ -294,25 +296,20 @@ def subset(cube, bbox):
     return cube
 
 
-def get_cube(url, **kw):
+def get_cube(url, name_list, bbox=None, time=None, units=None, callback=None,
+             constraint=None):
     """Only `url` and `name_list` are mandatory.  The kw args are:
     `bbox`, `callback`, `time`, `units`, `constraint`."""
 
-    bbox = kw.pop('bbox', None)
-    time = kw.pop('time', None)
-    units = kw.pop('units', None)
-    callback = kw.pop('callback', None)
-    name_list = kw.pop('name_list', None)
-    constraint = kw.pop('constraint', None)
-
     cubes = iris.load_raw(url, callback=callback)
-    if name_list:
-        in_list = lambda cube: cube.standard_name in name_list
-        cubes = CubeList([cube for cube in cubes if in_list(cube)])
-        if not cubes:
-            raise ValueError('Cube does not contain {!r}'.format(name_list))
-        else:
-            cube = cubes.merge_cube()
+
+    in_list = lambda cube: cube.standard_name in name_list
+    cubes = CubeList([cube for cube in cubes if in_list(cube)])
+    if not cubes:
+        raise ValueError('Cube does not contain {!r}'.format(name_list))
+    else:
+        cube = cubes.merge_cube()
+
     if constraint:
         cube = cube.extract(constraint)
         if not cube:
@@ -331,7 +328,7 @@ def get_cube(url, **kw):
                              '  Got {!r}'.format(time))
         cube = time_slice(cube, start, stop)
     if units:
-        if not cube.units == units:
+        if cube.units != units:
             cube.convert_units(units)
     return cube
 
@@ -387,8 +384,12 @@ def add_station(cube, station):
 
 
 def remove_ssh(cube):
-    """Remove all `aux_coords` but time.  Should that has the same shape as
-    the data."""
+    """
+    Remove all `aux_coords` but time.  Should that has the same shape as
+    the data.  NOTE: This also removes `aux_factories` to avoid update error
+    when removing the coordinate."""
+    for factory in cube.aux_factories:
+        cube.remove_aux_factory(factory)
     for coord in cube.aux_coords:
         if coord.shape == cube.shape:
             if 'time' not in coord.name():
@@ -907,16 +908,6 @@ def both_valid(x, y):
     mask_x = np.isnan(x)
     mask_y = np.isnan(y)
     return np.logical_and(~mask_x, ~mask_y)
-
-
-def save_html(fig, fname):
-    """Workaround:
-    https://github.com/jakevdp/mpld3/issues/275
-    Alternative to `mpld3.save_html`."""
-    html = mpld3.fig_to_html(fig)
-    html = html.replace('"text": "None"', '"text": ""')
-    with open(fname, 'w') as f:
-        f.writelines(html)
 
 
 @contextmanager
