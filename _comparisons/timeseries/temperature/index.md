@@ -5,16 +5,16 @@ permalink: comparisons/timeseries/temperature/
 notebook: /notebooks/temperature/
 ---
 
-Weekly results for Water Temperature comparison.
+Weekly results for Water Temperature.
 
-<iframe width="750" height="500" frameBorder="0" src="{{ site.baseurl }}{{ page.notebook }}2015-01-02/temperature.html" name="iframe_tmp"> <p>Your browser does not support iframes.</p> </iframe>
+<iframe width="750" height="500" frameBorder="0" src="{{ site.baseurl }}{{ page.notebook }}2015-01-16/mapa.html" name="iframe_tmp"> <p>Your browser does not support iframes.</p> </iframe>
 
 
-| Elevations series                                                                                             | Log                                                        |
-|:-------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------:|
-| <a href="{{ site.baseurl }}{{ page.notebook }}2014-12-12/temperature.html" target="iframe_tmp">2014-12-12</a> | [log]({{ site.baseurl }}{{ page.notebook }}2014-12-12/log) |
-| <a href="{{ site.baseurl }}{{ page.notebook }}2014-12-19/temperature.html" target="iframe_tmp">2014-12-19</a> | [log]({{ site.baseurl }}{{ page.notebook }}2014-12-19/log) |
-| <a href="{{ site.baseurl }}{{ page.notebook }}2014-12-26/temperature.html" target="iframe_tmp">2014-12-26</a> | [log]({{ site.baseurl }}{{ page.notebook }}2014-12-26/log) |
-| <a href="{{ site.baseurl }}{{ page.notebook }}2015-01-02/temperature.html" target="iframe_tmp">2015-01-02</a> | [log]({{ site.baseurl }}{{ page.notebook }}2015-01-02/log) |
+| Temperature time-series                                                                                | Skill                                                                | Log                                                            |
+|:------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------:|
+| <a href="{{ site.baseurl }}{{ page.notebook }}2014-12-26/mapa.html" target="iframe_tmp">2014-12-26</a> | [skill]({{ site.baseurl }}{{ page.notebook }}2014-12-26/skill.html)  | [log]({{ site.baseurl }}{{ page.notebook }}2014-12-26/log.txt) |
+| <a href="{{ site.baseurl }}{{ page.notebook }}2015-01-02/mapa.html" target="iframe_tmp">2015-01-02</a> | [skill]({{ site.baseurl }}{{ page.notebook }}2015-01-02/skill.html)  | [log]({{ site.baseurl }}{{ page.notebook }}2015-01-02/log.txt) |
+| <a href="{{ site.baseurl }}{{ page.notebook }}2015-01-09/mapa.html" target="iframe_tmp">2015-01-09</a> | [skill]({{ site.baseurl }}{{ page.notebook }}2015-01-09/skill.html)  | [log]({{ site.baseurl }}{{ page.notebook }}2015-01-09/log.txt) |
+| <a href="{{ site.baseurl }}{{ page.notebook }}2015-01-16/mapa.html" target="iframe_tmp">2015-01-16</a> | [skill]({{ site.baseurl }}{{ page.notebook }}2015-01-16/skill.html)  | [log]({{ site.baseurl }}{{ page.notebook }}2015-01-16/log.txt) |
 
 The netCDF time-series files are version controlled and stored [here](https://github.com/ocefpaf/secoora/tree/gh-pages/notebooks/temperature).
