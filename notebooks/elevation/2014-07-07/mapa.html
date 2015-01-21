@@ -50,7 +50,7 @@
 
 <body>
 
-   <div class="folium-map" id="folium_e98403962a234fe0b84370043316a2b6" style="width: 750px; height: 500px"></div>
+   <div class="folium-map" id="folium_a4d40d1b0dab44cfba1bf1d275f8455a" style="width: 750px; height: 500px"></div>
 
    <script>
 
@@ -94,7 +94,7 @@
       /*
       Creates the map and adds the selected layers
       */
-      var map = L.map('folium_e98403962a234fe0b84370043316a2b6', {
+      var map = L.map('folium_a4d40d1b0dab44cfba1bf1d275f8455a', {
                                        center:[30.475, -81.05],
                                        zoom: 5,
                                        maxBounds: bounds,
@@ -733,22 +733,13 @@
       map.addLayer(marker_69)
       
       var marker_70_icon = L.AwesomeMarkers.icon({ icon: 'question-sign',markerColor: 'red',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_70 = L.marker([27.8578, 
-							-82.5527],
+      var marker_70 = L.marker([30.2133, 
+							-85.8783],
 							{'icon':marker_70_icon}
 							);
-      marker_70.bindPopup("<b>Station:</b> Old Port Tampa, FL<br><b>Datum:</b> MLLW<br>");
+      marker_70.bindPopup("<b>Station:</b> Panama City Beach, FL<br><b>Datum:</b> MLLW<br>");
       marker_70._popup.options.maxWidth = 300;
       map.addLayer(marker_70)
-      
-      var marker_71_icon = L.AwesomeMarkers.icon({ icon: 'question-sign',markerColor: 'red',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_71 = L.marker([30.2133, 
-							-85.8783],
-							{'icon':marker_71_icon}
-							);
-      marker_71.bindPopup("<b>Station:</b> Panama City Beach, FL<br><b>Datum:</b> MLLW<br>");
-      marker_71._popup.options.maxWidth = 300;
-      map.addLayer(marker_71)
       
 
       
