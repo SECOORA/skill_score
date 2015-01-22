@@ -5,18 +5,12 @@ import signal
 import fnmatch
 import warnings
 from io import BytesIO
+from urllib import urlopen
+from urlparse import urlparse
 from datetime import datetime
 from contextlib import contextmanager
 
-try:
-    from urllib import urlopen
-    from urlparse import urlparse
-except ImportError:
-    from urllib.parse import urlparse
-    from urllib.request import urlopen
-
 # Scientific stack.
-import mpld3
 import numpy as np
 import numpy.ma as ma
 from owslib import fes
@@ -798,6 +792,32 @@ def nc2df(fname):
         station = cube.coord('station name').points[0]
         df.columns = [station]
     return df
+
+
+def scrape_thredds(url, uri):
+    urls = url_lister(url)
+    filetype = "?dataset="
+    file_list = [filename for filename in fnmatch.filter(urls, filetype)]
+
+    files = [fname.split('/')[-1] for fname in file_list]
+    urls = ['%s/%s' % (uri, fname) for fname in files]
+    if not urls:
+        raise Exception("Cannot find data at {!r}".format(url))
+    return urls
+
+
+def secoora_buoys():
+    thredds = "http://129.252.139.124/thredds/catalog_platforms.html"
+    urls = url_lister(thredds)
+    base_url = "http://129.252.139.124/thredds/dodsC"
+    for buoy in urls:
+        if (("?dataset=" in buoy)
+            and ('archive' not in buoy)
+            and ('usf.c12.weatherpak' not in buoy)
+            and ('cormp.ocp1.buoy' not in buoy)):
+            buoy = buoy.split('id_')[1]
+            url = '{}/{}.nc'.format(base_url, buoy)
+            yield url
 
 
 # IPython display.
