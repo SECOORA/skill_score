@@ -1,0 +1,8 @@
+iris
+pyoos
+folium
+oceans
+geojson
+pyugrid
+cfchecker
+ipython-notebook
