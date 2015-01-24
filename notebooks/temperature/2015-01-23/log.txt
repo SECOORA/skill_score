@@ -1,0 +1,351 @@
+07:36:18 INFO: *********************** Run information ************************
+07:36:18 INFO: Run date: 2015-01-24 22:36:18
+07:36:18 INFO: Download start: 2015-01-16 12:00:00
+07:36:18 INFO: Download stop: 2015-01-23 12:00:00
+07:36:18 INFO: Bounding box: -87.40, 24.25,-74.70, 36.70
+07:36:18 INFO: *********************** Software version ***********************
+07:36:18 INFO: Iris version: 1.7.2-DEV
+07:36:18 INFO: owslib version: 0.8-dev
+07:36:18 INFO: pyoos version: 0.6.2
+07:36:30 INFO: ********************* Catalog information **********************
+07:36:30 INFO: URL: http://www.ngdc.noaa.gov/geoportal/csw
+07:36:30 INFO: CSW version: 2.0.2
+07:36:30 INFO: Number of datasets available: 15
+07:36:30 INFO: ***************************** CSW ******************************
+07:36:30 INFO: COAWST Forecast System : USGS : US East Coast and Gulf of Mexico (Experimental)
+07:36:30 INFO: Directional wave and sea surface temperature measurements collected in situ by Datawell Mark 3 directional buoy located near CLATSOP SPIT, OR from 2013/07/18 20:00:00 to 2015/01/12 18:59:59.
+07:36:30 INFO: Directional wave and sea surface temperature measurements collected in situ by Datawell Mark 3 directional buoy located near OCEAN STATION PAPA from 2012/10/04 21:00:00 to 2015/01/01 00:59:59.
+07:36:30 INFO: Directional wave and sea surface temperature measurements collected in situ by Datawell Mark 3 directional buoy located near SCRIPPS NEARSHORE, CA from 2013/07/12 20:00:00 to 2015/01/07 17:59:59.
+07:36:30 INFO: ROMS ESPRESSO Real-Time Operational IS4DVAR Forecast System Version 2 (NEW) 2013-present FMRC History (Best)
+07:36:30 INFO: TBOFS - Tampa Bay Operational Forecast System - NOAA CO-OPS - POM
+07:36:30 INFO: NDBC Standard Meteorological Buoy Data
+07:36:30 INFO: HYbrid Coordinate Ocean Model (HYCOM): Global
+07:36:30 INFO: National Data Buoy Center SOS
+07:36:30 INFO: G1SST, 1km blended SST
+07:36:30 INFO: CBOFS - Chesapeake Bay Operational Forecast System - NOAA CO-OPS - POM
+07:36:30 INFO: NOAA Coral Reef Watch Operational Twice-Weekly Near-Real-Time Global 50km Satellite Coral Bleaching Monitoring Products
+07:36:30 INFO: Directional wave and sea surface temperature measurements collected in situ by Datawell Mark 3 directional buoy located near MASONBORO INLET, ILM2, NC from 2014/03/14 16:00:00 to 2015/01/06 13:59:59.where the water depth is approximately
+07:36:30 INFO: NECOFS GOM3 (FVCOM) - Northeast US - Latest Forecast
+07:36:30 INFO: Directional wave and sea surface temperature measurements collected in situ by Datawell Waverider buoys located near MASONBORO INLET, ILM2, NC from 2008/05/07 to 2015/01/06.
+07:36:30 INFO: ***************************** DAP ******************************
+07:36:30 INFO: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd.html
+07:36:30 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/satellite/dhw.html
+07:36:30 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global.html
+07:36:30 INFO: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd.html
+07:36:30 INFO: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd.html
+07:36:30 INFO: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd.html
+07:36:30 INFO: http://thredds.axiomalaska.com/thredds/dodsC/G1_SST_GLOBAL.nc.html
+07:36:30 INFO: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/150p1/150p1_d07.nc.html
+07:36:30 INFO: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/150p1/150p1_historic.nc.html
+07:36:30 INFO: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/162p1/162p1_d04.nc.html
+07:36:30 INFO: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/166p1/166p1_d02.nc.html
+07:36:30 INFO: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/201p1/201p1_d02.nc.html
+07:36:30 INFO: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc.html
+07:36:30 INFO: ***************************** SOS ******************************
+07:36:30 INFO: http://sdf.ndbc.noaa.gov/sos/server.php?service=SOS&request=GetCapabilities&acceptVersions=1.0.0
+07:36:30 INFO: http://thredds.cdip.ucsd.edu/thredds/sos/cdip/archive/150p1/150p1_d07.nc?service=SOS&version=1.0.0&request=GetCapabilities
+07:36:30 INFO: http://thredds.cdip.ucsd.edu/thredds/sos/cdip/archive/150p1/150p1_historic.nc?service=SOS&version=1.0.0&request=GetCapabilities
+07:36:30 INFO: http://thredds.cdip.ucsd.edu/thredds/sos/cdip/archive/162p1/162p1_d04.nc?service=SOS&version=1.0.0&request=GetCapabilities
+07:36:30 INFO: http://thredds.cdip.ucsd.edu/thredds/sos/cdip/archive/166p1/166p1_d02.nc?service=SOS&version=1.0.0&request=GetCapabilities
+07:36:30 INFO: http://thredds.cdip.ucsd.edu/thredds/sos/cdip/archive/201p1/201p1_d02.nc?service=SOS&version=1.0.0&request=GetCapabilities
+07:36:31 WARNING: SABGOM not in the NGDC csw
+07:36:31 WARNING: USEAST not in the NGDC csw
+07:36:31 WARNING: USF_ROMS not in the NGDC csw
+07:36:31 WARNING: USF_SWAN not in the NGDC csw
+07:36:31 WARNING: USF_FVCOM not in the NGDC csw
+07:36:40 INFO: ********************* Collector offerings **********************
+07:36:40 INFO: NOAA.NOS.CO-OPS SOS: 1030 offerings
+07:36:48 INFO: SOS URL request: http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?eventTime=2015-01-16T12%3A00%3A00Z&service=SOS&offering=urn%3Aioos%3Anetwork%3ANOAA.NOS.CO-OPS%3AMetActive&request=GetObservation&version=1.0.0&responseFormat=text%2Fcsv&featureOfInterest=BBOX%3A-87.4%2C24.25%2C-74.7%2C36.7&observedProperty=sea_water_temperature
+07:37:19 INFO: ************************* Observations *************************
+07:37:19 INFO: **** Downloading to file 2015-01-23/2015-01-23-OBS_DATA.nc *****
+07:40:49 INFO: **************************** Models ****************************
+07:40:49 INFO: 
+[Reading url 1/17]: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd
+07:41:30 INFO: 
+[Reading url 2/17]: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/satellite/dhw
+07:41:34 WARNING: Cannot get cube for: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/satellite/dhw
+istart must be different from istop! Got istart 1467 and  istop 1467
+07:41:34 INFO: 
+[Reading url 3/17]: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global
+07:41:38 INFO: 
+[Reading url 4/17]: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd
+07:42:30 WARNING: Cannot get cube for: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd
+istart must be different from istop! Got istart 0 and  istop 0
+07:42:30 INFO: 
+[Reading url 5/17]: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd
+07:42:43 WARNING: Cannot get cube for: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd
+istart must be different from istop! Got istart 0 and  istop 0
+07:42:43 INFO: 
+[Reading url 6/17]: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd
+07:42:52 INFO: 
+[Reading url 7/17]: http://thredds.axiomalaska.com/thredds/dodsC/G1_SST_GLOBAL.nc
+07:44:25 INFO: 
+[Reading url 8/17]: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/150p1/150p1_d07.nc
+07:44:29 WARNING: Cannot get cube for: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/150p1/150p1_d07.nc
+need more than 0 values to unpack
+07:44:29 INFO: 
+[Reading url 9/17]: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/150p1/150p1_historic.nc
+07:44:44 WARNING: Cannot get cube for: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/150p1/150p1_historic.nc
+need more than 0 values to unpack
+07:44:44 INFO: 
+[Reading url 10/17]: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/162p1/162p1_d04.nc
+07:44:49 WARNING: Cannot get cube for: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/162p1/162p1_d04.nc
+index 0 is out of bounds for axis 0 with size 0
+07:44:49 INFO: 
+[Reading url 11/17]: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/166p1/166p1_d02.nc
+07:45:03 WARNING: Cannot get cube for: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/166p1/166p1_d02.nc
+index 0 is out of bounds for axis 0 with size 0
+07:45:03 INFO: 
+[Reading url 12/17]: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/201p1/201p1_d02.nc
+07:45:13 WARNING: Cannot get cube for: http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/archive/201p1/201p1_d02.nc
+need more than 0 values to unpack
+07:45:13 INFO: 
+[Reading url 13/17]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+07:45:39 INFO: 
+[Reading url 14/17]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/US_East_Forecast_Model_Run_Collection_best.ncd
+07:46:04 INFO: 
+[Reading url 15/17]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd
+07:46:10 INFO: 
+[Reading url 16/17]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+07:46:11 WARNING: Cannot get cube for: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+Cube does not contain ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature']
+07:46:11 INFO: 
+[Reading url 17/17]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:51:10 WARNING: Cannot get cube for: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+Timed out!
+07:51:10 INFO: ****** Downloading to file 2015-01-23/2015-01-23-HYCOM.nc ******
+07:51:17 INFO: [Land ] Duck, NC
+07:51:20 INFO: [Water] Oregon Inlet Marina, NC
+07:51:23 INFO: [Land ] USCG Station Hatteras, NC
+07:51:26 INFO: [Land ] Beaufort, NC
+07:51:30 INFO: [Land ] Wilmington, NC
+07:51:33 INFO: [Water] Wrightsville Beach, NC
+07:51:33 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
+07:51:43 INFO: [Land ] Charleston, SC
+07:51:46 INFO: [Land ] Fort Pulaski, GA
+07:51:49 INFO: [Land ] Fernandina Beach, FL
+07:51:53 INFO: [Land ] Mayport (Bar Pilots Dock), FL
+07:51:56 INFO: [Land ] Dames Point, FL
+07:51:59 INFO: [Land ] I-295 Bridge, St Johns River, FL
+07:51:59 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
+07:52:02 INFO: [Land ] Trident Pier, FL
+07:52:06 INFO: [Water] Lake Worth Pier, FL
+07:52:09 INFO: [Land ] Virginia Key, FL
+07:52:12 INFO: [Land ] Vaca Key, FL
+07:52:15 INFO: [Land ] Key West, FL
+07:52:15 WARNING: No data near (-81.8075, 26.1317) max_dist=0.04.
+07:52:19 INFO: [Land ] Fort Myers, FL
+07:52:24 INFO: [Land ] Port Manatee, FL
+07:52:29 INFO: [Land ] St Petersburg, FL
+07:52:33 INFO: [Land ] Old Port Tampa, FL
+07:52:36 INFO: [Land ] Mckay Bay Entrance, FL
+07:52:36 WARNING: No data near (-82.8317, 27.9783) max_dist=0.04.
+07:52:39 INFO: [Land ] Cedar Key, FL
+07:52:44 INFO: [Land ] Apalachicola, FL
+07:52:47 INFO: [Land ] Panama City, FL
+07:52:47 WARNING: No data near (-85.8783, 30.2133) max_dist=0.04.
+07:52:50 INFO: [Land ] Pensacola, FL
+07:52:50 INFO: Finished processing [HYCOM]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:52:50 INFO: ***** Downloading to file 2015-01-23/2015-01-23-SABGOM.nc ******
+07:52:58 INFO: [Water] Duck, NC
+07:53:01 INFO: [Land ] Oregon Inlet Marina, NC
+07:53:04 INFO: [Water] USCG Station Hatteras, NC
+07:53:07 INFO: [Land ] Beaufort, NC
+07:53:11 INFO: [Land ] Wilmington, NC
+07:53:14 INFO: [Water] Wrightsville Beach, NC
+07:53:17 INFO: [Water] Springmaid Pier, SC
+07:53:20 INFO: [Land ] Charleston, SC
+07:53:23 INFO: [Land ] Fort Pulaski, GA
+07:53:26 INFO: [Land ] Fernandina Beach, FL
+07:53:30 INFO: [Land ] Mayport (Bar Pilots Dock), FL
+07:53:33 INFO: [Land ] Dames Point, FL
+07:53:37 INFO: [Land ] I-295 Bridge, St Johns River, FL
+07:53:40 INFO: [Land ] Racy Point, St Johns River, FL
+07:53:50 INFO: [Land ] Trident Pier, FL
+07:53:57 INFO: [Land ] Lake Worth Pier, FL
+07:54:02 INFO: [Water] Virginia Key, FL
+07:54:08 INFO: [Land ] Vaca Key, FL
+07:54:11 INFO: [Water] Key West, FL
+07:54:14 INFO: [Land ] Naples, FL
+07:54:19 INFO: [Land ] Fort Myers, FL
+07:54:25 INFO: [Land ] Port Manatee, FL
+07:54:31 INFO: [Land ] St Petersburg, FL
+07:54:37 INFO: [Water] Old Port Tampa, FL
+07:54:44 INFO: [Land ] Mckay Bay Entrance, FL
+07:54:49 INFO: [Land ] Clearwater Beach, FL
+07:54:52 INFO: [Water] Cedar Key, FL
+07:54:56 INFO: [Land ] Apalachicola, FL
+07:55:01 INFO: [Land ] Panama City, FL
+07:55:09 INFO: [Water] Panama City Beach, FL
+07:55:11 INFO: [Land ] Pensacola, FL
+07:56:34 INFO: Finished processing [SABGOM]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:56:34 INFO: **** Downloading to file 2015-01-23/2015-01-23-USF_ROMS.nc *****
+07:56:34 WARNING: No data near (-75.7467, 36.1833) max_dist=0.04.
+07:56:34 WARNING: No data near (-75.5483, 35.795) max_dist=0.04.
+07:56:34 WARNING: No data near (-75.7042, 35.2086) max_dist=0.04.
+07:56:34 WARNING: No data near (-76.67, 34.72) max_dist=0.04.
+07:56:34 WARNING: No data near (-77.9533, 34.2267) max_dist=0.04.
+07:56:34 WARNING: No data near (-77.7867, 34.2133) max_dist=0.04.
+07:56:34 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
+07:56:34 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
+07:56:34 WARNING: No data near (-80.9017, 32.0333) max_dist=0.04.
+07:56:34 WARNING: No data near (-81.465, 30.6717) max_dist=0.04.
+07:56:34 WARNING: No data near (-81.43, 30.3967) max_dist=0.04.
+07:56:34 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
+07:56:34 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
+07:56:34 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
+07:56:34 WARNING: No data near (-80.5931, 28.4158) max_dist=0.04.
+07:56:34 WARNING: No data near (-80.0333, 26.6117) max_dist=0.04.
+07:56:34 WARNING: No data near (-80.1618, 25.7314) max_dist=0.04.
+07:56:34 WARNING: No data near (-81.105, 24.7117) max_dist=0.04.
+07:56:34 WARNING: No data near (-81.8079, 24.5557) max_dist=0.04.
+07:56:36 INFO: [Water] Naples, FL
+07:56:38 INFO: [Water] Fort Myers, FL
+07:56:42 INFO: [Water] Port Manatee, FL
+07:56:42 WARNING: No data near (-82.6269, 27.7606) max_dist=0.04.
+07:56:44 INFO: [Water] Old Port Tampa, FL
+07:56:46 INFO: [Water] Mckay Bay Entrance, FL
+07:56:47 INFO: [Water] Clearwater Beach, FL
+07:56:53 INFO: [Water] Cedar Key, FL
+07:56:58 INFO: [Water] Apalachicola, FL
+07:57:01 INFO: [Water] Panama City, FL
+07:57:05 INFO: [Water] Panama City Beach, FL
+07:57:05 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
+07:59:23 INFO: Finished processing [USF_ROMS]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:59:23 INFO: **** Downloading to file 2015-01-23/2015-01-23-COAWST_4.nc *****
+07:59:38 INFO: [Land ] Duck, NC
+07:59:59 INFO: [Water] Oregon Inlet Marina, NC
+08:00:17 INFO: [Water] USCG Station Hatteras, NC
+08:00:46 INFO: [Land ] Beaufort, NC
+08:01:14 INFO: [Land ] Wilmington, NC
+08:01:21 INFO: [Water] Wrightsville Beach, NC
+08:01:41 INFO: [Water] Springmaid Pier, SC
+08:01:50 INFO: [Land ] Charleston, SC
+08:01:57 INFO: [Land ] Fort Pulaski, GA
+08:02:04 INFO: [Land ] Fernandina Beach, FL
+08:02:12 INFO: [Land ] Mayport (Bar Pilots Dock), FL
+08:02:19 INFO: [Land ] Dames Point, FL
+08:02:26 INFO: [Land ] I-295 Bridge, St Johns River, FL
+08:02:41 INFO: [Land ] Racy Point, St Johns River, FL
+08:02:48 INFO: [Land ] Trident Pier, FL
+08:03:02 INFO: [Water] Lake Worth Pier, FL
+08:03:10 INFO: [Land ] Virginia Key, FL
+08:03:20 INFO: [Land ] Vaca Key, FL
+08:03:34 INFO: [Water] Key West, FL
+08:03:41 INFO: [Land ] Naples, FL
+08:03:49 INFO: [Land ] Fort Myers, FL
+08:03:56 INFO: [Land ] Port Manatee, FL
+08:04:03 INFO: [Land ] St Petersburg, FL
+08:04:17 INFO: [Water] Old Port Tampa, FL
+08:04:25 INFO: [Land ] Mckay Bay Entrance, FL
+08:04:31 INFO: [Land ] Clearwater Beach, FL
+08:04:45 INFO: [Water] Cedar Key, FL
+08:04:53 INFO: [Water] Apalachicola, FL
+08:05:03 INFO: [Water] Panama City, FL
+08:05:18 INFO: [Land ] Panama City Beach, FL
+08:05:26 INFO: [Water] Pensacola, FL
+08:08:25 INFO: Finished processing [COAWST_4]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+08:08:25 INFO: **** Downloading to file 2015-01-23/2015-01-23-ESPRESSO.nc *****
+08:08:40 INFO: [Land ] Duck, NC
+08:08:46 INFO: [Water] Oregon Inlet Marina, NC
+08:08:51 INFO: [Land ] USCG Station Hatteras, NC
+08:08:56 INFO: [Water] Beaufort, NC
+08:08:56 WARNING: No data near (-77.9533, 34.2267) max_dist=0.04.
+08:08:56 WARNING: No data near (-77.7867, 34.2133) max_dist=0.04.
+08:08:56 WARNING: No data near (-78.9183, 33.655) max_dist=0.04.
+08:08:56 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
+08:08:56 WARNING: No data near (-80.9017, 32.0333) max_dist=0.04.
+08:08:56 WARNING: No data near (-81.465, 30.6717) max_dist=0.04.
+08:08:56 WARNING: No data near (-81.43, 30.3967) max_dist=0.04.
+08:08:56 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
+08:08:56 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
+08:08:56 WARNING: No data near (-81.5483, 29.8017) max_dist=0.04.
+08:08:56 WARNING: No data near (-80.5931, 28.4158) max_dist=0.04.
+08:08:56 WARNING: No data near (-80.0333, 26.6117) max_dist=0.04.
+08:08:56 WARNING: No data near (-80.1618, 25.7314) max_dist=0.04.
+08:08:56 WARNING: No data near (-81.105, 24.7117) max_dist=0.04.
+08:08:56 WARNING: No data near (-81.8079, 24.5557) max_dist=0.04.
+08:08:56 WARNING: No data near (-81.8075, 26.1317) max_dist=0.04.
+08:08:56 WARNING: No data near (-81.8712, 26.6477) max_dist=0.04.
+08:08:56 WARNING: No data near (-82.5621, 27.6387) max_dist=0.04.
+08:08:56 WARNING: No data near (-82.6269, 27.7606) max_dist=0.04.
+08:08:56 WARNING: No data near (-82.5527, 27.8578) max_dist=0.04.
+08:08:56 WARNING: No data near (-82.425, 27.9133) max_dist=0.04.
+08:08:56 WARNING: No data near (-82.8317, 27.9783) max_dist=0.04.
+08:08:56 WARNING: No data near (-83.0317, 29.135) max_dist=0.04.
+08:08:56 WARNING: No data near (-84.9817, 29.7267) max_dist=0.04.
+08:08:56 WARNING: No data near (-85.6669, 30.1523) max_dist=0.04.
+08:08:56 WARNING: No data near (-85.8783, 30.2133) max_dist=0.04.
+08:08:56 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
+08:09:09 INFO: Finished processing [ESPRESSO]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+08:09:09 INFO: ***** Downloading to file 2015-01-23/2015-01-23-USEAST.nc ******
+08:09:09 WARNING: No data near (-75.7467, 36.1833) max_dist=0.04.
+08:09:09 WARNING: No data near (-75.5483, 35.795) max_dist=0.04.
+08:09:11 INFO: [Land ] USCG Station Hatteras, NC
+08:09:13 INFO: [Land ] Beaufort, NC
+08:09:16 INFO: [Land ] Wilmington, NC
+08:09:16 WARNING: No data near (-77.7867, 34.2133) max_dist=0.04.
+08:09:18 INFO: [Water] Springmaid Pier, SC
+08:09:18 WARNING: No data near (-79.925, 32.7817) max_dist=0.04.
+08:09:18 WARNING: No data near (-80.9017, 32.0333) max_dist=0.04.
+08:09:21 INFO: [Land ] Fernandina Beach, FL
+08:09:24 INFO: [Land ] Mayport (Bar Pilots Dock), FL
+08:09:24 WARNING: No data near (-81.5583, 30.3867) max_dist=0.04.
+08:09:24 WARNING: No data near (-81.6917, 30.1917) max_dist=0.04.
+08:09:26 INFO: [Land ] Racy Point, St Johns River, FL
+08:09:26 WARNING: No data near (-80.5931, 28.4158) max_dist=0.04.
+08:09:26 WARNING: No data near (-80.0333, 26.6117) max_dist=0.04.
+08:09:29 INFO: [Water] Virginia Key, FL
+08:09:29 WARNING: No data near (-81.105, 24.7117) max_dist=0.04.
+08:09:29 WARNING: No data near (-81.8079, 24.5557) max_dist=0.04.
+08:09:32 INFO: [Land ] Naples, FL
+08:09:32 WARNING: No data near (-81.8712, 26.6477) max_dist=0.04.
+08:09:32 WARNING: No data near (-82.5621, 27.6387) max_dist=0.04.
+08:09:32 WARNING: No data near (-82.6269, 27.7606) max_dist=0.04.
+08:09:32 WARNING: No data near (-82.5527, 27.8578) max_dist=0.04.
+08:09:34 INFO: [Land ] Mckay Bay Entrance, FL
+08:09:37 INFO: [Land ] Clearwater Beach, FL
+08:09:39 INFO: [Water] Cedar Key, FL
+08:09:39 WARNING: No data near (-84.9817, 29.7267) max_dist=0.04.
+08:09:39 WARNING: No data near (-85.6669, 30.1523) max_dist=0.04.
+08:09:39 WARNING: No data near (-85.8783, 30.2133) max_dist=0.04.
+08:09:39 WARNING: No data near (-87.2112, 30.4044) max_dist=0.04.
+08:10:01 INFO: Finished processing [USEAST]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+08:10:01 INFO:  Downloading to file 2015-01-23/2015-01-23-NECOFS_GOM3_WAVE.nc *
+08:11:02 INFO: [Water] Duck, NC
+08:11:18 INFO: [Water] Oregon Inlet Marina, NC
+08:11:34 INFO: [Water] USCG Station Hatteras, NC
+08:11:44 INFO: [Land ] Beaufort, NC
+08:11:46 INFO: [Land ] Wilmington, NC
+08:11:54 INFO: [Land ] Wrightsville Beach, NC
+08:11:57 INFO: [Land ] Springmaid Pier, SC
+08:11:59 INFO: [Land ] Charleston, SC
+08:12:14 INFO: [Water] Fort Pulaski, GA
+08:12:16 INFO: [Land ] Fernandina Beach, FL
+08:12:18 INFO: [Land ] Mayport (Bar Pilots Dock), FL
+08:12:19 INFO: [Land ] Dames Point, FL
+08:12:21 INFO: [Land ] I-295 Bridge, St Johns River, FL
+08:12:23 INFO: [Land ] Racy Point, St Johns River, FL
+08:12:28 INFO: [Land ] Trident Pier, FL
+08:12:29 INFO: [Land ] Lake Worth Pier, FL
+08:12:45 INFO: [Water] Virginia Key, FL
+08:13:01 INFO: [Water] Vaca Key, FL
+08:13:17 INFO: [Water] Key West, FL
+08:13:19 INFO: [Land ] Naples, FL
+08:13:21 INFO: [Land ] Fort Myers, FL
+08:13:23 INFO: [Land ] Port Manatee, FL
+08:13:30 INFO: [Land ] St Petersburg, FL
+08:13:37 INFO: [Land ] Old Port Tampa, FL
+08:13:43 INFO: [Land ] Mckay Bay Entrance, FL
+08:13:44 INFO: [Land ] Clearwater Beach, FL
+08:14:01 INFO: [Water] Cedar Key, FL
+08:14:10 INFO: [Land ] Apalachicola, FL
+08:14:13 INFO: [Land ] Panama City, FL
+08:14:15 INFO: [Land ] Panama City Beach, FL
+08:14:17 INFO: [Land ] Pensacola, FL
+08:14:17 INFO: Finished processing [NECOFS_GOM3_WAVE]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+08:15:06 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/matplotlib/pyplot.py:424: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  max_open_warning, RuntimeWarning)
+
+08:15:38 INFO: 39.56 minutes
+08:15:38 INFO: EOF
