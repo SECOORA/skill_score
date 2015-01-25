@@ -8,4 +8,5 @@ oceans
 geojson
 pyugrid
 cfchecker
+mplleaflet
 ipython-notebook
