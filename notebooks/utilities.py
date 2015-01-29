@@ -4,6 +4,7 @@ import time
 import signal
 import fnmatch
 import warnings
+from glob import glob
 from io import BytesIO
 from urllib import urlopen
 from urlparse import urlparse
@@ -15,8 +16,8 @@ import numpy as np
 import numpy.ma as ma
 from owslib import fes
 import matplotlib.pyplot as plt
-from pandas import DataFrame, read_csv
 from scipy.spatial import cKDTree as KDTree
+from pandas import Panel, DataFrame, read_csv, concat
 from netCDF4 import Dataset, MFDataset, date2index, num2date
 
 import iris
@@ -274,8 +275,10 @@ def subset(cube, bbox):
     longitudes automagically."""
     if (cube.coord(axis='X').ndim == 1 and cube.coord(axis='Y').ndim == 1):
         # Workaround `cube.intersection` hanging up on FVCOM models.
-        title = cube.attributes['title']
-        if ('FVCOM' in title) or ('ESTOFS' in title):
+        title = cube.attributes.get('title', None)
+        featureType = cube.attributes.get('featureType', None)
+        if (('FVCOM' in title) or ('ESTOFS' in title) or
+           featureType == 'timeSeries'):
             cube = bbox_extract_1Dcoords(cube, bbox)
         else:
             cube = cube.intersection(longitude=(bbox[0], bbox[2]),
@@ -325,6 +328,48 @@ def get_cube(url, name_list, bbox=None, time=None, units=None, callback=None,
         if cube.units != units:
             cube.convert_units(units)
     return cube
+
+
+def get_secoora_buoys(url, name_list, bbox=None, time=None,
+                      units=None, callback=None, constraint=None):
+    """Some station return more than one cube.  That is why I modified
+    `get_cube` to return a `Cubelist` instead.  However, the cubes seems to be
+    duplicate sensors and sensors at different depths.
+    FIXME: Create a criteria to choose a sensor.
+    buoy = "http://129.252.139.124/thredds/dodsC/fldep.stlucieinlet..nc"
+    buoy = "http://129.252.139.124/thredds/dodsC/lbhmc.cherrygrove.pier.nc"
+    """
+
+    cubes = iris.load_raw(url, callback=callback)
+
+    in_list = lambda cube: cube.standard_name in name_list
+    cubes = CubeList([cube for cube in cubes if in_list(cube)])
+
+    if not cubes:
+        raise ValueError('Cube does not contain {!r}'.format(name_list))
+
+    if constraint:
+        cubes = cubes.extract(constraint)
+        if not cube:
+            raise ValueError('No cube using {!r}'.format(constraint))
+    if bbox:
+        cubes = [subset(cube, bbox) for cube in cubes]
+        if not cubes:
+            raise ValueError('No cube using {!r}'.format(bbox))
+    if time:
+        if isinstance(time, datetime):
+            start, stop = time, None
+        elif isinstance(time, tuple):
+            start, stop = time[0], time[1]
+        else:
+            raise ValueError('Time must be start or (start, stop).'
+                             '  Got {!r}'.format(time))
+        cubes = [time_slice(cube, start, stop) for cube in cubes]
+    if units:
+        for cube in cubes:
+            if cube.units != units:
+                cube.convert_units(units)
+    return cubes
 
 
 def add_mesh(cube, url):
@@ -806,21 +851,7 @@ def scrape_thredds(url, uri):
     return urls
 
 
-def secoora_buoys():
-    thredds = "http://129.252.139.124/thredds/catalog_platforms.html"
-    urls = url_lister(thredds)
-    base_url = "http://129.252.139.124/thredds/dodsC"
-    for buoy in urls:
-        if (("?dataset=" in buoy)
-            and ('archive' not in buoy)
-            and ('usf.c12.weatherpak' not in buoy)
-            and ('cormp.ocp1.buoy' not in buoy)):
-            buoy = buoy.split('id_')[1]
-            url = '{}/{}.nc'.format(base_url, buoy)
-            yield url
-
-
-# IPython display.
+## IPython display.
 def css_styles(css='style.css'):
     with open(css) as f:
         styles = f.read()
@@ -972,3 +1003,81 @@ class TimeoutException(Exception):
     >>>     print("Timed out!")
     """
     pass
+
+
+# SECOORA
+def extract_columns(name, cube):
+    try:
+        station = cube.attributes['abstract']
+    except KeyError:
+        station = name.replace('.', '_')
+    sensor = 'NA'
+    lon = cube.coord(axis='X').points[0]
+    lat = cube.coord(axis='Y').points[0]
+    time = cube.coord(axis='T')
+    time = time.units.num2date(cube.coord(axis='T').points)[0]
+    date_time = time.strftime('%Y-%M-%dT%H:%M:%SZ')
+    data = cube.data.mean()
+    return station, sensor, lat, lon, date_time, data
+
+
+def secoora2df(buoys, var='sea_water_temperature'):
+    secoora_obs = dict()
+    for station, cube in buoys.items():
+        secoora_obs.update({station: extract_columns(station, cube)})
+
+    df = DataFrame.from_dict(secoora_obs, orient='index')
+    df.reset_index(inplace=True)
+    columns = {'index': 'station',
+               0: 'name',
+               1: 'sensor',
+               2: 'lat',
+               3: 'lon',
+               4: 'date_time',
+               5: 'sea_water_temperature'}
+
+    df.rename(columns=columns, inplace=True)
+    df.set_index('name', inplace=True)
+    return df
+
+
+def secoora_buoys():
+    thredds = "http://129.252.139.124/thredds/catalog_platforms.html"
+    urls = url_lister(thredds)
+    base_url = "http://129.252.139.124/thredds/dodsC"
+    for buoy in urls:
+        if (("?dataset=" in buoy)
+           and ('archive' not in buoy)
+           and ('usf.c12.weatherpak' not in buoy)
+           and ('cormp.ocp1.buoy' not in buoy)):
+            buoy = buoy.split('id_')[1]
+            url = '{}/{}.nc'.format(base_url, buoy)
+            yield url
+
+
+def load_secoora_ncs(run_name):
+    fname = '{}-{}.nc'.format
+    OBS_DATA = nc2df(os.path.join(run_name,
+                                  fname(run_name, 'OBS_DATA')))
+    SECOORA_OBS_DATA = nc2df(os.path.join(run_name,
+                                          fname(run_name, 'SECOORA_OBS_DATA')))
+
+    ALL_OBS_DATA = concat([OBS_DATA, SECOORA_OBS_DATA], axis=1)
+    index = ALL_OBS_DATA.index
+
+    dfs = dict(OBS_DATA=ALL_OBS_DATA)
+    for fname in glob(os.path.join(run_name, "*.nc")):
+        if 'OBS_DATA' in fname:
+            continue
+        else:
+            model = fname.split('.')[0].split('-')[-1]
+            df = nc2df(fname)
+            # FIXME: Horrible work around duplicate times.
+            if len(df.index.values) != len(np.unique(df.index.values)):
+                opts = dict(cols='index', take_last=True)
+                df = df.reset_index().drop_duplicates(**opts).set_index('index')
+            kw = dict(method='time', limit=30)
+            df = df.reindex(index).interpolate(**kw).ix[index]
+            dfs.update({model: df})
+
+    return Panel.fromDict(dfs).swapaxes(0, 2)
