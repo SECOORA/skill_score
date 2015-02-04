@@ -1021,7 +1021,7 @@ def extract_columns(name, cube):
     return station, sensor, lat, lon, date_time, data
 
 
-def secoora2df(buoys, var='sea_water_temperature'):
+def secoora2df(buoys, varname):
     secoora_obs = dict()
     for station, cube in buoys.items():
         secoora_obs.update({station: extract_columns(station, cube)})
@@ -1034,7 +1034,7 @@ def secoora2df(buoys, var='sea_water_temperature'):
                2: 'lat',
                3: 'lon',
                4: 'date_time',
-               5: 'sea_water_temperature'}
+               5: varname}
 
     df.rename(columns=columns, inplace=True)
     df.set_index('name', inplace=True)
