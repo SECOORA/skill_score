@@ -7,7 +7,7 @@
 # e-mail:   ocefpaf@gmail
 # web:      http://ocefpaf.github.io/
 # created:  04-Feb-2015
-# modified: Thu 05 Feb 2015 04:47:58 PM BRT
+# modified: Fri 06 Feb 2015 10:09:21 AM BRT
 #
 # obs:
 #
@@ -190,6 +190,9 @@ def subset(cube, bbox):
     return cube
 
 
+filter_list = lambda lista: [x for x in lista if x is not None]
+
+
 def get_cubes(url, name_list, bbox=None, time=None, units=None, callback=None,
               constraint=None):
     """Some station return more than one cube.  That is why I modified
@@ -205,15 +208,16 @@ def get_cubes(url, name_list, bbox=None, time=None, units=None, callback=None,
     in_list = lambda cube: cube.standard_name in name_list
     cubes = CubeList([cube for cube in cubes if in_list(cube)])
 
+    cubes = filter_list(cubes)
     if not cubes:
         raise ValueError('Cube does not contain {!r}'.format(name_list))
-
     if constraint:
         cubes = cubes.extract(constraint)
-        if not cube:
+        if not cubes:
             raise ValueError('No cube using {!r}'.format(constraint))
     if bbox:
         cubes = [subset(cube, bbox) for cube in cubes]
+        cubes = filter_list(cubes)
         if not cubes:
             raise ValueError('No cube using {!r}'.format(bbox))
     if time:
@@ -225,6 +229,7 @@ def get_cubes(url, name_list, bbox=None, time=None, units=None, callback=None,
             raise ValueError('Time must be start or (start, stop).'
                              '  Got {!r}'.format(time))
         cubes = [time_slice(cube, start, stop) for cube in cubes]
+        cubes = filter_list(cubes)
     if units:
         for cube in cubes:
             if cube.units != units:

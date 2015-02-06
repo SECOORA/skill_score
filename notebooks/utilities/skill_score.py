@@ -17,7 +17,8 @@
 import numpy as np
 from scipy.stats.stats import pearsonr
 
-__all__ = ['both_valid']
+__all__ = ['both_valid',
+           'pearsonr_paired']
 
 
 def both_valid(x, y):
