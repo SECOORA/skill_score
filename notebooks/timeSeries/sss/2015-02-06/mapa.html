@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+   <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+   <link rel="stylesheet" href="https://rawgit.com/lvoogdt/Leaflet.awesome-markers/2.0/develop/dist/leaflet.awesome-markers.css">
+   <script src="https://rawgithub.com/lvoogdt/Leaflet.awesome-markers/2.0/develop/dist/leaflet.awesome-markers.js"></script>
+
+
+   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css">
+   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css">
+   <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster-src.js"></script>
+   <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
+
+   <link rel="stylesheet" href="http://birdage.github.io/Leaflet.awesome-markers/dist/leaflet.awesome.rotate.css">
+
+   
+   
+   
+   
+
+   <style>
+
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position:absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+      }
+
+   </style>
+</head>
+
+<body>
+
+   <div class="folium-map" id="folium_3834c93689c24b94b15f2c13bb230adf" style="width: 750px; height: 500px"></div>
+
+   <script>
+
+      
+
+      var base_tile = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+          minZoom: 1,
+          attribution: 'Map data (c) <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+      });
+
+      var baseLayer = {
+        "Base Layer": base_tile
+      };
+
+      /*
+      addition of the wms layers
+      */
+
+      
+
+      /*
+      addition of the tile layers
+      */
+      
+
+      /*
+      list of layers to be added
+      */
+      var layer_list = {
+      
+      };
+
+      /*
+      Bounding box.
+      */
+      var southWest = L.latLng(-90, -180),
+          northEast = L.latLng(90, 180),
+          bounds = L.latLngBounds(southWest, northEast);
+
+      /*
+      Creates the map and adds the selected layers
+      */
+      var map = L.map('folium_3834c93689c24b94b15f2c13bb230adf', {
+                                       center:[30.475, -81.05],
+                                       zoom: 5,
+                                       maxBounds: bounds,
+                                       layers: [base_tile]
+                                     });
+
+      L.control.layers(baseLayer, layer_list).addTo(map);
+
+      //cluster group
+      var clusteredmarkers = L.markerClusterGroup();
+      //section for adding clustered markers
+      
+      var marker_1_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_1 = L.marker([33.8412, 
+							-78.47997],
+							{'icon':marker_1_icon}
+							);
+      marker_1.bindPopup("<b>CAROCOOPS SUN2, Sunset Nearshore, NC</b>\nHYCOM");
+      marker_1._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_1)
+      
+      var marker_2_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_2 = L.marker([33.8682847567, 
+							-78.4756803978],
+							{'icon':marker_2_icon}
+							);
+      marker_2.bindPopup("<b>CAROCOOPS SUN2, Sunset Nearshore, NC</b>\nSABGOM");
+      marker_2._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_2)
+      
+      var marker_3_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_3 = L.marker([33.8405544281, 
+							-78.4815392315],
+							{'icon':marker_3_icon}
+							);
+      marker_3.bindPopup("<b>CAROCOOPS SUN2, Sunset Nearshore, NC</b>\nCOAWST_4");
+      marker_3._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_3)
+      
+      var marker_4_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_4 = L.marker([34.1321468913, 
+							-77.7442928118],
+							{'icon':marker_4_icon}
+							);
+      marker_4.bindPopup("<b>CORMP ILM2, Wrightsville Beach Nearshore, NC</b>\nSABGOM");
+      marker_4._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_4)
+      
+      var marker_5_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_5 = L.marker([34.1271794483, 
+							-77.6851808633],
+							{'icon':marker_5_icon}
+							);
+      marker_5.bindPopup("<b>CORMP ILM2, Wrightsville Beach Nearshore, NC</b>\nCOAWST_4");
+      marker_5._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_5)
+      
+      var marker_6_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_6 = L.marker([27.1583054926, 
+							-80.2009802159],
+							{'icon':marker_6_icon}
+							);
+      marker_6.bindPopup("<b>St Lucie Inlet station</b>\nCOAWST_4");
+      marker_6._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_6)
+      
+      var marker_7_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_7 = L.marker([26.437822, 
+							-81.968285],
+							{'icon':marker_7_icon}
+							);
+      marker_7.bindPopup("<b>Gulf of Mexico station</b>\nUSF_ROMS");
+      marker_7._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_7)
+      
+      var marker_8_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_8 = L.marker([26.4204699556, 
+							-81.990348579],
+							{'icon':marker_8_icon}
+							);
+      marker_8.bindPopup("<b>Gulf of Mexico station</b>\nCOAWST_4");
+      marker_8._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_8)
+      
+      var marker_9_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_9 = L.marker([26.543356, 
+							-82.153938],
+							{'icon':marker_9_icon}
+							);
+      marker_9.bindPopup("<b>Redfish Pass station</b>\nUSF_ROMS");
+      marker_9._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_9)
+      
+      var marker_10_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_10 = L.marker([26.6013156339, 
+							-82.1765322282],
+							{'icon':marker_10_icon}
+							);
+      marker_10.bindPopup("<b>Redfish Pass station</b>\nCOAWST_4");
+      marker_10._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_10)
+      
+      var marker_11_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_11 = L.marker([26.500919, 
+							-81.979797],
+							{'icon':marker_11_icon}
+							);
+      marker_11.bindPopup("<b>Shell Point station</b>\nUSF_ROMS");
+      marker_11._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_11)
+      
+      var marker_12_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_12 = L.marker([26.489492, 
+							-82.062637],
+							{'icon':marker_12_icon}
+							);
+      marker_12.bindPopup("<b>Tarpon Bay station</b>\nUSF_ROMS");
+      marker_12._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_12)
+      
+      var marker_13_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_13 = L.marker([26.4866198889, 
+							-82.050439216],
+							{'icon':marker_13_icon}
+							);
+      marker_13.bindPopup("<b>Tarpon Bay station</b>\nSABGOM");
+      marker_13._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_13)
+      
+      var marker_14_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_14 = L.marker([26.4555106689, 
+							-82.0595275758],
+							{'icon':marker_14_icon}
+							);
+      marker_14.bindPopup("<b>Tarpon Bay station</b>\nCOAWST_4");
+      marker_14._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_14)
+      
+      //add the clustered markers to the group anyway
+      map.addLayer(clusteredmarkers);
+
+      
+      var marker_15_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_15 = L.marker([30.3967, 
+							-81.43],
+							{'icon':marker_15_icon}
+							);
+      marker_15.bindPopup("<div align='center'> Mayport (Bar Pilots Dock), FL <br><iframe src='station_8720218.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_15._popup.options.maxWidth = 600;
+      map.addLayer(marker_15)
+      
+      var marker_16_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_16 = L.marker([30.1917, 
+							-81.6917],
+							{'icon':marker_16_icon}
+							);
+      marker_16.bindPopup("<div align='center'> I-295 Bridge, St Johns River, FL <br><iframe src='station_8720357.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_16._popup.options.maxWidth = 600;
+      map.addLayer(marker_16)
+      
+      var marker_17_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_17 = L.marker([33.8300018311, 
+							-78.4800033569],
+							{'icon':marker_17_icon}
+							);
+      marker_17.bindPopup("<div align='center'> CAROCOOPS SUN2, Sunset Nearshore, NC <br><iframe src='station_carocoops.sun2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_17._popup.options.maxWidth = 600;
+      map.addLayer(marker_17)
+      
+      var marker_18_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_18 = L.marker([34.1333007812, 
+							-77.7166976929],
+							{'icon':marker_18_icon}
+							);
+      marker_18.bindPopup("<div align='center'> CORMP ILM2, Wrightsville Beach Nearshore, NC <br><iframe src='station_cormp.ilm2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_18._popup.options.maxWidth = 600;
+      map.addLayer(marker_18)
+      
+      var marker_19_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_19 = L.marker([29.6154174805, 
+							-81.2049179077],
+							{'icon':marker_19_icon}
+							);
+      marker_19.bindPopup("<div align='center'> Bing&#39;s Landing station <br><iframe src='station_fldep.bingslanding..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_19._popup.options.maxWidth = 600;
+      map.addLayer(marker_19)
+      
+      var marker_20_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_20 = L.marker([27.1652774811, 
+							-80.1627807617],
+							{'icon':marker_20_icon}
+							);
+      marker_20.bindPopup("<div align='center'> St Lucie Inlet station <br><iframe src='station_fldep.stlucieinlet..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_20._popup.options.maxWidth = 600;
+      map.addLayer(marker_20)
+      
+      var marker_21_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_21 = L.marker([29.9947223663, 
+							-81.3295593262],
+							{'icon':marker_21_icon}
+							);
+      marker_21.bindPopup("<div align='center'> Tolomato River station <br><iframe src='station_fldep.tolomatoriver..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_21._popup.options.maxWidth = 600;
+      map.addLayer(marker_21)
+      
+      var marker_22_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_22 = L.marker([33.7615203857, 
+							-78.779876709],
+							{'icon':marker_22_icon}
+							);
+      marker_22.bindPopup("<div align='center'> Apache Pier, Myrtle Beach, SC <br><iframe src='station_lbhmc.apachepier.pier.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_22._popup.options.maxWidth = 600;
+      map.addLayer(marker_22)
+      
+      var marker_23_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_23 = L.marker([33.8274917603, 
+							-78.6320037842],
+							{'icon':marker_23_icon}
+							);
+      marker_23.bindPopup("<div align='center'> Cherry Grove Pier, N. Myrtle Beach, SC <br><iframe src='station_lbhmc.cherrygrove.pier.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_23._popup.options.maxWidth = 600;
+      map.addLayer(marker_23)
+      
+      var marker_24_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_24 = L.marker([26.6493396759, 
+							-81.8809661865],
+							{'icon':marker_24_icon}
+							);
+      marker_24.bindPopup("<div align='center'> Fort Myers station <br><iframe src='station_sccf.fortmyers.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_24._popup.options.maxWidth = 600;
+      map.addLayer(marker_24)
+      
+      var marker_25_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_25 = L.marker([26.4430294037, 
+							-81.9711914062],
+							{'icon':marker_25_icon}
+							);
+      marker_25.bindPopup("<div align='center'> Gulf of Mexico station <br><iframe src='station_sccf.gulfofmexico.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_25._popup.options.maxWidth = 600;
+      map.addLayer(marker_25)
+      
+      var marker_26_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_26 = L.marker([26.5615692139, 
+							-82.1754379272],
+							{'icon':marker_26_icon}
+							);
+      marker_26.bindPopup("<div align='center'> Redfish Pass station <br><iframe src='station_sccf.redfishpass.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_26._popup.options.maxWidth = 600;
+      map.addLayer(marker_26)
+      
+      var marker_27_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_27 = L.marker([26.5225639343, 
+							-82.0079879761],
+							{'icon':marker_27_icon}
+							);
+      marker_27.bindPopup("<div align='center'> Shell Point station <br><iframe src='station_sccf.shellpoint.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_27._popup.options.maxWidth = 600;
+      map.addLayer(marker_27)
+      
+      var marker_28_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_28 = L.marker([26.4679069519, 
+							-82.0631027222],
+							{'icon':marker_28_icon}
+							);
+      marker_28.bindPopup("<div align='center'> Tarpon Bay station <br><iframe src='station_sccf.tarponbay.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_28._popup.options.maxWidth = 600;
+      map.addLayer(marker_28)
+      
+
+      
+      var circle_1 = L.circle([32.8, -79.62], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_1.bindPopup("<b>CAP2</b>");
+      circle_1._popup.options.maxWidth = 300;
+      map.addLayer(circle_1)
+      
+      var circle_2 = L.circle([34.14, -77.86], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_2.bindPopup("<b>CMS</b>");
+      circle_2._popup.options.maxWidth = 300;
+      map.addLayer(circle_2)
+      
+      var circle_3 = L.circle([32.27, -80.4], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_3.bindPopup("<b>FRP2</b>");
+      circle_3._popup.options.maxWidth = 300;
+      map.addLayer(circle_3)
+      
+      var circle_4 = L.circle([34.14, -77.72], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_4.bindPopup("<b>ILM2</b>");
+      circle_4._popup.options.maxWidth = 300;
+      map.addLayer(circle_4)
+      
+      var circle_5 = L.circle([33.99, -77.36], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_5.bindPopup("<b>ILM3</b>");
+      circle_5._popup.options.maxWidth = 300;
+      map.addLayer(circle_5)
+      
+      var circle_6 = L.circle([34.48, -77.28], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_6.bindPopup("<b>LEJ3</b>");
+      circle_6._popup.options.maxWidth = 300;
+      map.addLayer(circle_6)
+      
+      var circle_7 = L.circle([33.91, -78.15], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_7.bindPopup("<b>OCP1</b>");
+      circle_7._popup.options.maxWidth = 300;
+      map.addLayer(circle_7)
+      
+      var circle_8 = L.circle([33.83, -78.48], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_8.bindPopup("<b>SUN2</b>");
+      circle_8._popup.options.maxWidth = 300;
+      map.addLayer(circle_8)
+      
+      var circle_9 = L.circle([28.19, -82.79], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_9.bindPopup("<b>ANC</b>");
+      circle_9._popup.options.maxWidth = 300;
+      map.addLayer(circle_9)
+      
+      var circle_10 = L.circle([28.43, -82.67], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_10.bindPopup("<b>APK</b>");
+      circle_10._popup.options.maxWidth = 300;
+      map.addLayer(circle_10)
+      
+      var circle_11 = L.circle([26.4, -81.88], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_11.bindPopup("<b>BCP</b>");
+      circle_11._popup.options.maxWidth = 300;
+      map.addLayer(circle_11)
+      
+      var circle_12 = L.circle([27.17, -82.92], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_12.bindPopup("<b>C10</b>");
+      circle_12._popup.options.maxWidth = 300;
+      map.addLayer(circle_12)
+      
+      var circle_13 = L.circle([27.5, -83.72], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_13.bindPopup("<b>C12</b>");
+      circle_13._popup.options.maxWidth = 300;
+      map.addLayer(circle_13)
+      
+      var circle_14 = L.circle([26.06, -83.07], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_14.bindPopup("<b>C13</b>");
+      circle_14._popup.options.maxWidth = 300;
+      map.addLayer(circle_14)
+      
+      var circle_15 = L.circle([27.68, -82.77], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_15.bindPopup("<b>C21</b>");
+      circle_15._popup.options.maxWidth = 300;
+      map.addLayer(circle_15)
+      
+      var circle_16 = L.circle([27.74, -82.69], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_16.bindPopup("<b>CLB</b>");
+      circle_16._popup.options.maxWidth = 300;
+      map.addLayer(circle_16)
+      
+      var circle_17 = L.circle([26.07, -85.91], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_17.bindPopup("<b>CPK</b>");
+      circle_17._popup.options.maxWidth = 300;
+      map.addLayer(circle_17)
+      
+      var circle_18 = L.circle([28.15, -82.8], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_18.bindPopup("<b>FHP</b>");
+      circle_18._popup.options.maxWidth = 300;
+      map.addLayer(circle_18)
+      
+      var circle_19 = L.circle([25.08, -81.1], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_19.bindPopup("<b>NFB</b>");
+      circle_19._popup.options.maxWidth = 300;
+      map.addLayer(circle_19)
+      
+      var circle_20 = L.circle([30.06, -84.29], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_20.bindPopup("<b>SHP</b>");
+      circle_20._popup.options.maxWidth = 300;
+      map.addLayer(circle_20)
+      
+      var circle_21 = L.circle([28.16, -82.76], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_21.bindPopup("<b>TAS</b>");
+      circle_21._popup.options.maxWidth = 300;
+      map.addLayer(circle_21)
+      
+      var circle_22 = L.circle([27.54, -82.74], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_22.bindPopup("<b>ANM</b>");
+      circle_22._popup.options.maxWidth = 300;
+      map.addLayer(circle_22)
+      
+      var circle_23 = L.circle([27.6, -82.76], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_23.bindPopup("<b>EGK</b>");
+      circle_23._popup.options.maxWidth = 300;
+      map.addLayer(circle_23)
+      
+      var circle_24 = L.circle([27.95, -82.46], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_24.bindPopup("<b>UTP</b>");
+      circle_24._popup.options.maxWidth = 300;
+      map.addLayer(circle_24)
+      
+      var circle_25 = L.circle([34.2133, -77.7866], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_25.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_25._popup.options.maxWidth = 300;
+      map.addLayer(circle_25)
+      
+      var circle_26 = L.circle([33.655, -78.9183], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_26.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_26._popup.options.maxWidth = 300;
+      map.addLayer(circle_26)
+      
+      var circle_27 = L.circle([30.3966, -81.0], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_27.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_27._popup.options.maxWidth = 300;
+      map.addLayer(circle_27)
+      
+      var circle_28 = L.circle([25.73, -80.16], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_28.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_28._popup.options.maxWidth = 300;
+      map.addLayer(circle_28)
+      
+      var circle_29 = L.circle([24.555, -81.8116], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_29.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_29._popup.options.maxWidth = 300;
+      map.addLayer(circle_29)
+      
+      var circle_30 = L.circle([26.13, -82.6137], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_30.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_30._popup.options.maxWidth = 300;
+      map.addLayer(circle_30)
+      
+      var circle_31 = L.circle([27.977, -82.832], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_31.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_31._popup.options.maxWidth = 300;
+      map.addLayer(circle_31)
+      
+      var circle_32 = L.circle([30.152, -86.4987], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_32.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_32._popup.options.maxWidth = 300;
+      map.addLayer(circle_32)
+      
+
+      
+      var latLngs = [ [24.25, -87.4],  [24.25, -74.7],  [36.7, -74.7],  [36.7, -87.4],  [24.25, -87.4], ];
+var line_1 = L.polyline(latLngs,{
+color: '#FF0000',
+weight: 2,
+
+});
+      map.addLayer(line_1);
+      
+
+      
+
+      
+
+   </script>
+
+</body>
