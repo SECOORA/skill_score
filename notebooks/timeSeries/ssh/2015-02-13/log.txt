@@ -1,0 +1,644 @@
+07:14:47 INFO: *********************** Run information ************************
+07:14:47 INFO: Run date: 2015-02-16 10:14:47
+07:14:47 INFO: Download start: 2015-02-06 12:00:00
+07:14:47 INFO: Download stop: 2015-02-13 12:00:00
+07:14:47 INFO: Bounding box: -87.40, 24.25,-74.70, 36.70
+07:14:47 INFO: *********************** Software version ***********************
+07:14:47 INFO: Iris version: 1.7.2-DEV
+07:14:47 INFO: owslib version: 0.8-dev
+07:14:47 INFO: pyoos version: 0.6.2
+07:14:51 INFO: ********************* Catalog information **********************
+07:14:51 INFO: URL: http://www.ngdc.noaa.gov/geoportal/csw
+07:14:51 INFO: CSW version: 2.0.2
+07:14:51 INFO: Number of datasets available: 8
+07:14:51 INFO: ***************************** CSW ******************************
+07:14:51 INFO: COAWST Forecast System : USGS : US East Coast and Gulf of Mexico (Experimental)
+07:14:51 INFO: ROMS ESPRESSO Real-Time Operational IS4DVAR Forecast System Version 2 (NEW) 2013-present FMRC History (Best)
+07:14:51 INFO: Barotropic Tide Model for the Pacific Basin
+07:14:51 INFO: TBOFS - Tampa Bay Operational Forecast System - NOAA CO-OPS - POM
+07:14:51 INFO: HYbrid Coordinate Ocean Model (HYCOM): Global
+07:14:51 INFO: CBOFS - Chesapeake Bay Operational Forecast System - NOAA CO-OPS - POM
+07:14:51 INFO: ESTOFS Storm Surge Model - Atlantic - v1.0.0 - NOAA - NCEP - ADCIRC
+07:14:51 INFO: NECOFS GOM3 (FVCOM) - Northeast US - Latest Forecast
+07:14:51 INFO: ***************************** DAP ******************************
+07:14:51 INFO: http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic.html
+07:14:51 INFO: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd.html
+07:14:51 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac.html
+07:14:51 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global.html
+07:14:51 INFO: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd.html
+07:14:51 INFO: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd.html
+07:14:51 INFO: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd.html
+07:14:51 INFO: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc.html
+07:14:51 INFO: ***************************** SOS ******************************
+07:14:52 WARNING: SABGOM not in the NGDC csw
+07:14:52 WARNING: USEAST not in the NGDC csw
+07:14:52 WARNING: USF_ROMS not in the NGDC csw
+07:14:52 WARNING: USF_SWAN not in the NGDC csw
+07:14:52 WARNING: USF_FVCOM not in the NGDC csw
+07:15:05 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1359: UserWarning: Failed to create 'time' dimension coordinate: The points array must be strictly monotonic.
+Gracefully creating 'time' auxiliary coordinate instead.
+  error=e_msg))
+
+07:15:05 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fit.sispnj.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:15:12 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.nfb.ngwlms.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:15:21 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.tas.ngwlms.nc
+istart must be different from istop! Got istart 65396 and  istop 65396
+07:15:32 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.apk.ngwlms.nc
+istart must be different from istop! Got istart 63912 and  istop 63912
+07:15:46 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c21.weatherpak.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:15:59 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.shp.ngwlms.nc
+istart must be different from istop! Got istart 63857 and  istop 63857
+07:16:05 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.bcp.ngwlms.nc
+istart must be different from istop! Got istart 63939 and  istop 63939
+07:16:18 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.fhp.ngwlms.nc
+istart must be different from istop! Got istart 63934 and  istop 63934
+07:16:23 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c10.mcat.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:16:30 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c12.mcat.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:16:33 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c13.mcat.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:16:36 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c10.mcat_2011.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:16:39 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c12.mcat_2011.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:16:46 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c13.mcat_2011.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:16:51 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/carocoops.sun2.buoy.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:16:54 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/carocoops.frp2.buoy.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:16:59 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/carocoops.cap2.buoy.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:17:08 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/cormp.ilm3.buoy.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:17:15 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/cormp.ilm2.buoy.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:17:18 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/cormp.ilm1.buoy.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:17:22 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/cormp.lej3.buoy.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:17:26 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1196: UserWarning: Ignoring netCDF variable 'dissolved_oxygen_saturation' invalid units 'mg_L-1'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+07:17:27 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1196: UserWarning: Ignoring netCDF variable 'dissolved_oxygen' invalid units 'mg_L-1'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+07:17:27 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1196: UserWarning: Ignoring netCDF variable 'cdom' invalid units 'QSDE'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+07:17:27 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1196: UserWarning: Ignoring netCDF variable 'turbidity' invalid units 'ntu'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+07:17:27 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1196: UserWarning: Ignoring netCDF variable 'conductivity' invalid units 'mS_cm-1'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+07:17:27 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/sccf.gulfofmexico.wq.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:17:31 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1196: UserWarning: Ignoring netCDF variable 'nitrate' invalid units 'uM'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+07:17:31 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/sccf.shellpoint.wq.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:17:34 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/sccf.redfishpass.wq.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:17:40 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/sccf.tarponbay.wq.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:17:45 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/sccf.fortmyers.wq.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:17:52 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1196: UserWarning: Ignoring netCDF variable 'conductivity_2' invalid units 'mS_cm-1'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+07:18:07 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.redbaypoint..nc
+istart must be different from istop! Got istart 99 and  istop 99
+07:18:48 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/lbhmc.2ndave.pier.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:18:55 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1196: UserWarning: Ignoring netCDF variable 'turbidity_2' invalid units 'ntu'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+07:18:55 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1196: UserWarning: Ignoring netCDF variable 'dissolved_oxygen_2' invalid units 'mg_L-1'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+07:18:55 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/lbhmc.cherrygrove.pier.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:01 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/lbhmc.apachepier.pier.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:04 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.wiwf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:09 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.lbrf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:12 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.bobf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:16 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.trrf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:20 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.wwef1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:24 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.lrif1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:28 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.bwsf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:31 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.pkyf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:35 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.lmdf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:38 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.cnbf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:42 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.hcef1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:46 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.jkyf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:49 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.wrbf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:53 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.gbif1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:19:57 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.ppta1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:01 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.bdvf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:04 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.lrkf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:08 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.bnkf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:12 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.gbtf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:17 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.tcvf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:21 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.canf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:25 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.lbsf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:29 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.mukf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:33 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.dkkf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:37 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.cwaf1.met.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:48 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1196: UserWarning: Ignoring netCDF variable 'phosphate' invalid units 'uM'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+07:20:48 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1196: UserWarning: Ignoring netCDF variable 'photosynthetically_available_radiation' invalid units 'micromoles_per_m^2'
+  warnings.warn(msg.format(msg_name, msg_units))
+
+07:20:48 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fau.lobo.1.nc
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:20:54 INFO: ********************* Collector offerings **********************
+07:20:54 INFO: NOAA.NOS.CO-OPS SOS: 1028 offerings
+07:21:01 INFO: SOS URL request: http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?eventTime=2015-02-06T12%3A00%3A00Z&service=SOS&offering=urn%3Aioos%3Anetwork%3ANOAA.NOS.CO-OPS%3AWaterLevelActive&request=GetObservation&version=1.0.0&responseFormat=text%2Fcsv&featureOfInterest=BBOX%3A-87.4%2C24.25%2C-74.7%2C36.7&observedProperty=water_surface_height_above_reference_datum
+07:21:41 INFO: ************************* Observations *************************
+07:21:41 INFO: **** Downloading to file 2015-02-13/2015-02-13-OBS_DATA.nc *****
+07:21:47 WARNING: [8654467] USCG Station Hatteras, NC:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+07:21:48 WARNING: [8656483] Beaufort, NC:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+07:21:49 WARNING: [8658120] Wilmington, NC:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+07:22:45 WARNING: [8726520] St Petersburg, FL:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+07:22:46 WARNING: [8726607] Old Port Tampa, FL:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+07:23:04 WARNING: [8729210] Panama City Beach, FL:
+'Wrong Datum for this station: The correct Datum values are: MHHW, MHW, MTL, MSL, MLW, MLLW, STND'
+07:23:07 INFO: ********************* SECOORA Observations *********************
+07:23:07 INFO:  Downloading to file 2015-02-13/2015-02-13-SECOORA_OBS_DATA.nc *
+07:23:07 INFO: **************************** Models ****************************
+07:23:07 INFO: 
+[Reading url 1/13]: http://geoport-dev.whoi.edu/thredds/dodsC/estofs/atlantic
+07:23:37 INFO: 
+[Reading url 2/13]: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd
+07:24:05 INFO: 
+[Reading url 3/13]: http://oos.soest.hawaii.edu/thredds/dodsC/hioos/tide_pac
+07:24:09 INFO: 
+[Reading url 4/13]: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global
+07:24:12 INFO: 
+[Reading url 5/13]: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd
+07:24:24 WARNING: Cannot get cube for: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd
+istart must be different from istop! Got istart 0 and  istop 0
+07:24:24 INFO: 
+[Reading url 6/13]: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd
+07:24:33 WARNING: Cannot get cube for: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd
+istart must be different from istop! Got istart 0 and  istop 0
+07:24:33 INFO: 
+[Reading url 7/13]: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd
+07:24:42 INFO: 
+[Reading url 8/13]: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc
+07:24:52 INFO: 
+[Reading url 9/13]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+07:25:03 WARNING: Cannot get cube for: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+istart must be different from istop! Got istart 231 and  istop 231
+07:25:03 INFO: 
+[Reading url 10/13]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/US_East_Forecast_Model_Run_Collection_best.ncd
+07:25:17 INFO: 
+[Reading url 11/13]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd
+07:25:22 INFO: 
+[Reading url 12/13]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+07:25:23 WARNING: Cannot get cube for: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+Cube does not contain ['sea_surface_height', 'sea_surface_elevation', 'sea_surface_height_above_geoid', 'sea_surface_height_above_sea_level', 'water_surface_height_above_reference_datum', 'sea_surface_height_above_reference_ellipsoid']
+07:25:23 INFO: 
+[Reading url 13/13]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:25:32 INFO: ******** Saving to file 2015-02-13/2015-02-13-BTMPB.nc *********
+07:25:32 INFO: [No Data] Duck, NC
+07:25:32 INFO: [No Data] Oregon Inlet Marina, NC
+07:25:32 INFO: [No Data] USCG Station Hatteras, NC
+07:25:32 INFO: [No Data] Beaufort, NC
+07:25:32 INFO: [No Data] Wilmington, NC
+07:25:32 INFO: [No Data] Wrightsville Beach, NC
+07:25:32 INFO: [No Data] Springmaid Pier, SC
+07:25:32 INFO: [No Data] Oyster Landing (N Inlet Estuary), SC
+07:25:32 INFO: [No Data] Charleston, SC
+07:25:32 INFO: [No Data] Fort Pulaski, GA
+07:25:32 INFO: [No Data] Fernandina Beach, FL
+07:25:32 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:25:32 INFO: [No Data] Dames Point, FL
+07:25:32 INFO: [No Data] Southbank Riverwalk, St Johns River, FL
+07:25:32 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:25:32 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:25:32 INFO: [No Data] Racy Point, St Johns River, FL
+07:25:32 INFO: [No Data] Trident Pier, FL
+07:25:32 INFO: [No Data] Lake Worth Pier, FL
+07:25:32 INFO: [No Data] Virginia Key, FL
+07:25:32 INFO: [No Data] Key West, FL
+07:25:32 INFO: [No Data] Naples, FL
+07:25:32 INFO: [No Data] Fort Myers, FL
+07:25:32 INFO: [No Data] Port Manatee, FL
+07:25:32 INFO: [No Data] St Petersburg, FL
+07:25:32 INFO: [No Data] Old Port Tampa, FL
+07:25:32 INFO: [No Data] Mckay Bay Entrance, FL
+07:25:32 INFO: [No Data] Clearwater Beach, FL
+07:25:32 INFO: [No Data] Cedar Key, FL
+07:25:32 INFO: [No Data] Apalachicola, FL
+07:25:32 INFO: [No Data] Panama City, FL
+07:25:32 INFO: [No Data] Panama City Beach, FL
+07:25:32 INFO: [No Data] Pensacola, FL
+07:25:32 INFO: [No Data] Tolomato River station
+07:25:32 INFO: [No Data] Melbourne station
+07:25:32 INFO: [No Data] Vero Beach station
+07:25:32 INFO: [No Data] Bing&#39;s Landing station
+07:25:32 INFO: [No Data] Naples Bay station
+07:25:32 INFO: [No Data] St Lucie Inlet station
+07:25:32 INFO: [No Data] Binney Dock station
+07:25:32 INFO: [No Data] Gordon River Inlet station
+07:25:32 INFO: [No Data] Ponce De Leon South station
+07:25:32 INFO: Finished processing [BTMPB]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:25:32 INFO: ******** Saving to file 2015-02-13/2015-02-13-HYCOM.nc *********
+07:25:35 INFO: [Land   ] Duck, NC
+07:25:37 INFO: [Water  ] Oregon Inlet Marina, NC
+07:25:40 INFO: [Land   ] USCG Station Hatteras, NC
+07:25:43 INFO: [Land   ] Beaufort, NC
+07:25:46 INFO: [Land   ] Wilmington, NC
+07:25:48 INFO: [Water  ] Wrightsville Beach, NC
+07:25:48 INFO: [No Data] Springmaid Pier, SC
+07:25:51 INFO: [Land   ] Oyster Landing (N Inlet Estuary), SC
+07:25:54 INFO: [Land   ] Charleston, SC
+07:25:56 INFO: [Land   ] Fort Pulaski, GA
+07:25:59 INFO: [Land   ] Fernandina Beach, FL
+07:26:01 INFO: [Land   ] Mayport (Bar Pilots Dock), FL
+07:26:04 INFO: [Land   ] Dames Point, FL
+07:26:06 INFO: [Land   ] Southbank Riverwalk, St Johns River, FL
+07:26:09 INFO: [Land   ] I-295 Bridge, St Johns River, FL
+07:26:12 INFO: [Land   ] Red Bay Point, St Johns River, FL
+07:26:12 INFO: [No Data] Racy Point, St Johns River, FL
+07:26:14 INFO: [Land   ] Trident Pier, FL
+07:26:17 INFO: [Water  ] Lake Worth Pier, FL
+07:26:19 INFO: [Land   ] Virginia Key, FL
+07:26:22 INFO: [Land   ] Key West, FL
+07:26:22 INFO: [No Data] Naples, FL
+07:26:25 INFO: [Land   ] Fort Myers, FL
+07:26:28 INFO: [Land   ] Port Manatee, FL
+07:26:30 INFO: [Land   ] St Petersburg, FL
+07:26:33 INFO: [Land   ] Old Port Tampa, FL
+07:26:36 INFO: [Land   ] Mckay Bay Entrance, FL
+07:26:36 INFO: [No Data] Clearwater Beach, FL
+07:26:38 INFO: [Land   ] Cedar Key, FL
+07:26:41 INFO: [Land   ] Apalachicola, FL
+07:26:43 INFO: [Land   ] Panama City, FL
+07:26:43 INFO: [No Data] Panama City Beach, FL
+07:26:46 INFO: [Land   ] Pensacola, FL
+07:26:48 INFO: [Land   ] Tolomato River station
+07:26:51 INFO: [Land   ] Melbourne station
+07:26:53 INFO: [Land   ] Vero Beach station
+07:26:56 INFO: [Land   ] Bing&#39;s Landing station
+07:26:58 INFO: [Land   ] Naples Bay station
+07:27:01 INFO: [Land   ] St Lucie Inlet station
+07:27:04 INFO: [Land   ] Binney Dock station
+07:27:06 INFO: [Land   ] Gordon River Inlet station
+07:27:09 INFO: [Water  ] Ponce De Leon South station
+07:27:09 INFO: Finished processing [HYCOM]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:27:09 INFO: ****** Saving to file 2015-02-13/2015-02-13-USF_FVCOM.nc *******
+07:27:09 INFO: [No Data] Duck, NC
+07:27:09 INFO: [No Data] Oregon Inlet Marina, NC
+07:27:09 INFO: [No Data] USCG Station Hatteras, NC
+07:27:09 INFO: [No Data] Beaufort, NC
+07:27:09 INFO: [No Data] Wilmington, NC
+07:27:09 INFO: [No Data] Wrightsville Beach, NC
+07:27:09 INFO: [No Data] Springmaid Pier, SC
+07:27:09 INFO: [No Data] Oyster Landing (N Inlet Estuary), SC
+07:27:09 INFO: [No Data] Charleston, SC
+07:27:09 INFO: [No Data] Fort Pulaski, GA
+07:27:09 INFO: [No Data] Fernandina Beach, FL
+07:27:09 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:27:09 INFO: [No Data] Dames Point, FL
+07:27:09 INFO: [No Data] Southbank Riverwalk, St Johns River, FL
+07:27:09 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:27:09 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:27:09 INFO: [No Data] Racy Point, St Johns River, FL
+07:27:09 INFO: [No Data] Trident Pier, FL
+07:27:09 INFO: [No Data] Lake Worth Pier, FL
+07:27:09 INFO: [No Data] Virginia Key, FL
+07:27:27 INFO: [Water  ] Key West, FL
+07:27:46 INFO: [Water  ] Naples, FL
+07:28:00 INFO: [Water  ] Fort Myers, FL
+07:28:19 INFO: [Water  ] Port Manatee, FL
+07:28:31 INFO: [Water  ] St Petersburg, FL
+07:28:43 INFO: [Water  ] Old Port Tampa, FL
+07:28:54 INFO: [Water  ] Mckay Bay Entrance, FL
+07:29:12 INFO: [Water  ] Clearwater Beach, FL
+07:29:22 INFO: [Water  ] Cedar Key, FL
+07:29:39 INFO: [Water  ] Apalachicola, FL
+07:29:39 INFO: [No Data] Panama City, FL
+07:29:49 INFO: [Water  ] Panama City Beach, FL
+07:29:49 INFO: [No Data] Pensacola, FL
+07:29:49 INFO: [No Data] Tolomato River station
+07:29:49 INFO: [No Data] Melbourne station
+07:29:49 INFO: [No Data] Vero Beach station
+07:29:49 INFO: [No Data] Bing&#39;s Landing station
+07:29:57 INFO: [Water  ] Naples Bay station
+07:29:57 INFO: [No Data] St Lucie Inlet station
+07:29:57 INFO: [No Data] Binney Dock station
+07:30:11 INFO: [Water  ] Gordon River Inlet station
+07:30:11 INFO: [No Data] Ponce De Leon South station
+07:30:11 INFO: Finished processing [USF_FVCOM]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:30:11 INFO: ******* Saving to file 2015-02-13/2015-02-13-USF_ROMS.nc *******
+07:30:11 INFO: [No Data] Duck, NC
+07:30:11 INFO: [No Data] Oregon Inlet Marina, NC
+07:30:11 INFO: [No Data] USCG Station Hatteras, NC
+07:30:11 INFO: [No Data] Beaufort, NC
+07:30:11 INFO: [No Data] Wilmington, NC
+07:30:11 INFO: [No Data] Wrightsville Beach, NC
+07:30:11 INFO: [No Data] Springmaid Pier, SC
+07:30:11 INFO: [No Data] Oyster Landing (N Inlet Estuary), SC
+07:30:11 INFO: [No Data] Charleston, SC
+07:30:11 INFO: [No Data] Fort Pulaski, GA
+07:30:11 INFO: [No Data] Fernandina Beach, FL
+07:30:11 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:30:11 INFO: [No Data] Dames Point, FL
+07:30:11 INFO: [No Data] Southbank Riverwalk, St Johns River, FL
+07:30:11 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:30:11 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:30:11 INFO: [No Data] Racy Point, St Johns River, FL
+07:30:11 INFO: [No Data] Trident Pier, FL
+07:30:11 INFO: [No Data] Lake Worth Pier, FL
+07:30:11 INFO: [No Data] Virginia Key, FL
+07:30:11 INFO: [No Data] Key West, FL
+07:30:12 INFO: [Water  ] Naples, FL
+07:30:14 INFO: [Water  ] Fort Myers, FL
+07:30:17 INFO: [Water  ] Port Manatee, FL
+07:30:17 INFO: [No Data] St Petersburg, FL
+07:30:18 INFO: [Water  ] Old Port Tampa, FL
+07:30:20 INFO: [Water  ] Mckay Bay Entrance, FL
+07:30:22 INFO: [Water  ] Clearwater Beach, FL
+07:30:27 INFO: [Water  ] Cedar Key, FL
+07:30:31 INFO: [Water  ] Apalachicola, FL
+07:30:35 INFO: [Water  ] Panama City, FL
+07:30:38 INFO: [Water  ] Panama City Beach, FL
+07:30:38 INFO: [No Data] Pensacola, FL
+07:30:38 INFO: [No Data] Tolomato River station
+07:30:38 INFO: [No Data] Melbourne station
+07:30:38 INFO: [No Data] Vero Beach station
+07:30:38 INFO: [No Data] Bing&#39;s Landing station
+07:30:39 INFO: [Water  ] Naples Bay station
+07:30:39 INFO: [No Data] St Lucie Inlet station
+07:30:39 INFO: [No Data] Binney Dock station
+07:30:41 INFO: [Water  ] Gordon River Inlet station
+07:30:41 INFO: [No Data] Ponce De Leon South station
+07:30:57 INFO: Finished processing [USF_ROMS]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:30:57 INFO: ******** Saving to file 2015-02-13/2015-02-13-ESTOFS.nc ********
+07:31:04 INFO: [Water  ] Duck, NC
+07:31:08 INFO: [Water  ] Oregon Inlet Marina, NC
+07:31:16 INFO: [Water  ] USCG Station Hatteras, NC
+07:31:20 INFO: [Water  ] Beaufort, NC
+07:31:20 INFO: [No Data] Wilmington, NC
+07:31:30 INFO: [Water  ] Wrightsville Beach, NC
+07:31:44 INFO: [Water  ] Springmaid Pier, SC
+07:31:48 INFO: [Water  ] Oyster Landing (N Inlet Estuary), SC
+07:31:48 INFO: [No Data] Charleston, SC
+07:31:53 INFO: [Water  ] Fort Pulaski, GA
+07:31:55 INFO: [Water  ] Fernandina Beach, FL
+07:31:58 INFO: [Water  ] Mayport (Bar Pilots Dock), FL
+07:31:58 INFO: [No Data] Dames Point, FL
+07:31:58 INFO: [No Data] Southbank Riverwalk, St Johns River, FL
+07:31:58 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:31:58 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:31:58 INFO: [No Data] Racy Point, St Johns River, FL
+07:32:05 INFO: [Water  ] Trident Pier, FL
+07:32:12 INFO: [Water  ] Lake Worth Pier, FL
+07:32:23 INFO: [Water  ] Virginia Key, FL
+07:32:33 INFO: [Water  ] Key West, FL
+07:32:44 INFO: [Water  ] Naples, FL
+07:32:44 INFO: [No Data] Fort Myers, FL
+07:32:58 INFO: [Water  ] Port Manatee, FL
+07:33:12 INFO: [Water  ] St Petersburg, FL
+07:33:22 INFO: [Water  ] Old Port Tampa, FL
+07:33:28 INFO: [Water  ] Mckay Bay Entrance, FL
+07:33:38 INFO: [Water  ] Clearwater Beach, FL
+07:33:54 INFO: [Water  ] Cedar Key, FL
+07:34:05 INFO: [Water  ] Apalachicola, FL
+07:34:05 INFO: [No Data] Panama City, FL
+07:34:10 INFO: [Water  ] Panama City Beach, FL
+07:34:10 INFO: [No Data] Pensacola, FL
+07:34:16 INFO: [Water  ] Tolomato River station
+07:34:19 INFO: [Water  ] Melbourne station
+07:34:23 INFO: [Water  ] Vero Beach station
+07:34:29 INFO: [Water  ] Bing&#39;s Landing station
+07:34:32 INFO: [Water  ] Naples Bay station
+07:34:40 INFO: [Water  ] St Lucie Inlet station
+07:34:47 INFO: [Water  ] Binney Dock station
+07:34:56 INFO: [Water  ] Gordon River Inlet station
+07:35:03 INFO: [Water  ] Ponce De Leon South station
+07:35:03 INFO: Finished processing [ESTOFS]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:35:03 INFO: ******* Saving to file 2015-02-13/2015-02-13-COAWST_4.nc *******
+07:35:08 INFO: [Land   ] Duck, NC
+07:35:19 INFO: [Water  ] Oregon Inlet Marina, NC
+07:35:25 INFO: [Water  ] USCG Station Hatteras, NC
+07:35:35 INFO: [Land   ] Beaufort, NC
+07:35:41 INFO: [Land   ] Wilmington, NC
+07:35:46 INFO: [Water  ] Wrightsville Beach, NC
+07:35:57 INFO: [Water  ] Springmaid Pier, SC
+07:36:02 INFO: [Land   ] Oyster Landing (N Inlet Estuary), SC
+07:36:07 INFO: [Land   ] Charleston, SC
+07:36:12 INFO: [Land   ] Fort Pulaski, GA
+07:36:18 INFO: [Land   ] Fernandina Beach, FL
+07:36:23 INFO: [Land   ] Mayport (Bar Pilots Dock), FL
+07:36:28 INFO: [Land   ] Dames Point, FL
+07:36:33 INFO: [Land   ] Southbank Riverwalk, St Johns River, FL
+07:36:38 INFO: [Land   ] I-295 Bridge, St Johns River, FL
+07:36:44 INFO: [Land   ] Red Bay Point, St Johns River, FL
+07:36:49 INFO: [Land   ] Racy Point, St Johns River, FL
+07:36:55 INFO: [Land   ] Trident Pier, FL
+07:37:06 INFO: [Water  ] Lake Worth Pier, FL
+07:37:11 INFO: [Land   ] Virginia Key, FL
+07:37:22 INFO: [Water  ] Key West, FL
+07:37:28 INFO: [Land   ] Naples, FL
+07:37:34 INFO: [Land   ] Fort Myers, FL
+07:37:40 INFO: [Land   ] Port Manatee, FL
+07:37:46 INFO: [Land   ] St Petersburg, FL
+07:37:59 INFO: [Water  ] Old Port Tampa, FL
+07:38:05 INFO: [Land   ] Mckay Bay Entrance, FL
+07:38:11 INFO: [Land   ] Clearwater Beach, FL
+07:38:23 INFO: [Water  ] Cedar Key, FL
+07:38:29 INFO: [Water  ] Apalachicola, FL
+07:38:35 INFO: [Water  ] Panama City, FL
+07:38:47 INFO: [Land   ] Panama City Beach, FL
+07:38:53 INFO: [Water  ] Pensacola, FL
+07:38:59 INFO: [Land   ] Tolomato River station
+07:39:05 INFO: [Land   ] Melbourne station
+07:39:18 INFO: [Land   ] Vero Beach station
+07:39:24 INFO: [Land   ] Bing&#39;s Landing station
+07:39:30 INFO: [Land   ] Naples Bay station
+07:39:42 INFO: [Water  ] St Lucie Inlet station
+07:39:55 INFO: [Land   ] Binney Dock station
+07:40:01 INFO: [Land   ] Gordon River Inlet station
+07:40:07 INFO: [Water  ] Ponce De Leon South station
+07:41:21 INFO: Finished processing [COAWST_4]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:41:21 INFO: ******* Saving to file 2015-02-13/2015-02-13-ESPRESSO.nc *******
+07:41:27 INFO: [Land   ] Duck, NC
+07:41:29 INFO: [Water  ] Oregon Inlet Marina, NC
+07:41:32 INFO: [Land   ] USCG Station Hatteras, NC
+07:41:35 INFO: [Water  ] Beaufort, NC
+07:41:35 INFO: [No Data] Wilmington, NC
+07:41:35 INFO: [No Data] Wrightsville Beach, NC
+07:41:35 INFO: [No Data] Springmaid Pier, SC
+07:41:35 INFO: [No Data] Oyster Landing (N Inlet Estuary), SC
+07:41:35 INFO: [No Data] Charleston, SC
+07:41:35 INFO: [No Data] Fort Pulaski, GA
+07:41:35 INFO: [No Data] Fernandina Beach, FL
+07:41:35 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:41:35 INFO: [No Data] Dames Point, FL
+07:41:35 INFO: [No Data] Southbank Riverwalk, St Johns River, FL
+07:41:35 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:41:35 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:41:35 INFO: [No Data] Racy Point, St Johns River, FL
+07:41:35 INFO: [No Data] Trident Pier, FL
+07:41:35 INFO: [No Data] Lake Worth Pier, FL
+07:41:35 INFO: [No Data] Virginia Key, FL
+07:41:35 INFO: [No Data] Key West, FL
+07:41:35 INFO: [No Data] Naples, FL
+07:41:35 INFO: [No Data] Fort Myers, FL
+07:41:35 INFO: [No Data] Port Manatee, FL
+07:41:35 INFO: [No Data] St Petersburg, FL
+07:41:35 INFO: [No Data] Old Port Tampa, FL
+07:41:35 INFO: [No Data] Mckay Bay Entrance, FL
+07:41:35 INFO: [No Data] Clearwater Beach, FL
+07:41:35 INFO: [No Data] Cedar Key, FL
+07:41:35 INFO: [No Data] Apalachicola, FL
+07:41:35 INFO: [No Data] Panama City, FL
+07:41:35 INFO: [No Data] Panama City Beach, FL
+07:41:35 INFO: [No Data] Pensacola, FL
+07:41:35 INFO: [No Data] Tolomato River station
+07:41:35 INFO: [No Data] Melbourne station
+07:41:35 INFO: [No Data] Vero Beach station
+07:41:35 INFO: [No Data] Bing&#39;s Landing station
+07:41:35 INFO: [No Data] Naples Bay station
+07:41:35 INFO: [No Data] St Lucie Inlet station
+07:41:35 INFO: [No Data] Binney Dock station
+07:41:35 INFO: [No Data] Gordon River Inlet station
+07:41:35 INFO: [No Data] Ponce De Leon South station
+07:41:40 INFO: Finished processing [ESPRESSO]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:41:40 INFO: ******** Saving to file 2015-02-13/2015-02-13-USEAST.nc ********
+07:41:40 INFO: [No Data] Duck, NC
+07:41:40 INFO: [No Data] Oregon Inlet Marina, NC
+07:41:43 INFO: [Land   ] USCG Station Hatteras, NC
+07:41:45 INFO: [Land   ] Beaufort, NC
+07:41:48 INFO: [Land   ] Wilmington, NC
+07:41:48 INFO: [No Data] Wrightsville Beach, NC
+07:41:50 INFO: [Water  ] Springmaid Pier, SC
+07:41:53 INFO: [Land   ] Oyster Landing (N Inlet Estuary), SC
+07:41:53 INFO: [No Data] Charleston, SC
+07:41:53 INFO: [No Data] Fort Pulaski, GA
+07:41:55 INFO: [Land   ] Fernandina Beach, FL
+07:41:57 INFO: [Land   ] Mayport (Bar Pilots Dock), FL
+07:41:57 INFO: [No Data] Dames Point, FL
+07:41:59 INFO: [Land   ] Southbank Riverwalk, St Johns River, FL
+07:41:59 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:42:01 INFO: [Land   ] Red Bay Point, St Johns River, FL
+07:42:03 INFO: [Land   ] Racy Point, St Johns River, FL
+07:42:03 INFO: [No Data] Trident Pier, FL
+07:42:03 INFO: [No Data] Lake Worth Pier, FL
+07:42:05 INFO: [Water  ] Virginia Key, FL
+07:42:05 INFO: [No Data] Key West, FL
+07:42:07 INFO: [Land   ] Naples, FL
+07:42:07 INFO: [No Data] Fort Myers, FL
+07:42:07 INFO: [No Data] Port Manatee, FL
+07:42:07 INFO: [No Data] St Petersburg, FL
+07:42:07 INFO: [No Data] Old Port Tampa, FL
+07:42:10 INFO: [Land   ] Mckay Bay Entrance, FL
+07:42:12 INFO: [Land   ] Clearwater Beach, FL
+07:42:14 INFO: [Water  ] Cedar Key, FL
+07:42:14 INFO: [No Data] Apalachicola, FL
+07:42:14 INFO: [No Data] Panama City, FL
+07:42:14 INFO: [No Data] Panama City Beach, FL
+07:42:14 INFO: [No Data] Pensacola, FL
+07:42:16 INFO: [Land   ] Tolomato River station
+07:42:16 INFO: [No Data] Melbourne station
+07:42:18 INFO: [Land   ] Vero Beach station
+07:42:18 INFO: [No Data] Bing&#39;s Landing station
+07:42:18 INFO: [No Data] Naples Bay station
+07:42:20 INFO: [Land   ] St Lucie Inlet station
+07:42:22 INFO: [Land   ] Binney Dock station
+07:42:22 INFO: [No Data] Gordon River Inlet station
+07:42:22 INFO: [No Data] Ponce De Leon South station
+07:42:28 INFO: Finished processing [USEAST]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:42:28 INFO: ** Saving to file 2015-02-13/2015-02-13-NECOFS_GOM3_FVCOM.nc ***
+07:42:28 INFO: [No Data] Duck, NC
+07:42:28 INFO: [No Data] Oregon Inlet Marina, NC
+07:42:28 INFO: [No Data] USCG Station Hatteras, NC
+07:42:28 INFO: [No Data] Beaufort, NC
+07:42:28 INFO: [No Data] Wilmington, NC
+07:42:28 INFO: [No Data] Wrightsville Beach, NC
+07:42:28 INFO: [No Data] Springmaid Pier, SC
+07:42:28 INFO: [No Data] Oyster Landing (N Inlet Estuary), SC
+07:42:28 INFO: [No Data] Charleston, SC
+07:42:28 INFO: [No Data] Fort Pulaski, GA
+07:42:28 INFO: [No Data] Fernandina Beach, FL
+07:42:28 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:42:28 INFO: [No Data] Dames Point, FL
+07:42:28 INFO: [No Data] Southbank Riverwalk, St Johns River, FL
+07:42:28 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:42:28 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:42:28 INFO: [No Data] Racy Point, St Johns River, FL
+07:42:28 INFO: [No Data] Trident Pier, FL
+07:42:28 INFO: [No Data] Lake Worth Pier, FL
+07:42:28 INFO: [No Data] Virginia Key, FL
+07:42:28 INFO: [No Data] Key West, FL
+07:42:28 INFO: [No Data] Naples, FL
+07:42:28 INFO: [No Data] Fort Myers, FL
+07:42:28 INFO: [No Data] Port Manatee, FL
+07:42:28 INFO: [No Data] St Petersburg, FL
+07:42:28 INFO: [No Data] Old Port Tampa, FL
+07:42:28 INFO: [No Data] Mckay Bay Entrance, FL
+07:42:28 INFO: [No Data] Clearwater Beach, FL
+07:42:28 INFO: [No Data] Cedar Key, FL
+07:42:28 INFO: [No Data] Apalachicola, FL
+07:42:28 INFO: [No Data] Panama City, FL
+07:42:28 INFO: [No Data] Panama City Beach, FL
+07:42:28 INFO: [No Data] Pensacola, FL
+07:42:28 INFO: [No Data] Tolomato River station
+07:42:28 INFO: [No Data] Melbourne station
+07:42:28 INFO: [No Data] Vero Beach station
+07:42:28 INFO: [No Data] Bing&#39;s Landing station
+07:42:28 INFO: [No Data] Naples Bay station
+07:42:28 INFO: [No Data] St Lucie Inlet station
+07:42:28 INFO: [No Data] Binney Dock station
+07:42:28 INFO: [No Data] Gordon River Inlet station
+07:42:28 INFO: [No Data] Ponce De Leon South station
+07:42:28 INFO: Finished processing [NECOFS_GOM3_FVCOM]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:42:29 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/pandas/util/decorators.py:81: FutureWarning: the 'cols' keyword is deprecated, use 'subset' instead
+  warnings.warn(msg, FutureWarning)
+
+07:42:32 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/numpy/core/_methods.py:59: RuntimeWarning: Mean of empty slice.
+  warnings.warn("Mean of empty slice.", RuntimeWarning)
+
+07:42:48 INFO: 28.48 minutes
+07:42:48 INFO: EOF
