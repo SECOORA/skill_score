@@ -3,6 +3,6 @@ mpld3
 pyoos
 qrcode
 geojson
-cfchecker
 utilities
 mplleaflet
+iris=1.7.2_DEV_9e1fd13
