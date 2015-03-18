@@ -1,4 +1,4 @@
-# Model Skill Assessment -- First Quarter Report
+# Model Skill Assessment -- Second Quarter Report
 ## (August 1, 2014 -- October 31, 2014)
 ### Filipe Pires Alvarenga Fernandes
 
