@@ -1,8 +1,8 @@
 pip
+iris
 mpld3
 pyoos
 qrcode
 geojson
 utilities
 mplleaflet
-iris=1.7.2_DEV_9e1fd13
