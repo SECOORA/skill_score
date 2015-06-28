@@ -1,0 +1,327 @@
+06:34:41 INFO: ************Saving data inside directory 2015-06-26*************
+06:34:41 INFO: *********************** Run information ************************
+06:34:41 INFO: Run date: 2015-06-27 21:34:41
+06:34:41 INFO: Download start: 2015-06-19 12:00:00
+06:34:41 INFO: Download stop: 2015-06-26 12:00:00
+06:34:41 INFO: Bounding box: -87.40, 24.25,-74.70, 36.70
+06:34:41 INFO: *********************** Software version ***********************
+06:34:41 INFO: Iris version: 1.8.1
+06:34:41 INFO: owslib version: 0.9.0
+06:34:41 INFO: pyoos version: 0.6.2
+06:34:45 INFO: ********************* Catalog information **********************
+06:34:45 INFO: URL: http://www.ngdc.noaa.gov/geoportal/csw
+06:34:45 INFO: CSW version: 2.0.2
+06:34:45 INFO: Number of datasets available: 8
+06:34:45 INFO: ***************************** CSW ******************************
+06:34:45 INFO: sp010-20150409T1524
+06:34:45 INFO: COAWST Forecast System : USGS : US East Coast and Gulf of Mexico (Experimental)
+06:34:45 INFO: ROMS ESPRESSO Real-Time Operational IS4DVAR Forecast System Version 2 (NEW) 2013-present FMRC History (Best)
+06:34:45 INFO: TBOFS - Tampa Bay Operational Forecast System - NOAA CO-OPS - POM
+06:34:45 INFO: HYbrid Coordinate Ocean Model (HYCOM): Global
+06:34:45 INFO: National Data Buoy Center SOS
+06:34:45 INFO: CBOFS - Chesapeake Bay Operational Forecast System - NOAA CO-OPS - POM
+06:34:45 INFO: NECOFS GOM3 (FVCOM) - Northeast US - Latest Forecast
+06:34:45 INFO: ***************************** DAP ******************************
+06:34:45 INFO: http://data.ioos.us/thredds/dodsC/deployments/drudnick/sp010-20150409T1524/sp010-20150409T1524.nc3.nc.html
+06:34:45 INFO: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd.html
+06:34:45 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global.html
+06:34:45 INFO: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd.html
+06:34:45 INFO: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd.html
+06:34:45 INFO: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd.html
+06:34:45 INFO: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc.html
+06:34:45 INFO: ***************************** SOS ******************************
+06:34:45 INFO: http://data.ioos.us/thredds/sos/deployments/drudnick/sp010-20150409T1524/sp010-20150409T1524.nc3.nc?service=SOS&version=1.0.0&request=GetCapabilities
+06:34:45 INFO: http://sdf.ndbc.noaa.gov/sos/server.php?service=SOS&request=GetCapabilities&acceptVersions=1.0.0
+06:34:45 WARNING: SABGOM not in the NGDC csw
+06:34:45 WARNING: SABGOM_ARCHIVE not in the NGDC csw
+06:34:45 WARNING: USEAST not in the NGDC csw
+06:34:45 WARNING: USF_ROMS not in the NGDC csw
+06:34:45 WARNING: USF_SWAN not in the NGDC csw
+06:34:45 WARNING: USF_FVCOM not in the NGDC csw
+06:34:56 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fit.sispnj.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/fit.sispnj.met.nc.
+06:35:05 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.nfb.ngwlms.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/usf.nfb.ngwlms.nc.
+06:35:23 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.tas.ngwlms.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/usf.tas.ngwlms.nc.
+06:35:38 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.apk.ngwlms.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/usf.apk.ngwlms.nc.
+06:35:43 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c21.weatherpak.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/usf.c21.weatherpak.nc.
+06:36:10 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.shp.ngwlms.nc
+istart must be different from istop! Got istart 63857 and  istop 63857
+06:36:33 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.bcp.ngwlms.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/usf.bcp.ngwlms.nc.
+06:36:46 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.fhp.ngwlms.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/usf.fhp.ngwlms.nc.
+06:36:52 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c10.mcat.nc
+istart must be different from istop! Got istart 48233 and  istop 48233
+06:37:06 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/c10_salinity_water_temp.nc
+'Expected to find exactly 1  coordinate, but found none.'
+06:37:16 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/QC_C10_Temp_full.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/QC_C10_Temp_full.nc.
+06:37:26 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/QC_C10_Sal_full.nc
+'Expected to find exactly 1  coordinate, but found none.'
+06:37:30 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c12.mcat.nc
+istart must be different from istop! Got istart 18711 and  istop 18711
+06:37:33 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c13.mcat.nc
+istart must be different from istop! Got istart 18099 and  istop 18099
+06:37:38 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c10.mcat_2011.nc
+istart must be different from istop! Got istart 26303 and  istop 26303
+06:37:42 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c12.mcat_2011.nc
+istart must be different from istop! Got istart 26303 and  istop 26303
+06:37:47 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c13.mcat_2011.nc
+istart must be different from istop! Got istart 26303 and  istop 26303
+06:38:41 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/cormp.ilm1.buoy.nc
+istart must be different from istop! Got istart 1443 and  istop 1443
+06:38:50 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/cormp.lej3.buoy.nc
+istart must be different from istop! Got istart 91490 and  istop 91490
+06:39:46 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.poncedeleonsouth..nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/fldep.poncedeleonsouth..nc.
+06:40:03 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.redbaypoint..nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/fldep.redbaypoint..nc.
+06:40:17 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.naplesbay..nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/fldep.naplesbay..nc.
+06:40:23 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.gordonriverinlet..nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/fldep.gordonriverinlet..nc.
+06:40:29 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.melbourne..nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/fldep.melbourne..nc.
+06:40:35 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.binneydock..nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/fldep.binneydock..nc.
+06:40:42 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.verobeach..nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/fldep.verobeach..nc.
+06:40:49 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/lbhmc.2ndave.pier.nc
+istart must be different from istop! Got istart 90387 and  istop 90387
+06:41:06 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.wiwf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.wiwf1.met.nc.
+06:41:11 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.lbrf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.lbrf1.met.nc.
+06:41:16 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.bobf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.bobf1.met.nc.
+06:41:20 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.trrf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.trrf1.met.nc.
+06:41:25 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.wwef1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.wwef1.met.nc.
+06:41:29 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.lrif1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.lrif1.met.nc.
+06:41:34 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.bwsf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.bwsf1.met.nc.
+06:41:39 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.pkyf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.pkyf1.met.nc.
+06:41:44 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.lmdf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.lmdf1.met.nc.
+06:41:49 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.cnbf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.cnbf1.met.nc.
+06:41:54 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.hcef1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.hcef1.met.nc.
+06:42:00 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.jkyf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.jkyf1.met.nc.
+06:42:06 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.wrbf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.wrbf1.met.nc.
+06:42:11 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.gbif1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.gbif1.met.nc.
+06:42:17 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.ppta1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.ppta1.met.nc.
+06:42:21 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.bdvf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.bdvf1.met.nc.
+06:42:27 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.lrkf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.lrkf1.met.nc.
+06:42:31 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.bnkf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.bnkf1.met.nc.
+06:42:36 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.gbtf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.gbtf1.met.nc.
+06:42:41 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.tcvf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.tcvf1.met.nc.
+06:42:46 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.canf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.canf1.met.nc.
+06:42:51 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.lbsf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.lbsf1.met.nc.
+06:42:56 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.mukf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.mukf1.met.nc.
+06:43:01 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.dkkf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.dkkf1.met.nc.
+06:43:05 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.cwaf1.met.nc
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://129.252.139.124/thredds/dodsC/enp.cwaf1.met.nc.
+06:43:16 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fau.lobo.1.nc
+istart must be different from istop! Got istart 3983 and  istop 3983
+06:43:25 INFO: ********************* Collector offerings **********************
+06:43:25 INFO: NOAA.NOS.CO-OPS SOS: 1048 offerings
+06:43:27 INFO: SOS URL request: http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?eventTime=2015-06-19T12%3A00%3A00Z&service=SOS&offering=urn%3Aioos%3Anetwork%3ANOAA.NOS.CO-OPS%3AMetActive&request=GetObservation&version=1.0.0&responseFormat=text%2Fcsv&featureOfInterest=BBOX%3A-87.4%2C24.25%2C-74.7%2C36.7&observedProperty=salinity
+06:44:24 INFO: ************************* Observations *************************
+06:44:24 INFO: **** Downloading to file 2015-06-26/2015-06-26-OBS_DATA.nc *****
+06:44:33 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/iris/fileformats/netcdf.py:1783: UserWarning: NetCDF default saving behaviour currently assigns the outermost dimensions to unlimited. This behaviour is to be deprecated, in favour of no automatic assignment. To switch to the new behaviour, set iris.FUTURE.netcdf_no_unlimited to True.
+  warnings.warn(msg)
+
+06:44:33 INFO: ********************* SECOORA Observations *********************
+06:44:33 INFO:  Downloading to file 2015-06-26/2015-06-26-SECOORA_OBS_DATA.nc *
+06:44:33 INFO: **************************** Models ****************************
+06:44:33 INFO: 
+[Reading url 1/13]: http://data.ioos.us/thredds/dodsC/deployments/drudnick/sp010-20150409T1524/sp010-20150409T1524.nc3.nc
+06:44:35 WARNING: [Not model data]: http://data.ioos.us/thredds/dodsC/deployments/drudnick/sp010-20150409T1524/sp010-20150409T1524.nc3.nc
+06:44:35 INFO: 
+[Reading url 2/13]: http://geoport.whoi.edu/thredds/dodsC/coawst_4/use/fmrc/coawst_4_use_best.ncd
+06:45:08 INFO: 
+[Reading url 3/13]: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global
+06:45:12 INFO: 
+[Reading url 4/13]: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd
+06:46:22 WARNING: Cannot get cube for: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/CBOFS/fmrc/Aggregated_7_day_CBOFS_Fields_Forecast_best.ncd
+NetCDF: DAP failure
+06:46:22 INFO: 
+[Reading url 5/13]: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd
+06:46:42 WARNING: Cannot get cube for: http://opendap.co-ops.nos.noaa.gov/thredds/dodsC/TBOFS/fmrc/Aggregated_7_day_TBOFS_Fields_Forecast_best.ncd
+NetCDF: file not found
+06:46:42 INFO: 
+[Reading url 6/13]: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his_Best/ESPRESSO_Real-Time_v2_History_Best_Available_best.ncd
+06:48:27 INFO: 
+[Reading url 7/13]: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc
+06:48:49 INFO: 
+[Reading url 8/13]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+06:49:17 WARNING: Cannot get cube for: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+NetCDF: Access failure
+06:49:17 INFO: 
+[Reading url 9/13]: http://omgarch1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+06:49:49 WARNING: Cannot get cube for: http://omgarch1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+istart must be different from istop! Got istart 11207 and  istop 11207
+06:49:49 INFO: 
+[Reading url 10/13]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/US_East_Forecast_Model_Run_Collection_best.ncd
+06:54:25 INFO: 
+[Reading url 11/13]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd
+06:54:31 INFO: 
+[Reading url 12/13]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+06:54:32 WARNING: Cannot get cube for: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+Cannot find ['sea_water_salinity', 'sea_surface_salinity', 'sea_water_absolute_salinity', 'sea_water_practical_salinity'] in http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd.
+06:54:32 INFO: 
+[Reading url 13/13]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+06:59:32 WARNING: Cannot get cube for: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+Timed out!
+06:59:33 INFO: ****** Downloading to file 2015-06-26/2015-06-26-HYCOM.nc ******
+06:59:56 INFO: [Land   ] Mayport (Bar Pilots Dock), FL
+06:59:59 INFO: [Land   ] I-295 Bridge, St Johns River, FL
+07:00:03 INFO: [Land   ] Red Bay Point, St Johns River, FL
+07:00:06 INFO: [Land   ] Tolomato River station
+07:00:09 INFO: [Land   ] Shell Point station
+07:00:16 INFO: [Land   ] Cherry Grove Pier, N. Myrtle Beach, SC
+07:00:20 INFO: [Land   ] Gulf of Mexico station
+07:00:27 INFO: [Land   ] St Lucie Inlet station
+07:00:30 INFO: [Land   ] Redfish Pass station
+07:00:34 INFO: [Water  ] CORMP ILM3, Wrightsville Beach Offshore, NC
+07:00:34 INFO: [No Data] Fort Myers station
+07:00:36 INFO: [Water  ] CAROCOOPS SUN2, Sunset Nearshore, NC
+07:00:45 INFO: [Water  ] CAROCOOPS FRP2, Fripp Nearshore, SC
+07:00:45 INFO: [No Data] CORMP ILM2, Wrightsville Beach Nearshore, NC
+07:00:52 INFO: [Land   ] Bing&#39;s Landing station
+07:00:56 INFO: [Land   ] Tarpon Bay station
+07:01:02 INFO: [Water  ] CAROCOOPS CAP2, Capers Island Nearshore, SC
+07:01:09 INFO: [Land   ] Apache Pier, Myrtle Beach, SC
+07:01:09 INFO: Finished processing [HYCOM]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+
+07:01:09 INFO: **** Downloading to file 2015-06-26/2015-06-26-USF_ROMS.nc *****
+07:01:09 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:01:09 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:01:09 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:01:09 INFO: [No Data] Tolomato River station
+07:01:13 INFO: [Water  ] Shell Point station
+07:01:13 INFO: [No Data] Cherry Grove Pier, N. Myrtle Beach, SC
+07:01:17 INFO: [Water  ] Gulf of Mexico station
+07:01:17 INFO: [No Data] St Lucie Inlet station
+07:01:22 INFO: [Water  ] Redfish Pass station
+07:01:22 INFO: [No Data] CORMP ILM3, Wrightsville Beach Offshore, NC
+07:01:22 INFO: [No Data] Fort Myers station
+07:01:22 INFO: [No Data] CAROCOOPS SUN2, Sunset Nearshore, NC
+07:01:22 INFO: [No Data] CAROCOOPS FRP2, Fripp Nearshore, SC
+07:01:22 INFO: [No Data] CORMP ILM2, Wrightsville Beach Nearshore, NC
+07:01:22 INFO: [No Data] Bing&#39;s Landing station
+07:01:25 INFO: [Water  ] Tarpon Bay station
+07:01:25 INFO: [No Data] CAROCOOPS CAP2, Capers Island Nearshore, SC
+07:01:25 INFO: [No Data] Apache Pier, Myrtle Beach, SC
+07:01:32 INFO: Finished processing [USF_ROMS]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+
+07:01:32 INFO: **** Downloading to file 2015-06-26/2015-06-26-COAWST_4.nc *****
+07:01:43 INFO: [Land   ] Mayport (Bar Pilots Dock), FL
+07:01:53 INFO: [Land   ] I-295 Bridge, St Johns River, FL
+07:02:03 INFO: [Land   ] Red Bay Point, St Johns River, FL
+07:02:13 INFO: [Land   ] Tolomato River station
+07:02:33 INFO: [Land   ] Shell Point station
+07:02:43 INFO: [Land   ] Cherry Grove Pier, N. Myrtle Beach, SC
+07:03:02 INFO: [Water  ] Gulf of Mexico station
+07:03:22 INFO: [Water  ] St Lucie Inlet station
+07:03:42 INFO: [Water  ] Redfish Pass station
+07:03:51 INFO: [Water  ] CORMP ILM3, Wrightsville Beach Offshore, NC
+07:04:01 INFO: [Land   ] Fort Myers station
+07:04:11 INFO: [Water  ] CAROCOOPS SUN2, Sunset Nearshore, NC
+07:04:21 INFO: [Water  ] CAROCOOPS FRP2, Fripp Nearshore, SC
+07:04:40 INFO: [Water  ] CORMP ILM2, Wrightsville Beach Nearshore, NC
+07:04:50 INFO: [Land   ] Bing&#39;s Landing station
+07:04:59 INFO: [Water  ] Tarpon Bay station
+07:05:19 INFO: [Water  ] CAROCOOPS CAP2, Capers Island Nearshore, SC
+07:05:28 INFO: [Land   ] Apache Pier, Myrtle Beach, SC
+07:06:09 INFO: Finished processing [COAWST_4]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+
+07:06:09 INFO: **** Downloading to file 2015-06-26/2015-06-26-ESPRESSO.nc *****
+07:06:09 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:06:09 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:06:09 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:06:09 INFO: [No Data] Tolomato River station
+07:06:09 INFO: [No Data] Shell Point station
+07:06:09 INFO: [No Data] Cherry Grove Pier, N. Myrtle Beach, SC
+07:06:09 INFO: [No Data] Gulf of Mexico station
+07:06:09 INFO: [No Data] St Lucie Inlet station
+07:06:09 INFO: [No Data] Redfish Pass station
+07:06:09 INFO: [No Data] CORMP ILM3, Wrightsville Beach Offshore, NC
+07:06:09 INFO: [No Data] Fort Myers station
+07:06:09 INFO: [No Data] CAROCOOPS SUN2, Sunset Nearshore, NC
+07:06:09 INFO: [No Data] CAROCOOPS FRP2, Fripp Nearshore, SC
+07:06:09 INFO: [No Data] CORMP ILM2, Wrightsville Beach Nearshore, NC
+07:06:09 INFO: [No Data] Bing&#39;s Landing station
+07:06:09 INFO: [No Data] Tarpon Bay station
+07:06:09 INFO: [No Data] CAROCOOPS CAP2, Capers Island Nearshore, SC
+07:06:09 INFO: [No Data] Apache Pier, Myrtle Beach, SC
+07:06:09 INFO: Finished processing [ESPRESSO]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+
+07:06:09 INFO: ***** Downloading to file 2015-06-26/2015-06-26-USEAST.nc ******
+07:06:11 INFO: [Land   ] Mayport (Bar Pilots Dock), FL
+07:06:11 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:06:14 INFO: [Land   ] Red Bay Point, St Johns River, FL
+07:06:16 INFO: [Land   ] Tolomato River station
+07:06:19 INFO: [Land   ] Shell Point station
+07:06:21 INFO: [Land   ] Cherry Grove Pier, N. Myrtle Beach, SC
+07:06:21 INFO: [No Data] Gulf of Mexico station
+07:06:24 INFO: [Land   ] St Lucie Inlet station
+07:06:24 INFO: [No Data] Redfish Pass station
+07:06:26 INFO: [Water  ] CORMP ILM3, Wrightsville Beach Offshore, NC
+07:06:26 INFO: [No Data] Fort Myers station
+07:06:26 INFO: [No Data] CAROCOOPS SUN2, Sunset Nearshore, NC
+07:06:29 INFO: [Water  ] CAROCOOPS FRP2, Fripp Nearshore, SC
+07:06:29 INFO: [No Data] CORMP ILM2, Wrightsville Beach Nearshore, NC
+07:06:29 INFO: [No Data] Bing&#39;s Landing station
+07:06:31 INFO: [Land   ] Tarpon Bay station
+07:06:31 INFO: [No Data] CAROCOOPS CAP2, Capers Island Nearshore, SC
+07:06:33 INFO: [Land   ] Apache Pier, Myrtle Beach, SC
+07:06:37 INFO: Finished processing [USEAST]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+
+07:06:37 INFO:  Downloading to file 2015-06-26/2015-06-26-NECOFS_GOM3_FVCOM.nc 
+07:06:37 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:06:37 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:06:37 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:06:37 INFO: [No Data] Tolomato River station
+07:06:37 INFO: [No Data] Shell Point station
+07:06:37 INFO: [No Data] Cherry Grove Pier, N. Myrtle Beach, SC
+07:06:37 INFO: [No Data] Gulf of Mexico station
+07:06:37 INFO: [No Data] St Lucie Inlet station
+07:06:37 INFO: [No Data] Redfish Pass station
+07:06:37 INFO: [No Data] CORMP ILM3, Wrightsville Beach Offshore, NC
+07:06:37 INFO: [No Data] Fort Myers station
+07:06:37 INFO: [No Data] CAROCOOPS SUN2, Sunset Nearshore, NC
+07:06:37 INFO: [No Data] CAROCOOPS FRP2, Fripp Nearshore, SC
+07:06:37 INFO: [No Data] CORMP ILM2, Wrightsville Beach Nearshore, NC
+07:06:37 INFO: [No Data] Bing&#39;s Landing station
+07:06:37 INFO: [No Data] Tarpon Bay station
+07:06:37 INFO: [No Data] CAROCOOPS CAP2, Capers Island Nearshore, SC
+07:06:37 INFO: [No Data] Apache Pier, Myrtle Beach, SC
+07:06:37 INFO: Finished processing [NECOFS_GOM3_FVCOM]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+
+07:06:37 WARNING: /home/filipe/miniconda/envs/SECOORA/lib/python2.7/site-packages/numpy/core/_methods.py:59: RuntimeWarning: Mean of empty slice.
+  warnings.warn("Mean of empty slice.", RuntimeWarning)
+
+07:06:43 INFO: 32.04 minutes
+07:06:43 INFO: EOF
