@@ -7,7 +7,7 @@ notebook: /notebooks/timeSeries/sst/
 
 Weekly results for Water Temperature.
 
-<iframe width="750" height="500" frameBorder="0" src="{{ site.baseurl }}{{ page.notebook }}2015-07-17/mapa.html" target="iframe">2015-07-17</a> | [skill]({{ site.baseur/mapa.html" name="iframe"> <p>Your browser does not support iframes.</p> </iframe>
+<iframe width="750" height="500" frameBorder="0" src="{{ site.baseurl }}{{ page.notebook }}2015-07-17/mapa.html" name="iframe"> <p>Your browser does not support iframes.</p> </iframe>
 
 
 | Temperature time-series                                                                            | Skill                                                                | Log                                                            |
