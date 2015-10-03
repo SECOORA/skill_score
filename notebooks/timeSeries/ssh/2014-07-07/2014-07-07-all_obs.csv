@@ -1,10 +1,10 @@
-name,date_time,datum,height,lat,lon,sensor,station,water_surface_height_above_reference_datum,bad_datum
+name,date_time,datum,height,lat,lon,sensor,station,water_surface_height_above_reference_datum,bad_station
 "Duck, NC",2014-07-01T12:00:00Z,MLLW,5.663,36.1833,-75.7467,A1,8651370,0.535,False
 "Oregon Inlet Marina, NC",2014-07-01T12:00:00Z,MLLW,0.788,35.795,-75.5483,A1,8652587,0.212,False
 "USCG Station Hatteras, NC",2014-07-01T12:00:00Z,MLLW,8.345,35.2086,-75.7042,A1,8654467,0.179,True
 "Beaufort, NC",2014-07-01T12:00:00Z,MLLW,0.562,34.72,-76.67,A1,8656483,0.552,True
 "Wilmington, NC",2014-07-01T12:00:00Z,MLLW,0.747,34.2267,-77.9533,A1,8658120,0.183,True
-"Wrightsville Beach, NC",2014-07-01T12:00:00Z,MLLW,5.793,34.2133,-77.7867,B1,8658163,0.795,False
+"Wrightsville Beach, NC",2014-07-01T12:00:00Z,MLLW,5.793,34.2133,-77.7867,A1,8658163,0.79,False
 "Springmaid Pier, SC",2014-07-01T12:00:00Z,MLLW,8.928,33.655,-78.9183,A1,8661070,0.921,False
 "Oyster Landing (N Inlet Estuary), SC",2014-07-01T12:00:00Z,MLLW,1.215,33.3517,-79.1867,A1,8662245,0.703,False
 "Charleston, SC",2014-07-01T12:00:00Z,MLLW,0.843,32.7817,-79.925,A1,8665530,0.975,False
