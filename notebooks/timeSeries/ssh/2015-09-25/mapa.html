@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   <link rel="stylesheet" href="https://rawgit.com/andrewgiessel/leafletstuff/master/leaflet.css" />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+   <link rel="stylesheet" href="https://rawgit.com/lvoogdt/Leaflet.awesome-markers/2.0/develop/dist/leaflet.awesome-markers.css">
+   <script src="https://rawgithub.com/lvoogdt/Leaflet.awesome-markers/2.0/develop/dist/leaflet.awesome-markers.js"></script>
+
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster-src.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
+
+   <link rel="stylesheet" href="https://birdage.github.io/Leaflet.awesome-markers/dist/leaflet.awesome.rotate.css">
+
+   
+   
+   
+   
+
+   <style>
+
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position:absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+      }
+
+   </style>
+</head>
+
+<body>
+
+   <div class="folium-map" id="folium_cb7741c4f80e4052936a002d9509013f" style="width: 100%; height: 100%"></div>
+
+   <script>
+
+      
+
+      var base_tile = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+          minZoom: 1,
+          attribution: 'Map data (c) <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+      });
+
+      var baseLayer = {
+        "Base Layer": base_tile
+      };
+
+      /*
+      addition of the wms layers
+      */
+
+      
+      var HF_Radar = L.tileLayer.wms('http://hfrnet.ucsd.edu/thredds/wms/HFRNet/USEGC/6km/hourly/RTV',{format:'image/png',transparent: true,layers:'surface_sea_water_velocity'});
+      
+
+      /*
+      addition of the tile layers
+      */
+      
+      var Imagery = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/MapServer/tile/{z}/{y}/{x}');
+      
+      var Physical_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer/MapServer/tile/{z}/{y}/{x}');
+      
+      var Street_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/MapServer/tile/{z}/{y}/{x}');
+      
+      var Ocean_Base = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}');
+      
+      var Terrain_Base = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer/MapServer/tile/{z}/{y}/{x}');
+      
+      var Navigation_Charts = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Specialty/World_Navigation_Charts/MapServer/tile/{z}/{y}/{x}');
+      
+      var Shaded_Relief = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Shaded_Relief/MapServer/MapServer/tile/{z}/{y}/{x}');
+      
+      var Ocean_Reference = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}');
+      
+      var NatGeo_World_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/NatGeo_World_Map/MapServer/MapServer/tile/{z}/{y}/{x}');
+      
+      var Topo_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer/MapServer/tile/{z}/{y}/{x}');
+      
+
+      /*
+      list of layers to be added
+      */
+      var layer_list = {
+      
+      "HF_Radar": HF_Radar,
+"Imagery": Imagery,
+"Physical_Map": Physical_Map,
+"Street_Map": Street_Map,
+"Ocean_Base": Ocean_Base,
+"Terrain_Base": Terrain_Base,
+"Navigation_Charts": Navigation_Charts,
+"Shaded_Relief": Shaded_Relief,
+"Ocean_Reference": Ocean_Reference,
+"NatGeo_World_Map": NatGeo_World_Map,
+"Topo_Map": Topo_Map
+
+      
+      };
+
+      /*
+      Bounding box.
+      */
+      var southWest = L.latLng(-90, -180),
+          northEast = L.latLng(90, 180),
+          bounds = L.latLngBounds(southWest, northEast);
+
+      /*
+      Creates the map and adds the selected layers
+      */
+      var map = L.map('folium_cb7741c4f80e4052936a002d9509013f', {
+                                       center:[30.475, -81.05],
+                                       zoom: 5,
+                                       maxBounds: bounds,
+                                       layers: [base_tile]
+                                     });
+
+      L.control.layers(baseLayer, layer_list).addTo(map);
+
+      /*
+      addition of the image layers
+      */
+      
+      
+      //cluster group
+      var clusteredmarkers = L.markerClusterGroup();
+      //section for adding clustered markers
+      
+      var marker_13_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_13 = L.marker([36.2055712043, 
+							-75.7361507382],
+							{'icon':marker_13_icon}
+							);
+      marker_13.bindPopup("<b>Duck, NC</b>\nSABGOM");
+      marker_13._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_13)
+      
+      var marker_14_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_14 = L.marker([35.8112, 
+							-75.51997],
+							{'icon':marker_14_icon}
+							);
+      marker_14.bindPopup("<b>Oregon Inlet Marina, NC</b>\nHYCOM");
+      marker_14._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_14)
+      
+      var marker_15_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_15 = L.marker([35.7908032455, 
+							-75.5101442992],
+							{'icon':marker_15_icon}
+							);
+      marker_15.bindPopup("<b>Oregon Inlet Marina, NC</b>\nSABGOM");
+      marker_15._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_15)
+      
+      var marker_16_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_16 = L.marker([35.781312092, 
+							-75.5609029744],
+							{'icon':marker_16_icon}
+							);
+      marker_16.bindPopup("<b>Oregon Inlet Marina, NC</b>\nROMS_ESPRESSO");
+      marker_16._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_16)
+      
+      var marker_17_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_17 = L.marker([35.2150387267, 
+							-75.7072053905],
+							{'icon':marker_17_icon}
+							);
+      marker_17.bindPopup("<b>USCG Station Hatteras, NC</b>\nSABGOM");
+      marker_17._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_17)
+      
+      var marker_18_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_18 = L.marker([34.6864399695, 
+							-76.6843654193],
+							{'icon':marker_18_icon}
+							);
+      marker_18.bindPopup("<b>Beaufort, NC</b>\nROMS_ESPRESSO");
+      marker_18._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_18)
+      
+      var marker_19_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_19 = L.marker([34.239, 
+							-77.75997],
+							{'icon':marker_19_icon}
+							);
+      marker_19.bindPopup("<b>Wrightsville Beach, NC</b>\nHYCOM");
+      marker_19._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_19)
+      
+      var marker_20_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_20 = L.marker([34.2153474741, 
+							-77.7892059433],
+							{'icon':marker_20_icon}
+							);
+      marker_20.bindPopup("<b>Wrightsville Beach, NC</b>\nSABGOM");
+      marker_20._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_20)
+      
+      var marker_21_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_21 = L.marker([33.6369096117, 
+							-78.9333300342],
+							{'icon':marker_21_icon}
+							);
+      marker_21.bindPopup("<b>Springmaid Pier, SC</b>\nSABGOM");
+      marker_21._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_21)
+      
+      var marker_22_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_22 = L.marker([33.621892401, 
+							-78.9106334839],
+							{'icon':marker_22_icon}
+							);
+      marker_22.bindPopup("<b>Springmaid Pier, SC</b>\nUSEAST");
+      marker_22._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_22)
+      
+      var marker_23_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_23 = L.marker([33.3672838726, 
+							-79.1522426587],
+							{'icon':marker_23_icon}
+							);
+      marker_23.bindPopup("<b>Oyster Landing (N Inlet Estuary), SC</b>\nSABGOM");
+      marker_23._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_23)
+      
+      var marker_24_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_24 = L.marker([33.346033, 
+							-79.152092],
+							{'icon':marker_24_icon}
+							);
+      marker_24.bindPopup("<b>Oyster Landing (N Inlet Estuary), SC</b>\nESTOFS");
+      marker_24._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_24)
+      
+      var marker_25_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_25 = L.marker([28.4005415553, 
+							-80.5815400047],
+							{'icon':marker_25_icon}
+							);
+      marker_25.bindPopup("<b>Trident Pier, FL</b>\nSABGOM");
+      marker_25._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_25)
+      
+      var marker_26_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_26 = L.marker([26.5906, 
+							-79.99997],
+							{'icon':marker_26_icon}
+							);
+      marker_26.bindPopup("<b>Lake Worth Pier, FL</b>\nHYCOM");
+      marker_26._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_26)
+      
+      var marker_27_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_27 = L.marker([26.6226961946, 
+							-80.0043935803],
+							{'icon':marker_27_icon}
+							);
+      marker_27.bindPopup("<b>Lake Worth Pier, FL</b>\nSABGOM");
+      marker_27._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_27)
+      
+      var marker_28_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_28 = L.marker([25.731148755, 
+							-80.1908546364],
+							{'icon':marker_28_icon}
+							);
+      marker_28.bindPopup("<b>Virginia Key, FL</b>\nSABGOM");
+      marker_28._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_28)
+      
+      var marker_29_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_29 = L.marker([25.7013373195, 
+							-80.1753393663],
+							{'icon':marker_29_icon}
+							);
+      marker_29.bindPopup("<b>Virginia Key, FL</b>\nUSEAST");
+      marker_29._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_29)
+      
+      var marker_30_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_30 = L.marker([24.7255359384, 
+							-81.1234471161],
+							{'icon':marker_30_icon}
+							);
+      marker_30.bindPopup("<b>Vaca Key, FL</b>\nSABGOM");
+      marker_30._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_30)
+      
+      var marker_31_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_31 = L.marker([24.7136993408, 
+							-81.1126022339],
+							{'icon':marker_31_icon}
+							);
+      marker_31.bindPopup("<b>Vaca Key, FL</b>\nUSF_FVCOM");
+      marker_31._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_31)
+      
+      var marker_32_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_32 = L.marker([24.5286375932, 
+							-81.8242365243],
+							{'icon':marker_32_icon}
+							);
+      marker_32.bindPopup("<b>Key West, FL</b>\nSABGOM");
+      marker_32._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_32)
+      
+      var marker_33_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_33 = L.marker([24.5617008209, 
+							-81.8226013184],
+							{'icon':marker_33_icon}
+							);
+      marker_33.bindPopup("<b>Key West, FL</b>\nUSF_FVCOM");
+      marker_33._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_33)
+      
+      var marker_34_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_34 = L.marker([26.141212, 
+							-81.818581],
+							{'icon':marker_34_icon}
+							);
+      marker_34.bindPopup("<b>Naples, FL</b>\nUSF_ROMS");
+      marker_34._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_34)
+      
+      var marker_35_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_35 = L.marker([26.1371002197, 
+							-81.8100967407],
+							{'icon':marker_35_icon}
+							);
+      marker_35.bindPopup("<b>Naples, FL</b>\nUSF_FVCOM");
+      marker_35._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_35)
+      
+      var marker_36_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_36 = L.marker([26.653248, 
+							-81.838165],
+							{'icon':marker_36_icon}
+							);
+      marker_36.bindPopup("<b>Fort Myers, FL</b>\nUSF_ROMS");
+      marker_36._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_36)
+      
+      var marker_37_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_37 = L.marker([26.6485996246, 
+							-81.8725967407],
+							{'icon':marker_37_icon}
+							);
+      marker_37.bindPopup("<b>Fort Myers, FL</b>\nUSF_FVCOM");
+      marker_37._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_37)
+      
+      var marker_38_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_38 = L.marker([27.6478911939, 
+							-82.5888951531],
+							{'icon':marker_38_icon}
+							);
+      marker_38.bindPopup("<b>Port Manatee, FL</b>\nSABGOM");
+      marker_38._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_38)
+      
+      var marker_39_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_39 = L.marker([27.655094, 
+							-82.591057],
+							{'icon':marker_39_icon}
+							);
+      marker_39.bindPopup("<b>Port Manatee, FL</b>\nUSF_ROMS");
+      marker_39._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_39)
+      
+      var marker_40_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_40 = L.marker([27.6383991241, 
+							-82.5626983643],
+							{'icon':marker_40_icon}
+							);
+      marker_40.bindPopup("<b>Port Manatee, FL</b>\nUSF_FVCOM");
+      marker_40._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_40)
+      
+      var marker_41_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_41 = L.marker([27.7317465905, 
+							-82.6330443354],
+							{'icon':marker_41_icon}
+							);
+      marker_41.bindPopup("<b>St Petersburg, FL</b>\nSABGOM");
+      marker_41._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_41)
+      
+      var marker_42_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_42 = L.marker([27.7602996826, 
+							-82.6279983521],
+							{'icon':marker_42_icon}
+							);
+      marker_42.bindPopup("<b>St Petersburg, FL</b>\nUSF_FVCOM");
+      marker_42._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_42)
+      
+      var marker_43_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_43 = L.marker([27.8738708277, 
+							-82.5622852117],
+							{'icon':marker_43_icon}
+							);
+      marker_43.bindPopup("<b>Old Port Tampa, FL</b>\nSABGOM");
+      marker_43._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_43)
+      
+      var marker_44_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_44 = L.marker([27.865091, 
+							-82.540016],
+							{'icon':marker_44_icon}
+							);
+      marker_44.bindPopup("<b>Old Port Tampa, FL</b>\nUSF_ROMS");
+      marker_44._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_44)
+      
+      var marker_45_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_45 = L.marker([27.8575992584, 
+							-82.5546035767],
+							{'icon':marker_45_icon}
+							);
+      marker_45.bindPopup("<b>Old Port Tampa, FL</b>\nUSF_FVCOM");
+      marker_45._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_45)
+      
+      var marker_46_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_46 = L.marker([27.8902234581, 
+							-82.425288912],
+							{'icon':marker_46_icon}
+							);
+      marker_46.bindPopup("<b>Mckay Bay Entrance, FL</b>\nSABGOM");
+      marker_46._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_46)
+      
+      var marker_47_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_47 = L.marker([27.939505, 
+							-82.433426],
+							{'icon':marker_47_icon}
+							);
+      marker_47.bindPopup("<b>Mckay Bay Entrance, FL</b>\nUSF_ROMS");
+      marker_47._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_47)
+      
+      var marker_48_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_48 = L.marker([27.9011993408, 
+							-82.4236984253],
+							{'icon':marker_48_icon}
+							);
+      marker_48.bindPopup("<b>Mckay Bay Entrance, FL</b>\nUSF_FVCOM");
+      marker_48._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_48)
+      
+      var marker_49_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_49 = L.marker([27.9961204179, 
+							-82.845003873],
+							{'icon':marker_49_icon}
+							);
+      marker_49.bindPopup("<b>Clearwater Beach, FL</b>\nSABGOM");
+      marker_49._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_49)
+      
+      var marker_50_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_50 = L.marker([28.010233, 
+							-82.853775],
+							{'icon':marker_50_icon}
+							);
+      marker_50.bindPopup("<b>Clearwater Beach, FL</b>\nUSF_ROMS");
+      marker_50._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_50)
+      
+      var marker_51_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_51 = L.marker([27.9769992828, 
+							-82.8323974609],
+							{'icon':marker_51_icon}
+							);
+      marker_51.bindPopup("<b>Clearwater Beach, FL</b>\nUSF_FVCOM");
+      marker_51._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_51)
+      
+      var marker_52_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_52 = L.marker([29.1348475615, 
+							-83.008480396],
+							{'icon':marker_52_icon}
+							);
+      marker_52.bindPopup("<b>Cedar Key, FL</b>\nSABGOM");
+      marker_52._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_52)
+      
+      var marker_53_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_53 = L.marker([29.130903, 
+							-83.024696],
+							{'icon':marker_53_icon}
+							);
+      marker_53.bindPopup("<b>Cedar Key, FL</b>\nUSF_ROMS");
+      marker_53._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_53)
+      
+      var marker_54_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_54 = L.marker([29.1385993958, 
+							-83.0425033569],
+							{'icon':marker_54_icon}
+							);
+      marker_54.bindPopup("<b>Cedar Key, FL</b>\nUSF_FVCOM");
+      marker_54._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_54)
+      
+      var marker_55_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_55 = L.marker([29.1251396761, 
+							-82.9966063346],
+							{'icon':marker_55_icon}
+							);
+      marker_55.bindPopup("<b>Cedar Key, FL</b>\nUSEAST");
+      marker_55._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_55)
+      
+      var marker_56_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_56 = L.marker([29.740152, 
+							-84.978653],
+							{'icon':marker_56_icon}
+							);
+      marker_56.bindPopup("<b>Apalachicola, FL</b>\nUSF_ROMS");
+      marker_56._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_56)
+      
+      var marker_57_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_57 = L.marker([29.7289009094, 
+							-84.977897644],
+							{'icon':marker_57_icon}
+							);
+      marker_57.bindPopup("<b>Apalachicola, FL</b>\nUSF_FVCOM");
+      marker_57._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_57)
+      
+      var marker_58_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_58 = L.marker([30.138512, 
+							-85.672356],
+							{'icon':marker_58_icon}
+							);
+      marker_58.bindPopup("<b>Panama City, FL</b>\nUSF_ROMS");
+      marker_58._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_58)
+      
+      var marker_59_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_59 = L.marker([30.2213710279, 
+							-85.8992490306],
+							{'icon':marker_59_icon}
+							);
+      marker_59.bindPopup("<b>Panama City Beach, FL</b>\nSABGOM");
+      marker_59._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_59)
+      
+      var marker_60_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_60 = L.marker([30.220388, 
+							-85.863747],
+							{'icon':marker_60_icon}
+							);
+      marker_60.bindPopup("<b>Panama City Beach, FL</b>\nUSF_ROMS");
+      marker_60._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_60)
+      
+      var marker_61_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_61 = L.marker([30.2183990479, 
+							-85.8843994141],
+							{'icon':marker_61_icon}
+							);
+      marker_61.bindPopup("<b>Panama City Beach, FL</b>\nUSF_FVCOM");
+      marker_61._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_61)
+      
+      var marker_62_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_62 = L.marker([26.141212, 
+							-81.818581],
+							{'icon':marker_62_icon}
+							);
+      marker_62.bindPopup("<b>Naples Bay station</b>\nUSF_ROMS");
+      marker_62._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_62)
+      
+      var marker_63_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_63 = L.marker([26.1371002197, 
+							-81.8100967407],
+							{'icon':marker_63_icon}
+							);
+      marker_63.bindPopup("<b>Naples Bay station</b>\nUSF_FVCOM");
+      marker_63._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_63)
+      
+      var marker_64_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_64 = L.marker([29.0665, 
+							-80.87997],
+							{'icon':marker_64_icon}
+							);
+      marker_64.bindPopup("<b>Ponce De Leon South station</b>\nHYCOM");
+      marker_64._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_64)
+      
+      var marker_65_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_65 = L.marker([27.1833392092, 
+							-80.1552649406],
+							{'icon':marker_65_icon}
+							);
+      marker_65.bindPopup("<b>St Lucie Inlet station</b>\nSABGOM");
+      marker_65._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_65)
+      
+      //add the clustered markers to the group anyway
+      map.addLayer(clusteredmarkers);
+
+      
+      var marker_66_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_66 = L.marker([36.1833, 
+							-75.7467],
+							{'icon':marker_66_icon}
+							);
+      marker_66.bindPopup("<div align='center'> Duck, NC <br><iframe src='station_8651370.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_66._popup.options.maxWidth = 600;
+      map.addLayer(marker_66)
+      
+      var marker_67_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_67 = L.marker([35.795, 
+							-75.5483],
+							{'icon':marker_67_icon}
+							);
+      marker_67.bindPopup("<div align='center'> Oregon Inlet Marina, NC <br><iframe src='station_8652587.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_67._popup.options.maxWidth = 600;
+      map.addLayer(marker_67)
+      
+      var marker_68_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_68 = L.marker([35.2086, 
+							-75.7042],
+							{'icon':marker_68_icon}
+							);
+      marker_68.bindPopup("<div align='center'> USCG Station Hatteras, NC <br><iframe src='station_8654467.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_68._popup.options.maxWidth = 600;
+      map.addLayer(marker_68)
+      
+      var marker_69_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_69 = L.marker([34.72, 
+							-76.67],
+							{'icon':marker_69_icon}
+							);
+      marker_69.bindPopup("<div align='center'> Beaufort, NC <br><iframe src='station_8656483.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_69._popup.options.maxWidth = 600;
+      map.addLayer(marker_69)
+      
+      var marker_70_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_70 = L.marker([34.2133, 
+							-77.7867],
+							{'icon':marker_70_icon}
+							);
+      marker_70.bindPopup("<div align='center'> Wrightsville Beach, NC <br><iframe src='station_8658163.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_70._popup.options.maxWidth = 600;
+      map.addLayer(marker_70)
+      
+      var marker_71_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_71 = L.marker([33.655, 
+							-78.9183],
+							{'icon':marker_71_icon}
+							);
+      marker_71.bindPopup("<div align='center'> Springmaid Pier, SC <br><iframe src='station_8661070.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_71._popup.options.maxWidth = 600;
+      map.addLayer(marker_71)
+      
+      var marker_72_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_72 = L.marker([33.3517, 
+							-79.1867],
+							{'icon':marker_72_icon}
+							);
+      marker_72.bindPopup("<div align='center'> Oyster Landing (N Inlet Estuary), SC <br><iframe src='station_8662245.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_72._popup.options.maxWidth = 600;
+      map.addLayer(marker_72)
+      
+      var marker_73_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_73 = L.marker([32.7817, 
+							-79.925],
+							{'icon':marker_73_icon}
+							);
+      marker_73.bindPopup("<div align='center'> Charleston, SC <br><iframe src='station_8665530.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_73._popup.options.maxWidth = 600;
+      map.addLayer(marker_73)
+      
+      var marker_74_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_74 = L.marker([32.0333, 
+							-80.9017],
+							{'icon':marker_74_icon}
+							);
+      marker_74.bindPopup("<div align='center'> Fort Pulaski, GA <br><iframe src='station_8670870.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_74._popup.options.maxWidth = 600;
+      map.addLayer(marker_74)
+      
+      var marker_75_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_75 = L.marker([30.6717, 
+							-81.465],
+							{'icon':marker_75_icon}
+							);
+      marker_75.bindPopup("<div align='center'> Fernandina Beach, FL <br><iframe src='station_8720030.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_75._popup.options.maxWidth = 600;
+      map.addLayer(marker_75)
+      
+      var marker_76_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_76 = L.marker([30.3967, 
+							-81.43],
+							{'icon':marker_76_icon}
+							);
+      marker_76.bindPopup("<div align='center'> Mayport (Bar Pilots Dock), FL <br><iframe src='station_8720218.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_76._popup.options.maxWidth = 600;
+      map.addLayer(marker_76)
+      
+      var marker_77_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_77 = L.marker([30.3867, 
+							-81.5583],
+							{'icon':marker_77_icon}
+							);
+      marker_77.bindPopup("<div align='center'> Dames Point, FL <br><iframe src='station_8720219.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_77._popup.options.maxWidth = 600;
+      map.addLayer(marker_77)
+      
+      var marker_78_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_78 = L.marker([30.32, 
+							-81.6583],
+							{'icon':marker_78_icon}
+							);
+      marker_78.bindPopup("<div align='center'> Southbank Riverwalk, St Johns River, FL <br><iframe src='station_8720226.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_78._popup.options.maxWidth = 600;
+      map.addLayer(marker_78)
+      
+      var marker_79_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_79 = L.marker([30.1917, 
+							-81.6917],
+							{'icon':marker_79_icon}
+							);
+      marker_79.bindPopup("<div align='center'> I-295 Bridge, St Johns River, FL <br><iframe src='station_8720357.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_79._popup.options.maxWidth = 600;
+      map.addLayer(marker_79)
+      
+      var marker_80_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_80 = L.marker([29.9783, 
+							-81.6283],
+							{'icon':marker_80_icon}
+							);
+      marker_80.bindPopup("<div align='center'> Red Bay Point, St Johns River, FL <br><iframe src='station_8720503.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_80._popup.options.maxWidth = 600;
+      map.addLayer(marker_80)
+      
+      var marker_81_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_81 = L.marker([29.8017, 
+							-81.5483],
+							{'icon':marker_81_icon}
+							);
+      marker_81.bindPopup("<div align='center'> Racy Point, St Johns River, FL <br><iframe src='station_8720625.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_81._popup.options.maxWidth = 600;
+      map.addLayer(marker_81)
+      
+      var marker_82_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_82 = L.marker([28.4158, 
+							-80.5931],
+							{'icon':marker_82_icon}
+							);
+      marker_82.bindPopup("<div align='center'> Trident Pier, FL <br><iframe src='station_8721604.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_82._popup.options.maxWidth = 600;
+      map.addLayer(marker_82)
+      
+      var marker_83_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_83 = L.marker([26.6117, 
+							-80.0333],
+							{'icon':marker_83_icon}
+							);
+      marker_83.bindPopup("<div align='center'> Lake Worth Pier, FL <br><iframe src='station_8722670.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_83._popup.options.maxWidth = 600;
+      map.addLayer(marker_83)
+      
+      var marker_84_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_84 = L.marker([25.7314, 
+							-80.1618],
+							{'icon':marker_84_icon}
+							);
+      marker_84.bindPopup("<div align='center'> Virginia Key, FL <br><iframe src='station_8723214.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_84._popup.options.maxWidth = 600;
+      map.addLayer(marker_84)
+      
+      var marker_85_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_85 = L.marker([24.7117, 
+							-81.105],
+							{'icon':marker_85_icon}
+							);
+      marker_85.bindPopup("<div align='center'> Vaca Key, FL <br><iframe src='station_8723970.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_85._popup.options.maxWidth = 600;
+      map.addLayer(marker_85)
+      
+      var marker_86_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_86 = L.marker([24.5557, 
+							-81.8079],
+							{'icon':marker_86_icon}
+							);
+      marker_86.bindPopup("<div align='center'> Key West, FL <br><iframe src='station_8724580.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_86._popup.options.maxWidth = 600;
+      map.addLayer(marker_86)
+      
+      var marker_87_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_87 = L.marker([26.1317, 
+							-81.8075],
+							{'icon':marker_87_icon}
+							);
+      marker_87.bindPopup("<div align='center'> Naples, FL <br><iframe src='station_8725110.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_87._popup.options.maxWidth = 600;
+      map.addLayer(marker_87)
+      
+      var marker_88_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_88 = L.marker([26.6477, 
+							-81.8712],
+							{'icon':marker_88_icon}
+							);
+      marker_88.bindPopup("<div align='center'> Fort Myers, FL <br><iframe src='station_8725520.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_88._popup.options.maxWidth = 600;
+      map.addLayer(marker_88)
+      
+      var marker_89_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_89 = L.marker([27.6387, 
+							-82.5621],
+							{'icon':marker_89_icon}
+							);
+      marker_89.bindPopup("<div align='center'> Port Manatee, FL <br><iframe src='station_8726384.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_89._popup.options.maxWidth = 600;
+      map.addLayer(marker_89)
+      
+      var marker_90_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_90 = L.marker([27.7606, 
+							-82.6269],
+							{'icon':marker_90_icon}
+							);
+      marker_90.bindPopup("<div align='center'> St Petersburg, FL <br><iframe src='station_8726520.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_90._popup.options.maxWidth = 600;
+      map.addLayer(marker_90)
+      
+      var marker_91_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_91 = L.marker([27.8578, 
+							-82.5527],
+							{'icon':marker_91_icon}
+							);
+      marker_91.bindPopup("<div align='center'> Old Port Tampa, FL <br><iframe src='station_8726607.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_91._popup.options.maxWidth = 600;
+      map.addLayer(marker_91)
+      
+      var marker_92_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_92 = L.marker([27.9133, 
+							-82.425],
+							{'icon':marker_92_icon}
+							);
+      marker_92.bindPopup("<div align='center'> Mckay Bay Entrance, FL <br><iframe src='station_8726667.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_92._popup.options.maxWidth = 600;
+      map.addLayer(marker_92)
+      
+      var marker_93_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_93 = L.marker([27.9783, 
+							-82.8317],
+							{'icon':marker_93_icon}
+							);
+      marker_93.bindPopup("<div align='center'> Clearwater Beach, FL <br><iframe src='station_8726724.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_93._popup.options.maxWidth = 600;
+      map.addLayer(marker_93)
+      
+      var marker_94_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_94 = L.marker([29.135, 
+							-83.0317],
+							{'icon':marker_94_icon}
+							);
+      marker_94.bindPopup("<div align='center'> Cedar Key, FL <br><iframe src='station_8727520.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_94._popup.options.maxWidth = 600;
+      map.addLayer(marker_94)
+      
+      var marker_95_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_95 = L.marker([29.7267, 
+							-84.9817],
+							{'icon':marker_95_icon}
+							);
+      marker_95.bindPopup("<div align='center'> Apalachicola, FL <br><iframe src='station_8728690.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_95._popup.options.maxWidth = 600;
+      map.addLayer(marker_95)
+      
+      var marker_96_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_96 = L.marker([30.1523, 
+							-85.6669],
+							{'icon':marker_96_icon}
+							);
+      marker_96.bindPopup("<div align='center'> Panama City, FL <br><iframe src='station_8729108.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_96._popup.options.maxWidth = 600;
+      map.addLayer(marker_96)
+      
+      var marker_97_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_97 = L.marker([30.2133, 
+							-85.8783],
+							{'icon':marker_97_icon}
+							);
+      marker_97.bindPopup("<div align='center'> Panama City Beach, FL <br><iframe src='station_8729210.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_97._popup.options.maxWidth = 600;
+      map.addLayer(marker_97)
+      
+      var marker_98_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_98 = L.marker([30.4044, 
+							-87.2112],
+							{'icon':marker_98_icon}
+							);
+      marker_98.bindPopup("<div align='center'> Pensacola, FL <br><iframe src='station_8729840.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_98._popup.options.maxWidth = 600;
+      map.addLayer(marker_98)
+      
+      var marker_99_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_99 = L.marker([29.6154174805, 
+							-81.2049179077],
+							{'icon':marker_99_icon}
+							);
+      marker_99.bindPopup("<div align='center'> Bing's Landing station <br><iframe src='station_fldep.bingslanding..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_99._popup.options.maxWidth = 600;
+      map.addLayer(marker_99)
+      
+      var marker_100_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_100 = L.marker([27.467546463, 
+							-80.3008499146],
+							{'icon':marker_100_icon}
+							);
+      marker_100.bindPopup("<div align='center'> Binney Dock station <br><iframe src='station_fldep.binneydock..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_100._popup.options.maxWidth = 600;
+      map.addLayer(marker_100)
+      
+      var marker_101_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_101 = L.marker([26.1417789459, 
+							-81.7900543213],
+							{'icon':marker_101_icon}
+							);
+      marker_101.bindPopup("<div align='center'> Naples Bay station <br><iframe src='station_fldep.naplesbay..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_101._popup.options.maxWidth = 600;
+      map.addLayer(marker_101)
+      
+      var marker_102_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_102 = L.marker([29.0634727478, 
+							-80.9160842896],
+							{'icon':marker_102_icon}
+							);
+      marker_102.bindPopup("<div align='center'> Ponce De Leon South station <br><iframe src='station_fldep.poncedeleonsouth..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_102._popup.options.maxWidth = 600;
+      map.addLayer(marker_102)
+      
+      var marker_103_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_103 = L.marker([27.1652774811, 
+							-80.1627807617],
+							{'icon':marker_103_icon}
+							);
+      marker_103.bindPopup("<div align='center'> St Lucie Inlet station <br><iframe src='station_fldep.stlucieinlet..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_103._popup.options.maxWidth = 600;
+      map.addLayer(marker_103)
+      
+      var marker_104_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_104 = L.marker([29.9947223663, 
+							-81.3295593262],
+							{'icon':marker_104_icon}
+							);
+      marker_104.bindPopup("<div align='center'> Tolomato River station <br><iframe src='station_fldep.tolomatoriver..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_104._popup.options.maxWidth = 600;
+      map.addLayer(marker_104)
+      
+      var marker_105_icon = L.AwesomeMarkers.icon({ icon: 'question-sign',markerColor: 'red',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_105 = L.marker([35.2086, 
+							-75.7042],
+							{'icon':marker_105_icon}
+							);
+      marker_105.bindPopup("<b>Station:</b> USCG Station Hatteras, NC<br><b>Datum:</b> MLLW<br>");
+      marker_105._popup.options.maxWidth = 300;
+      map.addLayer(marker_105)
+      
+      var marker_106_icon = L.AwesomeMarkers.icon({ icon: 'question-sign',markerColor: 'red',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_106 = L.marker([34.72, 
+							-76.67],
+							{'icon':marker_106_icon}
+							);
+      marker_106.bindPopup("<b>Station:</b> Beaufort, NC<br><b>Datum:</b> MLLW<br>");
+      marker_106._popup.options.maxWidth = 300;
+      map.addLayer(marker_106)
+      
+      var marker_107_icon = L.AwesomeMarkers.icon({ icon: 'question-sign',markerColor: 'red',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_107 = L.marker([34.2267, 
+							-77.9533],
+							{'icon':marker_107_icon}
+							);
+      marker_107.bindPopup("<b>Station:</b> Wilmington, NC<br><b>Datum:</b> MLLW<br>");
+      marker_107._popup.options.maxWidth = 300;
+      map.addLayer(marker_107)
+      
+      var marker_108_icon = L.AwesomeMarkers.icon({ icon: 'question-sign',markerColor: 'red',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_108 = L.marker([27.7606, 
+							-82.6269],
+							{'icon':marker_108_icon}
+							);
+      marker_108.bindPopup("<b>Station:</b> St Petersburg, FL<br><b>Datum:</b> MLLW<br>");
+      marker_108._popup.options.maxWidth = 300;
+      map.addLayer(marker_108)
+      
+      var marker_109_icon = L.AwesomeMarkers.icon({ icon: 'question-sign',markerColor: 'red',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_109 = L.marker([27.8578, 
+							-82.5527],
+							{'icon':marker_109_icon}
+							);
+      marker_109.bindPopup("<b>Station:</b> Old Port Tampa, FL<br><b>Datum:</b> MLLW<br>");
+      marker_109._popup.options.maxWidth = 300;
+      map.addLayer(marker_109)
+      
+      var marker_110_icon = L.AwesomeMarkers.icon({ icon: 'question-sign',markerColor: 'red',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_110 = L.marker([30.2133, 
+							-85.8783],
+							{'icon':marker_110_icon}
+							);
+      marker_110.bindPopup("<b>Station:</b> Panama City Beach, FL<br><b>Datum:</b> MLLW<br>");
+      marker_110._popup.options.maxWidth = 300;
+      map.addLayer(marker_110)
+      
+
+      
+      var circle_1 = L.circle([32.8, -79.62], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_1.bindPopup("<b>CAP2</b>");
+      circle_1._popup.options.maxWidth = 300;
+      map.addLayer(circle_1)
+      
+      var circle_2 = L.circle([34.14, -77.86], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_2.bindPopup("<b>CMS</b>");
+      circle_2._popup.options.maxWidth = 300;
+      map.addLayer(circle_2)
+      
+      var circle_3 = L.circle([32.27, -80.4], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_3.bindPopup("<b>FRP2</b>");
+      circle_3._popup.options.maxWidth = 300;
+      map.addLayer(circle_3)
+      
+      var circle_4 = L.circle([34.14, -77.72], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_4.bindPopup("<b>ILM2</b>");
+      circle_4._popup.options.maxWidth = 300;
+      map.addLayer(circle_4)
+      
+      var circle_5 = L.circle([33.99, -77.36], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_5.bindPopup("<b>ILM3</b>");
+      circle_5._popup.options.maxWidth = 300;
+      map.addLayer(circle_5)
+      
+      var circle_6 = L.circle([34.48, -77.28], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_6.bindPopup("<b>LEJ3</b>");
+      circle_6._popup.options.maxWidth = 300;
+      map.addLayer(circle_6)
+      
+      var circle_7 = L.circle([33.91, -78.15], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_7.bindPopup("<b>OCP1</b>");
+      circle_7._popup.options.maxWidth = 300;
+      map.addLayer(circle_7)
+      
+      var circle_8 = L.circle([33.83, -78.48], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_8.bindPopup("<b>SUN2</b>");
+      circle_8._popup.options.maxWidth = 300;
+      map.addLayer(circle_8)
+      
+      var circle_9 = L.circle([28.19, -82.79], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_9.bindPopup("<b>ANC</b>");
+      circle_9._popup.options.maxWidth = 300;
+      map.addLayer(circle_9)
+      
+      var circle_10 = L.circle([28.43, -82.67], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_10.bindPopup("<b>APK</b>");
+      circle_10._popup.options.maxWidth = 300;
+      map.addLayer(circle_10)
+      
+      var circle_11 = L.circle([26.4, -81.88], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_11.bindPopup("<b>BCP</b>");
+      circle_11._popup.options.maxWidth = 300;
+      map.addLayer(circle_11)
+      
+      var circle_12 = L.circle([27.17, -82.92], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_12.bindPopup("<b>C10</b>");
+      circle_12._popup.options.maxWidth = 300;
+      map.addLayer(circle_12)
+      
+      var circle_13 = L.circle([27.5, -83.72], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_13.bindPopup("<b>C12</b>");
+      circle_13._popup.options.maxWidth = 300;
+      map.addLayer(circle_13)
+      
+      var circle_14 = L.circle([26.06, -83.07], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_14.bindPopup("<b>C13</b>");
+      circle_14._popup.options.maxWidth = 300;
+      map.addLayer(circle_14)
+      
+      var circle_15 = L.circle([27.68, -82.77], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_15.bindPopup("<b>C21</b>");
+      circle_15._popup.options.maxWidth = 300;
+      map.addLayer(circle_15)
+      
+      var circle_16 = L.circle([27.74, -82.69], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_16.bindPopup("<b>CLB</b>");
+      circle_16._popup.options.maxWidth = 300;
+      map.addLayer(circle_16)
+      
+      var circle_17 = L.circle([26.07, -85.91], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_17.bindPopup("<b>CPK</b>");
+      circle_17._popup.options.maxWidth = 300;
+      map.addLayer(circle_17)
+      
+      var circle_18 = L.circle([28.15, -82.8], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_18.bindPopup("<b>FHP</b>");
+      circle_18._popup.options.maxWidth = 300;
+      map.addLayer(circle_18)
+      
+      var circle_19 = L.circle([25.08, -81.1], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_19.bindPopup("<b>NFB</b>");
+      circle_19._popup.options.maxWidth = 300;
+      map.addLayer(circle_19)
+      
+      var circle_20 = L.circle([30.06, -84.29], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_20.bindPopup("<b>SHP</b>");
+      circle_20._popup.options.maxWidth = 300;
+      map.addLayer(circle_20)
+      
+      var circle_21 = L.circle([28.16, -82.76], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_21.bindPopup("<b>TAS</b>");
+      circle_21._popup.options.maxWidth = 300;
+      map.addLayer(circle_21)
+      
+      var circle_22 = L.circle([27.54, -82.74], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_22.bindPopup("<b>ANM</b>");
+      circle_22._popup.options.maxWidth = 300;
+      map.addLayer(circle_22)
+      
+      var circle_23 = L.circle([27.6, -82.76], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_23.bindPopup("<b>EGK</b>");
+      circle_23._popup.options.maxWidth = 300;
+      map.addLayer(circle_23)
+      
+      var circle_24 = L.circle([27.95, -82.46], 500, {
+                            color: 'black',
+                            fillColor: '#3186cc',
+                            fillOpacity: 0.2
+                            });
+      circle_24.bindPopup("<b>UTP</b>");
+      circle_24._popup.options.maxWidth = 300;
+      map.addLayer(circle_24)
+      
+      var circle_25 = L.circle([34.2133, -77.7866], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_25.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_25._popup.options.maxWidth = 300;
+      map.addLayer(circle_25)
+      
+      var circle_26 = L.circle([33.655, -78.9183], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_26.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_26._popup.options.maxWidth = 300;
+      map.addLayer(circle_26)
+      
+      var circle_27 = L.circle([30.3966, -81.0], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_27.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_27._popup.options.maxWidth = 300;
+      map.addLayer(circle_27)
+      
+      var circle_28 = L.circle([25.73, -80.16], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_28.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_28._popup.options.maxWidth = 300;
+      map.addLayer(circle_28)
+      
+      var circle_29 = L.circle([24.555, -81.8116], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_29.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_29._popup.options.maxWidth = 300;
+      map.addLayer(circle_29)
+      
+      var circle_30 = L.circle([26.13, -82.6137], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_30.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_30._popup.options.maxWidth = 300;
+      map.addLayer(circle_30)
+      
+      var circle_31 = L.circle([27.977, -82.832], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_31.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_31._popup.options.maxWidth = 300;
+      map.addLayer(circle_31)
+      
+      var circle_32 = L.circle([30.152, -86.4987], 700, {
+                            color: 'black',
+                            fillColor: 'red',
+                            fillOpacity: 0.75
+                            });
+      circle_32.bindPopup("[SABGOM/USEAST]\nROMS station file");
+      circle_32._popup.options.maxWidth = 300;
+      map.addLayer(circle_32)
+      
+
+      
+      var latLngs = [ [24.25, -87.4],  [24.25, -74.7],  [36.7, -74.7],  [36.7, -87.4],  [24.25, -87.4], ];
+var line_1 = L.polyline(latLngs,{
+color: '#FF0000',
+weight: 2,
+
+});
+      
+      map.addLayer(line_1);
+      
+
+      
+
+      
+
+      
+
+
+
+   </script>
+
+</body>
