@@ -1,0 +1,631 @@
+<style>.info {
+    background-color:#fcf8e3;
+    border-color:#faebcc;
+    border-left:5px solid #8a6d3b;
+    padding:.5em;
+    color:#8a6d3b
+}
+
+.success {
+    background-color:#d9edf7;
+    border-color:#bce8f1;
+    border-left:5px solid #31708f;
+    padding:.5em;
+    color:#31708f
+}
+
+.error {
+    background-color:#f2dede;
+    border-color:#ebccd1;
+    border-left:5px solid #a94442;
+    padding:.5em;
+    color:#a94442
+}
+
+.warning {
+    background-color:#fcf8e3;
+    border-color:#faebcc;
+    border-left:5px solid #8a6d3b;
+    padding:.5em;
+    color:#8a6d3b
+}
+
+.text-shadow {
+    text-shadow:0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1)
+}
+
+.datagrid table {
+    border-collapse:collapse;
+    text-align:left;
+    width:65%
+}
+
+.datagrid td {
+    border-collapse:collapse;
+    text-align:right;
+}
+
+.datagrid {
+    font:normal 12px/150% Arial,Helvetica,sans-serif;
+    background:#fff;
+    overflow:hidden;
+    border:1px solid #069;
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    border-radius:3px
+}
+
+.datagrid table td,.datagrid table th {
+    padding:3px 10px
+}
+
+.datagrid table thead th {
+    background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#069),color-stop(1,#00557F));
+    background:-moz-linear-gradient(center top,#069 5%,#00557F 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699',endColorstr='#00557F');
+    background-color:#069;
+    color:#FFF;
+    font-size:15px;
+    font-weight:700;
+    border-left:1px solid #0070A8
+}
+
+.datagrid table thead th:first-child {
+    border:none
+}
+
+.datagrid table tbody td {
+    color:#00496B;
+    border-left:1px solid #E1EEF4;
+    font-size:12px;
+    font-weight:400
+}
+
+.datagrid table tbody .alt td {
+    background:#E1EEF4;
+    color:#00496B
+}
+
+.datagrid table tbody td:first-child {
+    border-left:none
+}
+
+.datagrid table tbody tr:last-child td {
+    border-bottom:none
+}
+
+.datagrid table tfoot td div {
+    border-top:1px solid #069;
+    background:#E1EEF4
+}
+
+.datagrid table tfoot td {
+    padding:0;
+    font-size:12px
+}
+
+.datagrid table tfoot td div {
+    padding:2px
+}
+
+.datagrid table tfoot td ul {
+    margin:0;
+    padding:0;
+    list-style:none;
+    text-align:right
+}
+
+.datagrid table tfoot li {
+    display:inline
+}
+
+.datagrid table tfoot li a {
+    text-decoration:none;
+    display:inline-block;
+    padding:2px 8px;
+    margin:1px;
+    color:#FFF;
+    border:1px solid #069;
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    border-radius:3px;
+    background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#069),color-stop(1,#00557F));
+    background:-moz-linear-gradient(center top,#069 5%,#00557F 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699',endColorstr='#00557F');
+    background-color:#069
+}
+
+.datagrid table tfoot ul.active,.datagrid table tfoot ul a:hover {
+    text-decoration:none;
+    border-color:#069;
+    color:#FFF;
+    background:none;
+    background-color:#00557F
+}
+
+div.dhtmlx_window_active,div.dhx_modal_cover_dv {
+    position:fixed!important
+}
+</style><div class="datagrid"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>COAWST_4</th>
+      <th>HYCOM</th>
+      <th>ROMS_ESPRESSO</th>
+      <th>SABGOM_ARCHIVE</th>
+      <th>USF_FVCOM</th>
+      <th>USF_ROMS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Duck, NC</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.46</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Oregon Inlet Marina, NC</th>
+      <td>-0.10</td>
+      <td>-0.52</td>
+      <td>-0.29</td>
+      <td>0.25</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>USCG Station Hatteras, NC</th>
+      <td>0.06</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.20</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Beaufort, NC</th>
+      <td>0.39</td>
+      <td>--</td>
+      <td>0.30</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Wrightsville Beach, NC</th>
+      <td>0.18</td>
+      <td>0.40</td>
+      <td>--</td>
+      <td>0.25</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Springmaid Pier, SC</th>
+      <td>0.24</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-7.32</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Charleston, SC</th>
+      <td>-0.81</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Trident Pier, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.22</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Lake Worth Pier, FL</th>
+      <td>0.16</td>
+      <td>0.24</td>
+      <td>--</td>
+      <td>-4.42</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Virginia Key, FL</th>
+      <td>0.30</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-1.92</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Vaca Key, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.91</td>
+      <td>-1.01</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Key West, FL</th>
+      <td>-0.18</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.47</td>
+      <td>-0.42</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Naples, FL</th>
+      <td>0.26</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.22</td>
+      <td>-2.66</td>
+    </tr>
+    <tr>
+      <th>Fort Myers, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.08</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Port Manatee, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.05</td>
+      <td>0.10</td>
+      <td>-0.40</td>
+    </tr>
+    <tr>
+      <th>St Petersburg, FL</th>
+      <td>0.29</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.42</td>
+      <td>0.03</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Old Port Tampa, FL</th>
+      <td>0.51</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.44</td>
+      <td>0.00</td>
+      <td>-0.83</td>
+    </tr>
+    <tr>
+      <th>Clearwater Beach, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.01</td>
+      <td>0.08</td>
+      <td>-1.68</td>
+    </tr>
+    <tr>
+      <th>Cedar Key, FL</th>
+      <td>0.47</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.66</td>
+      <td>0.29</td>
+      <td>-0.82</td>
+    </tr>
+    <tr>
+      <th>Apalachicola, FL</th>
+      <td>0.44</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.59</td>
+      <td>-6.47</td>
+    </tr>
+    <tr>
+      <th>Panama City, FL</th>
+      <td>0.41</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-1.47</td>
+    </tr>
+    <tr>
+      <th>Panama City Beach, FL</th>
+      <td>0.35</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.50</td>
+      <td>0.45</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Pensacola, FL</th>
+      <td>0.48</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>CAROCOOPS FRP2, Fripp Nearshore, SC</th>
+      <td>0.20</td>
+      <td>-0.27</td>
+      <td>--</td>
+      <td>-2.68</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>CORMP ILM3, Wrightsville Beach Offshore, NC</th>
+      <td>0.27</td>
+      <td>0.52</td>
+      <td>--</td>
+      <td>-1.11</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Broad River, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Butternut Key, FL</th>
+      <td>0.47</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.26</td>
+      <td>--</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Bob Allen, FL</th>
+      <td>0.24</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.16</td>
+      <td>0.22</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Blackwater Sound, FL</th>
+      <td>0.46</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Cane Patch, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.00</td>
+    </tr>
+    <tr>
+      <th>Cannon Bay, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.00</td>
+    </tr>
+    <tr>
+      <th>Clear Water Pass, FL</th>
+      <td>0.36</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.00</td>
+    </tr>
+    <tr>
+      <th>Duck Key, FL</th>
+      <td>0.33</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.14</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Garfield Bight, FL</th>
+      <td>0.17</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.02</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Highway Creek, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Johnson Key, FL</th>
+      <td>0.18</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.07</td>
+      <td>0.27</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Broad River Lower, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Little Blackwater, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Little Madeira, FL</th>
+      <td>0.29</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.10</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Lane River, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Little Rabbit Key, FL</th>
+      <td>0.18</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.00</td>
+      <td>0.37</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Murray Key, FL</th>
+      <td>0.19</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.18</td>
+      <td>0.02</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Peterson Key, FL</th>
+      <td>0.34</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.22</td>
+      <td>0.45</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Trout Cove, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.11</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Willy Willy, FL</th>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Whipray Basin, FL</th>
+      <td>0.21</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.03</td>
+      <td>0.18</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>White Water -West, FL</th>
+      <td>0.23</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>St Lucie Inlet station</th>
+      <td>0.01</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-2.66</td>
+      <td>--</td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <th>Gulf of Mexico station</th>
+      <td>0.45</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.11</td>
+      <td>0.38</td>
+      <td>-1.98</td>
+    </tr>
+    <tr>
+      <th>Redfish Pass station</th>
+      <td>0.33</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.49</td>
+      <td>0.34</td>
+      <td>-2.62</td>
+    </tr>
+    <tr>
+      <th>Shell Point station</th>
+      <td>0.41</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>0.23</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Tarpon Bay station</th>
+      <td>0.34</td>
+      <td>--</td>
+      <td>--</td>
+      <td>-0.09</td>
+      <td>0.48</td>
+      <td>-3.42</td>
+    </tr>
+  </tbody>
+</table></div>
