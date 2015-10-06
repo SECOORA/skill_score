@@ -1,0 +1,16 @@
+# conda env create environment.yml
+name: secoora-skill
+channels:
+  - ioos
+dependencies:
+  - iris
+  - mpld3
+  - pyoos
+  - qrcode
+  - folium
+  - seaborn
+  - geojson
+  - jupyter
+  - utilities
+  - mplleaflet
+  - scikit-learn

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
-   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   <link rel="stylesheet" href="https://rawgit.com/andrewgiessel/leafletstuff/master/leaflet.css" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
 
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -50,7 +50,7 @@
 
 <body>
 
-   <div class="folium-map" id="folium_66dadf81363d40edbe916ca6be8ff96e" style="width: 100%; height: 100%"></div>
+   <div class="folium-map" id="folium_11572b83e6be4024bf210fd3e561677c" style="width: 100%; height: 100%"></div>
 
    <script>
 
@@ -129,7 +129,7 @@
       /*
       Creates the map and adds the selected layers
       */
-      var map = L.map('folium_66dadf81363d40edbe916ca6be8ff96e', {
+      var map = L.map('folium_11572b83e6be4024bf210fd3e561677c', {
                                        center:[30.475, -81.05],
                                        zoom: 5,
                                        maxBounds: bounds,
@@ -138,436 +138,468 @@
 
       L.control.layers(baseLayer, layer_list).addTo(map);
 
+      /*
+      addition of the image layers
+      */
+      
+      
       //cluster group
       var clusteredmarkers = L.markerClusterGroup();
       //section for adding clustered markers
       
       var marker_13_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_13 = L.marker([32.7988261741, 
-							-79.6476058272],
+      var marker_13 = L.marker([32.7715, 
+							-79.59997],
 							{'icon':marker_13_icon}
 							);
-      marker_13.bindPopup("<b>CAROCOOPS CAP2, Capers Island Nearshore, SC</b>\nSABGOM_ARCHIVE");
+      marker_13.bindPopup("<b>carocoops.cap2.buoy</b>\nHYCOM");
       marker_13._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_13)
       
       var marker_14_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_14 = L.marker([32.7967431535, 
-							-79.6555202247],
+      var marker_14 = L.marker([32.8168599474, 
+							-79.6100812721],
 							{'icon':marker_14_icon}
 							);
-      marker_14.bindPopup("<b>CAROCOOPS CAP2, Capers Island Nearshore, SC</b>\nCOAWST_4");
+      marker_14.bindPopup("<b>carocoops.cap2.buoy</b>\nCOAWST_4");
       marker_14._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_14)
       
       var marker_15_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_15 = L.marker([32.7715, 
-							-79.59997],
+      var marker_15 = L.marker([32.2994, 
+							-80.39997],
 							{'icon':marker_15_icon}
 							);
-      marker_15.bindPopup("<b>CAROCOOPS CAP2, Capers Island Nearshore, SC</b>\nHYCOM");
+      marker_15.bindPopup("<b>carocoops.frp2.buoy</b>\nHYCOM");
       marker_15._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_15)
       
       var marker_16_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_16 = L.marker([32.268326127, 
-							-80.3820477742],
+      var marker_16 = L.marker([32.269135867, 
+							-80.4021762581],
 							{'icon':marker_16_icon}
 							);
-      marker_16.bindPopup("<b>CAROCOOPS FRP2, Fripp Nearshore, SC</b>\nSABGOM_ARCHIVE");
+      marker_16.bindPopup("<b>carocoops.frp2.buoy</b>\nCOAWST_4");
       marker_16._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_16)
       
       var marker_17_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_17 = L.marker([32.269135867, 
-							-80.4021762581],
+      var marker_17 = L.marker([33.8412, 
+							-78.47997],
 							{'icon':marker_17_icon}
 							);
-      marker_17.bindPopup("<b>CAROCOOPS FRP2, Fripp Nearshore, SC</b>\nCOAWST_4");
+      marker_17.bindPopup("<b>carocoops.sun2.buoy</b>\nHYCOM");
       marker_17._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_17)
       
       var marker_18_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_18 = L.marker([32.2317, 
-							-80.39997],
+      var marker_18 = L.marker([33.8405544281, 
+							-78.4815392315],
 							{'icon':marker_18_icon}
 							);
-      marker_18.bindPopup("<b>CAROCOOPS FRP2, Fripp Nearshore, SC</b>\nHYCOM");
+      marker_18.bindPopup("<b>carocoops.sun2.buoy</b>\nCOAWST_4");
       marker_18._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_18)
       
       var marker_19_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_19 = L.marker([33.8682847567, 
-							-78.4756803978],
+      var marker_19 = L.marker([33.974, 
+							-77.35997],
 							{'icon':marker_19_icon}
 							);
-      marker_19.bindPopup("<b>CAROCOOPS SUN2, Sunset Nearshore, NC</b>\nSABGOM_ARCHIVE");
+      marker_19.bindPopup("<b>cormp.ilm3.buoy</b>\nHYCOM");
       marker_19._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_19)
       
       var marker_20_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_20 = L.marker([33.8405544281, 
-							-78.4815392315],
+      var marker_20 = L.marker([34.0077531199, 
+							-77.3635026394],
 							{'icon':marker_20_icon}
 							);
-      marker_20.bindPopup("<b>CAROCOOPS SUN2, Sunset Nearshore, NC</b>\nCOAWST_4");
+      marker_20.bindPopup("<b>cormp.ilm3.buoy</b>\nCOAWST_4");
       marker_20._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_20)
       
       var marker_21_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_21 = L.marker([33.8412, 
-							-78.47997],
+      var marker_21 = L.marker([27.5655044988, 
+							-80.3224751591],
 							{'icon':marker_21_icon}
 							);
-      marker_21.bindPopup("<b>CAROCOOPS SUN2, Sunset Nearshore, NC</b>\nHYCOM");
+      marker_21.bindPopup("<b>fau.lobo.1</b>\nCOAWST_4");
       marker_21._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_21)
       
       var marker_22_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_22 = L.marker([34.1321468913, 
-							-77.7442928118],
+      var marker_22 = L.marker([27.1786441989, 
+							-80.1557119652],
 							{'icon':marker_22_icon}
 							);
-      marker_22.bindPopup("<b>CORMP ILM2, Wrightsville Beach Nearshore, NC</b>\nSABGOM_ARCHIVE");
+      marker_22.bindPopup("<b>fldep.stlucieinlet.</b>\nCOAWST_4");
       marker_22._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_22)
       
       var marker_23_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_23 = L.marker([34.1271794483, 
-							-77.6851808633],
+      var marker_23 = L.marker([33.6596981331, 
+							-78.8906396895],
 							{'icon':marker_23_icon}
 							);
-      marker_23.bindPopup("<b>CORMP ILM2, Wrightsville Beach Nearshore, NC</b>\nCOAWST_4");
+      marker_23.bindPopup("<b>lbhmc.2ndave.pier</b>\nCOAWST_4");
       marker_23._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_23)
       
       var marker_24_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_24 = L.marker([33.9567358153, 
-							-77.3581514098],
+      var marker_24 = L.marker([26.437822, 
+							-81.968285],
 							{'icon':marker_24_icon}
 							);
-      marker_24.bindPopup("<b>CORMP ILM3, Wrightsville Beach Offshore, NC</b>\nSABGOM_ARCHIVE");
+      marker_24.bindPopup("<b>sccf.gulfofmexico.wq</b>\nUSF_ROMS");
       marker_24._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_24)
       
       var marker_25_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_25 = L.marker([34.0077531199, 
-							-77.3635026394],
+      var marker_25 = L.marker([26.4428005219, 
+							-81.9729995728],
 							{'icon':marker_25_icon}
 							);
-      marker_25.bindPopup("<b>CORMP ILM3, Wrightsville Beach Offshore, NC</b>\nCOAWST_4");
+      marker_25.bindPopup("<b>sccf.gulfofmexico.wq</b>\nUSF_FVCOM");
       marker_25._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_25)
       
       var marker_26_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_26 = L.marker([33.974, 
-							-77.35997],
+      var marker_26 = L.marker([26.4408059556, 
+							-81.9450782465],
 							{'icon':marker_26_icon}
 							);
-      marker_26.bindPopup("<b>CORMP ILM3, Wrightsville Beach Offshore, NC</b>\nHYCOM");
+      marker_26.bindPopup("<b>sccf.gulfofmexico.wq</b>\nCOAWST_4");
       marker_26._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_26)
       
       var marker_27_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_27 = L.marker([27.1414976706, 
-							-80.1330898299],
+      var marker_27 = L.marker([26.543356, 
+							-82.153938],
 							{'icon':marker_27_icon}
 							);
-      marker_27.bindPopup("<b>St Lucie Inlet station</b>\nSABGOM_ARCHIVE");
+      marker_27.bindPopup("<b>sccf.redfishpass.wq</b>\nUSF_ROMS");
       marker_27._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_27)
       
       var marker_28_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_28 = L.marker([27.1583054926, 
-							-80.2009802159],
+      var marker_28 = L.marker([26.5627994537, 
+							-82.1754989624],
 							{'icon':marker_28_icon}
 							);
-      marker_28.bindPopup("<b>St Lucie Inlet station</b>\nCOAWST_4");
+      marker_28.bindPopup("<b>sccf.redfishpass.wq</b>\nUSF_FVCOM");
       marker_28._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_28)
       
       var marker_29_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_29 = L.marker([33.6797932769, 
-							-78.8451840831],
+      var marker_29 = L.marker([26.5459362143, 
+							-82.1526214822],
 							{'icon':marker_29_icon}
 							);
-      marker_29.bindPopup("<b>2nd Ave North Pier, Myrtle Beach, SC</b>\nCOAWST_4");
+      marker_29.bindPopup("<b>sccf.redfishpass.wq</b>\nCOAWST_4");
       marker_29._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_29)
       
       var marker_30_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_30 = L.marker([26.437822, 
-							-81.968285],
+      var marker_30 = L.marker([26.500919, 
+							-81.979797],
 							{'icon':marker_30_icon}
 							);
-      marker_30.bindPopup("<b>Gulf of Mexico station</b>\nUSF_ROMS");
+      marker_30.bindPopup("<b>sccf.shellpoint.wq</b>\nUSF_ROMS");
       marker_30._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_30)
       
       var marker_31_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_31 = L.marker([26.4204699556, 
-							-81.990348579],
+      var marker_31 = L.marker([26.5252990723, 
+							-82.0093002319],
 							{'icon':marker_31_icon}
 							);
-      marker_31.bindPopup("<b>Gulf of Mexico station</b>\nCOAWST_4");
+      marker_31.bindPopup("<b>sccf.shellpoint.wq</b>\nUSF_FVCOM");
       marker_31._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_31)
       
       var marker_32_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_32 = L.marker([26.543356, 
-							-82.153938],
+      var marker_32 = L.marker([26.5312179697, 
+							-82.0381617442],
 							{'icon':marker_32_icon}
 							);
-      marker_32.bindPopup("<b>Redfish Pass station</b>\nUSF_ROMS");
+      marker_32.bindPopup("<b>sccf.shellpoint.wq</b>\nCOAWST_4");
       marker_32._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_32)
       
       var marker_33_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_33 = L.marker([26.5412633213, 
-							-82.1521330189],
+      var marker_33 = L.marker([26.489492, 
+							-82.062637],
 							{'icon':marker_33_icon}
 							);
-      marker_33.bindPopup("<b>Redfish Pass station</b>\nSABGOM_ARCHIVE");
+      marker_33.bindPopup("<b>sccf.tarponbay.wq</b>\nUSF_ROMS");
       marker_33._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_33)
       
       var marker_34_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_34 = L.marker([26.6013156339, 
-							-82.1765322282],
+      var marker_34 = L.marker([26.4699993134, 
+							-82.0631027222],
 							{'icon':marker_34_icon}
 							);
-      marker_34.bindPopup("<b>Redfish Pass station</b>\nCOAWST_4");
+      marker_34.bindPopup("<b>sccf.tarponbay.wq</b>\nUSF_FVCOM");
       marker_34._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_34)
       
       var marker_35_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_35 = L.marker([26.500919, 
-							-81.979797],
+      var marker_35 = L.marker([26.4555106689, 
+							-82.0595275758],
 							{'icon':marker_35_icon}
 							);
-      marker_35.bindPopup("<b>Shell Point station</b>\nUSF_ROMS");
+      marker_35.bindPopup("<b>sccf.tarponbay.wq</b>\nCOAWST_4");
       marker_35._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_35)
       
       var marker_36_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_36 = L.marker([26.489492, 
-							-82.062637],
+      var marker_36 = L.marker([27.1615, 
+							-82.95997],
 							{'icon':marker_36_icon}
 							);
-      marker_36.bindPopup("<b>Tarpon Bay station</b>\nUSF_ROMS");
+      marker_36.bindPopup("<b>usf.c10.imet</b>\nHYCOM");
       marker_36._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_36)
       
       var marker_37_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_37 = L.marker([26.4866198889, 
-							-82.050439216],
+      var marker_37 = L.marker([27.179075, 
+							-82.905746],
 							{'icon':marker_37_icon}
 							);
-      marker_37.bindPopup("<b>Tarpon Bay station</b>\nSABGOM_ARCHIVE");
+      marker_37.bindPopup("<b>usf.c10.imet</b>\nUSF_ROMS");
       marker_37._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_37)
       
       var marker_38_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_38 = L.marker([26.4555106689, 
-							-82.0595275758],
+      var marker_38 = L.marker([27.173500061, 
+							-82.9250030518],
 							{'icon':marker_38_icon}
 							);
-      marker_38.bindPopup("<b>Tarpon Bay station</b>\nCOAWST_4");
+      marker_38.bindPopup("<b>usf.c10.imet</b>\nUSF_FVCOM");
       marker_38._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_38)
       
       var marker_39_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_39 = L.marker([30.069183, 
-							-84.32],
+      var marker_39 = L.marker([27.19404192, 
+							-82.9190529059],
 							{'icon':marker_39_icon}
 							);
-      marker_39.bindPopup("<b>Shell Point</b>\nUSF_ROMS");
+      marker_39.bindPopup("<b>usf.c10.imet</b>\nCOAWST_4");
       marker_39._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_39)
+      
+      var marker_40_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_40 = L.marker([30.048899, 
+							-84.309311],
+							{'icon':marker_40_icon}
+							);
+      marker_40.bindPopup("<b>usf.shp.ngwlms</b>\nUSF_ROMS");
+      marker_40._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_40)
+      
+      var marker_41_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_41 = L.marker([30.0606002808, 
+							-84.2963027954],
+							{'icon':marker_41_icon}
+							);
+      marker_41.bindPopup("<b>usf.shp.ngwlms</b>\nUSF_FVCOM");
+      marker_41._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_41)
+      
+      var marker_42_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_42 = L.marker([30.0700104685, 
+							-84.323569838],
+							{'icon':marker_42_icon}
+							);
+      marker_42.bindPopup("<b>usf.shp.ngwlms</b>\nCOAWST_4");
+      marker_42._popup.options.maxWidth = 300;
+      clusteredmarkers.addLayer(marker_42)
       
       //add the clustered markers to the group anyway
       map.addLayer(clusteredmarkers);
 
       
-      var marker_40_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_40 = L.marker([30.1917, 
+      var marker_43_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_43 = L.marker([30.1917, 
 							-81.6917],
-							{'icon':marker_40_icon}
-							);
-      marker_40.bindPopup("<div align='center'> I-295 Bridge, St Johns River, FL <br><iframe src='station_8720357.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
-      marker_40._popup.options.maxWidth = 600;
-      map.addLayer(marker_40)
-      
-      var marker_41_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_41 = L.marker([29.9783, 
-							-81.6283],
-							{'icon':marker_41_icon}
-							);
-      marker_41.bindPopup("<div align='center'> Red Bay Point, St Johns River, FL <br><iframe src='station_8720503.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
-      marker_41._popup.options.maxWidth = 600;
-      map.addLayer(marker_41)
-      
-      var marker_42_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_42 = L.marker([32.7999992371, 
-							-79.6200027466],
-							{'icon':marker_42_icon}
-							);
-      marker_42.bindPopup("<div align='center'> CAROCOOPS CAP2, Capers Island Nearshore, SC <br><iframe src='station_carocoops.cap2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
-      marker_42._popup.options.maxWidth = 600;
-      map.addLayer(marker_42)
-      
-      var marker_43_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_43 = L.marker([32.2700004578, 
-							-80.4000015259],
 							{'icon':marker_43_icon}
 							);
-      marker_43.bindPopup("<div align='center'> CAROCOOPS FRP2, Fripp Nearshore, SC <br><iframe src='station_carocoops.frp2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_43.bindPopup("<div align='center'> 8720357 <br><iframe src='station_8720357.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_43._popup.options.maxWidth = 600;
       map.addLayer(marker_43)
       
-      var marker_44_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_44 = L.marker([33.8300018311, 
-							-78.4800033569],
+      var marker_44_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_44 = L.marker([29.9783, 
+							-81.6283],
 							{'icon':marker_44_icon}
 							);
-      marker_44.bindPopup("<div align='center'> CAROCOOPS SUN2, Sunset Nearshore, NC <br><iframe src='station_carocoops.sun2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_44.bindPopup("<div align='center'> 8720503 <br><iframe src='station_8720503.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_44._popup.options.maxWidth = 600;
       map.addLayer(marker_44)
       
       var marker_45_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_45 = L.marker([34.1333007812, 
-							-77.7166976929],
+      var marker_45 = L.marker([32.7999992371, 
+							-79.6200027466],
 							{'icon':marker_45_icon}
 							);
-      marker_45.bindPopup("<div align='center'> CORMP ILM2, Wrightsville Beach Nearshore, NC <br><iframe src='station_cormp.ilm2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_45.bindPopup("<div align='center'> carocoops.cap2.buoy <br><iframe src='station_carocoops.cap2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_45._popup.options.maxWidth = 600;
       map.addLayer(marker_45)
       
       var marker_46_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_46 = L.marker([33.9878005981, 
-							-77.3635025024],
+      var marker_46 = L.marker([32.2700004578, 
+							-80.4000015259],
 							{'icon':marker_46_icon}
 							);
-      marker_46.bindPopup("<div align='center'> CORMP ILM3, Wrightsville Beach Offshore, NC <br><iframe src='station_cormp.ilm3.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_46.bindPopup("<div align='center'> carocoops.frp2.buoy <br><iframe src='station_carocoops.frp2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_46._popup.options.maxWidth = 600;
       map.addLayer(marker_46)
       
-      var marker_47_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_47 = L.marker([27.5348396301, 
-							-80.3431167603],
+      var marker_47_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_47 = L.marker([33.8300018311, 
+							-78.4800033569],
 							{'icon':marker_47_icon}
 							);
-      marker_47.bindPopup("<div align='center'> fau_lobo_1 <br><iframe src='station_fau.lobo.1.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_47.bindPopup("<div align='center'> carocoops.sun2.buoy <br><iframe src='station_carocoops.sun2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_47._popup.options.maxWidth = 600;
       map.addLayer(marker_47)
       
-      var marker_48_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_48 = L.marker([29.6154174805, 
-							-81.2049179077],
+      var marker_48_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_48 = L.marker([33.9878005981, 
+							-77.3635025024],
 							{'icon':marker_48_icon}
 							);
-      marker_48.bindPopup("<div align='center'> Bing's Landing station <br><iframe src='station_fldep.bingslanding..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_48.bindPopup("<div align='center'> cormp.ilm3.buoy <br><iframe src='station_cormp.ilm3.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_48._popup.options.maxWidth = 600;
       map.addLayer(marker_48)
       
       var marker_49_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_49 = L.marker([27.1652774811, 
-							-80.1627807617],
+      var marker_49 = L.marker([27.5348396301, 
+							-80.3431167603],
 							{'icon':marker_49_icon}
 							);
-      marker_49.bindPopup("<div align='center'> St Lucie Inlet station <br><iframe src='station_fldep.stlucieinlet..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_49.bindPopup("<div align='center'> fau.lobo.1 <br><iframe src='station_fau.lobo.1.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_49._popup.options.maxWidth = 600;
       map.addLayer(marker_49)
       
       var marker_50_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_50 = L.marker([29.9947223663, 
-							-81.3295593262],
+      var marker_50 = L.marker([29.6154174805, 
+							-81.2049179077],
 							{'icon':marker_50_icon}
 							);
-      marker_50.bindPopup("<div align='center'> Tolomato River station <br><iframe src='station_fldep.tolomatoriver..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_50.bindPopup("<div align='center'> fldep.bingslanding. <br><iframe src='station_fldep.bingslanding..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_50._popup.options.maxWidth = 600;
       map.addLayer(marker_50)
       
       var marker_51_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_51 = L.marker([33.682674408, 
-							-78.8841400146],
+      var marker_51 = L.marker([27.1652774811, 
+							-80.1627807617],
 							{'icon':marker_51_icon}
 							);
-      marker_51.bindPopup("<div align='center'> 2nd Ave North Pier, Myrtle Beach, SC <br><iframe src='station_lbhmc.2ndave.pier.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_51.bindPopup("<div align='center'> fldep.stlucieinlet. <br><iframe src='station_fldep.stlucieinlet..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_51._popup.options.maxWidth = 600;
       map.addLayer(marker_51)
       
       var marker_52_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_52 = L.marker([33.7615203857, 
-							-78.779876709],
+      var marker_52 = L.marker([29.9947223663, 
+							-81.3295593262],
 							{'icon':marker_52_icon}
 							);
-      marker_52.bindPopup("<div align='center'> Apache Pier, Myrtle Beach, SC <br><iframe src='station_lbhmc.apachepier.pier.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_52.bindPopup("<div align='center'> fldep.tolomatoriver. <br><iframe src='station_fldep.tolomatoriver..html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_52._popup.options.maxWidth = 600;
       map.addLayer(marker_52)
       
-      var marker_53_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_53 = L.marker([33.8274917603, 
-							-78.6320037842],
+      var marker_53_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_53 = L.marker([33.682674408, 
+							-78.8841400146],
 							{'icon':marker_53_icon}
 							);
-      marker_53.bindPopup("<div align='center'> Cherry Grove Pier, N. Myrtle Beach, SC <br><iframe src='station_lbhmc.cherrygrove.pier.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_53.bindPopup("<div align='center'> lbhmc.2ndave.pier <br><iframe src='station_lbhmc.2ndave.pier.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_53._popup.options.maxWidth = 600;
       map.addLayer(marker_53)
       
       var marker_54_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_54 = L.marker([26.6493396759, 
-							-81.8809661865],
+      var marker_54 = L.marker([33.7615203857, 
+							-78.779876709],
 							{'icon':marker_54_icon}
 							);
-      marker_54.bindPopup("<div align='center'> Fort Myers station <br><iframe src='station_sccf.fortmyers.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_54.bindPopup("<div align='center'> lbhmc.apachepier.pier <br><iframe src='station_lbhmc.apachepier.pier.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_54._popup.options.maxWidth = 600;
       map.addLayer(marker_54)
       
-      var marker_55_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_55 = L.marker([26.4430294037, 
-							-81.9711914062],
+      var marker_55_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_55 = L.marker([33.8274917603, 
+							-78.6320037842],
 							{'icon':marker_55_icon}
 							);
-      marker_55.bindPopup("<div align='center'> Gulf of Mexico station <br><iframe src='station_sccf.gulfofmexico.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_55.bindPopup("<div align='center'> lbhmc.cherrygrove.pier <br><iframe src='station_lbhmc.cherrygrove.pier.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_55._popup.options.maxWidth = 600;
       map.addLayer(marker_55)
       
-      var marker_56_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_56 = L.marker([26.5615692139, 
-							-82.1754379272],
+      var marker_56_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_56 = L.marker([26.6493396759, 
+							-81.8809661865],
 							{'icon':marker_56_icon}
 							);
-      marker_56.bindPopup("<div align='center'> Redfish Pass station <br><iframe src='station_sccf.redfishpass.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_56.bindPopup("<div align='center'> sccf.fortmyers.wq <br><iframe src='station_sccf.fortmyers.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_56._popup.options.maxWidth = 600;
       map.addLayer(marker_56)
       
       var marker_57_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_57 = L.marker([26.5225639343, 
-							-82.0079879761],
+      var marker_57 = L.marker([26.4430294037, 
+							-81.9711914062],
 							{'icon':marker_57_icon}
 							);
-      marker_57.bindPopup("<div align='center'> Shell Point station <br><iframe src='station_sccf.shellpoint.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_57.bindPopup("<div align='center'> sccf.gulfofmexico.wq <br><iframe src='station_sccf.gulfofmexico.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_57._popup.options.maxWidth = 600;
       map.addLayer(marker_57)
       
       var marker_58_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_58 = L.marker([26.4679069519, 
-							-82.0631027222],
+      var marker_58 = L.marker([26.5615692139, 
+							-82.1754379272],
 							{'icon':marker_58_icon}
 							);
-      marker_58.bindPopup("<div align='center'> Tarpon Bay station <br><iframe src='station_sccf.tarponbay.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_58.bindPopup("<div align='center'> sccf.redfishpass.wq <br><iframe src='station_sccf.redfishpass.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_58._popup.options.maxWidth = 600;
       map.addLayer(marker_58)
       
       var marker_59_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_59 = L.marker([30.0580005646, 
-							-84.2900009155],
+      var marker_59 = L.marker([26.5225639343, 
+							-82.0079879761],
 							{'icon':marker_59_icon}
 							);
-      marker_59.bindPopup("<div align='center'> Shell Point <br><iframe src='station_usf.shp.ngwlms.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_59.bindPopup("<div align='center'> sccf.shellpoint.wq <br><iframe src='station_sccf.shellpoint.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_59._popup.options.maxWidth = 600;
       map.addLayer(marker_59)
+      
+      var marker_60_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_60 = L.marker([26.4679069519, 
+							-82.0631027222],
+							{'icon':marker_60_icon}
+							);
+      marker_60.bindPopup("<div align='center'> sccf.tarponbay.wq <br><iframe src='station_sccf.tarponbay.wq.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_60._popup.options.maxWidth = 600;
+      map.addLayer(marker_60)
+      
+      var marker_61_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_61 = L.marker([27.1730003357, 
+							-82.9240036011],
+							{'icon':marker_61_icon}
+							);
+      marker_61.bindPopup("<div align='center'> usf.c10.imet <br><iframe src='station_usf.c10.imet.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_61._popup.options.maxWidth = 600;
+      map.addLayer(marker_61)
+      
+      var marker_62_icon = L.AwesomeMarkers.icon({ icon: 'ok-sign',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_62 = L.marker([30.0580005646, 
+							-84.2900009155],
+							{'icon':marker_62_icon}
+							);
+      marker_62.bindPopup("<div align='center'> usf.shp.ngwlms <br><iframe src='station_usf.shp.ngwlms.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_62._popup.options.maxWidth = 600;
+      map.addLayer(marker_62)
       
 
       
