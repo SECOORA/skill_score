@@ -1,0 +1,606 @@
+#!/usr/bin/perl
+use Statistics::Descriptive;
+use POSIX;
+
+$mstln=-80.151; #crandon16
+$mstlt=25.7135;
+
+$slvln=-82.451; #venice13 ang
+$slvlt=27.076;
+
+$dnbln=-80.1166; #dania12
+$dnblt=26.0833;
+
+$vimln=-80.14649; #virginia12
+$vimlt=25.74127;
+
+$key1ln= -81.13; #stcatherine8 ang
+$key1lt=31.69;
+
+$key2ln= -81.41; #jekyll8 ang
+$key2lt=31.06;
+
+$key3ln= -79.15; #georgetown8 ang
+$key3lt=33.25;
+
+$hilln = -78.11; #caswell8 ang
+$hillt =33.88;
+
+$key4ln = -75.75; #duck5 ang
+$key4lt =36.18;
+
+$key5ln =-82.738; #desoto13 ang
+$key5lt =27.636;
+
+$key6ln = -81.811; #naples5
+$key6lt =26.162;
+
+$key7ln = -82.834; #redignton5
+$key7lt =27.833;
+
+$key8ln = -82.452; #venice5
+$key8lt =27.078;
+
+$key9ln = -86.433; #destin5
+$key9lt =30.383;
+
+$key10ln = -87.668; #orange5
+$key10lt =30.250;
+
+$key15ln = -88.569; #pascagoula5
+$key15lt =30.334;
+
+$key12ln = -75.52; #capehatteras5 ang
+$key12lt =35.26;
+
+#$key13ln = -89.04;
+##$key13lt =30.38;
+
+$balln = -76.41; #corebanks5 ang
+$ballt =34.76;
+
+$gsln=$key12ln;
+$gslt=$mstlt;
+$minlon=$key15ln;
+$maxlat=$key12lt;
+
+$deg2kma=111.1;
+$deg2km=111.1;
+$ang2rad=0.017453293;
+$hunkm=130/$deg2km;
+$hunbkm=160/$deg2kma;
+$hunbbkm=190/$deg2kma;
+$ hunbbbkm=100/$deg2km;
+$hrz=0.02;
+
+$mang=31;
+$mmang=$mang-120;
+$dang=55;
+$dmang=$dang-120;
+$k1ang=20;
+$k1mang=$k1ang-120;
+$k2ang=55;
+$k2mang=$k2ang-120;
+$k3ang=20;
+$k3mang=$k3ang-120;
+$hang=-15;
+$hmang=$hang-120;
+$bang=50;
+$bmang=$bang-120;
+$vang=68;
+$vmang=$vang-120;
+$k4ang=5;
+$k4mang=$k4ang-120;
+$k5ang=-60;
+$k5mang=$k5ang-120;
+$k6ang=-120;
+$k6mang=$k6ang-120;
+$k7ang=-70;
+$k7mang=$k7ang-120;
+$k8ang=-100;
+$k8mang=$k8ang-120;
+$k9ang=-46;
+$k9mang=$k9ang-120;
+$k10ang=-30;
+$k10mang=$k10ang-120;
+$k15ang=-2;
+$k15mang=$k15ang-120;
+$k12ang=60;
+$k12mang=$k11ang-120;
+$sang=-110;
+$smang=$sang-120;
+
+($nsj,$sminlat,$smaxlon,$slv1ln,$slv1lt)=makemask($smang,$sang,$hunkm,$hrz,$slvlt,$slvln);
+($ndj,$dminlat,$dmaxlon,$dnb1ln,$dnb1lt)=makemask($dmang,$dang,$hunkm,$hrz,$dnblt,$dnbln);
+($nk1j,$k1minlat,$k1maxlon,$key11ln,$key11lt)=makemask($k1mang,$k1ang,$hunbkm,$hrz,$key1lt,$key1ln);
+($nk2j,$k2minlat,$k2maxlon,$key21ln,$key21lt)=makemask($k2mang,$k2ang,$hunbkm,$hrz,$key2lt,$key2ln);
+($nk3j,$k3minlat,$k3maxlon,$key31ln,$key31lt)=makemask($k3mang,$k3ang,$hunbkm,$hrz,$key3lt,$key3ln);
+($nhj,$hminlat,$hmaxlon,$hil1ln,$hil1lt)=makemask($hmang,$hang,$hunbkm,$hrz,$hillt,$hilln);
+($nbj,$bminlat,$bmaxlon,$bal1ln,$bal1lt)=makemask($bmang,$bang,$hunbbkm,$hrz,$ballt,$balln);
+($nvj,$vminlat,$vmaxlon,$vim1ln,$vim1lt)=makemask($vmang,$vang,$hunkm,$hrz,$vimlt,$vimln);
+($nk4j,$k4minlat,$k4maxlon,$key41ln,$key41lt)=makemask($k4mang,$k4ang,$hunbbkm,$hrz,$key4lt,$key4ln);
+($nk5j,$k5minlat,$k5maxlon,$key51ln,$key51lt)=makemask($k5mang,$k5ang,$hunkm,$hrz,$key5lt,$key5ln);
+($nk6j,$k6minlat,$k6maxlon,$key61ln,$key61lt)=makemask($k6mang,$k6ang,$hunbbkm,$hrz,$key6lt,$key6ln);
+($nk7j,$k7minlat,$k7maxlon,$key71ln,$key71lt)=makemask($k7mang,$k7ang,$hunbbkm,$hrz,$key7lt,$key7ln);
+($nk8j,$k8minlat,$k8maxlon,$key81ln,$key81lt)=makemask($k8mang,$k8ang,$hunbbkm,$hrz,$key8lt,$key8ln);
+($nk9j,$k9minlat,$k9maxlon,$key91ln,$key91lt)=makemask($k9mang,$k9ang,$hunbbkm,$hrz,$key9lt,$key9ln);
+($nk10j,$k10minlat,$k10maxlon,$key101ln,$key101lt)=makemask($k10mang,$k10ang,$hunbbkm,$hrz,$key10lt,$key10ln);
+($nk15j,$k15minlat,$k15maxlon,$key151ln,$key151lt)=makemask($k15mang,$k15ang,$hunbbkm,$hrz,$key15lt,$key15ln);
+($nk12j,$k12minlat,$k12maxlon,$key121ln,$key121lt)=makemask($k12mang,$k12ang,$hunbbkm,$hrz,$key12lt,$key12ln);
+($nmj,$mminlat,$mmaxlon,$mst1ln,$mst1lt)=makemask($mmang,$mang,$hunbbbkm,$hrz,$mstlt,$mstln);
+
+if ($sminlat<$mminlat){ $minlat=$sminlat;}
+else {$minlat=$mminlat;}
+if ($smaxlon>$mmaxlon){ $maxlon=$smaxlon;}
+else {$maxlon=$mmaxlon;}
+
+$ny=int(abs(($gslt-$minlat))/$hrz);
+$nx=int(abs(($gsln-$maxlon))/$hrz);
+($ngrd,$grln,$grlt)=makegrid($gsln,$gslt,$hrz,$nx,$ny);
+print "$ngrd $hrz $ny $nx \n";
+$mxlon=sprintf("%2.2i",ceil($maxlon))+2;
+$mxlat=sprintf("%2.2i",ceil($maxlat))+2;
+$mnlon=sprintf("%2.2i",floor($minlon))-2;
+$mnlat=sprintf("%2.2i",floor($minlat))-3;
+
+print "maskgrd...\n";
+$file="slv.grd";
+maskgrd($file,$nsj,$slv1ln,$slv1lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="dnb.grd";
+maskgrd($file,$ndj,$dnb1ln,$dnb1lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="vim.grd";
+maskgrd($file,$nvj,$vim1ln,$vim1lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key1.grd";
+maskgrd($file,$nk1j,$key11ln,$key11lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key2.grd";
+maskgrd($file,$nk2j,$key21ln,$key21lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key3.grd";
+maskgrd($file,$nk3j,$key31ln,$key31lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="hil.grd";
+maskgrd($file,$nhj,$hil1ln,$hil1lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="bal.grd";
+maskgrd($file,$nbj,$bal1ln,$bal1lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key4.grd";
+maskgrd($file,$nk4j,$key41ln,$key41lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key5.grd";
+maskgrd($file,$nk5j,$key51ln,$key51lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key6.grd";
+maskgrd($file,$nk6j,$key61ln,$key61lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key7.grd";
+maskgrd($file,$nk7j,$key71ln,$key71lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key8.grd";
+maskgrd($file,$nk8j,$key81ln,$key81lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key9.grd";
+maskgrd($file,$nk9j,$key91ln,$key91lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key10.grd";
+maskgrd($file,$nk10j,$key101ln,$key101lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key15.grd";
+maskgrd($file,$nk15j,$key151ln,$key151lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="key12.grd";
+maskgrd($file,$nk12j,$key121ln,$key121lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+$file="mst.grd";
+maskgrd($file,$nmj,$mst1ln,$mst1lt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+print "xyzgrd...\n";
+$file="grid.grd";
+#xyzgrd($file,$ngrd,$grln,$grlt,$mnlon,$mxlon,$mnlat,$mxlat,$hrz);
+
+#`grdmath mst.grd vim.grd x = f1.grd`;
+#`grdmath mst.grd dnb.grd x = f2.grd`;
+#`grdmath vim.grd dnb.grd x = f3.grd`;
+#`grdmath slv.grd key5.grd x = f4.grd`;
+#`grdmath slv.grd key6.grd x = f5.grd`;
+#`grdmath slv.grd key7.grd x = f6.grd`;
+#`grdmath slv.grd key8.grd x = f7.grd`;
+#`grdmath key5.grd key6.grd x = f8.grd`;
+#`grdmath key5.grd key7.grd x = f9.grd`;
+#`grdmath key5.grd key8.grd x = f10.grd`;
+#`grdmath key6.grd key7.grd x = f11.grd`;
+#`grdmath key6.grd key8.grd x = f12.grd`;
+#`grdmath key7.grd key8.grd x = f13.grd`;
+#`grdmath key9.grd key10.grd x = f14.grd`;
+#`grdmath key9.grd key15.grd x = f15.grd`;
+#`grdmath key10.grd key15.grd x = f16.grd`;
+#`grdmath key1.grd key2.grd x = f17.grd`;
+#`grdmath key3.grd hil.grd x = f18.grd`;
+#`grdmath hil.grd bal.grd x = f19.grd`;
+#`grdmath key3.grd key4.grd x = f20.grd`;
+#`grdmath hil.grd key4.grd x = f21.grd`;
+#`grdmath key4.grd bal.grd x = f22.grd`;
+#`grdmath key4.grd key12.grd x = f23.grd`;
+#`grdmath key12.grd bal.grd x = f24.grd`;
+#`grdmath key3.grd bal.grd x = f25.grd`;
+#`grdmath key3.grd key12.grd x = f26.grd`;
+#`grdmath hil.grd key12.grd x = f27.grd`;
+
+#`grd2xyz f1.grd | awk '{if (\$3==1) print \$1,\$2}' > grid`;
+#`grd2xyz f2.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f3.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f4.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f5.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f6.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f7.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f8.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f9.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f10.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f11.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f12.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f13.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f14.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f15.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f16.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f17.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f18.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f19.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f20.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f21.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f22.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f23.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f24.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f25.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f26.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#`grd2xyz f27.grd | awk '{if (\$3==1) print \$1,\$2}' >> grid`;
+#
+
+open GRID, "grid";
+open GRIDU, ">wera.grid";
+@grid=<GRID>;
+close GRID;
+%seen=();
+foreach (@grid){
+          push(@uniq,$_) unless $seen{$_}++;
+              }
+
+foreach (@uniq){
+        print GRIDU "$_\n";
+  }
+close GRIDU;
+
+
+open OUT,">grid.d";
+open OUT3, ">k1rang";
+open OUT4, ">k2rang";
+open OUT5, ">k3rang";
+open OUT6, ">hrang";
+open OUT7, ">k4rang";
+open OUT8, ">brang";
+open OUT9, ">drang";
+open OUT10, ">vrang";
+open OUT11, ">k5rang";
+open OUT12, ">k6rang";
+open OUT13, ">k7rang";
+open OUT14, ">k8rang";
+open OUT15, ">k9rang";
+open OUT16, ">k10rang";
+open OUT17, ">k15rang";
+open OUT18, ">k12rang";
+open OUT2, ">srang";
+open OUT1, ">mrang";
+
+for $j (0..$nsj-1){
+print OUT2 "$slv1ln->[$j] $slv1lt->[$j]\n";
+}
+close OUT2;
+for $j (0..$nk1j-1){
+print OUT3 "$key11ln->[$j] $key11lt->[$j]\n";
+}
+close OUT3;
+for $j (0..$nk2j-1){
+        print OUT4 "$key21ln->[$j] $key21lt->[$j]\n";
+            }
+close OUT4;
+for $j (0..$nk3j-1){
+            print OUT5 "$key31ln->[$j] $key31lt->[$j]\n";
+                }
+close OUT5;
+for $j (0..$nhj-1){
+                print OUT6 "$hil1ln->[$j] $hil1lt->[$j]\n";
+                    }
+close OUT6;
+for $j (0..$nk4j-1){
+                print OUT7 "$key41ln->[$j] $key41lt->[$j]\n";
+                        }
+close OUT7;
+for $j (0..$nbj-1){
+                  print OUT8 "$bal1ln->[$j] $bal1lt->[$j]\n";
+                                }
+close OUT8;
+for $j (0..$ndj-1){
+        print OUT9 "$dnb1ln->[$j] $dnb1lt->[$j]\n";
+            }
+close OUT9;
+for $j (0..$nvj-1){
+            print OUT10 "$vim1ln->[$j] $vim1lt->[$j]\n";
+                }
+close OUT10;
+for $j (0..$nk5j-1){
+             print OUT11 "$key51ln->[$j] $key51lt->[$j]\n";
+            }
+close OUT11;
+for $j (0..$nk6j-1){
+              print OUT12 "$key61ln->[$j] $key61lt->[$j]\n";
+        }
+close OUT12;
+for $j (0..$nk7j-1){
+             print OUT13 "$key71ln->[$j] $key71lt->[$j]\n";
+        }
+close OUT13;
+for $j (0..$nk8j-1){
+              print OUT14 "$key81ln->[$j] $key81lt->[$j]\n";
+          }
+close OUT14;
+for $j (0..$nk9j-1){
+                  print OUT15 "$key91ln->[$j] $key91lt->[$j]\n";
+            }
+close OUT15;
+for $j (0..$nk10j-1){
+                   print OUT16 "$key101ln->[$j] $key101lt->[$j]\n";
+             }
+close OUT16;
+for $j (0..$nk15j-1){
+                     print OUT17 "$key151ln->[$j] $key151lt->[$j]\n";
+               }
+close OUT17;
+for $j (0..$nk12j-1){
+                    print OUT18 "$key121ln->[$j] $key121lt->[$j]\n";
+           }
+close OUT18;
+for $j (0..$ngrd-1){
+print OUT "$grln->[$j] $grlt->[$j]\n";
+}
+close OUT;
+for $j (0..$nmj-1){
+print OUT1 "$mst1ln->[$j] $mst1lt->[$j]\n";
+}
+close OUT1;
+
+plotmap();
+
+sub makemask {
+my ($angmin,$angmax,$dist,$hrz,$slat,$slon,$file,$lmax,$lmin,$tmax,$tmin)=@_;
+my (@lat,@lon);
+
+$j=0;
+$ang2rad=0.017453293;
+for ($i=$angmin; $i<=$angmax;$i=$i+1){
+$angle=$i*$ang2rad;
+if ($i==$angmin){
+for ($jj=0; $jj<=$dist;$jj=$jj+$hrz){
+$lon[$j]=sprintf("%2.3f",$jj*cos($angle)+$slon);
+$lat[$j]=sprintf("%2.3f",$jj*sin($angle)+$slat);
+$j++;
+
+}
+}
+elsif ($i==$angmax){
+for ($jj=$dist; $jj>=0;$jj=$jj-$hrz){
+$lon[$j]=sprintf("%2.3f",$jj*cos($angle)+$slon);
+$lat[$j]=sprintf("%2.3f",$jj*sin($angle)+$slat);
+$j++;
+}
+}
+else {
+$lon[$j]=sprintf("%2.3f",$dist*cos($angle)+$slon);
+$lat[$j]=sprintf("%2.3f",$dist*sin($angle)+$slat);
+$j++;
+}
+}
+close OUT;
+$stat = Statistics::Descriptive::Sparse->new();
+$stat->add_data(@lat);
+$minlat=$stat->min();
+$maxlat=$stat->max();
+print "$minlat $maxlat\n";
+
+$stat = Statistics::Descriptive::Sparse->new();
+$stat->add_data(@lon);
+$maxlon=$stat->max();
+$minlon=$stat->min();
+print "$minlon $maxlon\n";
+
+
+return ($j, $maxlat, $minlon, \@lon, \@lat);
+}
+
+sub maskgrd {
+my ($file,$n,$lon,$lat,$minlon,$maxlon,$minlat,$maxlat,$hrz)=@_;
+print "MASKGRD: $file,$n,$lon,$lat,$minlon,$maxlon,$minlat,$maxlat\n";
+open OUT, ">tmp.grid";
+for $i(0..$n-1){
+  $ln=sprintf("%2.2f",$lon->[$i]);
+    $lt=sprintf("%2.2f",$lat->[$i]);
+      print OUT "$ln $lt\n";
+}
+close OUT;
+
+#`grdmask tmp.grid -G$file -R$minlon/$maxlon/$minlat/$maxlat -I$hrz -N0/0/1`;
+
+}
+
+sub xyzgrd {
+my ($file,$n,$lon,$lat,$minlon,$maxlon,$minlat,$maxlat,$hrz)=@_;
+
+open OUT, ">tmp.grid";
+for $i(0..$n-1){
+  $ln=sprintf("%2.2f",$lon->[$i]);
+    $lt=sprintf("%2.2f",$lat->[$i]);
+      print OUT "$ln $lt 1\n";
+}
+close OUT;
+
+#`xyz2grd tmp.grid -G$file -R$minlon/$maxlon/$minlat/$maxlat -I$hrz`;
+#`grdmask tmp.grid -G$file -R12/15/43/46 -I.01 -N0/0/1`;
+
+}
+sub makegrid {
+my ($slon,$slat,$hrz,$nx,$ny)=@_;
+my (@grid);
+
+$lt=sprintf("%2.3f",$slat);
+
+$jj=0;
+for ($i=0;$i<$ny-2;$i++){
+ for ($j=0;$j<$nx-2;$j++){
+   $ln=sprintf("%2.3f",$slon+$hrz*$j);
+
+  $lat[$jj]=$lt;
+  $lon[$jj]=$ln;
+  $jj++;
+ }
+ $lt=sprintf("%2.3f",$slat-$hrz*$i);
+ $ln=sprintf("%2.3f",$slon);
+}
+return ($jj,\@lon,\@lat);
+}
+
+sub plotmap {
+#`psxy -Jx1 -P -K -R0/8.5/0/11 <<END>bpsfl.ps`;
+#`grdcontour -Wthin,grey -C250 -A250 -JM7 -R-98.00/-73.35/23.50/36.85 -O -K -X.5 -Y.5 sfl_gcoostopo.grd >>bpsfl.ps`;
+`pscoast -N2 -R-98.00/-73.35/23.50/36.85 -Lf-94.00/25.00/50/100k -K -JM+17 -P -Df -Y17 -Ba5f1WSen  -G240 -S150/220/255>bpsfl.ps`;
+`psxy srang -R -JM -O -K  -W3/255/0/255>>bpsfl.ps`;
+`psxy k1rang -R -JM -O -K  -W3/50/155/50>>bpsfl.ps`;
+`psxy k2rang -R -JM -O -K  -W3/50/155/50>>bpsfl.ps`;
+`psxy k3rang -R -JM -O -K  -W3/50/155/50>>bpsfl.ps`;
+`psxy hrang -R -JM -O -K  -W3/50/155/50>>bpsfl.ps`;
+`psxy brang -R -JM -O -K  -W3/255/0/0>>bpsfl.ps`;
+`psxy k4rang -R -JM -O -K  -W3/255/0/0>>bpsfl.ps`;
+`psxy k5rang -R -JM -O -K  -W3/255/0/255>>bpsfl.ps`;
+`psxy k6rang -R -JM -O -K  -W3/255/0/0>>bpsfl.ps`;
+`psxy k7rang -R -JM -O -K  -W3/255/0/0>>bpsfl.ps`;
+`psxy k8rang -R -JM -O -K  -W3/255/0/0>>bpsfl.ps`;
+`psxy k9rang -R -JM -O -K  -W3/255/0/0>>bpsfl.ps`;
+`psxy k10rang -R -JM -O -K  -W3/255/0/0>>bpsfl.ps`;
+`psxy k15rang -R -JM -O -K  -W3/255/0/0>>bpsfl.ps`;
+`psxy k12rang -R -JM -O -K  -W3/255/0/0>>bpsfl.ps`;
+`psxy drang -R -JM -O -K  -W3/0>>bpsfl.ps`;
+`psxy vrang -R -JM -O -K  -W3/0>>bpsfl.ps`;
+`psxy mrang -R -JM -O -K  -W3/255/255/0>>bpsfl.ps`;
+#`psxy wera.grid -R -JM -O -K -Sc0.01 -G0 >>bpsfl.ps`;
+`psxy -R -JM -O -K -Sc0.16 -G255/0/0 -W5/255/0/0 <<END>>bpsfl.ps
+$balln $ballt
+$key4ln $key4lt
+$key6ln $key6lt
+$key7ln $key7lt
+$key8ln $key8lt
+$key9ln $key9lt
+$key10ln $key10lt
+$key15ln $key15lt
+$key12ln $key12lt
+-97.00 35.80
+END`;
+`psxy -R -JM -O -K -Sc0.17 -G0/0/0 -W5/0 <<END >>bpsfl.ps
+$dnbln $dnblt
+$vimln $vimlt
+-97.00 34.60
+END`;
+`psxy -R -JM -O -K -Sc0.16 -G50/155/50 -W5/50/155/50 <<END >>bpsfl.ps
+$key1ln $key1lt
+$key2ln $key2lt
+$key3ln $key3lt
+$hilln $hillt
+-97.00 35.20
+END`;
+`psxy -R -JM -O -K -Sc0.16 -G255/0/255 -W5/255/0/255 <<END >>bpsfl.ps
+$slvln $slvlt
+$key5ln $key5lt
+-97.00 34.00
+END`;
+`psxy -R -JM -O -K -Sc0.16 -G255/255/0 -W5/255/255/0 <<END >>bpsfl.ps
+$mstln $mstlt
+-97.00 33.400
+END`;
+`psxy -R -JM -O -K -Ss0.17 -W2/0 <<END >>bpsfl.ps
+-97.283 26.566
+-97.170 26.107
+-91.524 29.516
+-92.061 29.441
+-90.833 28.832
+-91.930 29.537
+-91.340 29.306
+-90.732 29.054
+-89.994 29.235
+-89.043 29.203
+-89.407 28.932
+-93.342 29.763
+-92.309 29.540
+-89.407 28.932
+-88.495 28.190
+-90.190 29.102
+-89.036 29.206
+-80.550 24.900
+-81.000 24.730
+-81.360 24.620
+-82.120 24.560
+-81.160 25.240
+-80.390 27.640
+-80.140 27.080
+-80.020 26.650
+-80.920 29.050
+-80.600 28.500
+-80.630 28.120
+-81.150 29.660
+-81.380 30.140
+-85.750 30.100
+-84.350 29.900
+-84.644 29.785
+-85.050 29.590
+-81.300 25.710
+-82.170 26.460
+-82.700 28.510
+-83.300 29.430
+-83.750 29.800
+-87.250 30.350
+-82.450 27.080
+-81.450 30.620
+-79.05 33.55
+-79.45 33.0
+-78.68 33.82
+-78.13 33.92
+-77.60 34.40
+-76.80 34.68
+-76.40 34.75
+-75.65 35.23
+-97.000 32.800
+END`;
+`psxy -R -JM -O -K -Ss0.17 -W2/255/0/0 <<END >>bpsfl.ps
+-94.504 29.470
+-95.598 28.716
+-96.859 28.036
+-95.064 29.125
+-97.210 27.610
+-97.380 27.832
+#-97.321 27.714
+-90.520 27.750
+-90.027 27.196
+-88.495 28.190
+-89.390 28.952
+-92.193 29.448
+-89.247 30.311
+-89.044 30.377
+-88.963 30.388
+-88.748 30.348
+-80.310 25.240
+-82.518 27.221
+-82.693 27.450
+#-80.484 25.047
+#-80.346 25.194
+#-80.120 25.900
+-86.250 30.290
+-97.000 32.200
+END`;
+`pstext -JM -O -K -R <<END>>bpsfl.ps
+-95.80 35.80 12 0 0 cm  5 MHz
+-95.80 35.20 12 0 0 cm  8 MHz
+-95.80 34.60 12 0 0 cm 12 MHz
+-95.80 34.00 12 0 0 cm 13 MHz
+-95.80 33.40 12 0 0 cm 16 MHz
+-94.70 32.80 12 0 0 cm Proposed sites
+-93.70 32.20 12 0 0 cm Decommissioned sites
+-94.00 25.32 12 0 0 cm Km
+END`;
+#`pstext -JM -O -K -R <<END>>bpsfl.ps
+#-79.25 30.00 14 0 4 cm Atlantic Ocean
+#END`;
+#`pstext -JM -O -K -R <<END>>bpsfl.ps
+#-87.20 26.75 14 0 4 BC Gulf of Mexico
+#END`;
+}
