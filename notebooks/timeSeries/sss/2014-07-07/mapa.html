@@ -50,7 +50,7 @@
 
 <body>
 
-   <div class="folium-map" id="folium_11572b83e6be4024bf210fd3e561677c" style="width: 100%; height: 100%"></div>
+   <div class="folium-map" id="folium_be67ebefb611491493a501cdea907f2c" style="width: 100%; height: 100%"></div>
 
    <script>
 
@@ -78,25 +78,115 @@
       addition of the tile layers
       */
       
-      var Imagery = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/MapServer/tile/{z}/{y}/{x}');
+      var Imagery = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/MapServer/tile/{z}/{y}/{x}',{
+                            'minZoom': 0,
+                            'maxZoom': 18,
+                            'tms': false,
+                            'continuousWorld': false,
+                            'noWrap': false,
+                            'zoomOffset': 0,
+                            'zoomReverse': false,
+                            'opacity': 1 
+                            });
       
-      var Physical_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer/MapServer/tile/{z}/{y}/{x}');
+      var Physical_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer/MapServer/tile/{z}/{y}/{x}',{
+                            'minZoom': 0,
+                            'maxZoom': 18,
+                            'tms': false,
+                            'continuousWorld': false,
+                            'noWrap': false,
+                            'zoomOffset': 0,
+                            'zoomReverse': false,
+                            'opacity': 1 
+                            });
       
-      var Street_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/MapServer/tile/{z}/{y}/{x}');
+      var Street_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/MapServer/tile/{z}/{y}/{x}',{
+                            'minZoom': 0,
+                            'maxZoom': 18,
+                            'tms': false,
+                            'continuousWorld': false,
+                            'noWrap': false,
+                            'zoomOffset': 0,
+                            'zoomReverse': false,
+                            'opacity': 1 
+                            });
       
-      var Ocean_Base = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}');
+      var Ocean_Base = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}',{
+                            'minZoom': 0,
+                            'maxZoom': 18,
+                            'tms': false,
+                            'continuousWorld': false,
+                            'noWrap': false,
+                            'zoomOffset': 0,
+                            'zoomReverse': false,
+                            'opacity': 1 
+                            });
       
-      var Terrain_Base = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer/MapServer/tile/{z}/{y}/{x}');
+      var Terrain_Base = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer/MapServer/tile/{z}/{y}/{x}',{
+                            'minZoom': 0,
+                            'maxZoom': 18,
+                            'tms': false,
+                            'continuousWorld': false,
+                            'noWrap': false,
+                            'zoomOffset': 0,
+                            'zoomReverse': false,
+                            'opacity': 1 
+                            });
       
-      var Navigation_Charts = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Specialty/World_Navigation_Charts/MapServer/tile/{z}/{y}/{x}');
+      var Navigation_Charts = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Specialty/World_Navigation_Charts/MapServer/tile/{z}/{y}/{x}',{
+                            'minZoom': 0,
+                            'maxZoom': 18,
+                            'tms': false,
+                            'continuousWorld': false,
+                            'noWrap': false,
+                            'zoomOffset': 0,
+                            'zoomReverse': false,
+                            'opacity': 1 
+                            });
       
-      var Shaded_Relief = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Shaded_Relief/MapServer/MapServer/tile/{z}/{y}/{x}');
+      var Shaded_Relief = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Shaded_Relief/MapServer/MapServer/tile/{z}/{y}/{x}',{
+                            'minZoom': 0,
+                            'maxZoom': 18,
+                            'tms': false,
+                            'continuousWorld': false,
+                            'noWrap': false,
+                            'zoomOffset': 0,
+                            'zoomReverse': false,
+                            'opacity': 1 
+                            });
       
-      var Ocean_Reference = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}');
+      var Ocean_Reference = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}',{
+                            'minZoom': 0,
+                            'maxZoom': 18,
+                            'tms': false,
+                            'continuousWorld': false,
+                            'noWrap': false,
+                            'zoomOffset': 0,
+                            'zoomReverse': false,
+                            'opacity': 1 
+                            });
       
-      var NatGeo_World_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/NatGeo_World_Map/MapServer/MapServer/tile/{z}/{y}/{x}');
+      var NatGeo_World_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/NatGeo_World_Map/MapServer/MapServer/tile/{z}/{y}/{x}',{
+                            'minZoom': 0,
+                            'maxZoom': 18,
+                            'tms': false,
+                            'continuousWorld': false,
+                            'noWrap': false,
+                            'zoomOffset': 0,
+                            'zoomReverse': false,
+                            'opacity': 1 
+                            });
       
-      var Topo_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer/MapServer/tile/{z}/{y}/{x}');
+      var Topo_Map = L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer/MapServer/tile/{z}/{y}/{x}',{
+                            'minZoom': 0,
+                            'maxZoom': 18,
+                            'tms': false,
+                            'continuousWorld': false,
+                            'noWrap': false,
+                            'zoomOffset': 0,
+                            'zoomReverse': false,
+                            'opacity': 1 
+                            });
       
 
       /*
@@ -129,7 +219,7 @@
       /*
       Creates the map and adds the selected layers
       */
-      var map = L.map('folium_11572b83e6be4024bf210fd3e561677c', {
+      var map = L.map('folium_be67ebefb611491493a501cdea907f2c', {
                                        center:[30.475, -81.05],
                                        zoom: 5,
                                        maxBounds: bounds,
@@ -148,321 +238,321 @@
       //section for adding clustered markers
       
       var marker_13_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_13 = L.marker([32.7715, 
-							-79.59997],
+      var marker_13 = L.marker([32.8168599474, 
+							-79.6100812721],
 							{'icon':marker_13_icon}
 							);
-      marker_13.bindPopup("<b>carocoops.cap2.buoy</b>\nHYCOM");
+      marker_13.bindPopup("<b>carocoops.cap2.buoy</b>\nCOAWST_4");
       marker_13._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_13)
       
       var marker_14_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_14 = L.marker([32.8168599474, 
-							-79.6100812721],
+      var marker_14 = L.marker([32.269135867, 
+							-80.4021762581],
 							{'icon':marker_14_icon}
 							);
-      marker_14.bindPopup("<b>carocoops.cap2.buoy</b>\nCOAWST_4");
+      marker_14.bindPopup("<b>carocoops.frp2.buoy</b>\nCOAWST_4");
       marker_14._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_14)
       
       var marker_15_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_15 = L.marker([32.2994, 
-							-80.39997],
+      var marker_15 = L.marker([33.8405544281, 
+							-78.4815392315],
 							{'icon':marker_15_icon}
 							);
-      marker_15.bindPopup("<b>carocoops.frp2.buoy</b>\nHYCOM");
+      marker_15.bindPopup("<b>carocoops.sun2.buoy</b>\nCOAWST_4");
       marker_15._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_15)
       
       var marker_16_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_16 = L.marker([32.269135867, 
-							-80.4021762581],
+      var marker_16 = L.marker([34.1070815982, 
+							-77.730634388],
 							{'icon':marker_16_icon}
 							);
-      marker_16.bindPopup("<b>carocoops.frp2.buoy</b>\nCOAWST_4");
+      marker_16.bindPopup("<b>cormp.ilm2.buoy</b>\nCOAWST_4");
       marker_16._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_16)
       
       var marker_17_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_17 = L.marker([33.8412, 
-							-78.47997],
+      var marker_17 = L.marker([34.0077531199, 
+							-77.3635026394],
 							{'icon':marker_17_icon}
 							);
-      marker_17.bindPopup("<b>carocoops.sun2.buoy</b>\nHYCOM");
+      marker_17.bindPopup("<b>cormp.ilm3.buoy</b>\nCOAWST_4");
       marker_17._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_17)
       
       var marker_18_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_18 = L.marker([33.8405544281, 
-							-78.4815392315],
+      var marker_18 = L.marker([27.5655044988, 
+							-80.3224751591],
 							{'icon':marker_18_icon}
 							);
-      marker_18.bindPopup("<b>carocoops.sun2.buoy</b>\nCOAWST_4");
+      marker_18.bindPopup("<b>fau.lobo.1</b>\nCOAWST_4");
       marker_18._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_18)
       
       var marker_19_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_19 = L.marker([33.974, 
-							-77.35997],
+      var marker_19 = L.marker([27.1786441989, 
+							-80.1557119652],
 							{'icon':marker_19_icon}
 							);
-      marker_19.bindPopup("<b>cormp.ilm3.buoy</b>\nHYCOM");
+      marker_19.bindPopup("<b>fldep.stlucieinlet.</b>\nCOAWST_4");
       marker_19._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_19)
       
       var marker_20_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_20 = L.marker([34.0077531199, 
-							-77.3635026394],
+      var marker_20 = L.marker([33.6596981331, 
+							-78.8906396895],
 							{'icon':marker_20_icon}
 							);
-      marker_20.bindPopup("<b>cormp.ilm3.buoy</b>\nCOAWST_4");
+      marker_20.bindPopup("<b>lbhmc.2ndave.pier</b>\nCOAWST_4");
       marker_20._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_20)
       
       var marker_21_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_21 = L.marker([27.5655044988, 
-							-80.3224751591],
+      var marker_21 = L.marker([26.437822, 
+							-81.968285],
 							{'icon':marker_21_icon}
 							);
-      marker_21.bindPopup("<b>fau.lobo.1</b>\nCOAWST_4");
+      marker_21.bindPopup("<b>sccf.gulfofmexico.wq</b>\nUSF_ROMS");
       marker_21._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_21)
       
       var marker_22_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_22 = L.marker([27.1786441989, 
-							-80.1557119652],
+      var marker_22 = L.marker([26.4428005219, 
+							-81.9729995728],
 							{'icon':marker_22_icon}
 							);
-      marker_22.bindPopup("<b>fldep.stlucieinlet.</b>\nCOAWST_4");
+      marker_22.bindPopup("<b>sccf.gulfofmexico.wq</b>\nUSF_FVCOM");
       marker_22._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_22)
       
       var marker_23_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_23 = L.marker([33.6596981331, 
-							-78.8906396895],
+      var marker_23 = L.marker([26.4408059556, 
+							-81.9450782465],
 							{'icon':marker_23_icon}
 							);
-      marker_23.bindPopup("<b>lbhmc.2ndave.pier</b>\nCOAWST_4");
+      marker_23.bindPopup("<b>sccf.gulfofmexico.wq</b>\nCOAWST_4");
       marker_23._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_23)
       
       var marker_24_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_24 = L.marker([26.437822, 
-							-81.968285],
+      var marker_24 = L.marker([26.543356, 
+							-82.153938],
 							{'icon':marker_24_icon}
 							);
-      marker_24.bindPopup("<b>sccf.gulfofmexico.wq</b>\nUSF_ROMS");
+      marker_24.bindPopup("<b>sccf.redfishpass.wq</b>\nUSF_ROMS");
       marker_24._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_24)
       
       var marker_25_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_25 = L.marker([26.4428005219, 
-							-81.9729995728],
+      var marker_25 = L.marker([26.5627994537, 
+							-82.1754989624],
 							{'icon':marker_25_icon}
 							);
-      marker_25.bindPopup("<b>sccf.gulfofmexico.wq</b>\nUSF_FVCOM");
+      marker_25.bindPopup("<b>sccf.redfishpass.wq</b>\nUSF_FVCOM");
       marker_25._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_25)
       
       var marker_26_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_26 = L.marker([26.4408059556, 
-							-81.9450782465],
+      var marker_26 = L.marker([26.5459362143, 
+							-82.1526214822],
 							{'icon':marker_26_icon}
 							);
-      marker_26.bindPopup("<b>sccf.gulfofmexico.wq</b>\nCOAWST_4");
+      marker_26.bindPopup("<b>sccf.redfishpass.wq</b>\nCOAWST_4");
       marker_26._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_26)
       
       var marker_27_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_27 = L.marker([26.543356, 
-							-82.153938],
+      var marker_27 = L.marker([26.500919, 
+							-81.979797],
 							{'icon':marker_27_icon}
 							);
-      marker_27.bindPopup("<b>sccf.redfishpass.wq</b>\nUSF_ROMS");
+      marker_27.bindPopup("<b>sccf.shellpoint.wq</b>\nUSF_ROMS");
       marker_27._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_27)
       
       var marker_28_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_28 = L.marker([26.5627994537, 
-							-82.1754989624],
+      var marker_28 = L.marker([26.5252990723, 
+							-82.0093002319],
 							{'icon':marker_28_icon}
 							);
-      marker_28.bindPopup("<b>sccf.redfishpass.wq</b>\nUSF_FVCOM");
+      marker_28.bindPopup("<b>sccf.shellpoint.wq</b>\nUSF_FVCOM");
       marker_28._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_28)
       
       var marker_29_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_29 = L.marker([26.5459362143, 
-							-82.1526214822],
+      var marker_29 = L.marker([26.5312179697, 
+							-82.0381617442],
 							{'icon':marker_29_icon}
 							);
-      marker_29.bindPopup("<b>sccf.redfishpass.wq</b>\nCOAWST_4");
+      marker_29.bindPopup("<b>sccf.shellpoint.wq</b>\nCOAWST_4");
       marker_29._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_29)
       
       var marker_30_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_30 = L.marker([26.500919, 
-							-81.979797],
+      var marker_30 = L.marker([26.489492, 
+							-82.062637],
 							{'icon':marker_30_icon}
 							);
-      marker_30.bindPopup("<b>sccf.shellpoint.wq</b>\nUSF_ROMS");
+      marker_30.bindPopup("<b>sccf.tarponbay.wq</b>\nUSF_ROMS");
       marker_30._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_30)
       
       var marker_31_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_31 = L.marker([26.5252990723, 
-							-82.0093002319],
+      var marker_31 = L.marker([26.4699993134, 
+							-82.0631027222],
 							{'icon':marker_31_icon}
 							);
-      marker_31.bindPopup("<b>sccf.shellpoint.wq</b>\nUSF_FVCOM");
+      marker_31.bindPopup("<b>sccf.tarponbay.wq</b>\nUSF_FVCOM");
       marker_31._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_31)
       
       var marker_32_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_32 = L.marker([26.5312179697, 
-							-82.0381617442],
+      var marker_32 = L.marker([26.4555106689, 
+							-82.0595275758],
 							{'icon':marker_32_icon}
 							);
-      marker_32.bindPopup("<b>sccf.shellpoint.wq</b>\nCOAWST_4");
+      marker_32.bindPopup("<b>sccf.tarponbay.wq</b>\nCOAWST_4");
       marker_32._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_32)
       
       var marker_33_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_33 = L.marker([26.489492, 
-							-82.062637],
+      var marker_33 = L.marker([27.179075, 
+							-82.905746],
 							{'icon':marker_33_icon}
 							);
-      marker_33.bindPopup("<b>sccf.tarponbay.wq</b>\nUSF_ROMS");
+      marker_33.bindPopup("<b>usf.c10.imet</b>\nUSF_ROMS");
       marker_33._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_33)
       
       var marker_34_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_34 = L.marker([26.4699993134, 
-							-82.0631027222],
+      var marker_34 = L.marker([27.173500061, 
+							-82.9250030518],
 							{'icon':marker_34_icon}
 							);
-      marker_34.bindPopup("<b>sccf.tarponbay.wq</b>\nUSF_FVCOM");
+      marker_34.bindPopup("<b>usf.c10.imet</b>\nUSF_FVCOM");
       marker_34._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_34)
       
       var marker_35_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_35 = L.marker([26.4555106689, 
-							-82.0595275758],
+      var marker_35 = L.marker([27.19404192, 
+							-82.9190529059],
 							{'icon':marker_35_icon}
 							);
-      marker_35.bindPopup("<b>sccf.tarponbay.wq</b>\nCOAWST_4");
+      marker_35.bindPopup("<b>usf.c10.imet</b>\nCOAWST_4");
       marker_35._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_35)
       
       var marker_36_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_36 = L.marker([27.1615, 
-							-82.95997],
+      var marker_36 = L.marker([30.048899, 
+							-84.309311],
 							{'icon':marker_36_icon}
 							);
-      marker_36.bindPopup("<b>usf.c10.imet</b>\nHYCOM");
+      marker_36.bindPopup("<b>usf.shp.ngwlms</b>\nUSF_ROMS");
       marker_36._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_36)
       
       var marker_37_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_37 = L.marker([27.179075, 
-							-82.905746],
+      var marker_37 = L.marker([30.0606002808, 
+							-84.2963027954],
 							{'icon':marker_37_icon}
 							);
-      marker_37.bindPopup("<b>usf.c10.imet</b>\nUSF_ROMS");
+      marker_37.bindPopup("<b>usf.shp.ngwlms</b>\nUSF_FVCOM");
       marker_37._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_37)
       
       var marker_38_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_38 = L.marker([27.173500061, 
-							-82.9250030518],
+      var marker_38 = L.marker([30.0700104685, 
+							-84.323569838],
 							{'icon':marker_38_icon}
 							);
-      marker_38.bindPopup("<b>usf.c10.imet</b>\nUSF_FVCOM");
+      marker_38.bindPopup("<b>usf.shp.ngwlms</b>\nCOAWST_4");
       marker_38._popup.options.maxWidth = 300;
       clusteredmarkers.addLayer(marker_38)
-      
-      var marker_39_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_39 = L.marker([27.19404192, 
-							-82.9190529059],
-							{'icon':marker_39_icon}
-							);
-      marker_39.bindPopup("<b>usf.c10.imet</b>\nCOAWST_4");
-      marker_39._popup.options.maxWidth = 300;
-      clusteredmarkers.addLayer(marker_39)
-      
-      var marker_40_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_40 = L.marker([30.048899, 
-							-84.309311],
-							{'icon':marker_40_icon}
-							);
-      marker_40.bindPopup("<b>usf.shp.ngwlms</b>\nUSF_ROMS");
-      marker_40._popup.options.maxWidth = 300;
-      clusteredmarkers.addLayer(marker_40)
-      
-      var marker_41_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_41 = L.marker([30.0606002808, 
-							-84.2963027954],
-							{'icon':marker_41_icon}
-							);
-      marker_41.bindPopup("<b>usf.shp.ngwlms</b>\nUSF_FVCOM");
-      marker_41._popup.options.maxWidth = 300;
-      clusteredmarkers.addLayer(marker_41)
-      
-      var marker_42_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_42 = L.marker([30.0700104685, 
-							-84.323569838],
-							{'icon':marker_42_icon}
-							);
-      marker_42.bindPopup("<b>usf.shp.ngwlms</b>\nCOAWST_4");
-      marker_42._popup.options.maxWidth = 300;
-      clusteredmarkers.addLayer(marker_42)
       
       //add the clustered markers to the group anyway
       map.addLayer(clusteredmarkers);
 
       
-      var marker_43_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_43 = L.marker([30.1917, 
+      var marker_39_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_39 = L.marker([30.3867, 
+							-81.5583],
+							{'icon':marker_39_icon}
+							);
+      marker_39.bindPopup("<div align='center'> 8720219 <br><iframe src='station_8720219.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_39._popup.options.maxWidth = 600;
+      map.addLayer(marker_39)
+      
+      var marker_40_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_40 = L.marker([30.3541, 
+							-81.6118],
+							{'icon':marker_40_icon}
+							);
+      marker_40.bindPopup("<div align='center'> 8720245 <br><iframe src='station_8720245.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_40._popup.options.maxWidth = 600;
+      map.addLayer(marker_40)
+      
+      var marker_41_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_41 = L.marker([30.1917, 
 							-81.6917],
+							{'icon':marker_41_icon}
+							);
+      marker_41.bindPopup("<div align='center'> 8720357 <br><iframe src='station_8720357.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_41._popup.options.maxWidth = 600;
+      map.addLayer(marker_41)
+      
+      var marker_42_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_42 = L.marker([29.9783, 
+							-81.6283],
+							{'icon':marker_42_icon}
+							);
+      marker_42.bindPopup("<div align='center'> 8720503 <br><iframe src='station_8720503.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_42._popup.options.maxWidth = 600;
+      map.addLayer(marker_42)
+      
+      var marker_43_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_43 = L.marker([29.8017, 
+							-81.5483],
 							{'icon':marker_43_icon}
 							);
-      marker_43.bindPopup("<div align='center'> 8720357 <br><iframe src='station_8720357.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_43.bindPopup("<div align='center'> 8720625 <br><iframe src='station_8720625.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_43._popup.options.maxWidth = 600;
       map.addLayer(marker_43)
       
-      var marker_44_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_44 = L.marker([29.9783, 
-							-81.6283],
+      var marker_44_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_44 = L.marker([32.7999992371, 
+							-79.6200027466],
 							{'icon':marker_44_icon}
 							);
-      marker_44.bindPopup("<div align='center'> 8720503 <br><iframe src='station_8720503.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_44.bindPopup("<div align='center'> carocoops.cap2.buoy <br><iframe src='station_carocoops.cap2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_44._popup.options.maxWidth = 600;
       map.addLayer(marker_44)
       
       var marker_45_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_45 = L.marker([32.7999992371, 
-							-79.6200027466],
+      var marker_45 = L.marker([32.2700004578, 
+							-80.4000015259],
 							{'icon':marker_45_icon}
 							);
-      marker_45.bindPopup("<div align='center'> carocoops.cap2.buoy <br><iframe src='station_carocoops.cap2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_45.bindPopup("<div align='center'> carocoops.frp2.buoy <br><iframe src='station_carocoops.frp2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_45._popup.options.maxWidth = 600;
       map.addLayer(marker_45)
       
       var marker_46_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_46 = L.marker([32.2700004578, 
-							-80.4000015259],
+      var marker_46 = L.marker([33.8300018311, 
+							-78.4800033569],
 							{'icon':marker_46_icon}
 							);
-      marker_46.bindPopup("<div align='center'> carocoops.frp2.buoy <br><iframe src='station_carocoops.frp2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_46.bindPopup("<div align='center'> carocoops.sun2.buoy <br><iframe src='station_carocoops.sun2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_46._popup.options.maxWidth = 600;
       map.addLayer(marker_46)
       
       var marker_47_icon = L.AwesomeMarkers.icon({ icon: 'ok',markerColor: 'green',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
-      var marker_47 = L.marker([33.8300018311, 
-							-78.4800033569],
+      var marker_47 = L.marker([34.1333007812, 
+							-77.7166976929],
 							{'icon':marker_47_icon}
 							);
-      marker_47.bindPopup("<div align='center'> carocoops.sun2.buoy <br><iframe src='station_carocoops.sun2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
+      marker_47.bindPopup("<div align='center'> cormp.ilm2.buoy <br><iframe src='station_cormp.ilm2.buoy.html' alt='image'width='600px' height='275px' frameBorder='0'></div>");
       marker_47._popup.options.maxWidth = 600;
       map.addLayer(marker_47)
       
