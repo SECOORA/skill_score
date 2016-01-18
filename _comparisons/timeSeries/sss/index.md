@@ -17,4 +17,4 @@ Weekly results for Water Salinity.
 | <a href="{{ site.baseurl }}{{ page.notebook }}2016-01-08/mapa.html" target="iframe">2016-01-08</a> | [skill]({{ site.baseurl }}{{ page.notebook }}2016-01-08/low_pass_resampled_3H_r2.html)  | [log]({{ site.baseurl }}{{ page.notebook }}2016-01-08/log.txt) |
 | <a href="{{ site.baseurl }}{{ page.notebook }}2016-01-15/mapa.html" target="iframe">2016-01-15</a> | [skill]({{ site.baseurl }}{{ page.notebook }}2016-01-15/low_pass_resampled_3H_r2.html)  | [log]({{ site.baseurl }}{{ page.notebook }}2016-01-15/log.txt) |
 
-The netCDF time-series files are version controlled and stored [here](https://github.com/ocefpaf/secoora/tree/gh-pages/notebooks/timeSeries/sss).
+The netCDF time-series files are version controlled and stored [here](https://github.com/SECOORA/skill_score/tree/gh-pages/notebooks/timeSeries/sss).
