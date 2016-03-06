@@ -1,0 +1,488 @@
+06:58:11 INFO: ************Saving data inside directory 2016-03-04*************
+06:58:11 INFO: *********************** Run information ************************
+06:58:11 INFO: Run date: 2016-03-05 21:58:11
+06:58:11 INFO: Download start: 2016-02-27 12:00:00
+06:58:11 INFO: Download stop: 2016-03-04 12:00:00
+06:58:11 INFO: Bounding box: -87.40, 24.25,-74.70, 36.70
+06:58:11 INFO: *********************** Software version ***********************
+06:58:11 INFO: Iris version: 1.9.1
+06:58:11 INFO: owslib version: 0.10.3
+06:58:11 INFO: pyoos version: 0.7.0
+06:58:19 INFO: ********************* Catalog information **********************
+06:58:19 INFO: URL: http://www.ngdc.noaa.gov/geoportal/csw
+06:58:19 INFO: CSW version: 2.0.2
+06:58:19 INFO: Number of datasets available: 3
+06:58:19 INFO: ***************************** CSW ******************************
+06:58:19 INFO: ROMS ESPRESSO Real-Time Operational IS4DVAR Forecast System Version 2 (NEW) 2013-present FMRC History
+06:58:19 INFO: HYbrid Coordinate Ocean Model (HYCOM): Global
+06:58:19 INFO: NECOFS GOM3 (FVCOM) - Northeast US - Latest Forecast
+06:58:19 INFO: ***************************** SOS ******************************
+06:58:19 INFO: ***************************** DAP ******************************
+06:58:19 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global.html
+06:58:19 INFO: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his/ESPRESSO_Real-Time_v2_History_Best.html
+06:58:19 INFO: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc.html
+06:58:29 INFO: ************************* Filtered DAP *************************
+06:58:31 INFO: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global.html
+06:58:31 INFO: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his/ESPRESSO_Real-Time_v2_History_Best.html
+06:58:31 INFO: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc.html
+06:58:31 WARNING: SABGOM not in the NGDC csw
+06:58:31 WARNING: USEAST not in the NGDC csw
+06:58:31 WARNING: USF_ROMS not in the NGDC csw
+06:58:31 WARNING: USF_SWAN not in the NGDC csw
+06:58:31 WARNING: USF_FVCOM not in the NGDC csw
+06:58:43 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fit.sispnj.met.nc
+istart must be different from istop! Got istart 40581 and  istop 40581
+06:58:59 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.nfb.ngwlms.nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/usf.nfb.ngwlms.nc.
+06:59:05 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.tas.ngwlms.nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/usf.tas.ngwlms.nc.
+06:59:13 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.apk.ngwlms.nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/usf.apk.ngwlms.nc.
+06:59:17 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c21.weatherpak.nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/usf.c21.weatherpak.nc.
+06:59:25 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.shp.ngwlms.nc
+istart must be different from istop! Got istart 63857 and  istop 63857
+06:59:33 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.bcp.ngwlms.nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/usf.bcp.ngwlms.nc.
+06:59:39 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.fhp.ngwlms.nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/usf.fhp.ngwlms.nc.
+06:59:43 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c10.mcat.nc
+istart must be different from istop! Got istart 48233 and  istop 48233
+06:59:54 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/c10_salinity_water_temp.nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/c10_salinity_water_temp.nc.
+07:00:05 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/QC_C10_Temp_full.nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/QC_C10_Temp_full.nc.
+07:00:22 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/QC_C10_Sal_full.nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/QC_C10_Sal_full.nc.
+07:00:26 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c12.mcat.nc
+istart must be different from istop! Got istart 18711 and  istop 18711
+07:00:29 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c13.mcat.nc
+istart must be different from istop! Got istart 18099 and  istop 18099
+07:00:33 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c10.mcat_2011.nc
+istart must be different from istop! Got istart 26303 and  istop 26303
+07:00:37 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c12.mcat_2011.nc
+istart must be different from istop! Got istart 26303 and  istop 26303
+07:00:41 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/usf.c13.mcat_2011.nc
+istart must be different from istop! Got istart 26303 and  istop 26303
+07:01:09 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/cormp.ilm3.buoy.nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/cormp.ilm3.buoy.nc.
+07:01:56 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/cormp.ilm1.buoy.nc
+istart must be different from istop! Got istart 1443 and  istop 1443
+07:02:03 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/cormp.lej3.buoy.nc
+istart must be different from istop! Got istart 91490 and  istop 91490
+07:02:31 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/sccf.tarponbay.wq.nc
+istart must be different from istop! Got istart 13703 and  istop 13703
+07:03:08 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.poncedeleonsouth..nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/fldep.poncedeleonsouth..nc.
+07:03:22 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.redbaypoint..nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/fldep.redbaypoint..nc.
+07:03:49 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.naplesbay..nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/fldep.naplesbay..nc.
+07:03:56 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.gordonriverinlet..nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/fldep.gordonriverinlet..nc.
+07:04:10 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.melbourne..nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/fldep.melbourne..nc.
+07:04:22 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.binneydock..nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/fldep.binneydock..nc.
+07:04:30 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fldep.verobeach..nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/fldep.verobeach..nc.
+07:04:38 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/lbhmc.2ndave.pier.nc
+istart must be different from istop! Got istart 90387 and  istop 90387
+07:04:45 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/lbhmc.cherrygrove.pier.nc
+istart must be different from istop! Got istart 42623 and  istop 42623
+07:04:56 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/lbhmc.apachepier.pier.nc
+istart must be different from istop! Got istart 41343 and  istop 41343
+07:06:28 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/enp.ppta1.met.nc
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://129.252.139.124/thredds/dodsC/enp.ppta1.met.nc.
+07:07:35 WARNING: Cannot get cube for: http://129.252.139.124/thredds/dodsC/fau.lobo.1.nc
+istart must be different from istop! Got istart 3983 and  istop 3983
+07:07:42 INFO: ********************* Collector offerings **********************
+07:07:42 INFO: NOAA.NOS.CO-OPS SOS: 1084 offerings
+07:07:44 INFO: SOS URL request: http://opendap.co-ops.nos.noaa.gov/ioos-dif-sos/SOS?eventTime=2016-02-27T12%3A00%3A00Z&service=SOS&offering=urn%3Aioos%3Anetwork%3ANOAA.NOS.CO-OPS%3AMetActive&request=GetObservation&version=1.0.0&responseFormat=text%2Fcsv&featureOfInterest=BBOX%3A-87.4%2C24.25%2C-74.7%2C36.7&observedProperty=sea_water_temperature
+07:10:27 INFO: ************************* Observations *************************
+07:10:27 INFO: **** Downloading to file 2016-03-04/2016-03-04-OBS_DATA.nc *****
+07:10:28 WARNING: /home/filipe/miniconda3/envs/secoora-skill/lib/python2.7/site-packages/utilities/secoora.py:799: FutureWarning: the 'cols' keyword is deprecated, use 'subset' instead
+  df = df.drop_duplicates(cols='date_time').set_index('date_time')
+
+07:11:30 WARNING: /home/filipe/miniconda3/envs/secoora-skill/lib/python2.7/site-packages/iris/fileformats/netcdf.py:1786: UserWarning: NetCDF default saving behaviour currently assigns the outermost dimensions to unlimited. This behaviour is to be deprecated, in favour of no automatic assignment. To switch to the new behaviour, set iris.FUTURE.netcdf_no_unlimited to True.
+  warnings.warn(msg)
+
+07:11:31 WARNING: /home/filipe/miniconda3/envs/secoora-skill/lib/python2.7/site-packages/ipykernel/__main__.py:20: FutureWarning: the take_last=True keyword is deprecated, use keep='last' instead
+
+07:11:32 INFO: ********************* SECOORA Observations *********************
+07:11:32 INFO:  Downloading to file 2016-03-04/2016-03-04-SECOORA_OBS_DATA.nc *
+07:11:32 INFO: **************************** Models ****************************
+07:11:32 INFO: 
+[Reading url 1/8]: http://oos.soest.hawaii.edu/thredds/dodsC/pacioos/hycom/global
+07:11:35 INFO: 
+[Reading url 2/8]: http://tds.marine.rutgers.edu/thredds/dodsC/roms/espresso/2013_da/his/ESPRESSO_Real-Time_v2_History_Best
+07:11:48 INFO: 
+[Reading url 3/8]: http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM3_FORECAST.nc
+07:11:58 INFO: 
+[Reading url 4/8]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+07:11:58 WARNING: Cannot get cube for: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/sabgom/SABGOM_Forecast_Model_Run_Collection_best.ncd
+NetCDF: I/O failure
+07:11:58 INFO: 
+[Reading url 5/8]: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/US_East_Forecast_Model_Run_Collection_best.ncd
+07:11:58 WARNING: Cannot get cube for: http://omgsrv1.meas.ncsu.edu:8080/thredds/dodsC/fmrc/us_east/US_East_Forecast_Model_Run_Collection_best.ncd
+NetCDF: I/O failure
+07:11:58 INFO: 
+[Reading url 6/8]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_ROMS_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_ROMS_Nowcast_Forecast_Model_Data_best.ncd
+07:12:04 INFO: 
+[Reading url 7/8]: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+07:12:05 WARNING: Cannot get cube for: http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd
+Cannot find ['sea_water_temperature', 'sea_surface_temperature', 'sea_water_potential_temperature', 'equivalent_potential_temperature', 'sea_water_conservative_temperature', 'pseudo_equivalent_potential_temperature'] in http://crow.marine.usf.edu:8080/thredds/dodsC/WFS_SWAN_NF_model/USF_Ocean_Circulation_Group_West_Florida_Shelf_Daily_SWAN_Nowcast_Forecast_Wave_Model_Data_best.ncd.
+07:12:05 INFO: 
+[Reading url 8/8]: http://crow.marine.usf.edu:8080/thredds/dodsC/FVCOM-Nowcast-Agg.nc
+07:12:21 INFO: **** Downloading to file 2016-03-04/2016-03-04-USF_ROMS.nc *****
+07:12:21 INFO: [No Data] Duck, NC
+07:12:21 INFO: [No Data] Oregon Inlet Marina, NC
+07:12:21 INFO: [No Data] USCG Station Hatteras, NC
+07:12:21 INFO: [No Data] Beaufort, NC
+07:12:21 INFO: [No Data] Wilmington, NC
+07:12:21 INFO: [No Data] Wrightsville Beach, NC
+07:12:21 INFO: [No Data] Springmaid Pier, SC
+07:12:21 INFO: [No Data] Charleston, SC
+07:12:21 INFO: [No Data] Fort Pulaski, GA
+07:12:21 INFO: [No Data] Fernandina Beach, FL
+07:12:21 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:12:21 INFO: [No Data] Dames Point, FL
+07:12:21 INFO: [No Data] Jacksonville University, FL
+07:12:21 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:12:21 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:12:21 INFO: [No Data] Racy Point, St Johns River, FL
+07:12:21 INFO: [No Data] Trident Pier, FL
+07:12:21 INFO: [No Data] Lake Worth Pier, FL
+07:12:21 INFO: [No Data] Virginia Key, FL
+07:12:21 INFO: [No Data] Vaca Key, FL
+07:12:21 INFO: [No Data] Key West, FL
+07:12:25 INFO: [Water  ] Naples, FL
+07:12:29 INFO: [Water  ] Fort Myers, FL
+07:12:32 INFO: [No Data] St Petersburg, FL
+07:12:36 INFO: [Water  ] Old Port Tampa, FL
+07:12:39 INFO: [Water  ] Mckay Bay Entrance, FL
+07:12:42 INFO: [Water  ] Cedar Key, FL
+07:12:45 INFO: [Water  ] Apalachicola, FL
+07:12:48 INFO: [Water  ] Panama City, FL
+07:12:51 INFO: [Water  ] Panama City Beach, FL
+07:12:51 INFO: [No Data] Pensacola, FL
+07:12:51 INFO: [No Data] Tolomato River station
+07:12:51 INFO: [No Data] Fort Myers station
+07:12:54 INFO: [Water  ] Broad River Lower, FL
+07:12:58 INFO: [Water  ] Clear Water Pass, FL 
+07:13:01 INFO: [Water  ] Gulf of Mexico station
+07:13:01 INFO: [No Data] Little Madeira, FL
+07:13:01 INFO: [No Data] Taylor River, FL
+07:13:04 INFO: [Water  ] Redfish Pass station
+07:13:04 INFO: [No Data] Little Rabbit Key, FL
+07:13:07 INFO: [Water  ] Peterson Key, FL
+07:13:10 INFO: [Water  ] Highway Creek, FL
+07:13:10 INFO: [No Data] CAROCOOPS FRP2, Fripp Nearshore, SC
+07:13:10 INFO: [No Data] CORMP ILM2, Wrightsville Beach Nearshore, NC
+07:13:13 INFO: [Water  ] Murray Key, FL
+07:13:13 INFO: [No Data] Gunboat Island, FL
+07:13:16 INFO: [Water  ] Cannon Bay, FL
+07:13:20 INFO: [Water  ] Blackwater Sound, FL
+07:13:23 INFO: [Water  ] Butternut Key, FL
+07:13:26 INFO: [Water  ] Shell Point station
+07:13:26 INFO: [No Data] Whipray Basin, FL
+07:13:26 INFO: [No Data] Garfield Bight, FL
+07:13:29 INFO: [Water  ] Little Blackwater, FL
+07:13:33 INFO: [Water  ] Lane River, FL 
+07:13:33 INFO: [No Data] Trout Cove, FL
+07:13:33 INFO: [No Data] St Lucie Inlet station
+07:13:33 INFO: [No Data] White Water -West, FL
+07:13:33 INFO: [No Data] Duck Key, FL
+07:13:36 INFO: [Water  ] Broad River, FL
+07:13:39 INFO: [Water  ] Willy Willy, FL
+07:13:42 INFO: [Water  ] Cane Patch, FL
+07:13:45 INFO: [Water  ] usf_c10_imet
+07:13:45 INFO: [No Data] CAROCOOPS SUN2, Sunset Nearshore, NC
+07:13:45 INFO: [No Data] Bing's Landing station
+07:13:48 INFO: [Water  ] Bob Allen, FL
+07:13:48 INFO: [No Data] CAROCOOPS CAP2, Capers Island Nearshore, SC
+07:13:51 INFO: [Water  ] Johnson Key, FL
+07:14:32 INFO: *****************Finished processing USF_ROMS
+******************
+07:14:32 INFO: **** Downloading to file 2016-03-04/2016-03-04-USF_FVCOM.nc ****
+07:14:32 INFO: [No Data] Duck, NC
+07:14:32 INFO: [No Data] Oregon Inlet Marina, NC
+07:14:32 INFO: [No Data] USCG Station Hatteras, NC
+07:14:32 INFO: [No Data] Beaufort, NC
+07:14:32 INFO: [No Data] Wilmington, NC
+07:14:32 INFO: [No Data] Wrightsville Beach, NC
+07:14:32 INFO: [No Data] Springmaid Pier, SC
+07:14:32 INFO: [No Data] Charleston, SC
+07:14:32 INFO: [No Data] Fort Pulaski, GA
+07:14:32 INFO: [No Data] Fernandina Beach, FL
+07:14:32 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:14:32 INFO: [No Data] Dames Point, FL
+07:14:32 INFO: [No Data] Jacksonville University, FL
+07:14:32 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:14:32 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:14:32 INFO: [No Data] Racy Point, St Johns River, FL
+07:14:32 INFO: [No Data] Trident Pier, FL
+07:14:32 INFO: [No Data] Lake Worth Pier, FL
+07:14:32 INFO: [No Data] Virginia Key, FL
+07:15:13 INFO: [Land   ] Vaca Key, FL
+07:15:34 INFO: [Water  ] Key West, FL
+07:16:36 INFO: [Land   ] Naples, FL
+07:17:22 INFO: [Land   ] Fort Myers, FL
+07:18:00 INFO: [Land   ] St Petersburg, FL
+07:18:38 INFO: [Land   ] Old Port Tampa, FL
+07:19:01 INFO: [Water  ] Mckay Bay Entrance, FL
+07:19:17 INFO: [Land   ] Cedar Key, FL
+07:19:20 INFO: [Water  ] Apalachicola, FL
+07:19:20 INFO: [No Data] Panama City, FL
+07:19:24 INFO: [Water  ] Panama City Beach, FL
+07:19:24 INFO: [No Data] Pensacola, FL
+07:19:24 INFO: [No Data] Tolomato River station
+07:20:03 INFO: [Land   ] Fort Myers station
+07:20:03 INFO: [No Data] Broad River Lower, FL
+07:20:03 INFO: [No Data] Clear Water Pass, FL 
+07:20:07 INFO: [Water  ] Gulf of Mexico station
+07:20:07 INFO: [No Data] Little Madeira, FL
+07:20:07 INFO: [No Data] Taylor River, FL
+07:20:11 INFO: [Water  ] Redfish Pass station
+07:20:49 INFO: [Land   ] Little Rabbit Key, FL
+07:21:28 INFO: [Land   ] Peterson Key, FL
+07:21:28 INFO: [No Data] Highway Creek, FL
+07:21:28 INFO: [No Data] CAROCOOPS FRP2, Fripp Nearshore, SC
+07:21:28 INFO: [No Data] CORMP ILM2, Wrightsville Beach Nearshore, NC
+07:21:40 INFO: [Water  ] Murray Key, FL
+07:21:40 INFO: [No Data] Gunboat Island, FL
+07:21:40 INFO: [No Data] Cannon Bay, FL
+07:21:40 INFO: [No Data] Blackwater Sound, FL
+07:21:40 INFO: [No Data] Butternut Key, FL
+07:21:44 INFO: [Water  ] Shell Point station
+07:21:48 INFO: [Water  ] Whipray Basin, FL
+07:21:57 INFO: [Water  ] Garfield Bight, FL
+07:21:57 INFO: [No Data] Little Blackwater, FL
+07:21:57 INFO: [No Data] Lane River, FL 
+07:21:57 INFO: [No Data] Trout Cove, FL
+07:21:57 INFO: [No Data] St Lucie Inlet station
+07:21:57 INFO: [No Data] White Water -West, FL
+07:21:57 INFO: [No Data] Duck Key, FL
+07:21:57 INFO: [No Data] Broad River, FL
+07:21:57 INFO: [No Data] Willy Willy, FL
+07:21:57 INFO: [No Data] Cane Patch, FL
+07:22:02 INFO: [Water  ] usf_c10_imet
+07:22:02 INFO: [No Data] CAROCOOPS SUN2, Sunset Nearshore, NC
+07:22:02 INFO: [No Data] Bing's Landing station
+07:22:06 INFO: [Water  ] Bob Allen, FL
+07:22:06 INFO: [No Data] CAROCOOPS CAP2, Capers Island Nearshore, SC
+07:22:45 INFO: [Water  ] Johnson Key, FL
+07:22:45 INFO: *****************Finished processing USF_FVCOM
+*****************
+07:22:45 INFO: ****** Downloading to file 2016-03-04/2016-03-04-HYCOM.nc ******
+07:22:48 INFO: [Land   ] Duck, NC
+07:22:51 INFO: [Water  ] Oregon Inlet Marina, NC
+07:22:53 INFO: [Land   ] USCG Station Hatteras, NC
+07:22:56 INFO: [Land   ] Beaufort, NC
+07:22:59 INFO: [Land   ] Wilmington, NC
+07:23:01 INFO: [Water  ] Wrightsville Beach, NC
+07:23:01 INFO: [No Data] Springmaid Pier, SC
+07:23:04 INFO: [Land   ] Charleston, SC
+07:23:07 INFO: [Land   ] Fort Pulaski, GA
+07:23:10 INFO: [Land   ] Fernandina Beach, FL
+07:23:13 INFO: [Land   ] Mayport (Bar Pilots Dock), FL
+07:23:18 INFO: [Land   ] Dames Point, FL
+07:23:25 INFO: [Land   ] Jacksonville University, FL
+07:23:29 INFO: [Land   ] I-295 Bridge, St Johns River, FL
+07:23:33 INFO: [Land   ] Red Bay Point, St Johns River, FL
+07:23:33 INFO: [No Data] Racy Point, St Johns River, FL
+07:23:36 INFO: [Land   ] Trident Pier, FL
+07:23:40 INFO: [Water  ] Lake Worth Pier, FL
+07:23:44 INFO: [Land   ] Virginia Key, FL
+07:23:47 INFO: [Land   ] Vaca Key, FL
+07:23:51 INFO: [Land   ] Key West, FL
+07:23:51 INFO: [No Data] Naples, FL
+07:23:55 INFO: [Land   ] Fort Myers, FL
+07:24:00 INFO: [Land   ] St Petersburg, FL
+07:24:04 INFO: [Land   ] Old Port Tampa, FL
+07:24:08 INFO: [Land   ] Mckay Bay Entrance, FL
+07:24:11 INFO: [Land   ] Cedar Key, FL
+07:24:15 INFO: [Land   ] Apalachicola, FL
+07:24:19 INFO: [Land   ] Panama City, FL
+07:24:19 INFO: [No Data] Panama City Beach, FL
+07:24:23 INFO: [Land   ] Pensacola, FL
+07:24:27 INFO: [Land   ] Tolomato River station
+07:24:27 INFO: [No Data] Fort Myers station
+07:24:31 INFO: [Land   ] Broad River Lower, FL
+07:24:35 INFO: [Land   ] Clear Water Pass, FL 
+07:24:39 INFO: [Land   ] Gulf of Mexico station
+07:24:43 INFO: [Land   ] Little Madeira, FL
+07:24:47 INFO: [Land   ] Taylor River, FL
+07:24:51 INFO: [Land   ] Redfish Pass station
+07:24:54 INFO: [Land   ] Little Rabbit Key, FL
+07:24:59 INFO: [Land   ] Peterson Key, FL
+07:24:59 INFO: [No Data] Highway Creek, FL
+07:25:03 INFO: [Water  ] CAROCOOPS FRP2, Fripp Nearshore, SC
+07:25:03 INFO: [No Data] CORMP ILM2, Wrightsville Beach Nearshore, NC
+07:25:06 INFO: [Land   ] Murray Key, FL
+07:25:10 INFO: [Land   ] Gunboat Island, FL
+07:25:16 INFO: [Land   ] Cannon Bay, FL
+07:25:16 INFO: [No Data] Blackwater Sound, FL
+07:25:19 INFO: [Land   ] Butternut Key, FL
+07:25:23 INFO: [Land   ] Shell Point station
+07:25:26 INFO: [Land   ] Whipray Basin, FL
+07:25:30 INFO: [Land   ] Garfield Bight, FL
+07:25:33 INFO: [Land   ] Little Blackwater, FL
+07:25:37 INFO: [Land   ] Lane River, FL 
+07:25:40 INFO: [Land   ] Trout Cove, FL
+07:25:44 INFO: [Land   ] St Lucie Inlet station
+07:25:47 INFO: [Land   ] White Water -West, FL
+07:25:51 INFO: [Land   ] Duck Key, FL
+07:25:51 INFO: [No Data] Broad River, FL
+07:25:57 INFO: [Land   ] Willy Willy, FL
+07:26:01 INFO: [Land   ] Cane Patch, FL
+07:26:04 INFO: [Water  ] usf_c10_imet
+07:26:07 INFO: [Water  ] CAROCOOPS SUN2, Sunset Nearshore, NC
+07:26:11 INFO: [Land   ] Bing's Landing station
+07:26:11 INFO: [No Data] Bob Allen, FL
+07:26:16 INFO: [Water  ] CAROCOOPS CAP2, Capers Island Nearshore, SC
+07:26:20 INFO: [Land   ] Johnson Key, FL
+07:26:20 INFO: *******************Finished processing HYCOM
+*******************
+07:26:20 INFO:  Downloading to file 2016-03-04/2016-03-04-NECOFS_GOM3_FVCOM.nc 
+07:26:20 INFO: [No Data] Duck, NC
+07:26:20 INFO: [No Data] Oregon Inlet Marina, NC
+07:26:20 INFO: [No Data] USCG Station Hatteras, NC
+07:26:20 INFO: [No Data] Beaufort, NC
+07:26:20 INFO: [No Data] Wilmington, NC
+07:26:20 INFO: [No Data] Wrightsville Beach, NC
+07:26:20 INFO: [No Data] Springmaid Pier, SC
+07:26:20 INFO: [No Data] Charleston, SC
+07:26:20 INFO: [No Data] Fort Pulaski, GA
+07:26:20 INFO: [No Data] Fernandina Beach, FL
+07:26:20 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:26:20 INFO: [No Data] Dames Point, FL
+07:26:20 INFO: [No Data] Jacksonville University, FL
+07:26:20 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:26:20 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:26:20 INFO: [No Data] Racy Point, St Johns River, FL
+07:26:20 INFO: [No Data] Trident Pier, FL
+07:26:20 INFO: [No Data] Lake Worth Pier, FL
+07:26:20 INFO: [No Data] Virginia Key, FL
+07:26:20 INFO: [No Data] Vaca Key, FL
+07:26:20 INFO: [No Data] Key West, FL
+07:26:20 INFO: [No Data] Naples, FL
+07:26:20 INFO: [No Data] Fort Myers, FL
+07:26:20 INFO: [No Data] St Petersburg, FL
+07:26:20 INFO: [No Data] Old Port Tampa, FL
+07:26:20 INFO: [No Data] Mckay Bay Entrance, FL
+07:26:20 INFO: [No Data] Cedar Key, FL
+07:26:20 INFO: [No Data] Apalachicola, FL
+07:26:20 INFO: [No Data] Panama City, FL
+07:26:20 INFO: [No Data] Panama City Beach, FL
+07:26:20 INFO: [No Data] Pensacola, FL
+07:26:20 INFO: [No Data] Tolomato River station
+07:26:20 INFO: [No Data] Fort Myers station
+07:26:20 INFO: [No Data] Broad River Lower, FL
+07:26:20 INFO: [No Data] Clear Water Pass, FL 
+07:26:20 INFO: [No Data] Gulf of Mexico station
+07:26:20 INFO: [No Data] Little Madeira, FL
+07:26:20 INFO: [No Data] Taylor River, FL
+07:26:20 INFO: [No Data] Redfish Pass station
+07:26:20 INFO: [No Data] Little Rabbit Key, FL
+07:26:20 INFO: [No Data] Peterson Key, FL
+07:26:20 INFO: [No Data] Highway Creek, FL
+07:26:20 INFO: [No Data] CAROCOOPS FRP2, Fripp Nearshore, SC
+07:26:20 INFO: [No Data] CORMP ILM2, Wrightsville Beach Nearshore, NC
+07:26:20 INFO: [No Data] Murray Key, FL
+07:26:20 INFO: [No Data] Gunboat Island, FL
+07:26:20 INFO: [No Data] Cannon Bay, FL
+07:26:20 INFO: [No Data] Blackwater Sound, FL
+07:26:20 INFO: [No Data] Butternut Key, FL
+07:26:20 INFO: [No Data] Shell Point station
+07:26:20 INFO: [No Data] Whipray Basin, FL
+07:26:20 INFO: [No Data] Garfield Bight, FL
+07:26:20 INFO: [No Data] Little Blackwater, FL
+07:26:20 INFO: [No Data] Lane River, FL 
+07:26:20 INFO: [No Data] Trout Cove, FL
+07:26:20 INFO: [No Data] St Lucie Inlet station
+07:26:20 INFO: [No Data] White Water -West, FL
+07:26:20 INFO: [No Data] Duck Key, FL
+07:26:20 INFO: [No Data] Broad River, FL
+07:26:20 INFO: [No Data] Willy Willy, FL
+07:26:20 INFO: [No Data] Cane Patch, FL
+07:26:20 INFO: [No Data] usf_c10_imet
+07:26:20 INFO: [No Data] CAROCOOPS SUN2, Sunset Nearshore, NC
+07:26:20 INFO: [No Data] Bing's Landing station
+07:26:20 INFO: [No Data] Bob Allen, FL
+07:26:20 INFO: [No Data] CAROCOOPS CAP2, Capers Island Nearshore, SC
+07:26:20 INFO: [No Data] Johnson Key, FL
+07:26:20 INFO: *************Finished processing NECOFS_GOM3_FVCOM
+*************
+07:26:20 INFO: ** Downloading to file 2016-03-04/2016-03-04-ROMS_ESPRESSO.nc **
+07:26:32 INFO: [Land   ] Duck, NC
+07:26:40 INFO: [Water  ] Oregon Inlet Marina, NC
+07:26:48 INFO: [Land   ] USCG Station Hatteras, NC
+07:26:56 INFO: [Water  ] Beaufort, NC
+07:26:56 INFO: [No Data] Wilmington, NC
+07:26:56 INFO: [No Data] Wrightsville Beach, NC
+07:26:56 INFO: [No Data] Springmaid Pier, SC
+07:26:56 INFO: [No Data] Charleston, SC
+07:26:56 INFO: [No Data] Fort Pulaski, GA
+07:26:56 INFO: [No Data] Fernandina Beach, FL
+07:26:56 INFO: [No Data] Mayport (Bar Pilots Dock), FL
+07:26:56 INFO: [No Data] Dames Point, FL
+07:26:56 INFO: [No Data] Jacksonville University, FL
+07:26:56 INFO: [No Data] I-295 Bridge, St Johns River, FL
+07:26:56 INFO: [No Data] Red Bay Point, St Johns River, FL
+07:26:56 INFO: [No Data] Racy Point, St Johns River, FL
+07:26:56 INFO: [No Data] Trident Pier, FL
+07:26:56 INFO: [No Data] Lake Worth Pier, FL
+07:26:56 INFO: [No Data] Virginia Key, FL
+07:26:56 INFO: [No Data] Vaca Key, FL
+07:26:56 INFO: [No Data] Key West, FL
+07:26:56 INFO: [No Data] Naples, FL
+07:26:56 INFO: [No Data] Fort Myers, FL
+07:26:56 INFO: [No Data] St Petersburg, FL
+07:26:56 INFO: [No Data] Old Port Tampa, FL
+07:26:56 INFO: [No Data] Mckay Bay Entrance, FL
+07:26:56 INFO: [No Data] Cedar Key, FL
+07:26:56 INFO: [No Data] Apalachicola, FL
+07:26:56 INFO: [No Data] Panama City, FL
+07:26:56 INFO: [No Data] Panama City Beach, FL
+07:26:56 INFO: [No Data] Pensacola, FL
+07:26:56 INFO: [No Data] Tolomato River station
+07:26:56 INFO: [No Data] Fort Myers station
+07:26:56 INFO: [No Data] Broad River Lower, FL
+07:26:56 INFO: [No Data] Clear Water Pass, FL 
+07:26:56 INFO: [No Data] Gulf of Mexico station
+07:26:56 INFO: [No Data] Little Madeira, FL
+07:26:56 INFO: [No Data] Taylor River, FL
+07:26:56 INFO: [No Data] Redfish Pass station
+07:26:56 INFO: [No Data] Little Rabbit Key, FL
+07:26:56 INFO: [No Data] Peterson Key, FL
+07:26:56 INFO: [No Data] Highway Creek, FL
+07:26:56 INFO: [No Data] CAROCOOPS FRP2, Fripp Nearshore, SC
+07:26:56 INFO: [No Data] CORMP ILM2, Wrightsville Beach Nearshore, NC
+07:26:56 INFO: [No Data] Murray Key, FL
+07:26:56 INFO: [No Data] Gunboat Island, FL
+07:26:56 INFO: [No Data] Cannon Bay, FL
+07:26:56 INFO: [No Data] Blackwater Sound, FL
+07:26:56 INFO: [No Data] Butternut Key, FL
+07:26:56 INFO: [No Data] Shell Point station
+07:26:56 INFO: [No Data] Whipray Basin, FL
+07:26:56 INFO: [No Data] Garfield Bight, FL
+07:26:56 INFO: [No Data] Little Blackwater, FL
+07:26:56 INFO: [No Data] Lane River, FL 
+07:26:56 INFO: [No Data] Trout Cove, FL
+07:26:56 INFO: [No Data] St Lucie Inlet station
+07:26:56 INFO: [No Data] White Water -West, FL
+07:26:56 INFO: [No Data] Duck Key, FL
+07:26:56 INFO: [No Data] Broad River, FL
+07:26:56 INFO: [No Data] Willy Willy, FL
+07:26:56 INFO: [No Data] Cane Patch, FL
+07:26:56 INFO: [No Data] usf_c10_imet
+07:26:56 INFO: [No Data] CAROCOOPS SUN2, Sunset Nearshore, NC
+07:26:56 INFO: [No Data] Bing's Landing station
+07:26:56 INFO: [No Data] Bob Allen, FL
+07:26:56 INFO: [No Data] CAROCOOPS CAP2, Capers Island Nearshore, SC
+07:26:56 INFO: [No Data] Johnson Key, FL
+07:27:01 INFO: ***************Finished processing ROMS_ESPRESSO
+***************
+07:27:03 INFO: 29.58 minutes
+07:27:03 INFO: EOF
