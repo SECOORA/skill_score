@@ -6,6 +6,7 @@ dependencies:
   - iris
   - mpld3
   - pyoos
+  - pyaml
   - qrcode
   - folium
   - seaborn
